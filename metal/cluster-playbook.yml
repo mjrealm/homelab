@@ -1,0 +1,5 @@
+---
+- name: Create K3s Kubernetes cluster
+  hosts: metal
+  roles:
+    - k3s

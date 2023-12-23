@@ -1,0 +1,15 @@
+---
+# https://docs.k3s.io/architecture
+metal:
+  children:
+    # initial server node
+    master:
+      hosts:
+        metal0: { ansible_host: 192.168.10.10 }
+    # with control-plane and datastore components
+    server:
+      hosts:
+    # without any datastore or control-plane components
+    agent:
+      hosts:
+        metal1: { ansible_host: 192.168.10.11 }

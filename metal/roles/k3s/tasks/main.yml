@@ -1,0 +1,92 @@
+---
+- name: Show Ansible User
+  run_once: true
+  ansible.builtin.debug:
+    var: ansible_user
+
+- name: Show k3s version
+  run_once: true
+  ansible.builtin.debug:
+    var: k3s_version
+
+- name: Ping hosts
+  ansible.builtin.ping:
+
+- name: Download k3s install script
+  become: true
+  ansible.builtin.get_url:
+    url: https://get.k3s.io/
+    # checksum: "sha256:https://github.com/k3s-io/k3s/releases/download/{{k3s_version}}/sha256sum-amd64.txt"
+    timeout: 120
+    dest: /usr/local/bin/k3s-install.sh
+    mode: "0755"
+
+- name: Install k3s on master node
+  when: inventory_hostname in groups.master
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/local/bin/k3s-install.sh
+    creates: "{{ k3s_config_file }}"
+  environment:
+    INSTALL_K3S_EXEC: "server"
+    INSTALL_K3S_VERSION: "{{ k3s_version }}"
+
+- name: Get k3s token from the master node
+  when: not ansible_check_mode
+  run_once: true
+  become: true
+  ansible.builtin.slurp:
+    src: "{{ k3s_node_token_file }}"
+  register: k3s_node_token_base64
+
+- name: Install k3s on agent nodes
+  when:
+    - inventory_hostname in groups.agent
+    - not ansible_check_mode
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/local/bin/k3s-install.sh
+    creates: "{{ k3s_agent_uninstall_file }}"
+  environment:
+    INSTALL_K3S_EXEC: "agent --server https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443 --token {{k3s_node_token_base64.content | b64decode}}"
+
+- name: Check if k3s kube config exists locally
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.stat:
+    path: "{{ kube_config_file }}"
+  register: kube_config_file_stat
+
+- name: Copy k3s kube config from master to local machine
+  when: not kube_config_file_stat.stat.exists and not ansible_check_mode
+  run_once: true
+  become: true
+  ansible.builtin.fetch:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: "{{ kube_config_file }}"
+    flat: true
+
+- name: Rename cluster/user in kube config to k3s context
+  delegate_to: localhost
+  when: not ansible_check_mode
+  run_once: true
+  ansible.builtin.replace:
+    path: "{{ kube_config_file }}"
+    regexp: "name: default"
+    replace: "name: {{kube_config_context}}"
+
+- name: Merge with existing local kube config
+  delegate_to: localhost
+  when: not ansible_check_mode
+  run_once: true
+  ansible.builtin.shell: |
+    TEMP_FILE=$(mktemp)
+    KUBECONFIG={{kube_config_file}} kubectl config set-cluster {{kube_config_context}} --server https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443    
+    KUBECONFIG={{kube_config_file}} kubectl config set-context {{kube_config_context}} --user={{kube_config_context}} --cluster={{kube_config_context}}
+    KUBECONFIG={{kube_config_file}}:~/.kube/config kubectl config view --flatten > ${TEMP_FILE}
+    mv ${TEMP_FILE} ~/.kube/config
+    kubectl config use-context {{kube_config_context}}
+    rm {{kube_config_file}}
+  register: rm_result
+  changed_when:
+    - rm_result.rc == 0
