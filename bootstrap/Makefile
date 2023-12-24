@@ -1,8 +1,5 @@
-default: namespace argocd
+default: bootstrap
 
-namespace:
-	kubectl create namespace argocd --dry-run=client --output=yaml | kubectl apply -f -
-
-.PHONY: argocd
-argocd:
-	kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+.PHONY: bootstrap
+bootstrap:
+	ansible-playbook bootstrap-playbook.yml

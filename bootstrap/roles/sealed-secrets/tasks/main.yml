@@ -1,0 +1,15 @@
+---
+- name: Add Helm Repository
+  kubernetes.core.helm_repository:
+    name: sealed-secrets
+    force_update: true
+    repo_url: "https://bitnami-labs.github.io/sealed-secrets"
+
+- name: Deploy latest version of Bitnami Sealed Secrets
+  kubernetes.core.helm:
+    name: sealed-secrets
+    chart_ref: sealed-secrets/sealed-secrets
+    release_namespace: kube-system
+    create_namespace: false
+    values:
+      fullnameOverride: sealed-secrets-controller

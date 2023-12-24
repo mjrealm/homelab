@@ -1,0 +1,6 @@
+---
+- name: Bootstrap Homelab System
+  hosts: localhost
+  roles:
+    - sealed-secrets
+    - argocd
