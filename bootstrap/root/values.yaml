@@ -5,6 +5,7 @@ gitops:
 stacks:
   - name: bootstrap
     namespace: argocd
+    path: bootstrap/k8s
   - name: system
   - name: platform
   - name: apps
