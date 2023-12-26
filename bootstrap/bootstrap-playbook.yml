@@ -31,7 +31,7 @@
       ansible.builtin.debug:
         var: init_pass.stdout_lines[0]
 
-    - name: Apply Root App
+    - name: Apply all ApplicationSets
       ansible.builtin.shell:
         cmd: |
           set -o pipefail
