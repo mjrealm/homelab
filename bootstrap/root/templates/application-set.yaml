@@ -16,7 +16,7 @@ spec:
     metadata:
       name: '{{ `{{path.basename}}` }}'
     spec:
-      project: default
+      project: '{{ $stack.name }}'
       source:
         repoURL: {{ $.Values.gitops.repo }}
         targetRevision: {{ $.Values.gitops.revision }}
