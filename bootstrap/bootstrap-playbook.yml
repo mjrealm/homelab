@@ -35,6 +35,6 @@
       ansible.builtin.shell:
         cmd: |
           set -o pipefail
-          helm template root | kubectl apply -f -
+          helm template root -n argocd | kubectl apply -f -
       register: k8s_apply_out
       changed_when: k8s_apply_out.rc != 0
