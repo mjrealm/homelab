@@ -10,9 +10,10 @@
     - name: Install Argo CD using Helm
       kubernetes.core.helm:
         name: argocd
-        chart_ref: argo/argo-cd
+        chart_ref: argocd/
         release_namespace: argocd
         create_namespace: true
+        dependency_update: true
         values_files:
           - argocd/values.yaml
         wait: true
