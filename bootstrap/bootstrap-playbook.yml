@@ -32,10 +32,9 @@
         var: init_pass.stdout_lines[0]
 
     - name: Apply Root App
-      kubernetes.core.helm:
-        name: root
-        chart_ref: root/
-        release_namespace: argocd
-        values_files:
-          - root/values.yaml
-        wait: true
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          helm template root | kubectl apply -f -
+      register: k8s_apply_out
+      changed_when: k8s_apply_out.rc != 0
