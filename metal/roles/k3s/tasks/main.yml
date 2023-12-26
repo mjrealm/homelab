@@ -21,7 +21,7 @@
     dest: /usr/local/bin/k3s-install.sh
     mode: "0755"
 
-- name: Install k3s on master node
+- name: Install k3s on "master" node
   when: inventory_hostname in groups.master
   become: true
   ansible.builtin.command:
@@ -39,7 +39,20 @@
     src: "{{ k3s_node_token_file }}"
   register: k3s_node_token_base64
 
-- name: Install k3s on agent nodes
+- name: Install k3s on "server" nodes
+  when:
+    - inventory_hostname in groups.server
+    - not ansible_check_mode
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/local/bin/k3s-install.sh
+    creates: "{{ k3s_config_file }}"
+  environment:
+    INSTALL_K3S_EXEC: "server"
+    K3S_URL: "https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443"
+    K3S_TOKEN: "{{ k3s_node_token_base64.content | b64decode }}"
+
+- name: Install k3s on "agent" nodes
   when:
     - inventory_hostname in groups.agent
     - not ansible_check_mode

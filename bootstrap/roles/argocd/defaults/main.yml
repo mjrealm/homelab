@@ -1,6 +1,0 @@
----
-git_repo_url: git@github.com:mjrealm/homelab.git
-repo_secret_name: private-repo-secret
-repo_secret_file_unsealed: "{{ role_path }}/{{ repo_secret_name }}-unsealed.yml"
-repo_secret_file_sealed: "{{ role_path }}/{{ repo_secret_name }}-sealed.yml"
-ssh_public_key: ~/.ssh/id_rsa

@@ -1,0 +1,32 @@
+---
+- name: Bootstrap k8s
+  hosts: localhost
+  tasks:
+    - name: Add Argo CD chart repo
+      kubernetes.core.helm_repository:
+        name: argo
+        repo_url: https://argoproj.github.io/argo-helm
+
+    - name: Install Argo CD using Helm
+      kubernetes.core.helm:
+        name: argocd
+        chart_ref: argo/argo-cd
+        release_namespace: argocd
+        create_namespace: true
+        values_files:
+          - argocd/values.yaml
+        wait: true
+
+    - name: Get Admin initial password
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          kubectl get secret -n argocd \
+          argocd-initial-admin-secret -o jsonpath="{.data.password}" \
+          | base64 -d
+      register: init_pass
+      changed_when: init_pass.rc != 0
+
+    - name: Admin Initial Password
+      ansible.builtin.debug:
+        var: init_pass.stdout_lines[0]

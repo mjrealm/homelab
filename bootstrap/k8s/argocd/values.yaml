@@ -1,0 +1,12 @@
+---
+server:
+  extraArgs:
+    - --insecure
+  metrics:
+    enabled: true
+notifications:
+  enabled: false
+dex:
+  enabled: false
+metrics:
+  enabled: true

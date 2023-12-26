@@ -1,0 +1,3 @@
+gitops:
+  repo: https://github.com/mjrealm/homelab.git
+  revision: HEAD

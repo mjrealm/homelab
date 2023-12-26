@@ -1,9 +1,0 @@
----
-- include_tasks: repo-sealed-secrets.yml
-
-- name: Create ArgoCD namespace
-  kubernetes.core.k8s:
-    name: argocd
-    kind: Namespace
-    state: present
-# - name: Apply repo sealed secret

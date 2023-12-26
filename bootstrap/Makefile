@@ -1,5 +1,5 @@
-default: bootstrap
+default: k8s
 
-.PHONY: bootstrap
-bootstrap:
-	ansible-playbook bootstrap-playbook.yml
+.PHONY: k8s
+k8s:
+	ansible-playbook k8s/bootstrap-playbook.yml
