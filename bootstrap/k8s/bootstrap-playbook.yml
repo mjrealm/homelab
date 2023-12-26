@@ -30,3 +30,12 @@
     - name: Admin Initial Password
       ansible.builtin.debug:
         var: init_pass.stdout_lines[0]
+
+    - name: Apply Root App
+      kubernetes.core.helm:
+        name: root
+        chart_ref: root/
+        release_namespace: argocd
+        values_files:
+          - root/values.yaml
+        wait: true

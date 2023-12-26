@@ -1,28 +1,28 @@
----
+{{- range $index, $stack := .Values.stacks }}
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: system
-  namespace: { { $.Release.Namespace } }
+  name: {{ $stack.name }}
+  namespace: {{ $.Release.Namespace }}
 spec:
   generators:
     - git:
-        repoURL: { { $.Values.gitops.repo } }
-        revision: { { $.Values.gitops.revision } }
+        repoURL: {{ $.Values.gitops.repo }}
+        revision: {{ $.Values.gitops.revision }}
         directories:
-          - path: "system/*"
+          - path: "{{ $stack.name }}/*"
   template:
     metadata:
-      name: "{{path.basename}}"
+      name: '{{ `{{path.basename}}` }}'
     spec:
       project: default
       source:
-        repoURL: { { $.Values.gitops.repo } }
-        targetRevision: { { $.Values.gitops.revision } }
-        path: "{{path}}"
+        repoURL: {{ $.Values.gitops.repo }}
+        targetRevision: {{ $.Values.gitops.revision }}
+        path: '{{ `{{path}}` }}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{path.basename}}"
+        namespace: '{{ default `{{path.basename}}` $stack.namespace }}'
       syncPolicy:
         automated:
           prune: true
@@ -37,3 +37,4 @@ spec:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
           - ServerSideApply=true
+{{ end }}
