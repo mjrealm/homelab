@@ -1,7 +1,16 @@
 ---
-k3s_version: v1.28.4+k3s2
+k3s_version: v1.29.0+k3s1
 k3s_config_file: /etc/rancher/k3s/k3s.yaml
 k3s_node_token_file: /var/lib/rancher/k3s/server/node-token
 k3s_agent_uninstall_file: /usr/local/bin/k3s-agent-uninstall.sh
-kube_config_file: ~/.kube/config.k3s
-kube_config_context: k3s-ansible
+k3s_kube_config_file: ~/.kube/config.k3s
+k3s_kube_config_context: k3s-ansible
+k3s_server_flags: "--flannel-backend=none \
+  --disable-kube-proxy \
+  --disable-network-policy \
+  --disable-cloud-controller \
+  --secrets-encryption \
+  --disable=traefik \
+  --disable=servicelb \
+  --disable=local-storage
+  "

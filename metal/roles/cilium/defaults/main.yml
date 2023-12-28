@@ -1,0 +1,23 @@
+---
+cilium_helm_repo_url: https://helm.cilium.io/
+cilium_version: 1.14.5
+cilium_namespace: kube-system
+cilium_values:
+  operator:
+    replicas: 1
+  kubeProxyReplacement: true
+  k8sServiceHost: 127.0.0.1
+  k8sServicePort: 6444
+  l2announcements:
+    enabled: true
+  ingressController:
+    enabled: true
+    default: true
+    loadbalancerMode: shared
+    service:
+      allocateLoadBalancerNodePorts: false
+  hubble:
+    relay:
+      enabled: true
+    ui:
+      enabled: true

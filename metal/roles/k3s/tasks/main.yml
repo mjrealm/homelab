@@ -12,6 +12,17 @@
 - name: Ping hosts
   ansible.builtin.ping:
 
+- name: Install python3
+  become: true
+  ansible.builtin.raw: apt-get install -y python3
+  register: apt_python
+  changed_when: apt_python.rc != 0
+
+- name: Turn off uncomplicated firewall
+  become: true
+  community.general.ufw:
+    state: disabled
+
 - name: Download k3s install script
   become: true
   ansible.builtin.get_url:
@@ -28,7 +39,7 @@
     cmd: /usr/local/bin/k3s-install.sh
     creates: "{{ k3s_config_file }}"
   environment:
-    INSTALL_K3S_EXEC: "server"
+    INSTALL_K3S_EXEC: "server {{ k3s_server_flags }}"
     INSTALL_K3S_VERSION: "{{ k3s_version }}"
 
 - name: Get k3s token from the master node
@@ -48,7 +59,7 @@
     cmd: /usr/local/bin/k3s-install.sh
     creates: "{{ k3s_config_file }}"
   environment:
-    INSTALL_K3S_EXEC: "server"
+    INSTALL_K3S_EXEC: "server {{ k3s_server_flags }}"
     K3S_URL: "https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443"
     K3S_TOKEN: "{{ k3s_node_token_base64.content | b64decode }}"
 
@@ -67,7 +78,7 @@
   delegate_to: localhost
   run_once: true
   ansible.builtin.stat:
-    path: "{{ kube_config_file }}"
+    path: "{{ k3s_kube_config_file }}"
   register: kube_config_file_stat
 
 - name: Copy k3s kube config from master to local machine
@@ -76,7 +87,7 @@
   become: true
   ansible.builtin.fetch:
     src: /etc/rancher/k3s/k3s.yaml
-    dest: "{{ kube_config_file }}"
+    dest: "{{ k3s_kube_config_file }}"
     flat: true
 
 - name: Rename cluster/user in kube config to k3s context
@@ -84,9 +95,9 @@
   when: not ansible_check_mode
   run_once: true
   ansible.builtin.replace:
-    path: "{{ kube_config_file }}"
+    path: "{{ k3s_kube_config_file }}"
     regexp: "name: default"
-    replace: "name: {{kube_config_context}}"
+    replace: "name: {{k3s_kube_config_context}}"
 
 - name: Merge with existing local kube config
   delegate_to: localhost
@@ -94,12 +105,11 @@
   run_once: true
   ansible.builtin.shell: |
     TEMP_FILE=$(mktemp)
-    KUBECONFIG={{kube_config_file}} kubectl config set-cluster {{kube_config_context}} --server https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443    
-    KUBECONFIG={{kube_config_file}} kubectl config set-context {{kube_config_context}} --user={{kube_config_context}} --cluster={{kube_config_context}}
-    KUBECONFIG={{kube_config_file}}:~/.kube/config kubectl config view --flatten > ${TEMP_FILE}
+    KUBECONFIG={{k3s_kube_config_file}} kubectl config set-cluster {{k3s_kube_config_context}} --server https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443    
+    KUBECONFIG={{k3s_kube_config_file}} kubectl config set-context {{k3s_kube_config_context}} --user={{k3s_kube_config_context}} --cluster={{k3s_kube_config_context}}
+    KUBECONFIG={{k3s_kube_config_file}}:~/.kube/config kubectl config view --flatten > ${TEMP_FILE}
     mv ${TEMP_FILE} ~/.kube/config
-    kubectl config use-context {{kube_config_context}}
-    rm {{kube_config_file}}
+    kubectl config use-context {{k3s_kube_config_context}}
+    rm {{k3s_kube_config_file}}
   register: rm_result
-  changed_when:
-    - rm_result.rc == 0
+  changed_when: rm_result.rc == 0
