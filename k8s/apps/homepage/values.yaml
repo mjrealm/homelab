@@ -46,7 +46,7 @@ homepage:
       enabled: true
       ingressClassName: "nginx"
       hosts:
-        - host: home.mdeleon.dev
+        - host: &host home.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
