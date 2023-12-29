@@ -5,7 +5,7 @@ cilium_namespace: kube-system
 cilium_values:
   operator:
     replicas: 1
-  kubeProxyReplacement: true
+  kubeProxyReplacement: strict
   k8sServiceHost: 127.0.0.1
   k8sServicePort: 6444
   l2announcements:
