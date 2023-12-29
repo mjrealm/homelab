@@ -5,6 +5,16 @@ argo-cd:
       - --insecure
     metrics:
       enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - argocd.mdeleon.dev
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Argo CD
+      gethomepage.dev/description: Declarative GitOps CD for Kubernetes
+      gethomepage.dev/group: Platform
+      gethomepage.dev/icon: argocd.png
   notifications:
     enabled: false
   dex:
