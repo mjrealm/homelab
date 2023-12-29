@@ -1,5 +1,8 @@
 ---
 homepage:
+  image:
+    tag: v0.8.4
+
   config:
     bookmarks:
       - Developer:
