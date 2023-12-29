@@ -21,3 +21,6 @@ cilium_values:
       enabled: true
     ui:
       enabled: true
+  k8sClientRateLimit:
+    qps: 10
+    burst: 20

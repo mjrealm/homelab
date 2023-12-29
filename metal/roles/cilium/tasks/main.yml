@@ -14,6 +14,7 @@
 
 - name: Wait for Cilium CRDs
   delegate_to: localhost
+  run_once: true
   kubernetes.core.k8s_info:
     kind: CustomResourceDefinition
     name: "{{ item }}"

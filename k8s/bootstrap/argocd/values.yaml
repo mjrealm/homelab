@@ -6,7 +6,7 @@ argo-cd:
     metrics:
       enabled: true
     ingress:
-      enabled: true
+      enabled: false
       hosts:
         - argocd.mdeleon.dev
       annotations:
