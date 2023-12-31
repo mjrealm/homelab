@@ -33,11 +33,3 @@
           type: Opaque
           stringData:
             api-token: "{{ cloudflare_api_key }}"
-
-- name: Wait for cluster to fully start...
-  hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Sleeping...
-      ansible.builtin.wait_for:
-        timeout: "{{ cluster_sleep }}"
