@@ -10,10 +10,10 @@ homepage:
           - Github:
               - abbr: GH
                 href: https://github.com/
-    services:
-      - Platform:
-      - System:
-      - Apps:
+    # services:
+    # - Platform:
+    # - System:
+    # - Apps:
 
     widgets:
       # show the kubernetes widget, with the cluster summary and individual nodes
@@ -45,7 +45,7 @@ homepage:
     main:
       enabled: true
       hosts:
-        - host: dash.mdeleon.home
+        - host: dash.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
