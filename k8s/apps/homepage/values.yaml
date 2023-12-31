@@ -52,4 +52,4 @@ homepage:
       tls:
         - hosts:
             - *host
-          secretName: demo-cert
+          secretName: mdeleon-dev
