@@ -8,7 +8,7 @@ argo-cd:
     ingress:
       enabled: true
       hosts:
-        - argocd.mdeleon.dev
+        - argocd.mdeleon.home
       annotations:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Argo CD
