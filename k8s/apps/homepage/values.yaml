@@ -52,3 +52,4 @@ homepage:
       tls:
         - hosts:
             - *host
+          secretName: demo-cert
