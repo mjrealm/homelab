@@ -5,22 +5,31 @@ cilium_namespace: kube-system
 cilium_values:
   operator:
     replicas: 1
-  kubeProxyReplacement: strict
+
+  kubeProxyReplacement: true
   k8sServiceHost: 127.0.0.1
   k8sServicePort: 6444
+
+  # Enable L2 mode announcements
   l2announcements:
     enabled: true
+
+  # Enable ingress controller
   ingressController:
     enabled: true
     default: true
     loadbalancerMode: shared
     service:
       allocateLoadBalancerNodePorts: false
+
+  # Important for L2 mode
+  k8sClientRateLimit:
+    qps: 10
+    burst: 20
+
+  # Hubble UI
   hubble:
     relay:
       enabled: true
     ui:
       enabled: true
-  k8sClientRateLimit:
-    qps: 10
-    burst: 20

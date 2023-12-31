@@ -8,9 +8,5 @@ spec:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane
         operator: DoesNotExist
-  interfaces:
-    # TODO: add in group_vars
-    - ^enp1s[0-9]+
-    - ^eno[0-9]+
   externalIPs: true
   loadBalancerIPs: true
