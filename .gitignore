@@ -1,3 +1,4 @@
 .vscode
 Chart.lock
 *.tgz
+.cloudflare

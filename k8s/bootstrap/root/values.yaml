@@ -1,3 +1,4 @@
+---
 gitops:
   repo: https://github.com/mjrealm/homelab.git
   revision: HEAD
@@ -5,6 +6,6 @@ gitops:
 stacks:
   - name: bootstrap
     namespace: argocd
-  # - name: system
+  - name: system
   - name: platform
   - name: apps
