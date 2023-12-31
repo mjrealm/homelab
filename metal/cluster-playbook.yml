@@ -3,16 +3,17 @@
   hosts: metal
   roles:
     - k3s
-    - cilium
 
 - name: Setup Cloudflare API token
   hosts: localhost
+  gather_facts: false
   vars_prompt:
     - name: cloudflare_api_key
       prompt: Enter Cloudflare API Key (sensitive)
       private: false
   tasks:
     - name: Create namespace
+      when: not ansible_check_mode
       kubernetes.core.k8s:
         name: cert-manager
         api_version: v1
@@ -20,6 +21,7 @@
         state: present
 
     - name: Create Cloudflare token secret
+      when: not ansible_check_mode
       kubernetes.core.k8s:
         state: present
         definition:
@@ -31,3 +33,11 @@
           type: Opaque
           stringData:
             api-token: "{{ cloudflare_api_key }}"
+
+- name: Wait for cluster to fully start...
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Sleeping...
+      ansible.builtin.wait_for:
+        timeout: "{{ cluster_sleep }}"

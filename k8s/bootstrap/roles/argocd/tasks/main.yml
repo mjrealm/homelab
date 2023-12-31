@@ -1,0 +1,54 @@
+---
+- name: Add Argo CD chart repo
+  when: not ansible_check_mode
+  kubernetes.core.helm_repository:
+    name: argo
+    repo_url: https://argoproj.github.io/argo-helm
+
+- name: Install Argo CD using Helm
+  when: not ansible_check_mode
+  kubernetes.core.helm:
+    name: argocd
+    chart_ref: charts/argocd/
+    release_namespace: argocd
+    create_namespace: true
+    dependency_update: true
+    values_files:
+      - charts/argocd/values.yaml
+    wait: true
+
+- name: Wait for ArgoCD CRDs
+  kubernetes.core.k8s_info:
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+  loop:
+    - applications.argoproj.io
+    - applicationsets.argoproj.io
+    - appprojects.argoproj.io
+  register: crd
+  until: crd.resources | length > 0
+  retries: 5
+  delay: 20
+
+- name: Apply all ApplicationSets and Projects
+  when: not ansible_check_mode
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      helm template charts/root -n argocd | kubectl apply -f -
+  register: k8s_apply_out
+  changed_when: k8s_apply_out.rc != 0
+
+- name: Get Admin initial password
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      kubectl get secret -n argocd \
+      argocd-initial-admin-secret -o jsonpath="{.data.password}" \
+      | base64 -d
+  register: init_pass
+  changed_when: init_pass.rc != 0
+
+- name: Admin Initial Password
+  ansible.builtin.debug:
+    var: init_pass.stdout_lines[0]

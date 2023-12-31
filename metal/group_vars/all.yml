@@ -1,3 +1,3 @@
 ---
 ansible_user: mdeleon
-load_balancer_ip_pool: 192.168.10.200/29 # 192.168.10.200-192.168.10.207
+cluster_sleep: 60

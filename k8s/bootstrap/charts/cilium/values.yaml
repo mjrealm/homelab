@@ -1,8 +1,5 @@
 ---
-cilium_helm_repo_url: https://helm.cilium.io/
-cilium_version: 1.14.5
-cilium_namespace: kube-system
-cilium_values:
+cilium:
   operator:
     replicas: 1
 
@@ -24,8 +21,8 @@ cilium_values:
 
   # Important for L2 mode
   k8sClientRateLimit:
-    qps: 10
-    burst: 20
+    qps: 40
+    burst: 60
 
   # Hubble UI
   hubble:

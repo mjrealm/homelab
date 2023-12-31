@@ -1,0 +1,18 @@
+---
+- name: Add Cilium chart repo
+  when: not ansible_check_mode
+  kubernetes.core.helm_repository:
+    name: cilium
+    repo_url: https://helm.cilium.io/
+
+- name: Install Cilium using Helm
+  when: not ansible_check_mode
+  kubernetes.core.helm:
+    name: cilium
+    chart_ref: charts/cilium/
+    release_namespace: kube-system
+    create_namespace: false
+    dependency_update: true
+    values_files:
+      - charts/cilium/values.yaml
+    wait: true
