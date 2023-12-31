@@ -3,5 +3,5 @@
   hosts: localhost
   roles:
     - cilium
-    - cert-manager
+    - cert_manager
     - argocd
