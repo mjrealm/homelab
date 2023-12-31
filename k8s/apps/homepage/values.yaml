@@ -45,7 +45,7 @@ homepage:
     main:
       enabled: true
       hosts:
-        - host: home.mdeleon.dev
+        - host: dash.mdeleon.home
           paths:
             - path: /
               pathType: Prefix
