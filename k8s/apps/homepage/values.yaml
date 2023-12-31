@@ -52,4 +52,4 @@ homepage:
       tls:
         - hosts:
             - *host
-          secretName: mdeleon-dev
+          secretName: dash-tls
