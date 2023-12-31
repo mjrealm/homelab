@@ -1,12 +1,4 @@
 ---
-- name: Setup Prompt
-  hosts: localhost
-  gather_facts: false
-  vars_prompt:
-    - name: cloudflare_api_key
-      prompt: Enter Cloudflare API Key (sensitive)
-      private: false
-
 - name: Create K3s Kubernetes cluster
   hosts: metal
   roles:
@@ -15,6 +7,10 @@
 - name: Setup Cloudflare API token
   hosts: localhost
   gather_facts: false
+  vars_prompt:
+    - name: cloudflare_api_key
+      prompt: Enter Cloudflare API Key (sensitive)
+      private: false
   tasks:
     - name: Create namespace
       when: not ansible_check_mode
