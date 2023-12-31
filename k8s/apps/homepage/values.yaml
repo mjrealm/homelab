@@ -44,12 +44,14 @@ homepage:
   ingress:
     main:
       enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
       hosts:
         - host: &host dash.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
       tls:
-        - hosts:
+        - secretName: homepage-tls-cert
+          hosts:
             - *host
-          secretName: dash-tls
