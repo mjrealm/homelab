@@ -4,4 +4,4 @@ metadata:
   name: default
 spec:
   cidrs:
-    - cidr: 192.168.10.200/29 # 192.168.10.200-192.168.10.207
+    - cidr: "{{ load_balancer_ip_pool }}"

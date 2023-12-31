@@ -16,3 +16,27 @@
     values_files:
       - charts/cilium/values.yaml
     wait: true
+
+- name: Wait for Cilium CRDs
+  delegate_to: localhost
+  run_once: true
+  kubernetes.core.k8s_info:
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+  loop:
+    - ciliuml2announcementpolicies.cilium.io
+    - ciliumloadbalancerippools.cilium.io
+  register: crd
+  until: crd.resources | length > 0
+  retries: 5
+  delay: 10
+
+- name: Apply Cilium resources
+  when: not ansible_check_mode
+  delegate_to: localhost
+  run_once: true
+  kubernetes.core.k8s:
+    template: "{{ item }}"
+  loop:
+    - announcement-policy.yaml
+    - lb-ippool.yaml
