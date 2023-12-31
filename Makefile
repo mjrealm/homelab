@@ -6,4 +6,4 @@ default: metal bootstrap
 metal:
 	make -C metal
 bootstrap:
-	make -C k8s/bootstrap
+	make -C k8s
