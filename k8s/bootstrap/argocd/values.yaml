@@ -8,8 +8,13 @@ argo-cd:
     ingress:
       enabled: true
       hosts:
-        - argocd.mdeleon.home
+        - &host argocd.mdeleon.dev
+      tls:
+        - secretName: argocd-tls-cert
+          hosts:
+            - *host
       annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Argo CD
         gethomepage.dev/description: Declarative GitOps CD for Kubernetes
