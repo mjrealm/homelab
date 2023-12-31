@@ -7,9 +7,9 @@ homepage:
   config:
     bookmarks:
       - Developer:
-          - Github:
-              - abbr: GH
-                href: https://github.com/
+          - Homelab:
+              - icon: github.png
+                href: https://github.com/mjrealm/homelab
     services:
     # - Platform:
     # - System:
