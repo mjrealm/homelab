@@ -30,55 +30,71 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 
 <table>
     <thead>
-        <th>&nbsp;</th>
+        <th>Logo</th>
         <th>Name</th>
         <th>Description</th>
+        <th>Version<th>
     </thead>
     <tbody>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/49319725"></td>
             <td><a href="https://k3s.io/">K3s</a></td>
             <td>Lightweight Kubernetes</td>
+            <td>v1.29.0+k3s1</td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
             <td><a href="https://cilium.io">Cilium</a></td>
             <td>eBPF-based Networking, Observability, Security solution</td>
+            <td>v1.14.5</td>
+        </tr>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
+            <td><a href="https://github.com/cilium/hubble">Hubble</a></td>
+            <td>Networking and security observability platform</td>
+            <td>v0.12.1</td>
         </tr>     
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/1507452"></td>
             <td><a href="https://www.ansible.com">Ansible</a></td>
             <td>Automate bare metal provisioning and configuration</td>
+            <td></td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/30269780"></td>
             <td><a href="https://argo-cd.readthedocs.io/">Argo CD</a></td>
             <td>Declarative Continuous Deployment for Kubernetes</td>
+            <td></td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/15859888"></td>
             <td><a href="https://helm.sh">Helm</a></td>
             <td>The Kubernetes Package Manager</td>
+            <td></td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/39950598"></td>
             <td><a href="https://cert-manager.io">cert-manager</a></td>
             <td>Automatically provision and manage TLS certificates in Kubernetes</td>
+            <td></td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/122929872"></td>
             <td><a href="https://gethomepage.dev">homepage</a></td>
             <td>Modern and highly customizable application dashboard</td>
+            <td></td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/51335366"></td>
             <td><a href="https://longhorn.io">Longhorn</a></td>
             <td>Distributed block storage system for Kubernetes</td>
+            <td></td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/34656521"></td>
             <td><a href="https://sealed-secrets.netlify.app/">Sealed Secrets</a></td>
             <td>A Kubernetes controller and tool for one-way encrypted Secrets</td>
+            <td></td>
         </tr>
     </tbody>
 </table>
@@ -107,3 +123,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 - [ ] VPN without port forwarding
 - [ ] Static site documentation
 - [ ] Automated requirements installation (using `brew`)
+
+## Acknowledgements
+
+This project was heavily-inspired by [Khue's Homelab](https://homelab.khuedoan.com/)
