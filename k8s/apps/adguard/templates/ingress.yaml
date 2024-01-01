@@ -5,10 +5,15 @@ metadata:
   name: adguard-home
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: Adguard Home
+    gethomepage.dev/description: Network-wide software for blocking ads & tracking
+    gethomepage.dev/group: Platform
+    gethomepage.dev/icon: adguard-home.png
 spec:
   ingressClassName: cilium
   rules:
-    - host: &host adguard.mdeleon.dev
+    - host: &host guard.mdeleon.dev
       http:
         paths:
           - path: /
