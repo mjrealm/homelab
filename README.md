@@ -52,7 +52,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
             <td><a href="https://github.com/cilium/hubble">Hubble</a></td>
             <td>Networking and security observability platform</td>
-            <td>v0.12.1</td>
+            <td></td>
         </tr>     
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/1507452"></td>
