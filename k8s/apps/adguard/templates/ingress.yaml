@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguard-home
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: &host adguard.mdeleon.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: adguard-adguard-home
+                port:
+                  number: 3000
+  tls:
+    - secretName: adguard-tls-cert
+      hosts:
+        - *host

@@ -4,3 +4,9 @@ adguard-home:
     TZ: America/Los_Angeles
   image:
     tag: latest
+
+  service:
+    dns-tcp:
+      type: LoadBalancer
+    dns-udp:
+      type: LoadBalancer
