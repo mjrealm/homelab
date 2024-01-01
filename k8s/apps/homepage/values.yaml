@@ -46,7 +46,7 @@ homepage:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       hosts:
-        - host: &host dash.mdeleon.dev
+        - host: &host one.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix

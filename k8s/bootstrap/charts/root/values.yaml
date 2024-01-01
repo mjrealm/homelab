@@ -5,6 +5,10 @@ gitops:
 
 stacks:
   - name: bootstrap
-  # - name: system
+    path: bootstrap/charts
+  - name: system
+    path: system
   - name: platform
+    path: platform
   - name: apps
+    path: apps
