@@ -27,8 +27,8 @@
     - ciliumloadbalancerippools.cilium.io
   register: crd
   until: crd.resources | length > 0
-  retries: 5
-  delay: 10
+  retries: 10
+  delay: 20
 
 - name: Apply Cilium resources
   when: not ansible_check_mode

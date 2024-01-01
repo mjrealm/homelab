@@ -27,7 +27,7 @@
     - appprojects.argoproj.io
   register: crd
   until: crd.resources | length > 0
-  retries: 5
+  retries: 10
   delay: 20
 
 - name: Apply all ApplicationSets and Projects

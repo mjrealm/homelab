@@ -1,0 +1,41 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bootstrap
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          {{- range $index, $app := .Values.bootstrap }}
+          - name: {{ $app.name }}
+            namespace: {{ $app.namespace }}
+            project: {{ $app.project }}
+          {{- end }}
+  template:
+    metadata:
+      name: '{{ `{{name}}` }}'
+    spec:
+      project: '{{ `{{project}}` }}'
+      source:
+        repoURL: {{ .Values.gitops.repo }}
+        targetRevision: {{ .Values.gitops.revision }}
+        path: 'k8s/bootstrap/charts/{{ `{{name}}` }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ `{{namespace}}` }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        retry:
+          limit: 10
+          backoff:
+            duration: 1m
+            factor: 2
+            maxDuration: 16m
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true

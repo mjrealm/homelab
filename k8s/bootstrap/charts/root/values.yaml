@@ -4,11 +4,19 @@ gitops:
   revision: HEAD
 
 stacks:
-  - name: bootstrap
-    path: bootstrap/charts
   - name: system
-    path: system
   - name: platform
-    path: platform
   - name: apps
-    path: apps
+
+# Strictly for monitoring in Argo CD.
+# These were installed prior to this Chart installation.
+bootstrap:
+  - name: cilium # metadata and git folder
+    namespace: kube-system # target namespace
+    project: system # must be a stack
+  - name: cert-manager
+    namespace: cert-manager
+    project: system
+  - name: argocd
+    namespace: argocd
+    project: platform

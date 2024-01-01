@@ -8,7 +8,7 @@ argo-cd:
     ingress:
       enabled: true
       hosts:
-        - &host argocd.mdeleon.dev
+        - &host argo.mdeleon.dev
       tls:
         - secretName: argocd-tls-cert
           hosts:
