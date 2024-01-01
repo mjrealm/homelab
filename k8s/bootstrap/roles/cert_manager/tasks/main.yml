@@ -16,3 +16,21 @@
     values_files:
       - charts/cert-manager/values.yaml
     wait: true
+
+- name: Wait for Cert-Manager CRDs
+  kubernetes.core.k8s_info:
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+  loop:
+    - clusterissuers.cert-manager.io
+  register: crd
+  until: crd.resources | length > 0
+  retries: 5
+  delay: 10
+
+- name: Apply Cert-Manager resources
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    template: "{{ item }}"
+  loop:
+    - cluster-issuer.yaml

@@ -15,7 +15,6 @@
     dependency_update: true
     values_files:
       - charts/cilium/values.yaml
-    wait: true
 
 - name: Wait for Cilium CRDs
   delegate_to: localhost
