@@ -25,8 +25,11 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 
 - A laptop or desktop, for bootstrapping the cluster.
 - Mini PCs, like an Intel NUC, for the actual cluster.
+- A Linux OS installed on each mini PC. I use Ubuntu Server.
 
 ## Stack
+
+### System
 
 <table>
     <thead>
@@ -77,13 +80,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><a href="https://cert-manager.io">cert-manager</a></td>
             <td>Automatically provision and manage TLS certificates in Kubernetes</td>
             <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/122929872"></td>
-            <td><a href="https://gethomepage.dev">homepage</a></td>
-            <td>Modern and highly customizable application dashboard</td>
-            <td></td>
-        </tr>
+        </tr>        
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/51335366"></td>
             <td><a href="https://longhorn.io">Longhorn</a></td>
@@ -95,6 +92,28 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><a href="https://sealed-secrets.netlify.app/">Sealed Secrets</a></td>
             <td>A Kubernetes controller and tool for one-way encrypted Secrets</td>
             <td></td>
+        </tr>
+    </tbody>
+</table>
+
+### Apps
+
+<table>
+    <thead>
+        <th>Logo</th>
+        <th>Name</th>
+        <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/122929872"></td>
+            <td><a href="https://gethomepage.dev">homepage</a></td>
+            <td>Modern and highly customizable application dashboard</td>
+        </tr>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/8361145"></td>
+            <td><a href="https://adguard.com/adguard-home.html">Adguard Home</a></td>
+            <td>Network-wide software for blocking ads, tracking and DNS server</td>
         </tr>
     </tbody>
 </table>
@@ -116,6 +135,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 - [ ] Private code repository
 - [ ] Private container registry
 - [ ] Private artifactory
+- [ ] Private code static analysis tool
 - [ ] Identity Access and Management
 - [ ] Automated backups
 - [ ] Private CI/CD platform

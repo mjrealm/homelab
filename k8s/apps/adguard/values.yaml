@@ -1,0 +1,6 @@
+---
+adguard-home:
+  env:
+    TZ: America/Los_Angeles
+  image:
+    tag: latest
