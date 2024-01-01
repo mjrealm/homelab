@@ -33,7 +33,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
         <th>Logo</th>
         <th>Name</th>
         <th>Description</th>
-        <th>Version<th>
+        <th>Version</th>
     </thead>
     <tbody>
         <tr>
