@@ -6,7 +6,7 @@ This project was created to automate my personal homelab, following [GitOps](htt
 
 This is **not** a framework. However, you can customize and extend it in any way you want.
 
-> **What is a homelab?**
+> :bulb: **What is a homelab?**
 >
 > "Simply put, a home lab consists of one or more servers (or normal PCs acting as servers), that you have in your home and you use them to experiment and try out stuff." -[techie-show](https://techie-show.com/home-lab-guide-basics/)
 
@@ -103,17 +103,20 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
         <th>Logo</th>
         <th>Name</th>
         <th>Description</th>
+        <th>Notes</th>
     </thead>
     <tbody>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/122929872"></td>
             <td><a href="https://gethomepage.dev">homepage</a></td>
             <td>Modern and highly customizable application dashboard</td>
+            <td>Annotation-driven</td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/8361145"></td>
             <td><a href="https://adguard.com/adguard-home.html">Adguard Home</a></td>
             <td>Network-wide software for blocking ads, tracking and DNS server</td>
+            <td> &#9889; WIP</td>
         </tr>
     </tbody>
 </table>
