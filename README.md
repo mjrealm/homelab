@@ -97,6 +97,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 - [ ] Secure external access via [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
 - [ ] Full-stack monitoring and alerting system
 - [ ] Additional Ingress Controllers
+- [ ] Private code repository
 - [ ] Private container registry
 - [ ] Private artifactory
 - [ ] Identity Access and Management
