@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: mealie
+version: 1.0.0
+dependencies:
+  - name: mealie
+    version: 20.1.4
+    repository: https://truecharts.org/
