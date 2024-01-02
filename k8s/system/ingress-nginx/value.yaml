@@ -1,0 +1,5 @@
+---
+ingress-nginx:
+  controller:
+    metrics:
+      enabled: true

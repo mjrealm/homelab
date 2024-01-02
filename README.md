@@ -121,6 +121,20 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
     </tbody>
 </table>
 
+## Getting Started
+
+1. Make sure you have `ssh` access to your servers.
+2. Change `ansible_username` in `metal/group_vars/all.yml` to your username that has server access.
+3. Using a command line, run:
+
+```
+> make
+```
+
+4. It will ask for user password and Cloudflare API Token. The token is needed to perform a DNS challenge with [Lets Encrypt](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge) (TLS certificate generation).
+
+> :snowflake: You're done! Yes, that's the only command you'll need. :smile:
+
 ## Roadmap
 
 - [x] Automated Kubernetes installation and management
