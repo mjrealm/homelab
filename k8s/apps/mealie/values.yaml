@@ -3,6 +3,7 @@ mealie:
   env:
     TZ: America/Los_Angeles
   image:
+    repository: ghcr.io/mealie-recipes/mealie
     tag: v1.0.0-RC2
 
   ingress:
