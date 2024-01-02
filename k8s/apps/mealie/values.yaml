@@ -6,6 +6,12 @@ mealie:
     repository: ghcr.io/mealie-recipes/mealie
     tag: v1.0.0-RC2
 
+  service:
+    main:
+      ports:
+        api:
+          enabled: false
+
   ingress:
     main:
       enabled: true
