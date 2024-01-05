@@ -56,6 +56,12 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><a href="https://metallb.universe.tf/">MetalLB</a></td>
             <td>Network load-balancer implementation for Kubernetes</td>
             <td></td>
+        </tr>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/14280338"></td>
+            <td><a href="https://traefik.io/">Traefik</a></td>
+            <td>Cloud Native Application Proxy</td>
+            <td></td>
         </tr>              
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/1507452"></td>
