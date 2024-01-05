@@ -35,14 +35,20 @@ homepage:
     # - Apps:
 
     widgets:
-      - longhorn:
-          expanded: true
-          total: true
-          labels: true
-          nodes: true
+      - openmeteo:
+          label: CA
+          units: imperial
+          cache: 10
+          latitude: 37.702152
+          longitude: -121.935791
+          timezone: America/Los_Angeles
       - greeting:
           text_size: xl
           text: Hola!
+      - search:
+          provider: google
+          focus: true
+          target: _blank
       # show the kubernetes widget, with the cluster summary and individual nodes
       - kubernetes:
           cluster:
@@ -56,13 +62,12 @@ homepage:
             cpu: true
             memory: true
             showLabel: true
-      - search:
-          provider: google
-          focus: true
-          target: _blank
-      - openmeteo:
-          units: imperial
-          cache: 10
+      - datetime:
+          text_size: xl
+          format:
+            dateStyle: short
+            timeStyle: short
+            hour12: true
 
     kubernetes:
       mode: cluster
