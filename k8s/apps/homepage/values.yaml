@@ -4,42 +4,6 @@ homepage:
     repository: ghcr.io/gethomepage/homepage
     tag: v0.8.4
 
-  config:
-    bookmarks:
-      - Developer:
-          - Homelab:
-              - icon: github.png
-                href: https://github.com/mjrealm/homelab
-    services:
-    # - Platform:
-    # - System:
-    # - Apps:
-
-    widgets:
-      # show the kubernetes widget, with the cluster summary and individual nodes
-      - kubernetes:
-          cluster:
-            show: true
-            cpu: true
-            memory: true
-            showLabel: true
-            label: cluster
-          nodes:
-            show: true
-            cpu: true
-            memory: true
-            showLabel: true
-    kubernetes:
-      mode: cluster
-    settings:
-  # The service account is necessary to allow discovery of other services
-  serviceAccount:
-    create: true
-    name: homepage
-
-  # This enables the service account to access the necessary resources
-  enableRbac: true
-
   ingress:
     main:
       enabled: true
@@ -54,3 +18,54 @@ homepage:
         - secretName: homepage-tls-cert
           hosts:
             - *host
+
+  config:
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+
+    bookmarks:
+      - Developer:
+          - Homelab:
+              - icon: github.png
+                href: https://github.com/mjrealm/homelab
+    services:
+    # - Platform:
+    # - System:
+    # - Apps:
+
+    widgets:
+      - greeting:
+        text_size: xl
+        text: Hola!
+      # show the kubernetes widget, with the cluster summary and individual nodes
+      - kubernetes:
+          cluster:
+            show: true
+            cpu: true
+            memory: true
+            showLabel: true
+            label: cluster
+          nodes:
+            show: true
+            cpu: true
+            memory: true
+            showLabel: true
+      - search:
+        provider: google
+        focus: true
+        target: _blank
+      - openmeteo:
+        units: imperial
+        cache: 10
+
+    kubernetes:
+      mode: cluster
+    settings:
+  # The service account is necessary to allow discovery of other services
+  serviceAccount:
+    create: true
+    name: homepage
+
+  # This enables the service account to access the necessary resources
+  enableRbac: true
