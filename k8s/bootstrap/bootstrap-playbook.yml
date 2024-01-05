@@ -3,5 +3,4 @@
   hosts: localhost
   roles:
     # - cilium
-    - ingress-nginx
     - argocd

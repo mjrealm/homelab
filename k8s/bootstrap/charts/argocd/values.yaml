@@ -7,7 +7,6 @@ argo-cd:
       enabled: true
     ingress:
       enabled: true
-      ingressClassName: nginx
       hosts:
         - &host argo.mdeleon.dev
       tls:
