@@ -1,0 +1,22 @@
+---
+uptime-kuma:
+  image:
+    tag: 1.23.11
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Uptime-Kuma
+      gethomepage.dev/description: A fancy self-hosted monitoring tool
+      gethomepage.dev/group: Admin
+      gethomepage.dev/icon: uptime-kuma.png
+    hosts:
+      - host: &host up.mdeleon.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: uptime-tls-cert
+        hosts:
+          - *host
