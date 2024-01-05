@@ -12,5 +12,5 @@ longhorn:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Longhorn
       gethomepage.dev/description: Distributed storage built for Kubernetes
-      gethomepage.dev/group: Platform
+      gethomepage.dev/group: System
       gethomepage.dev/icon: longhorn.png

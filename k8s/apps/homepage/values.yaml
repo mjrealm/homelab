@@ -35,6 +35,11 @@ homepage:
     # - Apps:
 
     widgets:
+      - longhorn:
+          expanded: true
+          total: true
+          labels: true
+          nodes: true
       - greeting:
           text_size: xl
           text: Hola!
