@@ -11,7 +11,6 @@ metadata:
     gethomepage.dev/group: Platform
     gethomepage.dev/icon: adguard-home.png
 spec:
-  ingressClassName: nginx
   rules:
     - host: &host guard.mdeleon.dev
       http:
