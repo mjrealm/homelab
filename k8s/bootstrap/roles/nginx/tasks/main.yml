@@ -1,0 +1,17 @@
+---
+- name: Add Ingress-Nginx chart repo
+  when: not ansible_check_mode
+  kubernetes.core.helm_repository:
+    name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
+
+- name: Install Ingress-Nginx using Helm
+  when: not ansible_check_mode
+  kubernetes.core.helm:
+    name: ingress-nginx
+    chart_ref: charts/ingress-nginx/
+    release_namespace: kube-system
+    create_namespace: false
+    dependency_update: true
+    values_files:
+      - charts/ingress-nginx/values.yaml

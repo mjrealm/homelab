@@ -36,8 +36,8 @@ homepage:
 
     widgets:
       - greeting:
-        text_size: xl
-        text: Hola!
+          text_size: xl
+          text: Hola!
       # show the kubernetes widget, with the cluster summary and individual nodes
       - kubernetes:
           cluster:
@@ -52,12 +52,12 @@ homepage:
             memory: true
             showLabel: true
       - search:
-        provider: google
-        focus: true
-        target: _blank
+          provider: google
+          focus: true
+          target: _blank
       - openmeteo:
-        units: imperial
-        cache: 10
+          units: imperial
+          cache: 10
 
     kubernetes:
       mode: cluster

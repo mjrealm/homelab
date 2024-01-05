@@ -14,6 +14,9 @@ bootstrap:
   # - name: cilium # metadata and git folder
   #   namespace: kube-system # target namespace
   #   project: system # must be a stack
+  - name: ingress-nginx
+    namespace: kube-system
+    project: system
   - name: argocd
     namespace: argocd
     project: platform

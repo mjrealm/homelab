@@ -1,0 +1,9 @@
+---
+ingress-nginx:
+  controller:
+    ingressClassResource:
+      default: true
+    metrics:
+      enabled: true
+    # opentelemetry:
+    #   enabled: true
