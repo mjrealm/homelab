@@ -7,7 +7,7 @@ argo-cd:
       enabled: true
     ingress:
       enabled: true
-      ingressClassName: traefik
+      ingressClassName: nginx
       hosts:
         - &host argo.mdeleon.dev
       tls:
