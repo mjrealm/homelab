@@ -5,12 +5,18 @@ k3s_node_token_file: /var/lib/rancher/k3s/server/node-token
 k3s_agent_uninstall_file: /usr/local/bin/k3s-agent-uninstall.sh
 k3s_kube_config_file: ~/.kube/config.k3s
 k3s_kube_config_context: k3s-ansible
-k3s_server_flags: "--flannel-backend=none \
-  --disable-kube-proxy \
-  --disable-network-policy \
+# For basic config with MetalLB
+k3s_server_flags: "--secrets-encryption \
   --disable-cloud-controller \
-  --secrets-encryption \
-  --disable=traefik \
   --disable=servicelb \
-  --disable=local-storage
-  "
+  --disable=local-storage"
+# For use with Cilium CNI only
+# k3s_server_flags: "--flannel-backend=none \
+#   --disable-kube-proxy \
+#   --disable-network-policy \
+#   --disable-cloud-controller \
+#   --secrets-encryption \
+#   --disable=traefik \
+#   --disable=servicelb \
+#   --disable=local-storage
+#   "

@@ -2,6 +2,5 @@
 - name: Bootstrap k8s
   hosts: localhost
   roles:
-    - cilium
-    - cert_manager
+    # - cilium
     - argocd

@@ -11,12 +11,9 @@ stacks:
 # Strictly for monitoring in Argo CD.
 # These were installed prior to this Chart installation.
 bootstrap:
-  - name: cilium # metadata and git folder
-    namespace: kube-system # target namespace
-    project: system # must be a stack
-  - name: cert-manager
-    namespace: cert-manager
-    project: system
+  # - name: cilium # metadata and git folder
+  #   namespace: kube-system # target namespace
+  #   project: system # must be a stack
   - name: argocd
     namespace: argocd
     project: platform

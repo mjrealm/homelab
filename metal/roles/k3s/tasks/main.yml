@@ -40,8 +40,8 @@
     cmd: /usr/local/bin/k3s-install.sh
     creates: "{{ k3s_config_file }}"
   environment:
-    INSTALL_K3S_EXEC: "server {{ k3s_server_flags }}"
     INSTALL_K3S_VERSION: "{{ k3s_version }}"
+    INSTALL_K3S_EXEC: "server {{ k3s_server_flags }}"
 
 - name: Get k3s token from the master node
   when: not ansible_check_mode
@@ -60,6 +60,7 @@
     cmd: /usr/local/bin/k3s-install.sh
     creates: "{{ k3s_config_file }}"
   environment:
+    INSTALL_K3S_VERSION: "{{ k3s_version }}"
     INSTALL_K3S_EXEC: "server {{ k3s_server_flags }}"
     K3S_URL: "https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443"
     K3S_TOKEN: "{{ k3s_node_token_base64.content | b64decode }}"
@@ -73,6 +74,7 @@
     cmd: /usr/local/bin/k3s-install.sh
     creates: "{{ k3s_agent_uninstall_file }}"
   environment:
+    INSTALL_K3S_VERSION: "{{ k3s_version }}"
     INSTALL_K3S_EXEC: "agent \
       --server https://{{ hostvars[groups.master[0]]['ansible_default_ipv4']['address'] }}:6443 \
       --token {{ k3s_node_token_base64.content | b64decode }}"
