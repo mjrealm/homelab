@@ -46,17 +46,17 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td>v1.29.0+k3s1</td>
         </tr>
         <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
-            <td><a href="https://cilium.io">Cilium</a></td>
-            <td>eBPF-based Networking, Observability, Security solution</td>
-            <td>v1.14.5</td>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/78555908"></td>
+            <td><a href="https://github.com/flannel-io/flannel">Flannel</a></td>
+            <td>Layer 3 network fabric designed for Kubernetes</td>
+            <td></td>
         </tr>
         <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
-            <td><a href="https://github.com/cilium/hubble">Hubble</a></td>
-            <td>Networking and security observability platform</td>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/60239468"></td>
+            <td><a href="https://metallb.universe.tf/">MetalLB</a></td>
+            <td>Network load-balancer implementation for Kubernetes</td>
             <td></td>
-        </tr>     
+        </tr>              
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/1507452"></td>
             <td><a href="https://www.ansible.com">Ansible</a></td>
@@ -93,6 +93,18 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td>A Kubernetes controller and tool for one-way encrypted Secrets</td>
             <td></td>
         </tr>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
+            <td><a href="https://cilium.io">Cilium</a></td>
+            <td>eBPF-based Networking, Observability, Security solution</td>
+            <td>&#9973; Deprecated</td>
+        </tr>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
+            <td><a href="https://github.com/cilium/hubble">Hubble</a></td>
+            <td>Networking and security observability platform</td>
+            <td>&#9973; Deprecated</td>
+        </tr>
     </tbody>
 </table>
 
@@ -110,13 +122,19 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><img width="32" src="https://avatars.githubusercontent.com/u/122929872"></td>
             <td><a href="https://gethomepage.dev">homepage</a></td>
             <td>Modern and highly customizable application dashboard</td>
-            <td>Annotation-driven</td>
+            <td>Annotation discovery</td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/8361145"></td>
             <td><a href="https://adguard.com/adguard-home.html">Adguard Home</a></td>
             <td>Network-wide software for blocking ads, tracking and DNS server</td>
             <td> &#9889; WIP</td>
+        </tr>
+        <tr>
+            <td><img width="32" src="https://github.com/louislam/uptime-kuma/raw/master/public/icon.svg"></td>
+            <td><a href="https://uptime.kuma.pet/">Uptime-Kuma</a></td>
+            <td>A fancy self-hosted monitoring tool</td>
+            <td></td>
         </tr>
     </tbody>
 </table>
@@ -148,7 +166,6 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 - [ ] Prompts for global variables (user, ip pools etc)
 - [ ] Secure external access via [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
 - [ ] Full-stack monitoring and alerting system
-- [ ] Additional Ingress Controllers
 - [ ] Private code repository
 - [ ] Private container registry
 - [ ] Private artifactory
