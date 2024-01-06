@@ -58,9 +58,9 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td></td>
         </tr>
         <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/14280338"></td>
-            <td><a href="https://traefik.io/">Traefik</a></td>
-            <td>Cloud Native Application Proxy</td>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/13629408"></td>
+            <td><a href="https://kubernetes.github.io/ingress-nginx/">Ingress Nginx</a></td>
+            <td>Ingress controller for Kubernetes</td>
             <td></td>
         </tr>              
         <tr>
