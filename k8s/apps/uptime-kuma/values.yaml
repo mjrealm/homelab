@@ -24,7 +24,7 @@ uptime-kuma:
   volume:
     enabled: true
     size: 4Gi
-    storageClassName: nfs-csi
+    # storageClassName: nfs-csi
 
   serviceMonitor:
     enabled: true
