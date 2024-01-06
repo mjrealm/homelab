@@ -1,0 +1,8 @@
+---
+csi-driver-nfs:
+  externalSnapshotter:
+    enabled: true
+  controller:
+    replicas: 2
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: true
