@@ -1,0 +1,7 @@
+---
+csi-driver-nfs:
+  externalSnapshotter:
+    enabled: true
+  controller:
+    runOnControlPlane: true
+    replicas: 2

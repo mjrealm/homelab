@@ -86,6 +86,12 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><a href="https://cert-manager.io">cert-manager</a></td>
             <td>Automatically provision and manage TLS certificates in Kubernetes</td>
             <td></td>
+        </tr>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/33050221"></td>
+            <td><a href="https://github.com/kubernetes-csi/csi-driver-nfs">NFS CSI driver</a></td>
+            <td>Allows Kubernetes to access NFS server</td>
+            <td></td>
         </tr>        
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/51335366"></td>
