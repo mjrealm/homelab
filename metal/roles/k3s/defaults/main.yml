@@ -9,6 +9,7 @@ k3s_kube_config_context: k3s-ansible
 k3s_server_flags: "--secrets-encryption \
   --disable-cloud-controller \
   --disable=servicelb \
+  --disable=traefik \
   --disable=local-storage"
 # For use with Cilium CNI only
 # k3s_server_flags: "--flannel-backend=none \
