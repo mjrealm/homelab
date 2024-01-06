@@ -20,3 +20,11 @@ uptime-kuma:
       - secretName: uptime-tls-cert
         hosts:
           - *host
+
+  volume:
+    enabled: true
+    size: 4Gi
+    storageClassName: nfs-csi
+
+  serviceMonitor:
+    enabled: true
