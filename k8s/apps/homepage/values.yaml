@@ -20,9 +20,10 @@ homepage:
             - *host
 
   config:
-    quicklaunch:
-      searchDescriptions: true
-      hideInternetSearch: true
+    settings:
+      quicklaunch:
+        searchDescriptions: true
+        hideInternetSearch: true
 
     bookmarks:
       - Developer:
@@ -66,7 +67,7 @@ homepage:
 
     kubernetes:
       mode: cluster
-    settings:
+
   # The service account is necessary to allow discovery of other services
   serviceAccount:
     create: true
