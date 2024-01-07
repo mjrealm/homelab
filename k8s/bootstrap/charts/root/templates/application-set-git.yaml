@@ -44,4 +44,10 @@ spec:
         - /spec/seLinuxMount
         kind: CSIDriver
         name: nfs.csi.k8s.io
+      - group: apps
+        jsonPointers:
+        - /spec/volumeClaimTemplates/apiVersion
+        - /spec/volumeClaimTemplates/kind
+        kind: StatefulSet
+        namespace: mimir 
 {{ end }}
