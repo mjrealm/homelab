@@ -38,4 +38,10 @@ spec:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
           - ServerSideApply=true
+      ignoreDifferences:
+      - group: storage.k8s.io
+        jsonPointers:
+        - /spec/seLinuxMount
+        kind: CSIDriver
+        name: nfs.csi.k8s.io
 {{ end }}
