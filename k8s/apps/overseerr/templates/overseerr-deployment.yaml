@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/icon: overseerr.png
     gethomepage.dev/name: Overseerr
     gethomepage.dev/pod-selector: ""
-    kompose.cmd: kompose convert
+    kompose.cmd: kompose convert --chart
     kompose.service.expose: overseerr.mdeleon.dev
     kompose.service.expose.tls-secret: overseerr-tls-cert
     kompose.service.type: clusterip
@@ -36,7 +36,7 @@ spec:
         gethomepage.dev/icon: overseerr.png
         gethomepage.dev/name: Overseerr
         gethomepage.dev/pod-selector: ""
-        kompose.cmd: kompose convert
+        kompose.cmd: kompose convert --chart
         kompose.service.expose: overseerr.mdeleon.dev
         kompose.service.expose.tls-secret: overseerr-tls-cert
         kompose.service.type: clusterip
