@@ -106,16 +106,22 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td></td>
         </tr>
         <tr>
+            <td><img width="32" src="https://raw.githubusercontent.com/grafana/mimir/main/images/logo.png"></td>
+            <td><a href="https://grafana.com/oss/mimir/">Grafana Mimir</a></td>
+            <td>Open source TSDB</td>
+            <td></td>
+        </tr>
+        <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
             <td><a href="https://cilium.io">Cilium</a></td>
             <td>eBPF-based Networking, Observability, Security solution</td>
-            <td>&#9973; Deprecated</td>
+            <td>&#9973; Optional</td>
         </tr>
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
             <td><a href="https://github.com/cilium/hubble">Hubble</a></td>
             <td>Networking and security observability platform</td>
-            <td>&#9973; Deprecated</td>
+            <td>&#9973; Optional</td>
         </tr>
     </tbody>
 </table>
