@@ -154,6 +154,12 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td>A fancy self-hosted monitoring tool</td>
             <td></td>
         </tr>
+        <tr>
+            <td><img width="32" src="https://overseerr.dev/_next/image?url=%2Fos_logo_filled.svg&w=96&q=75"></td>
+            <td><a href="https://overseerr.dev/">Overseer</a></td>
+            <td>Request manager for media library</td>
+            <td></td>
+        </tr>
     </tbody>
 </table>
 

@@ -14,7 +14,6 @@ metadata:
     kompose.service.type: clusterip
     kompose.version: 1.31.2 (HEAD)
     kompose.volume.size: 1Gi
-    kompose.volume.storage-class-name: nfs-csi-k8s
   creationTimestamp: null
   labels:
     io.kompose.service: overseerr
@@ -41,7 +40,6 @@ spec:
         kompose.service.type: clusterip
         kompose.version: 1.31.2 (HEAD)
         kompose.volume.size: 1Gi
-        kompose.volume.storage-class-name: nfs-csi-k8s
       creationTimestamp: null
       labels:
         io.kompose.network/overseerr-default: "true"
