@@ -18,7 +18,6 @@ services:
       kompose.service.expose.tls-secret: overseerr-tls-cert
       kompose.volume.storage-class-name: nfs-csi-k8s
       kompose.volume.size: 1Gi
-      kompose.volume.sub-path: overseerr
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Overseerr
