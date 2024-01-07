@@ -48,7 +48,7 @@ spec:
         io.kompose.service: adguardhome
     spec:
       containers:
-        - image: adguard/adguardhome:latest
+        - image: adguard/adguardhome:v0.107.43
           name: adguardhome
           ports:
             - containerPort: 53
