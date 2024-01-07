@@ -1,0 +1,23 @@
+---
+version: "3"
+
+services:
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: overseerr
+    environment:
+      - TZ=America/Los_Angeles
+    volumes:
+      - overseerr:/app/config
+    restart: always
+    ports:
+      - 5055:5055
+    labels:
+      kompose.service.type: clusterip
+      kompose.service.expose: overseerr.mdeleon.dev
+      kompose.service.expose.tls-secret: overseerr-tls-cert
+      kompose.volume.storage-class-name: nfs-csi
+      kompose.volume.size: 1Gi
+
+volumes:
+  overseerr:
