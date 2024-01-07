@@ -1,4 +1,2 @@
 ---
 mimir-distributed:
-  global:
-    dnsService: coredns
