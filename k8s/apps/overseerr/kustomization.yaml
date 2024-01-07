@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - overseerr-deployment.yaml
 - overseerr-ingress.yaml
+- overseerr-namespace.yaml
 - overseerr-persistentvolumeclaim.yaml
 - overseerr-service.yaml
-namespace: apps
+namespace: overseerr
