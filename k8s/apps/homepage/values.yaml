@@ -31,9 +31,9 @@ homepage:
               - icon: github.png
                 href: https://github.com/mjrealm/homelab
     services:
-    # - Platform:
-    # - System:
-    # - Apps:
+      - Admin:
+      - Observability:
+      - Media:
 
     widgets:
       - greeting:
