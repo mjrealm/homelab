@@ -20,7 +20,7 @@ metadata:
     io.kompose.service: adguardhome
   name: adguardhome
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       io.kompose.service: adguardhome
