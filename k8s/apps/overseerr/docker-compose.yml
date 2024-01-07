@@ -20,6 +20,11 @@ services:
       kompose.volume.size: 1Gi
       kompose.volume.sub-path: overseerr
       cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Overseerr
+      gethomepage.dev/description: Manage requests for media library
+      gethomepage.dev/group: Media
+      gethomepage.dev/icon: overseerr.png
 
 volumes:
   overseerr:

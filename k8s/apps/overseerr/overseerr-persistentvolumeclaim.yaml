@@ -11,5 +11,5 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: nfs-csi
+  storageClassName: nfs-csi-k8s
 status: {}

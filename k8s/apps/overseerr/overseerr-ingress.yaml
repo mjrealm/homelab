@@ -3,13 +3,18 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Manage requests for media library
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: overseerr.png
+    gethomepage.dev/name: Overseerr
     kompose.cmd: kompose convert
     kompose.service.expose: overseerr.mdeleon.dev
     kompose.service.expose.tls-secret: overseerr-tls-cert
     kompose.service.type: clusterip
     kompose.version: 1.31.2 (HEAD)
     kompose.volume.size: 1Gi
-    kompose.volume.storage-class-name: nfs-csi
+    kompose.volume.storage-class-name: nfs-csi-k8s
     kompose.volume.sub-path: overseerr
   creationTimestamp: null
   labels:
