@@ -12,6 +12,6 @@ longhorn:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Longhorn
       gethomepage.dev/description: Distributed storage built for Kubernetes
-      gethomepage.dev/group: System
+      gethomepage.dev/group: Admin
       gethomepage.dev/icon: longhorn.png
       gethomepage.dev/pod-selector: ""
