@@ -7,7 +7,7 @@ metadata:
   name: adguard
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 4Gi
