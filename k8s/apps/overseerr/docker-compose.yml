@@ -23,6 +23,7 @@ services:
       gethomepage.dev/description: Manage requests for media library
       gethomepage.dev/group: Media
       gethomepage.dev/icon: overseerr.png
+      gethomepage.dev/pod-selector: ""
 
 volumes:
   overseerr:

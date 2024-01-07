@@ -8,6 +8,7 @@ metadata:
     gethomepage.dev/group: Media
     gethomepage.dev/icon: overseerr.png
     gethomepage.dev/name: Overseerr
+    gethomepage.dev/pod-selector: ""
     kompose.cmd: kompose convert
     kompose.service.expose: overseerr.mdeleon.dev
     kompose.service.expose.tls-secret: overseerr-tls-cert
@@ -34,6 +35,7 @@ spec:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: overseerr.png
         gethomepage.dev/name: Overseerr
+        gethomepage.dev/pod-selector: ""
         kompose.cmd: kompose convert
         kompose.service.expose: overseerr.mdeleon.dev
         kompose.service.expose.tls-secret: overseerr-tls-cert

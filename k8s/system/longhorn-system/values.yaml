@@ -14,3 +14,4 @@ longhorn:
       gethomepage.dev/description: Distributed storage built for Kubernetes
       gethomepage.dev/group: System
       gethomepage.dev/icon: longhorn.png
+      gethomepage.dev/pod-selector: ""
