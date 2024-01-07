@@ -9,7 +9,7 @@ uptime-kuma:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Uptime-Kuma
       gethomepage.dev/description: A fancy self-hosted monitoring tool
-      gethomepage.dev/group: Monitoring
+      gethomepage.dev/group: Observability
       gethomepage.dev/icon: uptime-kuma.png
     hosts:
       - host: &host up.mdeleon.dev
