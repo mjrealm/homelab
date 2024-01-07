@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     kompose.cmd: kompose convert
     kompose.service.expose: overseerr.mdeleon.dev
     kompose.service.expose.tls-secret: overseerr-tls-cert
@@ -9,6 +10,7 @@ metadata:
     kompose.version: 1.31.2 (HEAD)
     kompose.volume.size: 1Gi
     kompose.volume.storage-class-name: nfs-csi
+    kompose.volume.sub-path: overseerr
   creationTimestamp: null
   labels:
     io.kompose.service: overseerr
