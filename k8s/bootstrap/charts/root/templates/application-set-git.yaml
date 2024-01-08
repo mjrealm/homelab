@@ -48,7 +48,6 @@ spec:
         jsonPointers:
         - /spec/volumeClaimTemplates        
         kind: StatefulSet
-        namespace: mimir
       - group: batch
         jsonPointers:
         - /spec/podReplacementPolicy
