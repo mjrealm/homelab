@@ -29,4 +29,4 @@ authentik:
     enabled: true
   prometheus:
     serviceMonitor:
-      create: true
+      create: false
