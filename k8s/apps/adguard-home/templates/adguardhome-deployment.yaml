@@ -20,6 +20,8 @@ metadata:
     io.kompose.service: adguardhome
   name: adguardhome
 spec:
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: true
   replicas: 1
   selector:
     matchLabels:
