@@ -37,8 +37,7 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
-          - ServerSideApply=true
-          - RespectIgnoreDifferences=true
+          - ServerSideApply=true          
       ignoreDifferences:
       - group: storage.k8s.io
         jsonPointers:

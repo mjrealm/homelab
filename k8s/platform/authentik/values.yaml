@@ -1,0 +1,35 @@
+---
+authentik:
+  replicas: 1
+  authentik:
+    secret_key: ZVo2l3JoVZRgYPuXfdi2RnhqxCsgnmmQu1Zzy0nit5HTNU4i0y
+    error_reporting:
+      enabled: true
+    postgresql:
+      password: "ThisIsNotASecurePassword"
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Authentik
+      gethomepage.dev/description: Identity Provider
+      gethomepage.dev/group: Admin
+      gethomepage.dev/icon: authentik.png
+    hosts:
+      - host: &host idp.mdeleon.dev
+        paths:
+          - path: "/"
+            pathType: Prefix
+    tls:
+      - secretName: authentik-tls-cert
+        hosts:
+          - *host
+  postgresql:
+    enabled: true
+    postgresqlPassword: "ThisIsNotASecurePassword"
+  redis:
+    enabled: true
+  prometheus:
+    serviceMonitor:
+      create: false
