@@ -20,7 +20,7 @@ authentik:
           - path: "/"
             pathType: Prefix
     tls:
-      - secretName: homepage-tls-cert
+      - secretName: authentik-tls-cert
         hosts:
           - *host
   postgresql:
