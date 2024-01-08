@@ -9,11 +9,9 @@ grafana:
       gethomepage.dev/description: Observability Dashboards
       gethomepage.dev/group: Observability
       gethomepage.dev/icon: grafana.png
+
     hosts:
-      - host: &host grafana.mdeleon.dev
-        paths:
-          - path: "/"
-            pathType: Prefix
+      - &host grafana.mdeleon.dev
     tls:
       - secretName: grafana-tls-cert
         hosts:
