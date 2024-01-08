@@ -47,8 +47,7 @@ spec:
         name: nfs.csi.k8s.io
       - group: apps
         jsonPointers:
-        - /spec/volumeClaimTemplates/apiVersion
-        - /spec/volumeClaimTemplates/kind
+        - /spec/volumeClaimTemplates        
         kind: StatefulSet
         namespace: mimir
       - group: batch
