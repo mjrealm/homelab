@@ -1,6 +1,4 @@
 ---
-grafana-agent-operator:
-
 grafana:
   ingress:
     enabled: true
