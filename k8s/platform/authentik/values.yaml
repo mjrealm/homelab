@@ -1,0 +1,25 @@
+---
+authentik:
+  replicas: 1
+  authentik:
+    secret_key: ZVo2l3JoVZRgYPuXfdi2RnhqxCsgnmmQu1Zzy0nit5HTNU4i0y
+    error_reporting:
+      enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - host: &host idp.mdeleon.dev
+        paths:
+          - path: "/"
+            pathType: Prefix
+    tls:
+      - secretName: homepage-tls-cert
+        hosts:
+          - *host
+  postgresql:
+    enabled: true
+  redis:
+    enabled: true
+  prometheus:
+    serviceMonitor:
+      create: true
