@@ -49,5 +49,11 @@ spec:
         - /spec/volumeClaimTemplates/apiVersion
         - /spec/volumeClaimTemplates/kind
         kind: StatefulSet
-        namespace: mimir 
+        namespace: mimir
+      - group: batch
+        jsonPointers:
+        - /spec/podReplacementPolicy
+        - /status/terminating
+        kind: Job
+        namespace: mimir
 {{ end }}
