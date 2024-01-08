@@ -143,6 +143,12 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td>Annotation discovery</td>
         </tr>
         <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/82976448"></td>
+            <td><a href="https://goauthentik.io/">Authentik</a></td>
+            <td>Identity Provider</td>
+            <td></td>
+        </tr>
+        <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/8361145"></td>
             <td><a href="https://adguard.com/adguard-home.html">Adguard Home</a></td>
             <td>Network-wide software for blocking ads, tracking and DNS server</td>
@@ -159,7 +165,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><a href="https://overseerr.dev/">Overseer</a></td>
             <td>Request manager for media library</td>
             <td></td>
-        </tr>
+        </tr>        
     </tbody>
 </table>
 
