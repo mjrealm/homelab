@@ -7,6 +7,13 @@ authentik:
       enabled: true
   ingress:
     enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Authentik
+      gethomepage.dev/description: Identity Provider
+      gethomepage.dev/group: Admin
+      gethomepage.dev/icon: authentik.png
     hosts:
       - host: &host idp.mdeleon.dev
         paths:
