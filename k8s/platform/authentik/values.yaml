@@ -5,6 +5,8 @@ authentik:
     secret_key: ZVo2l3JoVZRgYPuXfdi2RnhqxCsgnmmQu1Zzy0nit5HTNU4i0y
     error_reporting:
       enabled: true
+    postgresql:
+      password: "ThisIsNotASecurePassword"
   ingress:
     enabled: true
     annotations:
@@ -25,6 +27,7 @@ authentik:
           - *host
   postgresql:
     enabled: true
+    postgresqlPassword: "ThisIsNotASecurePassword"
   redis:
     enabled: true
   prometheus:
