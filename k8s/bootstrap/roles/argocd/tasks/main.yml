@@ -1,4 +1,13 @@
 ---
+- name: Apply Helm Secrets resource
+  when: not ansible_check_mode
+  delegate_to: localhost
+  run_once: true
+  kubernetes.core.k8s:
+    template: "{{ item }}"
+  loop:
+    - helm-secrets.yaml
+
 - name: Add Argo CD chart repo
   when: not ansible_check_mode
   kubernetes.core.helm_repository:
