@@ -21,10 +21,7 @@ spec:
       source:
         repoURL: {{ .Values.gitops.repo }}
         targetRevision: {{ .Values.gitops.revision }}
-        path: 'k8s/bootstrap/charts/{{ `{{name}}` }}'
-        helm:
-          valueFiles:
-            - secrets://secrets.yaml
+        path: 'k8s/bootstrap/charts/{{ `{{name}}` }}'        
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{ `{{namespace}}` }}'
