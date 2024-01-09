@@ -1,6 +1,6 @@
 .vscode
 Chart.lock
 *.tgz
-.cloudflare
+.keys
 .DS_Store
 .wip

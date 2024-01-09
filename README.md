@@ -17,6 +17,10 @@ This is **not** a framework. However, you can customize and extend it in any way
 - `kubernetes-cli`
 - `helm`
 - `ansible`
+- `kompose`
+- `kustomize`
+- `age`
+- `sops`
 - `k9s` - for cluster management
 
 Using MacBook, I installed these with [Homebrew](https://brew.sh/).
