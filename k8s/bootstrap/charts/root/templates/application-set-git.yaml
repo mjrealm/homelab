@@ -21,6 +21,11 @@ spec:
         repoURL: {{ $.Values.gitops.repo }}
         targetRevision: {{ $.Values.gitops.revision }}
         path: '{{ `{{path}}` }}'
+        helm:
+          valueFiles:
+            - values.yaml
+            - secrets://secrets.yaml
+          ignoreMissingValueFiles: true
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{ default `{{path.basename}}` $stack.namespace }}'
