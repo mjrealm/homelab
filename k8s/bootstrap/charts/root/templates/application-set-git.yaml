@@ -24,7 +24,7 @@ spec:
         helm:
           valueFiles:
             - values.yaml
-            - secrets://secrets.yaml
+            - secrets+age-import:///helm-secrets-private-keys/key.txt?secrets.yaml
           ignoreMissingValueFiles: true
       destination:
         server: https://kubernetes.default.svc
