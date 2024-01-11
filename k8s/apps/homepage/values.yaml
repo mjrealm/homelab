@@ -40,29 +40,6 @@ homepage:
       - Observability:
       - Media:
 
-    widgets:
-      - greeting:
-          text_size: 4xl
-          text: Hola!
-      # show the kubernetes widget, with the cluster summary and individual nodes
-      - kubernetes:
-          cluster:
-            show: true
-            cpu: true
-            memory: true
-            showLabel: true
-            label: cluster
-          nodes:
-            show: true
-            cpu: true
-            memory: true
-            showLabel: true
-      - datetime:
-          text_size: xl
-          format:
-            timeStyle: short
-            hour12: true
-
     kubernetes:
       mode: cluster
 
