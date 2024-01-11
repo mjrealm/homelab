@@ -16,3 +16,4 @@ longhorn:
       gethomepage.dev/icon: longhorn.png
       gethomepage.dev/pod-selector: ""
       gethomepage.dev/widget.type: "longhorn"
+      gethomepage.dev/widget.url: "https://longhorn.mdeleon.dev"
