@@ -15,3 +15,4 @@ longhorn:
       gethomepage.dev/group: Admin
       gethomepage.dev/icon: longhorn.png
       gethomepage.dev/pod-selector: ""
+      gethomepage.dev/widget.type: "longhorn"
