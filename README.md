@@ -102,13 +102,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><a href="https://longhorn.io">Longhorn</a></td>
             <td>Distributed block storage system for Kubernetes</td>
             <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/34656521"></td>
-            <td><a href="https://sealed-secrets.netlify.app/">Sealed Secrets</a></td>
-            <td>A Kubernetes controller and tool for one-way encrypted Secrets</td>
-            <td></td>
-        </tr>
+        </tr>        
         <tr>
             <td><img width="32" src="https://raw.githubusercontent.com/grafana/mimir/main/images/logo.png"></td>
             <td><a href="https://grafana.com/oss/mimir/">Grafana Mimir</a></td>

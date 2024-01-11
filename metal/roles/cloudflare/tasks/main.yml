@@ -1,0 +1,29 @@
+---
+- name: Ask for Cloudflare Token
+  when: not ansible_check_mode
+  ansible.builtin.pause:
+    prompt: "Enter Cloudflare API Key (sensitive)"
+    echo: true
+  register: cloudflare_api_key
+
+- name: Create namespace
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    name: cert-manager
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create Cloudflare token secret
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cloudflare-api-token-secret
+        namespace: cert-manager
+      type: Opaque
+      stringData:
+        api-token: "{{ cloudflare_api_key.user_input }}"

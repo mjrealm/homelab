@@ -4,32 +4,9 @@
   roles:
     - k3s
 
-- name: Setup Cloudflare API token
+- name: Setup secrets and tokens
   hosts: localhost
   gather_facts: false
-  vars_prompt:
-    - name: cloudflare_api_key
-      prompt: Enter Cloudflare API Key (sensitive)
-      private: false
-  tasks:
-    - name: Create namespace
-      when: not ansible_check_mode
-      kubernetes.core.k8s:
-        name: cert-manager
-        api_version: v1
-        kind: Namespace
-        state: present
-
-    - name: Create Cloudflare token secret
-      when: not ansible_check_mode
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: Secret
-          metadata:
-            name: cloudflare-api-token-secret
-            namespace: cert-manager
-          type: Opaque
-          stringData:
-            api-token: "{{ cloudflare_api_key }}"
+  roles:
+    - helm_secrets
+    - cloudflare

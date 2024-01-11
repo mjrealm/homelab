@@ -1,0 +1,29 @@
+---
+- name: Ask for Age Key
+  when: not ansible_check_mode
+  ansible.builtin.pause:
+    prompt: "Enter Age Private Key (sensitive)"
+    echo: true
+  register: age_key
+
+- name: Create ArgoCD namespace
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    name: argocd
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create Private Key Secret
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: helm-secrets-private-keys
+        namespace: argocd
+      type: Opaque
+      stringData:
+        key.txt: "{{ age_key.user_input }}"
