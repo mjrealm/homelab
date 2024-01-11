@@ -4,4 +4,4 @@ Chart.lock
 .keys
 .DS_Store
 .wip
-*.yaml.dec
+*.dec.yaml
