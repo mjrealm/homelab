@@ -68,6 +68,8 @@ argo-cd:
       # Age key
       - name: SOPS_AGE_KEY_FILE
         value: /helm-secrets-private-keys/key.txt
+      - name: HELM_SECRETS_IGNORE_MISSING_VALUES
+        value: "true"
     volumes:
       - name: custom-tools
         emptyDir: {}
