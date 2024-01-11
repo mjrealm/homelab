@@ -62,13 +62,6 @@ homepage:
           format:
             timeStyle: short
             hour12: true
-      - openmeteo:
-          label: CA
-          units: imperial
-          cache: 10
-          latitude: 37.702152
-          longitude: -121.935791
-          timezone: America/Los_Angeles
 
     kubernetes:
       mode: cluster
