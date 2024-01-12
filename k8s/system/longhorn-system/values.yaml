@@ -11,7 +11,7 @@ longhorn:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Longhorn
-      gethomepage.dev/description: Distributed storage built for Kubernetes
+      gethomepage.dev/description: Block Storage
       gethomepage.dev/group: Admin
       gethomepage.dev/icon: longhorn.png
       gethomepage.dev/pod-selector: ""
