@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  DATABASE_CONNECTION_POOL_MAX: ""
+  DATABASE_CONNECTION_POOL_MIN: ""
+  DATABASE_URL: "postgres://{{.Values.postgres.user}}:{{.Values.postgres.password}}@postgres.outline.svc.cluster.local:5432/outline"
+  DATABASE_URL_TEST: postgres://{{.Values.postgres.user}}:{{.Values.postgres.password}}@postgres.outline.svc.cluster.local:5432/outline-test
+  FILE_STORAGE: local
+  FILE_STORAGE_LOCAL_ROOT_DIR: /var/lib/outline/data
+  FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400"
+  GOOGLE_CLIENT_ID: "{{ .Values.google.id }}"
+  GOOGLE_CLIENT_SECRET: "{{ .Values.google.secret }}"
+  NODE_ENV: production
+  PORT: "3000"
+  REDIS_URL: redis://redis.outline.svc.cluster.local:6379
+  SECRET_KEY: "{{ .Values.secretKey }}"
+  URL: "{{ .Values.url }}"
+  UTILS_SECRET: "{{ .Values.utilsSecret }}"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: outline-docker-env
+  name: outline-docker-env
