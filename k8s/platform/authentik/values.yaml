@@ -1,6 +1,6 @@
 ---
 authentik:
-  replicas: 2
+  replicas: 1
   authentik:
     error_reporting:
       enabled: true
