@@ -1,4 +1,6 @@
 ---
+# Retrieve the Console Access Token
+# kubectl get secret/console-sa-secret -n minio-operator -o json | jq -r ".data.token" | base64 -d
 operator:
   console:
     ingress:
