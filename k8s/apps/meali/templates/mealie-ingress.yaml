@@ -1,7 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations: "{{ .Values.ingress.annotations }}"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/name: Mealie
+    gethomepage.dev/description: Recipe Management
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Personal
+    gethomepage.dev/icon: mealie.png
+    gethomepage.dev/pod-selector: ""
   labels:
     io.kompose.service: mealie
   name: mealie
