@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguardhome
+spec:
+  rules:
+    - host: guard.mdeleon.dev
+      http:
+        paths:
+          - backend:
+              service:
+                name: adguardhome
+                port:
+                  number: 53
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - guard.mdeleon.dev
+      secretName: adguard-tls-cert
+status:
+  loadBalancer: {}
