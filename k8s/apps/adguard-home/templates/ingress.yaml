@@ -20,7 +20,7 @@ spec:
               service:
                 name: adguardhome
                 port:
-                  number: 53
+                  number: 3000
             path: /
             pathType: Prefix
   tls:
