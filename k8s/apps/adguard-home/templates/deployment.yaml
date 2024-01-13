@@ -33,7 +33,7 @@ spec:
               name: http
           volumeMounts:
             - name: adguard-data
-              mountPath: /opt/adguardhome
+              mountPath: /opt/adguardhome/data
       volumes:
         - name: adguard-data
           persistentVolumeClaim:
