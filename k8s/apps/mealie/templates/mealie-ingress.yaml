@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/group: Personal
     gethomepage.dev/icon: mealie.png
     gethomepage.dev/pod-selector: ""
+    nginx.ingress.kubernetes.io/proxy-body-size: 24m
   labels:
     io.kompose.service: mealie
   name: mealie
