@@ -14,4 +14,3 @@ data:
     log_syslog_srv: ""
     pid_file: ""
     verbose: false
-    users: []
