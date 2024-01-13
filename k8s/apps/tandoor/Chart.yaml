@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: tandoor
+version: 1.0.0
+dependencies:
+  - name: tandoor
+    version: 0.8.11
+    repository: https://charts.gabe565.com
