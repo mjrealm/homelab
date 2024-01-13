@@ -21,25 +21,21 @@ homepage:
 
   config:
     settings:
-      background:
-        image: https://images.unsplash.com/photo-1693018365431-15b10929880b?q=80&w=2787&auto=format&fit=crop
-        blur: sm
-        # opacity: 50
-
       statusStyle: "dot"
       quicklaunch:
         searchDescriptions: true
         hideInternetSearch: true
+      layout:
+        - Personal:
+        - Admin:
+        - Media:
+        - Observability:
 
     bookmarks:
       - Developer:
           - Homelab:
               - icon: github.png
                 href: https://github.com/mjrealm/homelab
-    services:
-      - Admin:
-      - Observability:
-      - Media:
 
     kubernetes:
       mode: cluster
