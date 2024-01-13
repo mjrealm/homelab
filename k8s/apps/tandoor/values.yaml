@@ -6,6 +6,9 @@ tandoor:
   env:
     TIMEZONE: "America/Los_Angeles"
 
+  postgresql:
+    enabled: true
+
   persistence:
     media:
       enabled: true
