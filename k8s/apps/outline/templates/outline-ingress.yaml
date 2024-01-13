@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Modern Wiki
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Personal
+    gethomepage.dev/icon: outline.png
+    gethomepage.dev/name: Outline
+    gethomepage.dev/pod-selector: ""
+  labels:
+    io.kompose.service: outline
+  name: outline
+spec:
+  rules:
+    - host: "{{ .Values.outline.host }}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: outline
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - "{{ .Values.outline.host }}"
+      secretName: outline-tls-cert
+status:
+  loadBalancer: {}
