@@ -8,6 +8,7 @@ metadata:
     gethomepage.dev/group: Personal
     gethomepage.dev/icon: outline.png
     gethomepage.dev/name: Outline
+    gethomepage.dev/pod-selector: ""
   labels:
     io.kompose.service: outline
   name: outline

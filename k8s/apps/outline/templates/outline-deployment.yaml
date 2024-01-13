@@ -20,19 +20,31 @@ spec:
       containers:
         - env:
             - name: DATABASE_URL
-              value: "postgres://{{ .Values.postgres.user }}:{{ .Values.postgres.password }}@postgres:5432/outline"
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secret
+                  key: postgres-db-url
             - name: DATABASE_URL_TEST
-              value: "postgres://{{ .Values.postgres.user }}:{{ .Values.postgres.password }}@postgres:5432/outline-test"
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secret
+                  key: postgres-db-url-test
             - name: FILE_STORAGE
               value: local
             - name: FILE_STORAGE_LOCAL_ROOT_DIR
               value: /var/lib/outline/data
             - name: FILE_STORAGE_UPLOAD_MAX_SIZE
               value: "26214400"
-            - name: GOOGLE_CLIENT_ID
-              value: "{{ .Values.google.id }}"
-            - name: GOOGLE_CLIENT_SECRET
-              value: "{{ .Values.google.secret }}"
+            - name: SLACK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secret
+                  key: slack-id
+            - name: SLACK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secret
+                  key: slack-secret
             - name: NODE_ENV
               value: production
             - name: PORT
@@ -40,11 +52,17 @@ spec:
             - name: REDIS_URL
               value: "redis://redis:6379"
             - name: SECRET_KEY
-              value: "{{ .Values.secretKey }}"
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secret
+                  key: secretKey
             - name: URL
               value: "https://{{ .Values.outline.host }}"
             - name: UTILS_SECRET
-              value: "{{ .Values.utilsSecret }}"
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secret
+                  key: utilsSecret
             - name: PGSSLMODE
               value: "disable"
           image: docker.getoutline.com/outlinewiki/outline:latest
