@@ -1,6 +1,6 @@
 ---
 outline:
-  url: https://outline.mdeleon.dev
+  url: outline.mdeleon.dev
   storageSize: 40Gi
 
 postgres:
