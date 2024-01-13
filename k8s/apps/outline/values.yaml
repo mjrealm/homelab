@@ -1,7 +1,7 @@
 ---
 outline:
   host: outline.mdeleon.dev
-  storageSize: 40Gi
+  storageSize: 10Gi
 
 postgres:
-  size: 20Gi
+  size: 4Gi
