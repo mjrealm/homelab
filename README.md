@@ -100,15 +100,21 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/51335366"></td>
             <td><a href="https://longhorn.io">Longhorn</a></td>
-            <td>Distributed block storage system for Kubernetes</td>
+            <td>Block storage system for Kubernetes</td>
             <td></td>
-        </tr>        
+        </tr>
+        <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/695951"></td>
+            <td><a href="https://min.io/">Minio</a></td>
+            <td>Object Storage (like S3)</td>
+            <td></td>
+        </tr>
         <tr>
             <td><img width="32" src="https://raw.githubusercontent.com/grafana/mimir/main/images/logo.png"></td>
             <td><a href="https://grafana.com/oss/mimir/">Grafana Mimir</a></td>
             <td>Open source TSDB</td>
             <td></td>
-        </tr>
+        </tr>            
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
             <td><a href="https://cilium.io">Cilium</a></td>
@@ -124,7 +130,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
     </tbody>
 </table>
 
-### Apps
+### &#9889; Apps
 
 <table>
     <thead>
@@ -147,10 +153,16 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td></td>
         </tr>
         <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/1765001"></td>
+            <td><a href="https://www.getoutline.com/">Outline</a></td>
+            <td>Modern Wiki</td>
+            <td></td>
+        </tr>
+        <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/8361145"></td>
             <td><a href="https://adguard.com/adguard-home.html">Adguard Home</a></td>
             <td>Network-wide software for blocking ads, tracking and DNS server</td>
-            <td> &#9889; WIP</td>
+            <td></td>
         </tr>
         <tr>
             <td><img width="32" src="https://github.com/louislam/uptime-kuma/raw/master/public/icon.svg"></td>
