@@ -16,6 +16,12 @@ spec:
       containers:
         - name: adguard-home
           image: adguard/adguardhome:latest
+          env:
+            - name: AGH_CONFIG
+              valueFrom:
+                configMapKeyRef:
+                  name: adguard-config
+                  key: AdGuardHome.yaml
           ports:
             - containerPort: 53
               name: dns-udp
