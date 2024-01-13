@@ -10,6 +10,7 @@ tandoor:
     media:
       enabled: true
       size: 10Gi
+      accessMode: ReadWriteOnce
 
   ingress:
     main:
