@@ -31,10 +31,24 @@ spec:
               protocol: TCP
             - containerPort: 3000
               name: http
+            - containerPort: 80
+              name: http-plain
+              protocol: TCP
+            - containerPort: 443
+              name: http-secure-tcp
+              protocol: TCP
+            - containerPort: 443
+              name: http-secure-udp
+              protocol: UDP
           volumeMounts:
-            - name: adguard-data
-              mountPath: /opt/adguardhome/data
+            - name: adguard-data-work
+              mountPath: /opt/adguardhome/work
+            - name: adguard-data-conf
+              mountPath: /opt/adguardhome/conf
       volumes:
-        - name: adguard-data
+        - name: adguard-data-work
           persistentVolumeClaim:
-            claimName: adguard-pvc
+            claimName: adguard-pvc-work
+        - name: adguard-data-conf
+          persistentVolumeClaim:
+            claimName: adguard-pvc-conf

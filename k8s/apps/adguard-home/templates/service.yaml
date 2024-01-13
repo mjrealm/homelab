@@ -19,4 +19,16 @@ spec:
       port: 53
       targetPort: 53
       name: dns-udp
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http-plain
+    - protocol: TCP
+      port: 443
+      targetPort: 443
+      name: http-secure-tcp
+    - protocol: UDP
+      port: 443
+      targetPort: 443
+      name: http-secure-udp
   type: LoadBalancer
