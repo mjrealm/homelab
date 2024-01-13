@@ -37,6 +37,12 @@ homepage:
               - icon: github.png
                 href: https://github.com/mjrealm/homelab
 
+    services:
+      - Personal:
+      - Admin:
+      - Media:
+      - Observability:
+
     kubernetes:
       mode: cluster
 
