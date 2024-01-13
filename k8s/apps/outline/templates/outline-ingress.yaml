@@ -13,7 +13,7 @@ metadata:
   name: outline
 spec:
   rules:
-    - host: "{{ .Values.outline.url }}"
+    - host: "{{ .Values.outline.host }}"
       http:
         paths:
           - backend:
@@ -25,7 +25,7 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - "{{ .Values.outline.url }}"
+        - "{{ .Values.outline.host }}"
       secretName: outline-tls-cert
 status:
   loadBalancer: {}
