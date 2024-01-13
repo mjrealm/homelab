@@ -6,7 +6,7 @@ metadata:
   name: storage-data
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: "{{ .Values.outline.storageSize }}"

@@ -73,7 +73,7 @@ spec:
               protocol: TCP
           resources: {}
           volumeMounts:
-            - mountPath: /var/lib/outline/data
+            - mountPath: /var/lib/outline/data/work
               name: storage-data
       restartPolicy: Always
       volumes:
