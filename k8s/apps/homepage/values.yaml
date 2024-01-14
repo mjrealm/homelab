@@ -4,52 +4,6 @@ homepage:
     repository: ghcr.io/gethomepage/homepage
     tag: v0.8.4
 
-  ingress:
-    main:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-      hosts:
-        - host: &host one.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - secretName: homepage-tls-cert
-          hosts:
-            - *host
-
-  config:
-    settings:
-      statusStyle: "dot"
-      quicklaunch:
-        searchDescriptions: true
-        hideInternetSearch: true
-      layout:
-        - Network:
-            style: row
-            columns: 2
-        - Personal:
-        - Admin:
-        - Media:
-        - Observability:
-
-    bookmarks:
-      - Developer:
-          - Homelab:
-              - icon: github.png
-                href: https://github.com/mjrealm/homelab
-
-    services:
-      - Network:
-      - Personal:
-      - Admin:
-      - Media:
-      - Observability:
-
-    kubernetes:
-      mode: cluster
-
   # The service account is necessary to allow discovery of other services
   serviceAccount:
     create: true
