@@ -159,6 +159,13 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td></td>
         </tr>
         <tr>
+            <td><img width="32" src="https://avatars.githubusercontent.com/u/92342333"></td>
+            <td><a href="https://nightly.mealie.io/">Mealie</a></td>
+            <td>Recipe Manager</td>
+            <td></td>
+        </tr>
+        
+        <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/8361145"></td>
             <td><a href="https://adguard.com/adguard-home.html">Adguard Home</a></td>
             <td>Network-wide software for blocking ads, tracking and DNS server</td>
