@@ -26,6 +26,9 @@ homepage:
         searchDescriptions: true
         hideInternetSearch: true
       layout:
+        - Network:
+            style: row
+            columns: 2
         - Personal:
         - Admin:
         - Media:
@@ -38,6 +41,7 @@ homepage:
                 href: https://github.com/mjrealm/homelab
 
     services:
+      - Network:
       - Personal:
       - Admin:
       - Media:
