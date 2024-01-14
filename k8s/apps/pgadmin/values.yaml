@@ -15,6 +15,7 @@ pgadmin4:
       gethomepage.dev/description: PostgreSQL Administration
       gethomepage.dev/group: Admin
       gethomepage.dev/icon: pgadmin.png
+      gethomepage.dev/pod-selector: ""
     hosts:
       - host: &host pgadmin.mdeleon.dev
         paths:
