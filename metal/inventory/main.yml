@@ -13,3 +13,4 @@ metal:
     agent:
       hosts:
         metal1: { ansible_host: 192.168.10.11 }
+        metal2: { ansible_host: 192.168.10.12 }
