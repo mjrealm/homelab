@@ -3,14 +3,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: adguardhome
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    gethomepage.dev/description: Ad blocker and DNS server
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Network
-    gethomepage.dev/icon: adguard-home.png
-    gethomepage.dev/name: Adguard Home
-    gethomepage.dev/pod-selector: ""
+  {{- with .Values.ingress.annotations }}
+  annotations: {{- toYaml . | nindent 4 -}}
+  {{- end }}  
 spec:
   rules:
     - host: guard.mdeleon.dev
