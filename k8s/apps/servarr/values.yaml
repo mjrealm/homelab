@@ -152,7 +152,5 @@ app-template:
         main:
           main:
             - path: /tv
-              subPath: tv
           radarr:
             - path: /movies
-              subPath: movies
