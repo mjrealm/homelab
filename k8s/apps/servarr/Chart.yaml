@@ -1,6 +1,7 @@
 ---
 apiVersion: v2
-name: sonarr
+name: servarr
+description: servarr apps like sonarr, radarr etc.
 version: 0.0.1
 dependencies:
   - name: app-template

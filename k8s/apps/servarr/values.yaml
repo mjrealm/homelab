@@ -1,13 +1,10 @@
 ---
 app-template:
-  global:
-    fullnameOverride: "sonarr"
-
   controllers:
     main:
       strategy: Recreate
       containers:
-        main:
+        sonarr:
           image:
             repository: lscr.io/linuxserver/sonarr
             tag: latest
@@ -17,13 +14,13 @@ app-template:
             PGID: "1000"
 
   service:
-    main:
+    sonarr:
       ports:
         http:
           port: 8989
 
   ingress:
-    main:
+    sonarr:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -39,7 +36,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: main
+                name: sonarr
                 port: http
       tls:
         - secretName: sonarr-tls-cert
@@ -53,16 +50,21 @@ app-template:
       accessMode: ReadWriteOnce
       size: 1Gi
       retain: true
+      advancedMounts:
+        main:
+          sonarr:
+            - path: /config
+              subPath: sonarr
+
+    media-downloads:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Gi
       globalMounts:
-        - path: /config
+        - path: /downloads
 
     # media:
     #   existingClaim: nas-media
     #   globalMounts:
     #     - path: /tv
-
-    # media-downloads:
-    #   enabled: true
-    #   existingClaim: media-downloads
-    #   globalMounts:
-    #     - path: /downloads
