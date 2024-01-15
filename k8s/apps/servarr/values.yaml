@@ -4,7 +4,8 @@ app-template:
     main:
       strategy: Recreate
       containers:
-        sonarr:
+        main:
+          nameOverride: sonarr
           image:
             repository: lscr.io/linuxserver/sonarr
             tag: latest
@@ -12,12 +13,26 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+        radarr:
+          image:
+            repository: lscr.io/linuxserver/radarr
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
 
   service:
-    sonarr:
+    main:
+      nameOverride: sonarr
       ports:
         http:
           port: 8989
+    radarr:
+      controller: main
+      ports:
+        http:
+          port: 7878
 
   ingress:
     sonarr:
@@ -31,7 +46,7 @@ app-template:
         gethomepage.dev/icon: sonarr.png
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &host sonarr.mdeleon.dev
+        - host: &sonarr sonarr.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
@@ -41,20 +56,46 @@ app-template:
       tls:
         - secretName: sonarr-tls-cert
           hosts:
-            - *host
+            - *sonarr
+
+    radarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Radarr
+        gethomepage.dev/description: Movie Library Manager
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: radarr.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &radarr radarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: radarr
+                port: http
+      tls:
+        - secretName: radarr-tls-cert
+          hosts:
+            - *radarr
 
   persistence:
     config:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 1Gi
+      size: 4Gi
       retain: true
       advancedMounts:
         main:
-          sonarr:
+          main:
             - path: /config
               subPath: sonarr
+          radarr:
+            - path: /config
+              subPath: radarr
 
     media-downloads:
       enabled: true
