@@ -61,8 +61,8 @@ app-template:
     #   globalMounts:
     #     - path: /tv
 
-    media-downloads:
-      enabled: true
-      existingClaim: media-downloads
-      globalMounts:
-        - path: /downloads
+    # media-downloads:
+    #   enabled: true
+    #   existingClaim: media-downloads
+    #   globalMounts:
+    #     - path: /downloads
