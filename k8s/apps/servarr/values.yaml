@@ -27,7 +27,7 @@ app-template:
         main:
           command:
             # https://sabnzbd.org/wiki/extra/hostname-check.html
-            # - 'sed -i -e "s/^host_whitelist *=.*$/host_whitelist = ${HOSTNAME}, ${HOST_WHITELIST_ENTRIES}/g" /config/sabnzbd/sabnzbd.ini'
+            # - 'sed -i -e "s/^host_whitelist *=.*$/host_whitelist = ${HOSTNAME}, ${HOST_WHITELIST_ENTRIES}/g" /config/sabnzbd.ini'
           image:
             repository: lscr.io/linuxserver/sabnzbd
             tag: latest
@@ -35,7 +35,7 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-            HOST_WHITELIST_ENTRIES: sabnzbd.mdeleon.dev
+            HOST_WHITELIST_ENTRIES: dl.mdeleon.dev
 
   service:
     main:
@@ -106,7 +106,7 @@ app-template:
         gethomepage.dev/icon: sabnzbd.png
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &sabnzbd sabnzbd.mdeleon.dev
+        - host: &sabnzbd dl.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
