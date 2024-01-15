@@ -25,6 +25,9 @@ app-template:
       strategy: Recreate
       containers:
         main:
+          command:
+            # https://sabnzbd.org/wiki/extra/hostname-check.html
+            - 'sed -i -e "s/^host_whitelist *=.*$/host_whitelist = ${HOSTNAME}, ${HOST_WHITELIST_ENTRIES}/g" /config/sabnzbd.ini'
           image:
             repository: lscr.io/linuxserver/sabnzbd
             tag: latest
@@ -139,9 +142,18 @@ app-template:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 100Gi
+      storageClass: nfs-csi-media
+      size: 1Ti
       globalMounts:
         - path: /downloads
+
+    media-incomplete-downloads:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Gi
+      globalMounts:
+        - path: /incomplete-downloads
 
     media-nfs:
       enabled: true
