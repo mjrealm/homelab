@@ -138,7 +138,7 @@ app-template:
             - path: /config
               subPath: sabnzbd
 
-    media-downloads:
+    media-complete-downloads:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
