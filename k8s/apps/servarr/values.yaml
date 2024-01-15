@@ -51,7 +51,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: sonarr
+                name: main
                 port: http
       tls:
         - secretName: sonarr-tls-cert
