@@ -57,6 +57,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: sonarr.png
         gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &sonarr sonarr.mdeleon.dev
           paths:
@@ -79,6 +80,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: radarr.png
         gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &radarr radarr.mdeleon.dev
           paths:
