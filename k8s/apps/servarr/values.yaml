@@ -36,6 +36,17 @@ app-template:
             PUID: "1000"
             PGID: "1000"
             HOST_WHITELIST_ENTRIES: dl.mdeleon.dev
+    nzbget:
+      strategy: Recreate
+      containers:
+        main:
+          image:
+            repository: lscr.io/linuxserver/nzbget
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
 
   service:
     main:
@@ -49,6 +60,11 @@ app-template:
       ports:
         http:
           port: 8080
+    nzbget:
+      controller: nzbget
+      ports:
+        http:
+          port: 6789
 
   ingress:
     sonarr:
@@ -117,6 +133,28 @@ app-template:
         - secretName: sabnzbd-tls-cert
           hosts:
             - *sabnzbd
+    nzbget:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: NZBGet
+        gethomepage.dev/description: Media Downloader
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: nzbget.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &nzbget nzbget.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: nzbget
+                port: http
+      tls:
+        - secretName: nzbget-tls-cert
+          hosts:
+            - *nzbget
 
   persistence:
     config:
@@ -137,6 +175,10 @@ app-template:
           main:
             - path: /config
               subPath: sabnzbd
+        nzbget:
+          main:
+            - path: /config
+              subPath: nzbget
 
     media-complete-downloads:
       enabled: true
