@@ -1,7 +1,7 @@
 ---
 app-template:
   global:
-    fullnameOverride: "overseerr"
+    fullnameOverride: "sonarr"
 
   controllers:
     main:
@@ -9,30 +9,32 @@ app-template:
       containers:
         main:
           image:
-            repository: sctx/overseerr
+            repository: lscr.io/linuxserver/sonarr
             tag: latest
           env:
             TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
 
   service:
     main:
       ports:
         http:
-          port: 5055
+          port: 8989
 
   ingress:
     main:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/description: Manage requests for media library
         gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Sonarr
+        gethomepage.dev/description: TV Show Library Manager
         gethomepage.dev/group: Media
-        gethomepage.dev/icon: overseerr.png
-        gethomepage.dev/name: Overseerr
+        gethomepage.dev/icon: sonarr.png
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &host overseerr.mdeleon.dev
+        - host: &host sonarr.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
@@ -40,7 +42,7 @@ app-template:
                 name: main
                 port: http
       tls:
-        - secretName: overseerr-tls-cert
+        - secretName: sonarr-tls-cert
           hosts:
             - *host
 
@@ -52,4 +54,15 @@ app-template:
       size: 1Gi
       retain: true
       globalMounts:
-        - path: /app/config
+        - path: /config
+
+    # media:
+    #   existingClaim: nas-media
+    #   globalMounts:
+    #     - path: /tv
+
+    media-downloads:
+      enabled: true
+      existingClaim: media-downloads
+      globalMounts:
+        - path: /downloads
