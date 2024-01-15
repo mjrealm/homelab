@@ -21,17 +21,17 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-    # nzbget:
-    #   strategy: Recreate
-    #   containers:
-    #     main:
-    #       image:
-    #         repository: lscr.io/linuxserver/nzbget
-    #         tag: latest
-    #       env:
-    #         TZ: "America/Los_Angeles"
-    #         PUID: "1000"
-    #         PGID: "1000"
+    nzbget:
+      strategy: Recreate
+      containers:
+        main:
+          image:
+            repository: lscr.io/linuxserver/nzbget
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
 
   service:
     main:
@@ -40,11 +40,11 @@ app-template:
           port: 8989
         http-radarr:
           port: 7878
-    # nzbget:
-    #   controller: nzbget
-    #   ports:
-    #     http:
-    #       port: 6789
+    nzbget:
+      controller: nzbget
+      ports:
+        http:
+          port: 6789
 
   ingress:
     sonarr:
@@ -91,28 +91,28 @@ app-template:
         - secretName: radarr-tls-cert
           hosts:
             - *radarr
-    # nzbget:
-    #   enabled: true
-    #   annotations:
-    #     cert-manager.io/cluster-issuer: letsencrypt-prod
-    #     gethomepage.dev/enabled: "true"
-    #     gethomepage.dev/name: NZBGet
-    #     gethomepage.dev/description: Media Downloader
-    #     gethomepage.dev/group: Media
-    #     gethomepage.dev/icon: nzbget.png
-    #     gethomepage.dev/pod-selector: ""
-    #   hosts:
-    #     - host: &nzbget nzbget.mdeleon.dev
-    #       paths:
-    #         - path: /
-    #           pathType: Prefix
-    #           service:
-    #             name: nzbget
-    #             port: http
-    #   tls:
-    #     - secretName: nzbget-tls-cert
-    #       hosts:
-    #         - *nzbget
+    nzbget:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: NZBGet
+        gethomepage.dev/description: Media Downloader
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: nzbget.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &nzbget nzbget.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: nzbget
+                port: http
+      tls:
+        - secretName: nzbget-tls-cert
+          hosts:
+            - *nzbget
 
   persistence:
     config:
@@ -129,10 +129,10 @@ app-template:
           radarr:
             - path: /config
               subPath: radarr
-        # nzbget:
-        #   main:
-        #     - path: /config
-        #       subPath: nzbget
+        nzbget:
+          main:
+            - path: /config
+              subPath: nzbget
 
     media-downloads:
       enabled: true
