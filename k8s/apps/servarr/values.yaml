@@ -142,15 +142,21 @@ app-template:
       globalMounts:
         - path: /downloads
 
-    media-nfs:
+    # media-nfs:
+    #   enabled: true
+    #   type: persistentVolumeClaim
+    #   accessMode: ReadWriteOnce
+    #   storageClass: nfs-csi-media
+    #   size: 60Ti
+    #   advancedMounts:
+    #     main:
+    #       main:
+    #         - path: /tv
+    #       radarr:
+    #         - path: /movies
+
+    tv:
       enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      storageClass: nfs-csi-media
-      size: 60Ti
-      advancedMounts:
-        main:
-          main:
-            - path: /tv
-          radarr:
-            - path: /movies
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/media/tv
