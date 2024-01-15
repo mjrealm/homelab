@@ -21,21 +21,6 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-    sabnzbd:
-      strategy: Recreate
-      containers:
-        main:
-          # https://sabnzbd.org/wiki/extra/hostname-check.html
-          # command:
-          #   - 'sed -i -e "s/^host_whitelist *=.*$/host_whitelist = ${HOSTNAME}, ${HOST_WHITELIST_ENTRIES}/g" /config/sabnzbd.ini'
-          image:
-            repository: lscr.io/linuxserver/sabnzbd
-            tag: latest
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
-            HOST_WHITELIST_ENTRIES: dl.mdeleon.dev
     nzbget:
       strategy: Recreate
       containers:
@@ -55,11 +40,6 @@ app-template:
           port: 8989
         http-radarr:
           port: 7878
-    sabnzbd:
-      controller: sabnzbd
-      ports:
-        http:
-          port: 8080
     nzbget:
       controller: nzbget
       ports:
@@ -111,28 +91,6 @@ app-template:
         - secretName: radarr-tls-cert
           hosts:
             - *radarr
-    sabnzbd:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: SABnzbd
-        gethomepage.dev/description: Media Downloader
-        gethomepage.dev/group: Media
-        gethomepage.dev/icon: sabnzbd.png
-        gethomepage.dev/pod-selector: ""
-      hosts:
-        - host: &sabnzbd dl.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                name: sabnzbd
-                port: http
-      tls:
-        - secretName: sabnzbd-tls-cert
-          hosts:
-            - *sabnzbd
     nzbget:
       enabled: true
       annotations:
@@ -171,31 +129,18 @@ app-template:
           radarr:
             - path: /config
               subPath: radarr
-        sabnzbd:
-          main:
-            - path: /config
-              subPath: sabnzbd
         nzbget:
           main:
             - path: /config
               subPath: nzbget
 
-    media-complete-downloads:
+    media-downloads:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      storageClass: nfs-csi-media
-      size: 1Ti
+      size: 120Gi
       globalMounts:
         - path: /downloads
-
-    media-incomplete-downloads:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 200Gi
-      globalMounts:
-        - path: /incomplete-downloads
 
     media-nfs:
       enabled: true
