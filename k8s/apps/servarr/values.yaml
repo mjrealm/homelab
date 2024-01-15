@@ -21,18 +21,30 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+    sabnzbd:
+      strategy: Recreate
+      containers:
+        main:
+          image:
+            repository: lscr.io/linuxserver/sabnzbd
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
 
   service:
     main:
-      nameOverride: sonarr
       ports:
         http:
           port: 8989
-    radarr:
-      controller: main
+        http-radarr:
+          port: 7878
+    sabnzbd:
+      controller: sabnzbd
       ports:
         http:
-          port: 7878
+          port: 8080
 
   ingress:
     sonarr:
@@ -57,7 +69,6 @@ app-template:
         - secretName: sonarr-tls-cert
           hosts:
             - *sonarr
-
     radarr:
       enabled: true
       annotations:
@@ -74,12 +85,34 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: radarr
-                port: http
+                name: main
+                port: http-radarr
       tls:
         - secretName: radarr-tls-cert
           hosts:
             - *radarr
+    sabnzbd:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: SABnzbd
+        gethomepage.dev/description: Media Downloader
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: sabnzbd.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &sabnzbd sabnzbd.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: sabnzbd
+                port: http
+      tls:
+        - secretName: sabnzbd-tls-cert
+          hosts:
+            - *sabnzbd
 
   persistence:
     config:
@@ -96,6 +129,10 @@ app-template:
           radarr:
             - path: /config
               subPath: radarr
+        sabnzbd:
+          main:
+            - path: /config
+              subPath: sabnzbd
 
     media-downloads:
       enabled: true
@@ -105,7 +142,17 @@ app-template:
       globalMounts:
         - path: /downloads
 
-    # media:
-    #   existingClaim: nas-media
-    #   globalMounts:
-    #     - path: /tv
+    media-nfs:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      storageClass: nfs-csi-media
+      size: 60Ti
+      advancedMounts:
+        main:
+          main:
+            - path: /tv
+              subPath: tv
+          radarr:
+            - path: /movies
+              subPath: movies
