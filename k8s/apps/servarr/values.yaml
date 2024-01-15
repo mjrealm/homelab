@@ -25,9 +25,9 @@ app-template:
       strategy: Recreate
       containers:
         main:
-          command:
-            # https://sabnzbd.org/wiki/extra/hostname-check.html
-            - 'sed -i -e "s/^host_whitelist *=.*$/host_whitelist = ${HOSTNAME}, ${HOST_WHITELIST_ENTRIES}/g" /config/sabnzbd.ini'
+          # https://sabnzbd.org/wiki/extra/hostname-check.html
+          # command:
+          #   - 'sed -i -e "s/^host_whitelist *=.*$/host_whitelist = ${HOSTNAME}, ${HOST_WHITELIST_ENTRIES}/g" /config/sabnzbd.ini'
           image:
             repository: lscr.io/linuxserver/sabnzbd
             tag: latest
