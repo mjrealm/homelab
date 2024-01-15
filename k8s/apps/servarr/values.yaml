@@ -32,7 +32,7 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-            HOST_WHITELIST_ENTRIES: &sabnzbd
+            HOST_WHITELIST_ENTRIES: sabnzbd.mdeleon.dev
 
   service:
     main:
