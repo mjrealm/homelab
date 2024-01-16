@@ -30,6 +30,38 @@ app-template:
             PUID: "1000"
             PGID: "1000"
             UMASK: "002"
+        lidarr:
+          image:
+            repository: lscr.io/linuxserver/lidarr
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+        readarr:
+          image:
+            repository: lscr.io/linuxserver/readarr
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+        prowlarr:
+          image:
+            repository: lscr.io/linuxserver/prowlarr
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+        bazarr:
+          image:
+            repository: lscr.io/linuxserver/bazarr
+            tag: latest
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
     nzbget:
       strategy: Recreate
       containers:
@@ -51,6 +83,14 @@ app-template:
           port: 7878
         http-whisparr:
           port: 6969
+        http-lidarr:
+          port: 8686
+        http-readarr:
+          port: 8787
+        http-prowlarr:
+          port: 9696
+        http-bazarr:
+          port: 6767
     nzbget:
       controller: nzbget
       ports:
@@ -126,6 +166,98 @@ app-template:
         - secretName: whisparr-tls-cert
           hosts:
             - *whisparr
+    lidarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Lidarr
+        gethomepage.dev/description: Music Library Manager
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: lidarr.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &lidarr lidarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-lidarr
+      tls:
+        - secretName: lidarr-tls-cert
+          hosts:
+            - *lidarr
+    readarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Readarr
+        gethomepage.dev/description: Book Library Manager
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: readarr.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &readarr readarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-readarr
+      tls:
+        - secretName: readarr-tls-cert
+          hosts:
+            - *readarr
+    prowlarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Prowlarr
+        gethomepage.dev/description: Indexer Manager
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: prowlarr.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &prowlarr prowlarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-prowlarr
+      tls:
+        - secretName: prowlarr-tls-cert
+          hosts:
+            - *prowlarr
+    bazarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Bazaar
+        gethomepage.dev/description: Subtitle Manager
+        gethomepage.dev/group: Media
+        gethomepage.dev/icon: bazarr.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &bazarr bazarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-bazarr
+      tls:
+        - secretName: bazarr-tls-cert
+          hosts:
+            - *bazarr
     nzbget:
       enabled: true
       annotations:
@@ -167,6 +299,18 @@ app-template:
           whisparr:
             - path: /config
               subPath: whisparr
+          lidarr:
+            - path: /config
+              subPath: lidarr
+          readarr:
+            - path: /config
+              subPath: readarr
+          prowlarr:
+            - path: /config
+              subPath: prowlarr
+          bazarr:
+            - path: /config
+              subPath: bazarr
         nzbget:
           main:
             - path: /config
