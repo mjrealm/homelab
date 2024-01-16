@@ -27,7 +27,7 @@ plex-media-server:
 
   ingress:
     enabled: true
-    url: plex.mdeleon.dev
+    url: stream.mdeleon.dev
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/name: Plex
@@ -36,7 +36,7 @@ plex-media-server:
       gethomepage.dev/group: Media
       gethomepage.dev/icon: plex.png
       gethomepage.dev/pod-selector: ""
-      gethomepage.dev/weight: "100"
+      gethomepage.dev/weight: "1"
 
   # 1. Upload config file
   # kubectl cp pms.tgz plex/pms-0:/pms.tgz.up -c pms-pms-init
