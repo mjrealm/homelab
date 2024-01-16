@@ -41,7 +41,7 @@ app-template:
         readarr:
           image:
             repository: lscr.io/linuxserver/readarr
-            tag: latest
+            tag: nightly
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
