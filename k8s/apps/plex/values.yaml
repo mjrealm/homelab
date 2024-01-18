@@ -53,9 +53,9 @@ plex-media-server:
       fi
 
       # wait for the database archive to be manually copied to the server
-      while [ ! -f /pms.tgz ]; do sleep 2; done;
+      while [ ! -f /pms.tar ]; do sleep 2; done;
 
-      tar -xvzf /pms.tgz -C /config
+      tar -xvf /pms.tar -C /config
       rm pms.tgz
 
       echo "Done."
