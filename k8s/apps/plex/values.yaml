@@ -27,6 +27,7 @@ plex-media-server:
 
   ingress:
     enabled: true
+    ingressClassName: nginx
     url: https://plex.mdeleon.dev
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
