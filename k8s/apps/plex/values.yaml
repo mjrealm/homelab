@@ -45,7 +45,7 @@ plex-media-server:
   initContainer:
     script: |-
       #!/bin/sh
-      echo "waiting for pre-existing pms database to uploaded..."
+      echo "waiting for pre-existing pms database to be uploaded..."
 
       if [ -d "/config/Library" ]; then
         echo "PMS library already exists, exiting."
@@ -55,7 +55,7 @@ plex-media-server:
       # wait for the database archive to be manually copied to the server
       while [ ! -f /pms.tgz ]; do sleep 2; done;
 
-      tar -zxvf /pms.tgz -C /config
+      tar -xvzf /pms.tgz -C /config
       rm pms.tgz
 
       echo "Done."
