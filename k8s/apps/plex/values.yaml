@@ -25,6 +25,9 @@ plex-media-server:
   pms:
     configStorage: 30Gi
 
+  service:
+    type: LoadBalancer
+
   ingress:
     enabled: true
     ingressClassName: nginx
