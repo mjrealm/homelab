@@ -57,6 +57,6 @@ plex-media-server:
       while [ ! -f /pms.tar ]; do sleep 2; done;
 
       tar -xvf /pms.tar -C /config
-      rm pms.tgz
+      rm pms.tar
 
       echo "Done."
