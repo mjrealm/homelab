@@ -31,6 +31,7 @@ app-template:
         gethomepage.dev/icon: overseerr.png
         gethomepage.dev/name: Overseerr
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "2"
       hosts:
         - host: &host overseerr.mdeleon.dev
           paths:

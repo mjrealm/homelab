@@ -275,7 +275,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: nzbget.png
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "2"
+        gethomepage.dev/weight: "10"
       hosts:
         - host: &nzbget nzbget.mdeleon.dev
           paths:
