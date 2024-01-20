@@ -29,6 +29,8 @@ plex-media-server:
   service:
     type: LoadBalancer
 
+  # Should add load balancer ip and port
+  # in Settings > Network > Custom server access URLs
   ingress:
     enabled: true
     ingressClassName: nginx
