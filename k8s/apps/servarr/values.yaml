@@ -105,7 +105,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Sonarr
         gethomepage.dev/description: TV Show Library Manager
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: sonarr.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "3"
@@ -129,7 +129,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Radarr
         gethomepage.dev/description: Movie Library Manager
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: radarr.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "4"
@@ -153,7 +153,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Whisparr
         gethomepage.dev/description: Random Media Manager
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: whisparr.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "9"
@@ -176,7 +176,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Lidarr
         gethomepage.dev/description: Music Library Manager
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: lidarr.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "5"
@@ -200,7 +200,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Readarr
         gethomepage.dev/description: Book Library Manager
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: readarr.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "6"
@@ -224,7 +224,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Prowlarr
         gethomepage.dev/description: Indexer Manager
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: prowlarr.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "8"
@@ -248,7 +248,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Bazaar
         gethomepage.dev/description: Subtitle Manager
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: bazarr.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "7"
@@ -272,7 +272,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: NZBGet
         gethomepage.dev/description: Media Downloader
-        gethomepage.dev/group: Media
+        gethomepage.dev/group: Utilities
         gethomepage.dev/icon: nzbget.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "10"
