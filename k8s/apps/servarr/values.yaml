@@ -108,8 +108,8 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: sonarr.png
         gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/weight: "3"
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &sonarr sonarr.mdeleon.dev
           paths:
@@ -132,8 +132,8 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: radarr.png
         gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/weight: "4"
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &radarr radarr.mdeleon.dev
           paths:
@@ -156,6 +156,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: whisparr.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "9"
       hosts:
         - host: &whisparr whisparr.mdeleon.dev
           paths:
@@ -178,6 +179,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: lidarr.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "5"
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &lidarr lidarr.mdeleon.dev
@@ -201,6 +203,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: readarr.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "6"
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &readarr readarr.mdeleon.dev
@@ -224,6 +227,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: prowlarr.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "8"
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &prowlarr prowlarr.mdeleon.dev
@@ -247,6 +251,7 @@ app-template:
         gethomepage.dev/group: Media
         gethomepage.dev/icon: bazarr.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "7"
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &bazarr bazarr.mdeleon.dev
