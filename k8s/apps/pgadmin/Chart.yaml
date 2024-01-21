@@ -4,5 +4,5 @@ name: pgadmin4
 version: 1.0.0
 dependencies:
   - name: pgadmin4
-    version: 1.20.0
+    version: 1.23.1
     repository: https://helm.runix.net
