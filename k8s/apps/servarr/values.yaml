@@ -49,7 +49,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: 1.11.4.4173
+            tag: 1.11.4.4173-ls47
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
