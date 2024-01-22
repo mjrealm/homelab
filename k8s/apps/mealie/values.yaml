@@ -43,6 +43,7 @@ app-template:
         http:
           port: 9000
     postgres:
+      controller: postgres
       ports:
         http:
           port: 5432
