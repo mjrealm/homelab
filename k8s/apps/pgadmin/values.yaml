@@ -1,0 +1,53 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: pgadmin
+          image:
+            repository: dpage/pgadmin4
+            tag: 8.2
+          # env:
+          #   PGADMIN_DEFAULT_EMAIL: ""
+          #   PGADMIN_DEFAULT_PASSWORD: ""
+          #   PGADMIN_DISABLE_POSTFIX: "true"
+  service:
+    main:
+      ports:
+        http:
+          port: 80
+
+  ingress:
+    pgadmin:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: pgAdmin
+        gethomepage.dev/description: PostgreSQL Administration
+        gethomepage.dev/group: DevX
+        gethomepage.dev/icon: pgadmin.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &pgadmin pgadmin.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: pgadmin-tls-cert
+          hosts:
+            - *pgadmin
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      globalMounts:
+        - path: /var/lib/pgadmin
