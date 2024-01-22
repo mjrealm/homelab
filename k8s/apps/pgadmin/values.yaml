@@ -27,7 +27,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: pgAdmin
         gethomepage.dev/description: PostgreSQL Administration
-        gethomepage.dev/group: DevX
+        gethomepage.dev/group: Database
         gethomepage.dev/icon: pgadmin.png
         gethomepage.dev/pod-selector: ""
       hosts:
