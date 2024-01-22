@@ -1,4 +1,8 @@
 ---
 apiVersion: v2
-name: meali
-version: 0.0.1
+name: mealie
+version: 1.0.0
+dependencies:
+  - name: app-template
+    repository: https://bjw-s.github.io/helm-charts
+    version: 2.5.0

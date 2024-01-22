@@ -1,7 +1,89 @@
 ---
-host: mealie.mdeleon.dev
-allow_signup: "true"
-storageSize: 5Gi
-timezone: America/Los_Angeles
-postgres:
-  size: 1Gi
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: mealie
+          image:
+            repository: ghcr.io/mealie-recipes/mealie
+            tag: v1.0.0-RC1.1
+          env:
+            ALLOW_SIGNUP: "true"
+            BASE_URL: "https://mealie.mdeleon.dev"
+            DB_ENGINE: "true"
+            MAX_WORKERS: "1"
+            PUID: "1000"
+            PGID: "1000"
+            POSTGRES_DB: "mealie"
+            # POSTGRES_USER: ""
+            # POSTGRES_PASSWORD: ""
+            POSTGRES_PORT: "5432"
+            POSTGRES_SERVER: "postgres"
+            TZ: "America/Los_Angeles"
+            WEB_CONCURRENCY: "1"
+    postgres:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: 16.1
+          env:
+            # POSTGRES_PASSWORD: ""
+            # POSTGRES_USER: ""
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_DB: "mealie"
+
+  service:
+    main:
+      ports:
+        http:
+          port: 9000
+    postgres:
+      ports:
+        http:
+          port: 5432
+
+  ingress:
+    mealie:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Mealie
+        gethomepage.dev/description: Recipe Management
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Personal
+        gethomepage.dev/icon: mealie.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &mealie mealie.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: mealie-tls-cert
+          hosts:
+            - *mealie
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      globalMounts:
+        - path: /app/data
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /var/lib/postgresql/data
