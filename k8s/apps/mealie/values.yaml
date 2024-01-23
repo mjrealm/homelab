@@ -79,12 +79,17 @@ app-template:
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 5Gi
-      globalMounts:
-        - path: /app/data
+      advancedMounts:
+        main:
+          main:
+            - path: /app/data
+            
     pg-data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 1Gi
-      globalMounts:
-        - path: /var/lib/postgresql/data
+      advancedMounts:
+        postgres:
+          main:
+            - path: /var/lib/postgresql/data
