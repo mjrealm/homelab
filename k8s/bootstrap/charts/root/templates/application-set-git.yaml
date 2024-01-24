@@ -66,8 +66,8 @@ spec:
         namespace: mimir
       # - group: monitoring.grafana.com
       #   kind: MetricsInstance
-      #   jsonPointers:
-      #   - /spec/remoteWrite/basicAuth
+      #   jqPathExpressions:
+      #   - .spec.remoteWrite[].basicAuth
       # - group: monitoring.grafana.com
       #   kind: LogsInstance
       #   jqPathExpressions:
