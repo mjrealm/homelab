@@ -4,7 +4,7 @@ mimir-distributed:
     serviceMonitor:
       enabled: true
     grafanaAgent:
-      enabled: true
+      enabled: false
       installOperator: false
       metrics:
         additionalRemoteWriteConfigs:
