@@ -7,5 +7,5 @@ mimir-distributed:
       enabled: true
       installOperator: true
       metrics:
-        additionalRemoteWriteConfigs:
+        remote:
           - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
