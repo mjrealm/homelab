@@ -75,6 +75,6 @@ spec:
       - group: monitoring.grafana.com
         kind: PodLogs
         jsonPointers:
-        - /spec/relabelings[].action
+        - /spec/relabelings
         
 {{ end }}
