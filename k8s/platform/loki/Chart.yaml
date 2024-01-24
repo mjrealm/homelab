@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
-name: mimir
+name: loki
 version: 1.0.0
 dependencies:
-  - name: mimir-distributed
-    version: 5.2.0
+  - name: loki
+    version: 5.41.8
     repository: https://grafana.github.io/helm-charts
