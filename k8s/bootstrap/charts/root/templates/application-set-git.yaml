@@ -42,7 +42,8 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
-          - ServerSideApply=true          
+          - ServerSideApply=true  
+          - RespectIgnoreDifferences=true        
       ignoreDifferences:
       - group: storage.k8s.io
         jsonPointers:
@@ -53,6 +54,10 @@ spec:
         jsonPointers:
         - /spec/volumeClaimTemplates        
         kind: StatefulSet
+      - group: apps
+        kind: DaemonSet
+        jsonPointers:
+        - /metadata/generation                
       - group: batch
         jsonPointers:
         - /spec/podReplacementPolicy
@@ -70,6 +75,6 @@ spec:
       - group: monitoring.grafana.com
         kind: PodLogs
         jsonPointers:
-        - /spec/relabelings/action
+        - /spec/relabelings[].action
         
 {{ end }}
