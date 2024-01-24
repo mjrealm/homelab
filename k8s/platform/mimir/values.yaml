@@ -5,7 +5,7 @@ mimir-distributed:
       enabled: true
     grafanaAgent:
       enabled: false
-      installOperator: true
+      installOperator: false
       metrics:
         additionalRemoteWriteConfigs:
           - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
