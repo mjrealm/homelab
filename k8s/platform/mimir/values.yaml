@@ -2,7 +2,7 @@
 mimir-distributed:
   metaMonitoring:
     serviceMonitor:
-      enabled: false
+      enabled: true
     grafanaAgent:
       enabled: false
       installOperator: false
