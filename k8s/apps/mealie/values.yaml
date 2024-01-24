@@ -8,7 +8,7 @@ app-template:
           nameOverride: mealie
           image:
             repository: ghcr.io/mealie-recipes/mealie
-            tag: v1.0.0-RC1.1
+            tag: v1.0.0
           env:
             ALLOW_SIGNUP: "true"
             BASE_URL: "https://mealie.mdeleon.dev"
@@ -79,12 +79,17 @@ app-template:
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 5Gi
-      globalMounts:
-        - path: /app/data
+      advancedMounts:
+        main:
+          main:
+            - path: /app/data
+            
     pg-data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 1Gi
-      globalMounts:
-        - path: /var/lib/postgresql/data
+      advancedMounts:
+        postgres:
+          main:
+            - path: /var/lib/postgresql/data
