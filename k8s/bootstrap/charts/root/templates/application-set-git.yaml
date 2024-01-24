@@ -64,17 +64,21 @@ spec:
         - /status/terminating
         kind: Job
         namespace: mimir
-      - group: monitoring.grafana.com
-        kind: MetricsInstance
-        jsonPointers:
-        - /spec/remoteWrite/basicAuth
-      - group: monitoring.grafana.com
-        kind: LogsInstance
-        jsonPointers:
-        - /spec/clients
+      # - group: monitoring.grafana.com
+      #   kind: MetricsInstance
+      #   jsonPointers:
+      #   - /spec/remoteWrite/basicAuth
+      # - group: monitoring.grafana.com
+      #   kind: LogsInstance
+      #   jqPathExpressions:
+      #   - .spec.clients
       - group: monitoring.grafana.com
         kind: PodLogs
-        jsonPointers:
-        - /spec/relabelings
+        jqPathExpressions:
+        - .spec.relabelings[].action
+      - group: monitoring.coreos.com
+        kind: ServiceMonitor        
+        jqPathExpressions:
+          - .spec.endpoints[].relabelings[].action
         
 {{ end }}
