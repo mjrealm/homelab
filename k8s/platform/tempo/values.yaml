@@ -6,8 +6,8 @@ tempo:
       enabled: true
       remoteWriteUrl: "http://mimir-nginx.mimir.svc:80/api/v1/push"
 
-  # serviceMonitor:
-  #   enabled: true
+  serviceMonitor:
+    enabled: true
 
   persistence:
     enabled: true
