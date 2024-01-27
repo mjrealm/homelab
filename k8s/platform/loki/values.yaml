@@ -6,5 +6,7 @@ loki:
       replication_factor: 1
     storage:
       type: "filesystem"
+    analytics:
+      reporting_enabled: false
   singleBinary:
     replicas: 1
