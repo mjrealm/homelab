@@ -20,7 +20,7 @@ argo-cd:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Argo CD
         gethomepage.dev/description: Declarative GitOps CD for Kubernetes
-        gethomepage.dev/group: Admin
+        gethomepage.dev/group: System
         gethomepage.dev/icon: argocd.png
   notifications:
     enabled: false

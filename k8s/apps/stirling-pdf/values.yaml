@@ -26,7 +26,7 @@ app-template:
         gethomepage.dev/name: Stirling-PDF
         gethomepage.dev/description: PDF Tools
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Personal
+        gethomepage.dev/group: Documents
         gethomepage.dev/icon: stirling-pdf.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m

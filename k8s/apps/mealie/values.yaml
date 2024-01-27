@@ -56,7 +56,7 @@ app-template:
         gethomepage.dev/name: Mealie
         gethomepage.dev/description: Recipe Management
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Personal
+        gethomepage.dev/group: Food
         gethomepage.dev/icon: mealie.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
@@ -83,7 +83,7 @@ app-template:
         main:
           main:
             - path: /app/data
-            
+
     pg-data:
       enabled: true
       type: persistentVolumeClaim

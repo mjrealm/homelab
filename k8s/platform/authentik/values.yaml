@@ -12,7 +12,7 @@ authentik:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Authentik
       gethomepage.dev/description: Identity Provider
-      gethomepage.dev/group: Admin
+      gethomepage.dev/group: System
       gethomepage.dev/icon: authentik.png
     hosts:
       - host: &host idp.mdeleon.dev
