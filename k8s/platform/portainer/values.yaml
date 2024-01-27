@@ -1,0 +1,19 @@
+---
+portainer:
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: "true"
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Portainer
+      gethomepage.dev/description: K8s Management
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: portainer.png
+    hosts:
+      - &host portainer.mdeleon.dev
+    tls:
+      - secretName: portainer-tls-cert
+        hosts:
+          - *host
