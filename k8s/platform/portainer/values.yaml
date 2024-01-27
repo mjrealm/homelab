@@ -13,6 +13,8 @@ portainer:
       gethomepage.dev/icon: portainer.png
     hosts:
       - host: &host portainer.mdeleon.dev
+        paths:
+          - path: "/"
     tls:
       - secretName: portainer-tls-cert
         hosts:
