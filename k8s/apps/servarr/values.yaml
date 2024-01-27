@@ -335,6 +335,10 @@ app-template:
       size: 120Gi
       globalMounts:
         - path: /downloads
+      advancedMounts:
+        filebrowser:
+          main:
+            - path: /srv/downloads
 
     media-nfs:
       enabled: true
