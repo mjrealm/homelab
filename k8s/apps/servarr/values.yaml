@@ -327,6 +327,7 @@ app-template:
           main:
             - path: /config
               subPath: filebrowser
+            - path: /srv/config
 
     media-downloads:
       enabled: true
