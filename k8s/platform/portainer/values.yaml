@@ -12,7 +12,7 @@ portainer:
       gethomepage.dev/group: System
       gethomepage.dev/icon: portainer.png
     hosts:
-      - &host portainer.mdeleon.dev
+      - host: &host portainer.mdeleon.dev
     tls:
       - secretName: portainer-tls-cert
         hosts:
