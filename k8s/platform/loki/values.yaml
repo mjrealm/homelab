@@ -13,7 +13,7 @@ loki:
         admin: loki-admin
       type: "s3"
       s3:
-        endpoint: http://minio-dev-hl.minio.svc:9000
+        endpoint: http://minio.minio.svc
         # secretAccessKey: ""
         # accessKeyId: ""
         insecure: true
