@@ -3,10 +3,18 @@ loki:
   loki:
     auth_enabled: false
     commonConfig:
-      replication_factor: 1
-    storage:
-      type: "filesystem"
+      replication_factor: 3
     analytics:
       reporting_enabled: false
+    storage:
+      bucketNames:
+        chunks: loki-chunks
+        ruler: loki-ruler
+        admin: loki-admin
+      type: "s3"
+      s3:
+        endpoint: minio.minio-dev.svc.cluster.local
+        # secretAccessKey: ""
+        # accessKeyId: ""
   singleBinary:
-    replicas: 1
+    replicas: 3
