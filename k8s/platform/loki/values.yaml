@@ -13,9 +13,10 @@ loki:
         admin: loki-admin
       type: "s3"
       s3:
-        endpoint: https://minio.minio.svc.cluster.local
+        endpoint: http://minio.minio.svc.cluster.local
         region: us-east-1
         s3ForcePathStyle: true
+        insecure: true
         # secretAccessKey: ""
         # accessKeyId: ""
   singleBinary:
