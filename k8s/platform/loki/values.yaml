@@ -13,10 +13,8 @@ loki:
         admin: loki-admin
       type: "s3"
       s3:
-        endpoint: http://minio.minio.svc
+        endpoint: https://192.168.10.203
         # secretAccessKey: ""
         # accessKeyId: ""
-        insecure: true
-        s3forcepathstyle: true
   singleBinary:
     replicas: 3
