@@ -8,7 +8,7 @@ app-template:
           nameOverride: docuseal
           image:
             repository: docuseal/docuseal
-            tag: 1.4.0
+            tag: 1.4.1
   service:
     main:
       ports:
