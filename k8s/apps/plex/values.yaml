@@ -24,7 +24,7 @@ plex-media-server:
 
   # Config dir size
   pms:
-    configStorage: 30Gi
+    configStorage: 40Gi
 
   service:
     type: LoadBalancer
