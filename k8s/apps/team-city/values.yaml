@@ -1,0 +1,57 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: team-city
+          image:
+            repository: jetbrains/teamcity-server
+            tag: latest
+
+  service:
+    main:
+      ports:
+        http:
+          port: 8111
+
+  ingress:
+    team-city:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: TeamCity
+        gethomepage.dev/description: CI/CD by Jetbrains
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: CI/CD
+        gethomepage.dev/icon: teamcity.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &tc tc.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: team-city-tls-cert
+          hosts:
+            - *tc
+
+  persistence:
+    datadir:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 10Gi
+      globalMounts:
+        - path: /data/teamcity_server/datadir
+    logs:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      globalMounts:
+        - path: /opt/teamcity/logs
