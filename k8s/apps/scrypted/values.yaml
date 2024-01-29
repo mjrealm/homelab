@@ -17,7 +17,7 @@ app-template:
     main:
       ports:
         http:
-          port: 80
+          port: 11080
 
   ingress:
     scrypted:
