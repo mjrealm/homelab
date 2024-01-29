@@ -1,0 +1,45 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: peanut
+          image:
+            repository: brandawg93/peanut
+            tag: latest
+          # env:
+          #   NUT_HOST:
+          #   NUT_PORT:
+          #   USERNAME:
+          #   PASSWORD:
+
+  service:
+    main:
+      ports:
+        http:
+          port: 8080
+
+  ingress:
+    scrypted:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: PeaNUT
+        gethomepage.dev/description: NUT dashboard
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network
+        gethomepage.dev/icon: "https://raw.githubusercontent.com/Brandawg93/PeaNUT/main/src/app/icon.svg"
+      hosts:
+        - host: &peanut peanut.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: peanut-tls-cert
+          hosts:
+            - *peanut
