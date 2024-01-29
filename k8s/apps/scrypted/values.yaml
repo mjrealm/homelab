@@ -19,6 +19,8 @@ app-template:
       ports:
         http:
           port: 11080
+        http-bridge:
+          port: 35870
 
   ingress:
     scrypted:
