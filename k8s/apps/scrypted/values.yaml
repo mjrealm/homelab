@@ -1,0 +1,52 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: scrypted
+          image:
+            repository: ghcr.io/koush/scrypted
+            tag: latest
+          env:
+            # SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION: Bearer SET_THIS_TO_SOME_RANDOM_TEXT
+            # SCRYPTED_WEBHOOK_UPDATE: http://localhost:10444/v1/update
+
+  service:
+    main:
+      ports:
+        http:
+          port: 10443
+
+  ingress:
+    scrypted:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Scrypted
+        gethomepage.dev/description: Camera to Homekit
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Smart Home
+        gethomepage.dev/icon: scrypted.png
+      hosts:
+        - host: &scrypted scrypted.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: scrypted-tls-cert
+          hosts:
+            - *scrypted
+
+  persistence:
+    volume:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /server/volume
