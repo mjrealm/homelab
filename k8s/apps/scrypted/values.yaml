@@ -15,6 +15,7 @@ app-template:
 
   service:
     main:
+      type: LoadBalancer
       ports:
         http:
           port: 11080
