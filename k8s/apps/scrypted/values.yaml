@@ -29,6 +29,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Smart Home
         gethomepage.dev/icon: scrypted.png
+        gethomepage.dev/pod-selector: ""
       hosts:
         - host: &scrypted scrypted.mdeleon.dev
           paths:
