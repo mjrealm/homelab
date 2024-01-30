@@ -1,5 +1,11 @@
 ---
 app-template:
+  defaultPodOptions:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    nodeSelector:
+      kubernetes.io/hostname: wayne
+
   controllers:
     main:
       strategy: Recreate
