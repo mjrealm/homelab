@@ -1,5 +1,9 @@
 ---
 app-template:
+  defaultPodOptions:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+
   controllers:
     main:
       strategy: Recreate
@@ -14,7 +18,7 @@ app-template:
 
   service:
     main:
-      type: LoadBalancer
+      # type: LoadBalancer
       ports:
         http:
           port: 8581
