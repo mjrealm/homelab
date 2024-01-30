@@ -4,6 +4,9 @@ app-template:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
 
+  nodeSelector:
+    kubernetes.io/hostname: monarch
+
   controllers:
     main:
       strategy: Recreate
