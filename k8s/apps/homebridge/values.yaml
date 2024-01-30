@@ -3,9 +3,8 @@ app-template:
   defaultPodOptions:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
-
-  nodeSelector:
-    kubernetes.io/hostname: monarch
+    nodeSelector:
+      kubernetes.io/hostname: monarch
 
   controllers:
     main:
