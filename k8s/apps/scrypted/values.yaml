@@ -21,12 +21,9 @@ app-template:
 
   service:
     main:
-      type: LoadBalancer
       ports:
         http:
           port: 11080
-        http-bridge:
-          port: 35870
 
   ingress:
     scrypted:
