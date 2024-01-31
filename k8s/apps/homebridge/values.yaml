@@ -20,7 +20,6 @@ app-template:
 
   service:
     main:
-      # type: LoadBalancer
       ports:
         http:
           port: 8581
