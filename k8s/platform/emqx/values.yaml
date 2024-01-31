@@ -58,13 +58,6 @@ app-template:
       size: 500Mi
       globalMounts:
         - path: /opt/emqx/data
-    etc:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 100Mi
-      globalMounts:
-        - path: /opt/emqx/etc
     log:
       enabled: true
       type: persistentVolumeClaim
