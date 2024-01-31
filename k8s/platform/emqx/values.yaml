@@ -33,7 +33,7 @@ app-template:
         gethomepage.dev/description: MQTT broker
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Smart Home
-        gethomepage.dev/icon: https://hub.docker.com/api/media/repos_logo/v1/library%2Femqxhomebridge.png
+        gethomepage.dev/icon: "https://raw.githubusercontent.com/docker-library/docs/68aa4264fa058f323993fdaceacd63a8acbbeb48/emqx/logo.svg?sanitize=true"
         gethomepage.dev/pod-selector: ""
       hosts:
         - host: &eqmx eqmx.mdeleon.dev
