@@ -9,6 +9,8 @@ app-template:
           image:
             repository: emqx
             tag: 5.4.1
+          # env:
+          #   EMQX_NAME: emqx-1
 
   service:
     main:
@@ -49,10 +51,24 @@ app-template:
             - *eqmx
 
   persistence:
-    eqmx:
+    data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 1Gi
+      size: 500Mi
       globalMounts:
-        - path: /opt/emqx/
+        - path: /opt/emqx/data
+    etc:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      globalMounts:
+        - path: /opt/emqx/etc
+    log:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      globalMounts:
+        - path: /opt/emqx/log
