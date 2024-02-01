@@ -19,7 +19,7 @@ woodpecker:
         gethomepage.dev/description: CI/CD Engine
         gethomepage.dev/group: CI/CD
         gethomepage.dev/icon: woodpecker-ci-light.png
-        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/pod-selector: "app.kubernetes.io/instance in (woodpecker)"
       hosts:
         - host: &host ci.mdeleon.dev
           paths:
