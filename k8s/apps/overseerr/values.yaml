@@ -10,7 +10,7 @@ app-template:
         main:
           image:
             repository: sctx/overseerr
-            tag: 1.33.1
+            tag: 1.33.2
           env:
             TZ: "America/Los_Angeles"
 
