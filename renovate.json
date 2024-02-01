@@ -14,5 +14,6 @@
       "matchPackagePrefixes": ["plexinc/"],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-(.+)?$"
     }
-  ]
+  ],
+  "pinDigests": true
 }
