@@ -14,6 +14,7 @@ plex-media-server:
     TZ: "America/Los_Angeles"
     PLEX_UID: "1000"
     PLEX_GID: "1000"
+    # ADVERTISE_IP: ""
 
   # Volume definition
   extraVolumeMounts:

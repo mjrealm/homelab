@@ -8,10 +8,9 @@
     {
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
-    },
-    {
-      "matchDatasources": ["docker"],
-      "pinDigests": true
     }
-  ]
+  ],
+  "docker": {
+    "pinDigests": true
+  }
 }
