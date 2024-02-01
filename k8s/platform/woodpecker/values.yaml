@@ -19,6 +19,7 @@ woodpecker:
         gethomepage.dev/description: CI/CD Engine
         gethomepage.dev/group: CI/CD
         gethomepage.dev/icon: woodpecker-ci-light.png
+        gethomepage.dev/pod-selector: ""
       hosts:
         - host: &host ci.mdeleon.dev
           paths:
