@@ -10,8 +10,7 @@
       "dependencyDashboardApproval": true
     },
     {
-      "managers": ["helm-values"],
-      "matchPackagePatterns": ["^k8s/apps/plex/values.yaml"],
+      "matchPackagePatterns": ["^k8s/apps/plex/values.yaml$"],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?\\d+)-(?\\w+)?$"
     }
   ]
