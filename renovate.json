@@ -8,6 +8,10 @@
     {
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
+    },
+    {
+      "matchPackageNames": ["plex"],
+      "versioning": "regex:^(+<major>\\d+)\\.(+<minor>\\d+)\\.(+<patch>\\d+)\\.(?\\d+)-(?\\w+)?$"
     }
   ]
 }
