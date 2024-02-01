@@ -10,7 +10,8 @@
       "dependencyDashboardApproval": true
     },
     {
-      "matchPackageNames": ["plex"],
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["plex-media-server"],
       "versioning": "regex:^(+<major>\\d+)\\.(+<minor>\\d+)\\.(+<patch>\\d+)\\.(?\\d+)-(?\\w+)?$"
     }
   ]
