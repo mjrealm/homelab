@@ -10,9 +10,9 @@
       "dependencyDashboardApproval": true
     },
     {
-      "matchDatasources": ["helm-values"],
-      "matchPackageNames": ["plex-media-server"],
-      "versioning": "regex:^(+<major>\\d+)\\.(+<minor>\\d+)\\.(+<patch>\\d+)\\.(?\\d+)-(?\\w+)?$"
+      "managers": ["helm-values"],
+      "matchPackagePatterns": ["^k8s/apps/plex/values.yaml"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?\\d+)-(?\\w+)?$"
     }
   ]
 }
