@@ -1,5 +1,8 @@
 ---
 plex-media-server:
+  image:
+    tag: "1.32.8.7639-fb6452ebf"
+    
   fullnameOverride: "pms"
 
   # Specific node to install this
