@@ -10,8 +10,9 @@
       "dependencyDashboardApproval": true
     },
     {
-      "matchPackagePatterns": ["^k8s/apps/plex/values.yaml$"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?\\d+)-(?\\w+)?$"
+      "matchDatasources": ["docker"],
+      "matchPackagePrefixes": ["plexinc/"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-(?<revision>.*)?$"
     }
   ]
 }
