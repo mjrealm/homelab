@@ -1,7 +1,7 @@
 ---
 plex-media-server:
   image:
-    tag: "latest@sha256:ebec98e2a51f48f23e556708381a3dbf036de4b3735f69c1924e4280a938dc34"
+    tag: "latest"
 
   fullnameOverride: "pms"
 

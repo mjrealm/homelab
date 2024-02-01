@@ -9,8 +9,5 @@
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
     }
-  ],
-  "docker": {
-    "pinDigests": true
-  }
+  ]
 }
