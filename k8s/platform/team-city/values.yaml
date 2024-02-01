@@ -24,7 +24,7 @@ app-template:
             repository: jetbrains/teamcity-agent
             tag: 2023.11.3
           env:
-            SERVER_URL: teamcity-server.team-city.svc
+            SERVER_URL: team-city.team-city.svc
 
   service:
     main:
