@@ -14,7 +14,7 @@ app-template:
           nameOverride: team-city
           image:
             repository: jetbrains/teamcity-server
-            tag: latest
+            tag: 2023.11.3
 
   service:
     main:
