@@ -8,7 +8,7 @@ app-template:
           nameOverride: sonarr
           image:
             repository: lscr.io/linuxserver/sonarr
-            tag: latest
+            tag: 4.0.1
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -16,7 +16,7 @@ app-template:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
-            tag: latest
+            tag: 5.3.2-develop
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -33,7 +33,7 @@ app-template:
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
-            tag: latest
+            tag: 2.0.7
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -41,7 +41,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: latest
+            tag: 1.12.2
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -49,7 +49,7 @@ app-template:
         bazarr:
           image:
             repository: lscr.io/linuxserver/bazarr
-            tag: latest
+            tag: 1.4.0
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
