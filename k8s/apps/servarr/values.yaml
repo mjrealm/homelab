@@ -21,15 +21,6 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-        whisparr:
-          image:
-            repository: ghcr.io/hotio/whisparr
-            tag: latest
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
-            UMASK: "002"
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
@@ -82,8 +73,6 @@ app-template:
           port: 8989
         http-radarr:
           port: 7878
-        http-whisparr:
-          port: 6969
         http-lidarr:
           port: 8686
         http-prowlarr:
@@ -150,29 +139,6 @@ app-template:
         - secretName: radarr-tls-cert
           hosts:
             - *radarr
-    whisparr:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: Whisparr
-        gethomepage.dev/description: Random Media Manager
-        gethomepage.dev/group: Servarr
-        gethomepage.dev/icon: whisparr.png
-        gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "6"
-      hosts:
-        - host: &whisparr whisparr.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                name: main
-                port: http-whisparr
-      tls:
-        - secretName: whisparr-tls-cert
-          hosts:
-            - *whisparr
     lidarr:
       enabled: true
       annotations:
@@ -207,7 +173,7 @@ app-template:
         gethomepage.dev/group: Servarr
         gethomepage.dev/icon: prowlarr.png
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "5"
+        gethomepage.dev/weight: "4"
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &prowlarr prowlarr.mdeleon.dev
@@ -231,7 +197,7 @@ app-template:
         gethomepage.dev/group: Servarr
         gethomepage.dev/icon: bazarr.png
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "4"
+        gethomepage.dev/weight: "5"
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &bazarr bazarr.mdeleon.dev
@@ -255,7 +221,7 @@ app-template:
         gethomepage.dev/group: Servarr
         gethomepage.dev/icon: nzbget.png
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "7"
+        gethomepage.dev/weight: "6"
       hosts:
         - host: &nzbget nzbget.mdeleon.dev
           paths:
@@ -278,7 +244,7 @@ app-template:
         gethomepage.dev/group: Servarr
         gethomepage.dev/icon: filebrowser.png
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "8"
+        gethomepage.dev/weight: "7"
       hosts:
         - host: &filebrowser media-fb.mdeleon.dev
           paths:
@@ -307,9 +273,6 @@ app-template:
           radarr:
             - path: /config
               subPath: radarr
-          whisparr:
-            - path: /config
-              subPath: whisparr
           lidarr:
             - path: /config
               subPath: lidarr
