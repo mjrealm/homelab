@@ -19,6 +19,10 @@ gitea:
 
   # Config
   gitea:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
     config:
       server:
         OFFLINE_MODE: true
