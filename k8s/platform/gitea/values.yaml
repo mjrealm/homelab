@@ -1,0 +1,64 @@
+---
+gitea:
+  image:
+    repository: gitea/gitea
+    tag: 1.21.5
+  nodeSelector:
+    node-role.kubernetes.io/master: true
+
+  # Single pod prod-ready
+  redis-cluster:
+    enabled: false
+  postgresql:
+    enabled: true
+  postgresql-ha:
+    enabled: false
+  persistence:
+    enabled: true
+    size: 20Gi
+
+  # Config
+  gitea:
+    config:
+      server:
+        OFFLINE_MODE: true
+        LANDING_PAGE: explore
+        DISABLE_SSH: true
+      repository:
+        DEFAULT_BRANCH: main
+        DISABLE_STARS: true
+        DISABLED_REPO_UNITS: repo.wiki
+      actions:
+        ENABLED: false
+      database:
+        DB_TYPE: postgres
+      session:
+        PROVIDER: db
+      cache:
+        ADAPTER: memory
+      queue:
+        TYPE: level
+      indexer:
+        ISSUE_INDEXER_TYPE: bleve
+        REPO_INDEXER_ENABLED: true
+
+  # Ingress
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/name: Gitea
+      gethomepage.dev/description: Version control system
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Git
+      gethomepage.dev/icon: gitea.png
+      gethomepage.dev/pod-selector: ""
+    hosts:
+      - host: &gitea git.mdeleon.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: gitea-tls-cert
+        hosts:
+          - *gitea
