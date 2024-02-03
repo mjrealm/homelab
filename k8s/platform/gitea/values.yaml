@@ -2,9 +2,9 @@
 gitea:
   image:
     repository: gitea/gitea
-    tag: 1.21.5
-  nodeSelector:
-    node-role.kubernetes.io/master: "true"
+    tag: "1.21.5"
+  # nodeSelector:
+  #   node-role.kubernetes.io/master: "true"
 
   # Single pod prod-ready
   redis-cluster:
@@ -66,3 +66,13 @@ gitea:
       - secretName: gitea-tls-cert
         hosts:
           - *gitea
+
+  # extraVolumes:
+  #   - name: gitea-themes
+  #     secret:
+  #       secretName: gitea-themes
+
+  # extraVolumeMounts:
+  #   - name: gitea-themes
+  #     readOnly: true
+  #     mountPath: "/data/gitea/public/assets/css"
