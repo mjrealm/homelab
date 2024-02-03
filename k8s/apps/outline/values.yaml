@@ -7,7 +7,7 @@ app-template:
         main:
           nameOverride: outline
           image:
-            repository: outlinewiki/outline
+            repository: docker.getoutline.com/outlinewiki/outline
             tag: 0.74.0
           securityContext:
             runAsUser: 1001
@@ -20,7 +20,7 @@ app-template:
             FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400"
             NODE_ENV: production
             PORT: "3000"
-            REDIS_URL: "redis://redis:6379"
+            REDIS_URL: "redis://outline-redis:6379"
             PGSSLMODE: "disable"
             # SECRET_KEY: ""
             # UTILS_SECRET: ""
