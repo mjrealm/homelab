@@ -22,7 +22,7 @@ app-template:
             FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400"
             NODE_ENV: production
             PORT: "3000"
-            REDIS_URL: "redis://redis:6379"
+            REDIS_URL: "redis://outline-redis:6379"
             PGSSLMODE: "disable"
             # SECRET_KEY: ""
             # UTILS_SECRET: ""
