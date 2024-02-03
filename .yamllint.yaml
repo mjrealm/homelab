@@ -3,5 +3,9 @@ ignore: |
   roles/
   group_vars/
   inventory/
+  templates/
 
 extends: default
+
+rules:
+  line-length: disable
