@@ -1,11 +1,5 @@
 ---
 app-template:
-  defaultPodOptions:
-    securityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
-
   controllers:
     main:
       strategy: Recreate
@@ -15,6 +9,10 @@ app-template:
           image:
             repository: outlinewiki/outline
             tag: 0.74.0
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
           env:
             URL: https://wiki.mdeleon.dev
             FILE_STORAGE: local
