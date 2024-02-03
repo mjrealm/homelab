@@ -9,10 +9,11 @@ app-template:
           image:
             repository: docker.getoutline.com/outlinewiki/outline
             tag: 0.74.0
-          securityContext:
-            runAsUser: 1001
-            runAsGroup: 1001
-            fsGroup: 1001
+          pod:
+            securityContext:
+              runAsUser: 1001
+              runAsGroup: 1001
+              fsGroup: 1001
           env:
             URL: https://wiki.mdeleon.dev
             FILE_STORAGE: local
