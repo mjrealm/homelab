@@ -12,7 +12,6 @@ app-template:
           securityContext:
             runAsUser: 1001
             runAsGroup: 1001
-            fsGroup: 1001
           env:
             URL: https://wiki.mdeleon.dev
             FILE_STORAGE: local
