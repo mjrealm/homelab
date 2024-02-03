@@ -7,7 +7,7 @@ app-template:
         main:
           nameOverride: outline
           image:
-            repository: docker.getoutline.com/outlinewiki/outline
+            repository: outlinewiki/outline
             tag: 0.74.0
           pod:
             securityContext:
