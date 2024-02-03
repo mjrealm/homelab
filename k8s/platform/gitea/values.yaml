@@ -3,6 +3,8 @@ gitea:
   image:
     repository: gitea/gitea
     tag: "1.21.5"
+  strategy:
+    type: "Recreate"
 
   # Single pod prod-ready
   redis-cluster:
@@ -75,13 +77,3 @@ gitea:
       - secretName: gitea-tls-cert
         hosts:
           - *gitea
-
-  # extraVolumes:
-  #   - name: gitea-themes
-  #     secret:
-  #       secretName: gitea-themes
-
-  # extraVolumeMounts:
-  #   - name: gitea-themes
-  #     readOnly: true
-  #     mountPath: "/data/gitea/public/assets/css"
