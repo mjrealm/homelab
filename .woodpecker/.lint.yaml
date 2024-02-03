@@ -1,0 +1,5 @@
+steps:
+  - name: yamllint
+    image: cytopia/yamllint:alpine-1
+    commands:
+      - yamllint -d relaxed -f colored .
