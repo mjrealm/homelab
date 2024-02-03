@@ -1,0 +1,7 @@
+---
+ignore: |
+  roles/
+  group_vars/
+  inventory/
+
+extends: default
