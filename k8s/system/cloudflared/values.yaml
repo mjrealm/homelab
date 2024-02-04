@@ -9,13 +9,13 @@ app-template:
           image:
             repository: cloudflare/cloudflared
             tag: 2024.1.5
-          # command:
-          #   - tunnel
-          #   - --no-autoupdate
-          #   - run
-          # args:
-          #   - --token
-          #   - ""
+            # command:
+            #   - tunnel
+            #   - --no-autoupdate
+            #   - run
+            # args:
+            #   - --token
+            #   - ""
   service:
     main:
       ports:

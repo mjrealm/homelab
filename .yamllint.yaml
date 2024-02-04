@@ -3,6 +3,7 @@ ignore: |
   metal/
   bootstrap/
   homepage/
+  secrets.yaml
 
 extends: default
 
