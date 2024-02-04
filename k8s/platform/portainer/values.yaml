@@ -1,5 +1,9 @@
 ---
 portainer:
+  persistence:
+    enabled: true
+    size: 1Gi
+
   ingress:
     enabled: true
     annotations:
