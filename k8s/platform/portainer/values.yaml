@@ -1,0 +1,23 @@
+---
+portainer:
+  persistence:
+    enabled: true
+    size: 1Gi
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Portainer
+      gethomepage.dev/description: K8s Management
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: portainer.png
+    hosts:
+      - host: &host portainer.mdeleon.dev
+        paths:
+          - path: "/"
+    tls:
+      - secretName: portainer-tls-cert
+        hosts:
+          - *host
