@@ -24,6 +24,8 @@ gitea:
       serviceMonitor:
         enabled: true
     config:
+      service:
+        DISABLE_REGISTRATION: true
       server:
         OFFLINE_MODE: true
         LANDING_PAGE: explore
