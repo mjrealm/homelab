@@ -4,6 +4,7 @@ ignore: |
   group_vars/
   inventory/
   templates/
+  homepage/
 
 extends: default
 
