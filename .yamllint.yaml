@@ -1,9 +1,7 @@
 ---
 ignore: |
-  roles/
-  group_vars/
-  inventory/
-  templates/
+  metal/
+  bootstrap/
   homepage/
 
 extends: default
