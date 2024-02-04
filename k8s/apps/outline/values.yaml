@@ -3,17 +3,17 @@ app-template:
   controllers:
     main:
       strategy: Recreate
+      pod:
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
+          fsGroup: 1001
       containers:
         main:
           nameOverride: outline
           image:
             repository: outlinewiki/outline
             tag: 0.74.0
-          pod:
-            securityContext:
-              runAsUser: 1001
-              runAsGroup: 1001
-              fsGroup: 1001
           env:
             URL: https://wiki.mdeleon.dev
             FILE_STORAGE: local
