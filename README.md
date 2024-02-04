@@ -1,6 +1,7 @@
 # My Homelab
 
 [![license](https://img.shields.io/github/license/khuedoan/homelab?style=flat-square&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![status-badge](https://ci.mdeleon.dev/api/badges/2/status.svg)](https://ci.mdeleon.dev/repos/2)
 
 This project was created to automate my personal homelab, following [GitOps](https://codefresh.io/learn/gitops/) principles.
 
