@@ -1,7 +1,5 @@
 ---
 portainer:
-  nodeSelector:
-    node-role.kubernetes.io/control-plane: "true"
   ingress:
     enabled: true
     annotations:
