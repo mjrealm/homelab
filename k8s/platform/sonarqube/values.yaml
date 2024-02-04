@@ -9,6 +9,11 @@ sonarqube:
     enabled: true
     size: 5Gi
 
+  # Values should be set by the Kubernetes administrator at the node level
+  # See https://artifacthub.io/packages/helm/sonarqube/sonarqube#elasticsearch-prerequisites
+  initSysctl:
+    enabled: false
+
   ingress:
     enabled: true
     annotations:
