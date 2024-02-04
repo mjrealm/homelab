@@ -304,11 +304,11 @@ app-template:
           main:
             - path: /srv/downloads
 
-    media-nfs:
-      enabled: true
-      type: nfs
-      server: 192.168.1.200
-      path: /volume1/media/
+    # media-nfs:
+    #   enabled: true
+    #   type: nfs
+    #   server: 192.168.1.200
+    #   path: /volume1/media/
 
     filebrowser-db:
       enabled: true
