@@ -8,7 +8,7 @@ woodpecker:
   server:
     env:
       WOODPECKER_HOST: https://ci.mdeleon.dev
-      WOODPECKER_OPEN: false # allow user registration
+      WOODPECKER_OPEN: false #allow user registration
     ingress:
       enabled: true
       annotations:
