@@ -14,7 +14,7 @@ app-template:
           nameOverride: emqx
           image:
             repository: emqx
-            tag: 5.4.1
+            tag: 5.5.0
           # env:
           #   EMQX_NAME: emqx-1
 
