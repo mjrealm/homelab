@@ -13,6 +13,8 @@ sonarqube:
   # See https://artifacthub.io/packages/helm/sonarqube/sonarqube#elasticsearch-prerequisites
   initSysctl:
     enabled: false
+  initFs:
+    enabled: false
 
   ingress:
     enabled: true
