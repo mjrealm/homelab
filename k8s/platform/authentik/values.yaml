@@ -1,0 +1,38 @@
+---
+authentik:
+  image:
+    repository: ghcr.io/goauthentik/server
+    tag: 2023.10.7
+
+  replicas: 1
+  authentik:
+    log_level: info
+    error_reporting:
+      enabled: true
+
+  serviceAccount:
+    create: true
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Authentik
+      gethomepage.dev/description: Identity Provider
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: authentik.png
+    hosts:
+      - host: &host idp.mdeleon.dev
+        paths:
+          - path: "/"
+            pathType: Prefix
+    tls:
+      - secretName: authentik-tls-cert
+        hosts:
+          - *host
+  redis:
+    enabled: true
+  prometheus:
+    serviceMonitor:
+      create: false
