@@ -2,6 +2,9 @@
 # Retrieve the Console Access Token
 # kubectl get secret/console-sa-secret -n minio-operator -o json | jq -r ".data.token" | base64 -d
 operator:
+  image:
+    repository: quay.io/minio/operator
+    tag: v5.0.11
   console:
     ingress:
       enabled: true
