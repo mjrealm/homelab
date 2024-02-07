@@ -29,6 +29,15 @@ authentik:
           - *host
   redis:
     enabled: true
+
   prometheus:
     serviceMonitor:
       create: false
+
+  volumeMounts:
+    - mountPath: /media
+      name: media
+  volumes:
+    - name: media
+      persistentVolumeClaim:
+        claimName: authentik-media-pvc
