@@ -3,7 +3,7 @@ sonarqube:
   edition: community
   image:
     repository: sonarqube
-    tag: 10.4.0-community
+    tag: 10.3.0-community
 
   persistence:
     enabled: true
