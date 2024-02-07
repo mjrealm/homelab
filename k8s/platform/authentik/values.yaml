@@ -1,9 +1,5 @@
 ---
 authentik:
-  image:
-    repository: ghcr.io/goauthentik/server
-    tag: 2023.10.6
-
   replicas: 1
   authentik:
     log_level: info
