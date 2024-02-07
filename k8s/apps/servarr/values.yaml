@@ -84,6 +84,8 @@ app-template:
       ports:
         http:
           port: 6789
+        bridge:
+          port: 9000
     filebrowser:
       controller: filebrowser
       ports:
@@ -228,8 +230,8 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: nzbget
-                port: http
+                name: nzbget-ak-bridge
+                port: bridge
       tls:
         - secretName: nzbget-tls-cert
           hosts:
