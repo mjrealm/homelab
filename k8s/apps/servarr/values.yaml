@@ -228,8 +228,8 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: nzbget-ak-bridge
-                port: 9000
+                name: nzbget
+                port: http
       tls:
         - secretName: nzbget-tls-cert
           hosts:
