@@ -58,7 +58,7 @@ keycloakx:
 
   database:
     vendor: postgres
-    hostname: keycloak-db-postgresql
+    hostname: keycloak-postgresql
     port: 5432
     # username: ""
     # password: ""
