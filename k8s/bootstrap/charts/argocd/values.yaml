@@ -23,6 +23,10 @@ argo-cd:
       enabled: true
       secretName: argocd-tls-cert
       domain: *host
+      issuer:
+        name: letsencrypt-prod
+        kind: ClusterIssuer
+        group: cert-manager.io
 
   notifications:
     enabled: false
