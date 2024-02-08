@@ -1,10 +1,4 @@
 ---
-portainer:
-  persistence:
-    enabled: false
-  service:
-    type: ClusterIP
-
 uptime-kuma:
   image:
     tag: 1.23.11
