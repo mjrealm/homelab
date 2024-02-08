@@ -2,6 +2,8 @@
 portainer:
   persistence:
     enabled: false
+  service:
+    type: ClusterIP
 
 uptime-kuma:
   image:
