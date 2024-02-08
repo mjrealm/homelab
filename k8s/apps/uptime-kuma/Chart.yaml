@@ -6,3 +6,6 @@ dependencies:
   - name: uptime-kuma
     version: 2.18.0
     repository: https://helm.irsigler.cloud
+  - name: portainer
+    version: 1.0.49
+    repository: https://portainer.github.io/k8s/

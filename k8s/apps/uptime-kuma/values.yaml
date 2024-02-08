@@ -1,4 +1,8 @@
 ---
+portainer:
+  persistence:
+    enabled: false
+
 uptime-kuma:
   image:
     tag: 1.23.11
