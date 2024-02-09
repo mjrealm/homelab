@@ -1,11 +1,5 @@
 ---
 app-template:
-  defaultPodOptions:
-    securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-
   controllers:
     main:
       strategy: Recreate
@@ -16,8 +10,6 @@ app-template:
             repository: lldap/lldap
             tag: "2024-02-08"
           env:
-            UID: 1000
-            GID: 1000
             LLDAP_LDAP_BASE_DN: "dc=mdeleon,dc=dev"
             TZ: "America/Los_Angeles"
             # LLDAP_JWT_SECRET: ""
