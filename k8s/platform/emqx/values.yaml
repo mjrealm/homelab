@@ -4,6 +4,8 @@ emqx:
     repository: emqx/emqx
     tag: 5.5.0
 
+  replicaCount: 1
+
   persistence:
     enabled: true
     size: 200Mi
@@ -13,24 +15,21 @@ emqx:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: EQMX
+        gethomepage.dev/name: EMQX
         gethomepage.dev/description: MQTT broker
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Messaging
         gethomepage.dev/icon: "https://raw.githubusercontent.com/docker-library/docs/68aa4264fa058f323993fdaceacd63a8acbbeb48/emqx/logo.svg?sanitize=true"
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &eqmx eqmx.mdeleon.dev
+        - host: &emqx emqx.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
-              service:
-                name: main
-                port: http
       tls:
-        - secretName: eqmx-tls-cert
+        - secretName: emqx-tls-cert
           hosts:
-            - *eqmx
+            - *emqx
 
   metrics:
     enabled: true
