@@ -36,6 +36,8 @@ keycloakx:
     - "--spi-events-listener-jboss-logging-error-level=warn"
 
   extraEnv: |
+    - name: KEYCLOAK_LOGLEVEL
+      value: DEBUG
     - name: KEYCLOAK_ADMIN
       valueFrom:
         secretKeyRef:
