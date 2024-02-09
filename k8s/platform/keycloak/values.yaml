@@ -37,7 +37,7 @@ keycloakx:
 
   extraEnv: |
     - name: KC_LOG_LEVEL
-      value: DEBUG
+      value: INFO
     - name: KEYCLOAK_ADMIN
       valueFrom:
         secretKeyRef:
