@@ -1,0 +1,87 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: lldap
+          image:
+            repository: lldap/lldap
+            tag: "2024-02-08"
+          env:
+            LLDAP_LDAP_BASE_DN: "dc=mdeleon,dc=dev"
+            TZ: "America/Los_Angeles"
+            # LLDAP_JWT_SECRET: ""
+            # LLDAP_KEY_SEED: ""
+            # LLDAP_DATABASE_URL: postgres://
+    postgres:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: 16.1
+          env:
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_DB: "lldap"
+            # POSTGRES_PASSWORD: ""
+            # POSTGRES_USER: ""
+
+  service:
+    main:
+      ports:
+        http:
+          port: 17170
+        ldap:
+          port: 3890
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
+
+  ingress:
+    lldap:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: LLDAP
+        gethomepage.dev/description: Light LDAP server
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: System
+        gethomepage.dev/icon: authelia.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &lldap lldap.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: lldap-tls-cert
+          hosts:
+            - *lldap
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      advancedMounts:
+        main:
+          main:
+            - path: /data
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Mi
+      advancedMounts:
+        postgres:
+          main:
+            - path: /var/lib/postgresql/data
