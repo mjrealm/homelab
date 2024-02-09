@@ -21,11 +21,10 @@ emqx:
         gethomepage.dev/group: Messaging
         gethomepage.dev/icon: "https://raw.githubusercontent.com/docker-library/docs/68aa4264fa058f323993fdaceacd63a8acbbeb48/emqx/logo.svg?sanitize=true"
         gethomepage.dev/pod-selector: ""
+      path: /
+      pathType: ImplementationSpecific
       hosts:
-        - host: &emqx emqx.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
+        - emqx.mdeleon.dev      
       tls:
         - secretName: emqx-tls-cert
           hosts:
