@@ -24,7 +24,7 @@ emqx:
       path: /
       pathType: Prefix
       hosts:
-        - emqx.mdeleon.dev      
+        - &emqx emqx.mdeleon.dev
       tls:
         - secretName: emqx-tls-cert
           hosts:
