@@ -16,6 +16,7 @@ tenant:
         name: pool-0
         volumesPerServer: 4
         size: 10Gi
+        storageClassName: longhorn
     features:
       bucketDNS: true # <bucket>.minio.default.svc.cluster.local
     # buckets:
