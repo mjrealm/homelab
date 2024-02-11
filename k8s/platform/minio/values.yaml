@@ -34,8 +34,8 @@ tenant:
         gethomepage.dev/group: Storage
         gethomepage.dev/icon: minio.png
         gethomepage.dev/pod-selector: ""
-      host: &host minio.mdeleon.dev
+      host: &host minio-console.mdeleon.dev
       tls:
-        - secretName: minio-tls-cert
+        - secretName: minio-console-tls-cert
           hosts:
             - *host
