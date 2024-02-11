@@ -12,9 +12,9 @@ tenant:
     metrics:
       enabled: true
     pools:
-      - servers: 1
-        name: pool-0
-        volumesPerServer: 4
+      - servers: 4
+        name: pool-homelab
+        volumesPerServer: 1
         size: 10Gi
         storageClassName: longhorn
     features:
