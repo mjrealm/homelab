@@ -10,7 +10,7 @@ operator:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Minio Operator
         gethomepage.dev/description: K8s Operator for Minio
-        gethomepage.dev/group: Database Tools
+        gethomepage.dev/group: Storage
         gethomepage.dev/icon: minio-light.png
         gethomepage.dev/pod-selector: ""
       host: &host minio-o.mdeleon.dev
