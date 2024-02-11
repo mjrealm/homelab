@@ -6,6 +6,12 @@ app-template:
   #     data:
   #       codecov.yml: ""
 
+  defaultPodOptions:
+    securityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
+
   controllers:
     main:
       strategy: Recreate
@@ -132,7 +138,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: frontend
+                name: gateway
                 port: http
       tls:
         - secretName: codecov-tls-cert
