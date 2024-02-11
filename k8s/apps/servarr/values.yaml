@@ -47,7 +47,7 @@ app-template:
             PUID: "1000"
             PGID: "1000"
     nzbget:
-      replicas: 0
+      replicas: 1
       strategy: Recreate
       containers:
         main:
@@ -59,7 +59,7 @@ app-template:
             PUID: "1000"
             PGID: "1000"
     filebrowser:
-      replicas: 0
+      replicas: 1
       strategy: Recreate
       containers:
         main:
