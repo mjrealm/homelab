@@ -5,13 +5,6 @@ app-template:
   #     enabled: true
   #     data:
   #       codecov.yml: ""
-
-  defaultPodOptions:
-    securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-
   controllers:
     main:
       strategy: Recreate
