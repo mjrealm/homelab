@@ -1,5 +1,19 @@
 ---
 app-template:
+  defaultPodOptions:
+    labels:
+      app: adguardhome
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - adguardhome
+            topologyKey: kubernetes.io/hostname
+
   controllers:
     main:
       strategy: Recreate
