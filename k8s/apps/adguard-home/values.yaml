@@ -9,6 +9,23 @@ app-template:
           image:
             repository: adguard/adguardhome
             tag: v0.107.44
+      initContainers:
+        copy:
+          image: busybox:latest
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              "cp",
+              "/src/AdGuardHome.yaml",
+              "/dest/AdGuardHome.yaml",
+            ]
+          volumeMounts:
+            - name: config-readonly
+              mountPath: /src
+            - name: config
+              mountPath: /dest
+
     secondary:
       strategy: Recreate
       containers:
@@ -93,10 +110,17 @@ app-template:
             - *guard2
 
   persistence:
-    config:
+    config-readonly:
       enabled: true
       type: configMap
       name: adguard-home-config
+      globalMounts:
+        - path: /config
+
+    config:
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
       globalMounts:
         - path: /opt/adguardhome/conf
 
