@@ -12,7 +12,7 @@ app-template:
                   operator: In
                   values:
                     - adguardhome
-            topologyKey: kubernetes.io/hostname
+            topologyKey: "kubernetes.io/hostname"
 
   controllers:
     main:
