@@ -31,7 +31,6 @@ app-template:
               "/bin/sh",
               "-c",
               "cp",
-              "-f",
               "/src/AdGuardHome.yaml",
               "/dest/AdGuardHome.yaml",
             ]
