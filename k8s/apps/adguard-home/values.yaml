@@ -19,6 +19,7 @@ app-template:
               "/bin/sh",
               "-c",
               "cp",
+              "-f",
               "/src/AdGuardHome.yaml",
               "/dest/AdGuardHome.yaml",
             ]
@@ -36,24 +37,6 @@ app-template:
           image:
             repository: adguard/adguardhome
             tag: v0.107.44
-      initContainers:
-        copy:
-          image:
-            repository: busybox
-            tag: latest
-          command:
-            [
-              "/bin/sh",
-              "-c",
-              "cp",
-              "/src/AdGuardHome.yaml",
-              "/dest/AdGuardHome.yaml",
-            ]
-          volumeMounts:
-            - name: config-readonly
-              mountPath: /src
-            - name: config
-              mountPath: /dest
   service:
     main:
       controller: main
