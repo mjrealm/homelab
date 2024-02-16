@@ -27,13 +27,9 @@ app-template:
           port: 3000
         http-plain:
           port: 80
-        dns-udp:
+        dns:
           port: 53
-        dns-tcp:
-          port: 53
-        http-secure-tcp:
-          port: 443
-        http-secure-udp:
+        http-secure:
           port: 443
     secondary:
       controller: secondary
@@ -44,13 +40,9 @@ app-template:
           port: 3000
         http-plain:
           port: 80
-        dns-udp:
+        dns:
           port: 53
-        dns-tcp:
-          port: 53
-        http-secure-tcp:
-          port: 443
-        http-secure-udp:
+        http-secure:
           port: 443
 
   ingress:
