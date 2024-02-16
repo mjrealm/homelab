@@ -132,7 +132,7 @@ app-template:
 
     config:
       type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       size: 100Mi
       globalMounts:
         - path: /opt/adguardhome/conf
