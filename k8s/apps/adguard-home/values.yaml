@@ -29,16 +29,16 @@ app-template:
           command: [
               "/bin/sh",
               "-c",
-              "cp -f /src/AdGuardHome.yaml /dest/AdGuardHome.yaml",
+              "cp -f /config/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml",
               # "-f",
               # "/src/AdGuardHome.yaml",
               # "/dest/AdGuardHome.yaml",
             ]
           volumeMounts:
             - name: config-readonly
-              mountPath: /src
+              mountPath: /config
             - name: config
-              mountPath: /dest
+              mountPath: /opt/adguardhome/conf
 
     secondary:
       strategy: Recreate
@@ -128,8 +128,6 @@ app-template:
       enabled: true
       type: configMap
       name: adguard-home-config
-      globalMounts:
-        - path: /config
 
     config:
       type: persistentVolumeClaim
