@@ -104,7 +104,7 @@ app-template:
     config:
       enabled: true
       type: configMap
-      name: config
+      name: adguard-home-config
       globalMounts:
         - path: /opt/adguardhome/conf
 
