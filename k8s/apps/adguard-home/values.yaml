@@ -128,6 +128,8 @@ app-template:
       enabled: true
       type: configMap
       name: adguard-home-config
+      globalMounts:
+        - path: /config
 
     config:
       type: persistentVolumeClaim
