@@ -1,0 +1,124 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: adguard-1
+          image:
+            repository: adguard/adguardhome
+            tag: v0.107.44
+    secondary:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: adguard-2
+          image:
+            repository: adguard/adguardhome
+            tag: v0.107.44
+  service:
+    main:
+      controller: main
+      type: LoadBalancer
+      loadBalancerIP: 192.168.10.201
+      ports:
+        http:
+          port: 3000
+        http-plain:
+          port: 80
+        dns-udp:
+          port: 53
+        dns-tcp:
+          port: 53
+        http-secure-tcp:
+          port: 443
+        http-secure-udp:
+          port: 443
+    secondary:
+      controller: secondary
+      type: LoadBalancer
+      loadBalancerIP: 192.168.10.202
+      ports:
+        http:
+          port: 3000
+        http-plain:
+          port: 80
+        dns-udp:
+          port: 53
+        dns-tcp:
+          port: 53
+        http-secure-tcp:
+          port: 443
+        http-secure-udp:
+          port: 443
+
+  ingress:
+    adguard1:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Adguard Home Primary
+        gethomepage.dev/description: Ad blocker and DNS server
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network
+        gethomepage.dev/icon: adguard-home.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &guard1 guard1.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-plain
+      tls:
+        - secretName: adguardhome-primary-tls-cert
+          hosts:
+            - *guard1
+
+    adguard2:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Adguard Home Secondary
+        gethomepage.dev/description: Ad blocker and DNS server
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network
+        gethomepage.dev/icon: adguard-home.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &guard2 guard2.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: secondary
+                port: http-plain
+      tls:
+        - secretName: adguardhome-secondary-tls-cert
+          hosts:
+            - *guard2
+
+  persistence:
+    config:
+      enabled: true
+      type: configMap
+      name: config
+      globalMounts:
+        - path: /opt/adguardhome/conf
+
+    work:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 300Mi
+      advancedMounts:
+        main:
+          main:
+            - path: /opt/adguardhome/work
+              subPath: primary
+        secondary:
+          main:
+            - path: /opt/adguardhome/work
+              subPath: secondary
