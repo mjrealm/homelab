@@ -11,7 +11,9 @@ app-template:
             tag: v0.107.44
       initContainers:
         copy:
-          image: busybox:latest
+          image:
+            repository: busybox
+            tag: latest
           command:
             [
               "/bin/sh",
