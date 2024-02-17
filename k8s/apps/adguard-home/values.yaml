@@ -33,12 +33,12 @@ app-template:
               "cp",
               "-f",
               "/config-readonly/AdGuardHome.yaml",
-              "/dest/AdGuardHome.yaml",
+              "/config/AdGuardHome.yaml",
             ]
-          volumeMounts:
-            - name: config-readonly
-            - name: conf-primary
-              mountPath: /dest
+          # volumeMounts:
+          #   - name: config-readonly
+          #   - name: conf-primary
+          #     mountPath: /dest
           # volumeMounts:
           #   - name: config-readonly
           #     # mountPath: /src
@@ -70,11 +70,11 @@ app-template:
               "cp",
               "-f",
               "/config-readonly/AdGuardHome.yaml",
-              "/dest/AdGuardHome.yaml",
+              "/config/AdGuardHome.yaml",
             ]
-          volumeMounts:
-            - name: config-readonly
-            - name: conf-secondary
+          # volumeMounts:
+          #   - name: config-readonly
+          #   - name: conf-secondary
           # volumes:
           #   - name: config-readonly
           #     configMap:
@@ -160,25 +160,27 @@ app-template:
       type: configMap
       name: adguard-home-config
 
-    conf-primary:
+    config:
       enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 100Mi
-      advancedMounts:
-        main:
-          main:
-            - path: /opt/adguardhome/conf
+      type: emptyDir
+      globalMounts:
+        - path: /opt/adguardhome/conf
+    #   accessMode: ReadWriteOnce
+    #   size: 100Mi
+    #   advancedMounts:
+    #     main:
+    #       main:
+    #         - path: /opt/adguardhome/conf
 
-    conf-secondary:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 100Mi
-      advancedMounts:
-        secondary:
-          main:
-            - path: /opt/adguardhome/conf
+    # conf-secondary:
+    #   enabled: true
+    #   type: persistentVolumeClaim
+    #   accessMode: ReadWriteOnce
+    #   size: 100Mi
+    #   advancedMounts:
+    #     secondary:
+    #       main:
+    #         - path: /opt/adguardhome/conf
 
     work:
       enabled: true
