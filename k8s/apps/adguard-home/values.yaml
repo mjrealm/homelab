@@ -26,14 +26,14 @@ app-template:
           image:
             repository: busybox
             tag: latest
-          command:
-            [
+          command: [
               "/bin/sh",
               "-c",
-              "cp",
-              "-f",
-              "/config-readonly/AdGuardHome.yaml",
-              "/opt/adguardhome/conf/AdGuardHome.yaml",
+              "cp -f /config-readonly/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml",
+              # "cp",
+              # "-f",
+              # "/config-readonly/AdGuardHome.yaml",
+              # "/opt/adguardhome/conf/AdGuardHome.yaml",
             ]
           # volumeMounts:
           #   - name: config-readonly
