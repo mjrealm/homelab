@@ -27,9 +27,9 @@ app-template:
             repository: busybox
             tag: latest
           command: [
-              "sh",
+              "/bin/sh",
               "-c",
-              "cat /src/AdGuardHome.yaml",
+              "ls /src",
               # "cp",
               # "-n",
               # "/src/AdGuardHome.yaml",
@@ -37,8 +37,7 @@ app-template:
             ]
           volumeMounts:
             - name: config-readonly
-              mountPath: /src/AdGuardHome.yaml
-              subPath: AdGuardHome.yaml
+              mountPath: /src
             - name: conf-primary
               mountPath: /dest
           # volumes:
