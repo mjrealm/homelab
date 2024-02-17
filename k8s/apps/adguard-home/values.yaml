@@ -31,13 +31,14 @@ app-template:
               "/bin/sh",
               "-c",
               "cp",
-              "-n",
+              "-f",
               "/config-readonly/AdGuardHome.yaml",
               "/dest/AdGuardHome.yaml",
             ]
           volumeMounts:
             - name: config-readonly
-            - name: conf-secondary
+            - name: conf-primary
+              mountPath: /dest
           # volumeMounts:
           #   - name: config-readonly
           #     # mountPath: /src
@@ -47,6 +48,7 @@ app-template:
           #   - name: config-readonly
           #     configMap:
           #       name: adguard-home-config
+          #   - name: conf-primary
 
     secondary:
       strategy: Recreate
@@ -66,7 +68,7 @@ app-template:
               "/bin/sh",
               "-c",
               "cp",
-              "-n",
+              "-f",
               "/config-readonly/AdGuardHome.yaml",
               "/dest/AdGuardHome.yaml",
             ]
