@@ -38,7 +38,7 @@ app-template:
           volumeMounts:
             - name: config-readonly
               mountPath: /src
-            - name: config
+            - name: conf-primary
               mountPath: /dest
 
     secondary:
@@ -49,6 +49,25 @@ app-template:
           image:
             repository: adguard/adguardhome
             tag: v0.107.44
+      initContainers:
+        copy:
+          image:
+            repository: busybox
+            tag: latest
+          command:
+            [
+              "sh",
+              "-c",
+              "cp",
+              "-n",
+              "/src/AdGuardHome.yaml",
+              "/dest/AdGuardHome.yaml",
+            ]
+          volumeMounts:
+            - name: config-readonly
+              mountPath: /src
+            - name: conf-secondary
+              mountPath: /dest
   service:
     main:
       controller: main
@@ -130,12 +149,25 @@ app-template:
       type: configMap
       name: adguard-home-config
 
-    config:
+    conf-primary:
+      enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteMany
       size: 100Mi
-      globalMounts:
-        - path: /opt/adguardhome/conf
+      advancedMounts:
+        main:
+          main:
+            - path: /opt/adguardhome/conf
+
+    conf-secondary:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteMany
+      size: 100Mi
+      advancedMounts:
+        secondary:
+          main:
+            - path: /opt/adguardhome/conf
 
     work:
       enabled: true
