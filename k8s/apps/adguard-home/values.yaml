@@ -26,24 +26,27 @@ app-template:
           image:
             repository: busybox
             tag: latest
-          command: [
+          command:
+            [
               "/bin/sh",
               "-c",
-              "ls /config-readonly",
-              # "cp",
-              # "-n",
-              # "/src/AdGuardHome.yaml",
-              # "/dest/AdGuardHome.yaml",
+              "cp",
+              "-n",
+              "/config-readonly/AdGuardHome.yaml",
+              "/dest/AdGuardHome.yaml",
             ]
           volumeMounts:
             - name: config-readonly
-              # mountPath: /src
-            - name: conf-primary
-              mountPath: /dest
-          volumes:
-            - name: config-readonly
-              configMap:
-                name: adguard-home-config
+            - name: conf-secondary
+          # volumeMounts:
+          #   - name: config-readonly
+          #     # mountPath: /src
+          #   - name: conf-primary
+          #     mountPath: /dest
+          # volumes:
+          #   - name: config-readonly
+          #     configMap:
+          #       name: adguard-home-config
 
     secondary:
       strategy: Recreate
@@ -60,19 +63,16 @@ app-template:
             tag: latest
           command:
             [
-              "sh",
+              "/bin/sh",
               "-c",
               "cp",
               "-n",
-              "/src/AdGuardHome.yaml",
+              "/config-readonly/AdGuardHome.yaml",
               "/dest/AdGuardHome.yaml",
             ]
           volumeMounts:
             - name: config-readonly
-              mountPath: /src/AdGuardHome.yaml
-              subPath: AdGuardHome.yaml
             - name: conf-secondary
-              mountPath: /dest
           # volumes:
           #   - name: config-readonly
           #     configMap:
