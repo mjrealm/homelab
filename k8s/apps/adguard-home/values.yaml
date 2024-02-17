@@ -160,7 +160,7 @@ app-template:
     conf-primary:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
       size: 100Mi
       advancedMounts:
         main:
@@ -170,7 +170,7 @@ app-template:
     conf-secondary:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
       size: 100Mi
       advancedMounts:
         secondary:
