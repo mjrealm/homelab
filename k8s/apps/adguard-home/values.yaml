@@ -29,7 +29,7 @@ app-template:
           command: [
               "/bin/sh",
               "-c",
-              "ls /src",
+              "ls /config-readonly",
               # "cp",
               # "-n",
               # "/src/AdGuardHome.yaml",
@@ -37,7 +37,7 @@ app-template:
             ]
           volumeMounts:
             - name: config-readonly
-              mountPath: /src
+              # mountPath: /src
             - name: conf-primary
               mountPath: /dest
           volumes:
