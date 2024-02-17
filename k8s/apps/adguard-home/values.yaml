@@ -29,7 +29,8 @@ app-template:
           command: [
               "/bin/sh",
               "-c",
-              "cp -f /config-readonly/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml",
+              "ls -al /opt/adguardhome/conf/",
+              # "cp -f /config-readonly/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml",
               # "cp",
               # "-f",
               # "/config-readonly/AdGuardHome.yaml",
@@ -66,7 +67,8 @@ app-template:
           command: [
               "/bin/sh",
               "-c",
-              "cp -f /config-readonly/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml",
+              "ls -al /opt/adguardhome/conf/",
+              # "cp -f /config-readonly/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml",
               # "cp",
               # "-f",
               # "/config-readonly/AdGuardHome.yaml",
