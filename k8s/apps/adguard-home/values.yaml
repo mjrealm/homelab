@@ -40,6 +40,10 @@ app-template:
               mountPath: /src
             - name: conf-primary
               mountPath: /dest
+          volumes:
+            - name: config-readonly
+              configMap:
+                name: adguard-home-config
 
     secondary:
       strategy: Recreate
@@ -68,6 +72,10 @@ app-template:
               mountPath: /src
             - name: conf-secondary
               mountPath: /dest
+          volumes:
+            - name: config-readonly
+              configMap:
+                name: adguard-home-config
   service:
     main:
       controller: main
