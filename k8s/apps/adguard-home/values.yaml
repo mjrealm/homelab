@@ -29,11 +29,11 @@ app-template:
           command: [
               "sh",
               "-c",
-              # "cat /src/AdGuardHome.yaml",
-              "cp",
-              "-n",
-              "/src/AdGuardHome.yaml",
-              "/dest/AdGuardHome.yaml",
+              "cat /src/AdGuardHome.yaml",
+              # "cp",
+              # "-n",
+              # "/src/AdGuardHome.yaml",
+              # "/dest/AdGuardHome.yaml",
             ]
           volumeMounts:
             - name: config-readonly
