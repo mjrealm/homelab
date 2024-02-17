@@ -29,15 +29,16 @@ app-template:
           command: [
               "sh",
               "-c",
-              "cat /src/AdGuardHome.yaml",
-              # "cp",
-              # "-n",
-              # "/src/AdGuardHome.yaml",
-              # "/dest/AdGuardHome.yaml",
+              # "cat /src/AdGuardHome.yaml",
+              "cp",
+              "-n",
+              "/src/AdGuardHome.yaml",
+              "/dest/AdGuardHome.yaml",
             ]
           volumeMounts:
             - name: config-readonly
-              mountPath: /src
+              mountPath: /src/AdGuardHome.yaml
+              subPath: AdGuardHome.yaml
             - name: conf-primary
               mountPath: /dest
           # volumes:
@@ -69,7 +70,8 @@ app-template:
             ]
           volumeMounts:
             - name: config-readonly
-              mountPath: /src
+              mountPath: /src/AdGuardHome.yaml
+              subPath: AdGuardHome.yaml
             - name: conf-secondary
               mountPath: /dest
           # volumes:
