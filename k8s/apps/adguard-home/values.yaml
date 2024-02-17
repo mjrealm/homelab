@@ -33,7 +33,7 @@ app-template:
               "cp",
               "-f",
               "/config-readonly/AdGuardHome.yaml",
-              "/config/AdGuardHome.yaml",
+              "/opt/adguardhome/conf/AdGuardHome.yaml",
             ]
           # volumeMounts:
           #   - name: config-readonly
@@ -70,7 +70,7 @@ app-template:
               "cp",
               "-f",
               "/config-readonly/AdGuardHome.yaml",
-              "/config/AdGuardHome.yaml",
+              "/opt/adguardhome/conf/AdGuardHome.yaml",
             ]
           # volumeMounts:
           #   - name: config-readonly
