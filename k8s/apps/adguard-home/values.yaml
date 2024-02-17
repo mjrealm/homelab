@@ -26,19 +26,20 @@ app-template:
           image:
             repository: busybox
             tag: latest
-          command: [
-              "/bin/sh",
+          command:
+            [
+              "sh",
               "-c",
-              "cp -f /config/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml",
-              # "-f",
-              # "/src/AdGuardHome.yaml",
-              # "/dest/AdGuardHome.yaml",
+              "cp",
+              "-n",
+              "/src/AdGuardHome.yaml",
+              "/dest/AdGuardHome.yaml",
             ]
           volumeMounts:
             - name: config-readonly
-              mountPath: /config
+              mountPath: /src
             - name: config
-              mountPath: /opt/adguardhome/conf
+              mountPath: /dest
 
     secondary:
       strategy: Recreate
