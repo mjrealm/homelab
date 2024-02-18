@@ -66,14 +66,14 @@ app-template:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Technitium
+        gethomepage.dev/name: Technitium (Primary)
         gethomepage.dev/description: Ad blocker and DNS server
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Network
         gethomepage.dev/icon: technitium.png
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &primary dns1.mdeleon.dev
+        - host: &primary technitium-primary.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
@@ -88,14 +88,14 @@ app-template:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Technitium Secondary
+        gethomepage.dev/name: Technitium (Secondary)
         gethomepage.dev/description: Ad blocker and DNS server
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Network
         gethomepage.dev/icon: technitium.png
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &secondary dns2.mdeleon.dev
+        - host: &secondary technitium-secondary.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
