@@ -4,4 +4,5 @@
   roles:
     # - cilium
     - nginx
+    - cert-manager
     - argocd

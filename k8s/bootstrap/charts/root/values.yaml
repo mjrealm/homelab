@@ -17,6 +17,9 @@ bootstrap:
   - name: ingress-nginx
     namespace: kube-system
     project: system
+  - name: cert-manager
+    namespace: cert-manager
+    project: system
   - name: argocd
     namespace: argocd
     project: platform
