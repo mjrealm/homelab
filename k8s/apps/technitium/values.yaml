@@ -18,9 +18,9 @@ app-template:
       type: LoadBalancer
       loadBalancerIP: 192.168.10.201
       ports:
+        # http:
+        #   port: 80
         http:
-          port: 80
-        http-console:
           port: 5380
         tcp:
           port: 53
