@@ -1,0 +1,59 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: technitium
+          image:
+            repository: technitium/dns-server
+            tag: 12.0.1
+          env:
+            DNS_SERVER_LOG_USING_LOCAL_TIME: "true"
+            # DNS_SERVER_DOMAIN: "dns"
+            # DNS_SERVER_ADMIN_PASSWORD: ""
+  service:
+    main:
+      type: LoadBalancer
+      loadBalancerIP: 192.168.10.201
+      ports:
+        http:
+          port: 80
+        http-console:
+          port: 5380
+        tcp:
+          port: 53
+
+  ingress:
+    technitium:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Technitium
+        gethomepage.dev/description: Ad blocker and DNS server
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network
+        gethomepage.dev/icon: technitium.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &dns dns.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: technitium-tls-cert
+          hosts:
+            - *dns
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Mi
+      globalMounts:
+        - path: /etc/dns
