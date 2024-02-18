@@ -1,0 +1,65 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: adguard-home
+          image:
+            repository: adguard/adguardhome
+            tag: v0.107.44
+
+  service:
+    main:
+      type: LoadBalancer
+      loadBalancerIP: 192.168.10.201
+      ports:
+        http:
+          port: 3000
+        http-plain:
+          port: 80
+        http-secure:
+          port: 443
+        dns:
+          port: 53
+
+  ingress:
+    adguardhome:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/description: Ad blocker and DNS server
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network
+        gethomepage.dev/icon: adguard-home.png
+        gethomepage.dev/name: Adguard Home
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &guard guard.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: adguard-home-tls-cert
+          hosts:
+            - *guard
+
+  persistence:
+    work:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Mi
+      globalMounts:
+        - path: /opt/adguardhome/work
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      globalMounts:
+        - path: /opt/adguardhome/conf
