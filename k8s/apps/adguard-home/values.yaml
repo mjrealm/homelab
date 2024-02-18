@@ -42,7 +42,7 @@ app-template:
               pathType: Prefix
               service:
                 name: main
-                port: http
+                port: http-plain
       tls:
         - secretName: adguard-home-tls-cert
           hosts:
