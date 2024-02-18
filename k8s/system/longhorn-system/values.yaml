@@ -2,6 +2,8 @@
 longhorn:
   persistence:
     defaultClassReplicaCount: 2
+  preUpgradeChecker:
+    jobEnabled: false
   ingress:
     enabled: true
     host: longhorn.mdeleon.dev
