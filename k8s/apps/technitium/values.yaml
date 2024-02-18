@@ -22,6 +22,7 @@ app-template:
             repository: technitium/dns-server
             tag: 12.0.1
           env:
+            DNS_SERVER_DOMAIN: "technitium-primary"
             DNS_SERVER_LOG_USING_LOCAL_TIME: "true"
     secondary:
       strategy: Recreate
@@ -32,6 +33,7 @@ app-template:
             repository: technitium/dns-server
             tag: 12.0.1
           env:
+            DNS_SERVER_DOMAIN: "technitium-secondary"
             DNS_SERVER_LOG_USING_LOCAL_TIME: "true"
   service:
     main:
