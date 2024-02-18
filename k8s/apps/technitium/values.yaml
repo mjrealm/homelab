@@ -16,13 +16,15 @@ app-template:
   service:
     main:
       type: LoadBalancer
-      loadBalancerIP: 192.168.10.203
+      loadBalancerIP: 192.168.10.201
       ports:
-        # http:
-        #   port: 80
         http:
           port: 5380
-        tcp:
+        dns-tcp:
+          protocol: TCP
+          port: 53
+        dns-udp:
+          protocol: UDP
           port: 53
 
   ingress:
