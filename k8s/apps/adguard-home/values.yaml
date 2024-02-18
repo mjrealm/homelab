@@ -16,9 +16,9 @@ app-template:
       loadBalancerIP: 192.168.10.201
       ports:
         http:
-          port: 3000
-        http-plain:
           port: 80
+        http-web:
+          port: 3000
         http-secure:
           port: 443
         dns:
@@ -42,7 +42,7 @@ app-template:
               pathType: Prefix
               service:
                 name: main
-                port: http-plain
+                port: http
       tls:
         - secretName: adguard-home-tls-cert
           hosts:
