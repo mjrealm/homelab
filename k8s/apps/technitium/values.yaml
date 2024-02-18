@@ -41,6 +41,8 @@ app-template:
       ports:
         http:
           port: 5380
+        http-plain:
+          port: 80
         dns-tcp:
           protocol: TCP
           port: 53
@@ -79,7 +81,7 @@ app-template:
               pathType: Prefix
               service:
                 name: main
-                port: http
+                port: http-plain
       tls:
         - secretName: technitium-primary-tls-cert
           hosts:
@@ -101,7 +103,7 @@ app-template:
               pathType: Prefix
               service:
                 name: secondary
-                port: http
+                port: http-plain
       tls:
         - secretName: technitium-secondary-tls-cert
           hosts:
