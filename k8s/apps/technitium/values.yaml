@@ -39,7 +39,7 @@ app-template:
         gethomepage.dev/icon: technitium.png
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &dns dns.mdeleon.dev
+        - host: &technitium technitium.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
@@ -49,7 +49,7 @@ app-template:
       tls:
         - secretName: technitium-tls-cert
           hosts:
-            - *dns
+            - *technitium
 
   persistence:
     config:
