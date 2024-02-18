@@ -1,22 +1,56 @@
 ---
 app-template:
+  defaultPodOptions:
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                    - technitium
+            topologyKey: "kubernetes.io/hostname"
+
   controllers:
     main:
       strategy: Recreate
       containers:
         main:
-          nameOverride: technitium
+          nameOverride: technitium-primary
           image:
             repository: technitium/dns-server
             tag: 12.0.1
           env:
             DNS_SERVER_LOG_USING_LOCAL_TIME: "true"
-            # DNS_SERVER_DOMAIN: "dns"
-            # DNS_SERVER_ADMIN_PASSWORD: ""
+    secondary:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: technitium-secondary
+          image:
+            repository: technitium/dns-server
+            tag: 12.0.1
+          env:
+            DNS_SERVER_LOG_USING_LOCAL_TIME: "true"
   service:
     main:
       type: LoadBalancer
       loadBalancerIP: 192.168.10.201
+      controller: main
+      ports:
+        http:
+          port: 5380
+        dns-tcp:
+          protocol: TCP
+          port: 53
+        dns-udp:
+          protocol: UDP
+          port: 53
+    secondary:
+      type: LoadBalancer
+      loadBalancerIP: 192.168.10.202
+      controller: secondary
       ports:
         http:
           port: 5380
@@ -39,7 +73,7 @@ app-template:
         gethomepage.dev/icon: technitium.png
         gethomepage.dev/pod-selector: ""
       hosts:
-        - host: &technitium technitium.mdeleon.dev
+        - host: &primary dns1.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
@@ -47,9 +81,31 @@ app-template:
                 name: main
                 port: http
       tls:
-        - secretName: technitium-tls-cert
+        - secretName: technitium-primary-tls-cert
           hosts:
-            - *technitium
+            - *primary
+    secondary:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Technitium Secondary
+        gethomepage.dev/description: Ad blocker and DNS server
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network
+        gethomepage.dev/icon: technitium.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &secondary dns2.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: secondary
+                port: http
+      tls:
+        - secretName: technitium-secondary-tls-cert
+          hosts:
+            - *secondary
 
   persistence:
     config:
@@ -57,5 +113,17 @@ app-template:
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 200Mi
-      globalMounts:
-        - path: /etc/dns
+      advancedMounts:
+        main:
+          main:
+            - path: /etc/dns
+
+    config-secondary:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Mi
+      advancedMounts:
+        secondary:
+          main:
+            - path: /etc/dns
