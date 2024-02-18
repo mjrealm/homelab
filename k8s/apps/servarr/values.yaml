@@ -300,12 +300,16 @@ app-template:
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 180Gi
-      globalMounts:
-        - path: /downloads
       advancedMounts:
         filebrowser:
           main:
             - path: /srv/downloads
+        nzbget:
+          main:
+            - path: /downloads
+        main:
+          main:
+            - path: /downloads
 
     media-nfs:
       enabled: true
