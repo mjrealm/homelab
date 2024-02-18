@@ -16,7 +16,7 @@ app-template:
   service:
     main:
       type: LoadBalancer
-      loadBalancerIP: 192.168.10.201
+      loadBalancerIP: 192.168.10.203
       ports:
         # http:
         #   port: 80
