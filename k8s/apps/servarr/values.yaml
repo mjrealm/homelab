@@ -298,8 +298,8 @@ app-template:
     media-downloads:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 180Gi
+      accessMode: ReadWriteMany
+      size: 200Gi
       advancedMounts:
         filebrowser:
           main:
