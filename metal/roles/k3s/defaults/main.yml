@@ -11,7 +11,7 @@ k3s_server_flags: "--secrets-encryption \
   --disable=servicelb \
   --disable=traefik \
   --disable=local-storage \
-  --node-taint='master=true:NoSchedule'"
+  --node-taint=node-role.kubernetes.io/master=true:NoSchedule"
 # For use with Cilium CNI only
 # k3s_server_flags: "--flannel-backend=none \
 #   --disable-kube-proxy \
