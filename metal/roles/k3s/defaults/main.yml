@@ -1,5 +1,5 @@
 ---
-k3s_version: v1.29.0+k3s1
+k3s_version: v1.29.1+k3s2
 k3s_config_file: /etc/rancher/k3s/k3s.yaml
 k3s_node_token_file: /var/lib/rancher/k3s/server/node-token
 k3s_agent_uninstall_file: /usr/local/bin/k3s-agent-uninstall.sh
@@ -10,7 +10,8 @@ k3s_server_flags: "--secrets-encryption \
   --disable-cloud-controller \
   --disable=servicelb \
   --disable=traefik \
-  --disable=local-storage"
+  --disable=local-storage \
+  --node-taint='master=true:NoSchedule'"
 # For use with Cilium CNI only
 # k3s_server_flags: "--flannel-backend=none \
 #   --disable-kube-proxy \
