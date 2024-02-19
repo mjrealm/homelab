@@ -7,6 +7,11 @@ longhorn:
   global:
     cattle:
       windowsCluster:
+        tolerations:
+          - key: "node-role.kubernetes.io/master"
+            value: "true"
+            effect: "NoSchedule"
+            operator: "Equal"
         defaultSetting:
           taintToleration: node-role.kubernetes.io/master=true:NoSchedule
   ingress:
