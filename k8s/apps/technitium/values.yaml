@@ -74,6 +74,7 @@ app-template:
         gethomepage.dev/group: Network
         gethomepage.dev/icon: technitium.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "1"
       hosts:
         - host: &primary technitium-primary.mdeleon.dev
           paths:
@@ -96,6 +97,7 @@ app-template:
         gethomepage.dev/group: Network
         gethomepage.dev/icon: technitium.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "2"
       hosts:
         - host: &secondary technitium-secondary.mdeleon.dev
           paths:

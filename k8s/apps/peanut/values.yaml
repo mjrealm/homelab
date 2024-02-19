@@ -32,6 +32,7 @@ app-template:
         gethomepage.dev/group: Network
         gethomepage.dev/icon: "https://raw.githubusercontent.com/Brandawg93/PeaNUT/main/src/app/icon.svg"
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "3"
       hosts:
         - host: &peanut peanut.mdeleon.dev
           paths:
