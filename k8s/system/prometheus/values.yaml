@@ -1,2 +1,4 @@
 ---
 prometheus-operator-crds:
+  crds:
+    annotations: {}
