@@ -60,8 +60,6 @@ app-template:
           port: 8686
         http-prowlarr:
           port: 9696
-        http-bazarr:
-          port: 6767
     filebrowser:
       controller: filebrowser
       ports:
