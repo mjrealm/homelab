@@ -38,26 +38,6 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-        bazarr:
-          image:
-            repository: lscr.io/linuxserver/bazarr
-            tag: 1.4.1
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
-    nzbget:
-      replicas: 1
-      strategy: Recreate
-      containers:
-        main:
-          image:
-            repository: lscr.io/linuxserver/nzbget
-            tag: latest
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
     filebrowser:
       replicas: 1
       strategy: Recreate
@@ -82,11 +62,6 @@ app-template:
           port: 9696
         http-bazarr:
           port: 6767
-    nzbget:
-      controller: nzbget
-      ports:
-        http:
-          port: 6789
     filebrowser:
       controller: filebrowser
       ports:
@@ -190,53 +165,6 @@ app-template:
         - secretName: prowlarr-tls-cert
           hosts:
             - *prowlarr
-    bazarr:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: Bazaar
-        gethomepage.dev/description: Subtitle Manager
-        gethomepage.dev/group: Servarr
-        gethomepage.dev/icon: bazarr.png
-        gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "5"
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
-      hosts:
-        - host: &bazarr bazarr.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                name: main
-                port: http-bazarr
-      tls:
-        - secretName: bazarr-tls-cert
-          hosts:
-            - *bazarr
-    nzbget:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: NZBGet
-        gethomepage.dev/description: Media Downloader
-        gethomepage.dev/group: Servarr
-        gethomepage.dev/icon: nzbget.png
-        gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "6"
-      hosts:
-        - host: &nzbget nzbget.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                name: nzbget
-                port: http
-      tls:
-        - secretName: nzbget-tls-cert
-          hosts:
-            - *nzbget
     filebrowser:
       enabled: true
       annotations:
@@ -282,13 +210,6 @@ app-template:
           prowlarr:
             - path: /config
               subPath: prowlarr
-          bazarr:
-            - path: /config
-              subPath: bazarr
-        nzbget:
-          main:
-            - path: /config
-              subPath: nzbget
         filebrowser:
           main:
             - path: /config
@@ -304,9 +225,6 @@ app-template:
         filebrowser:
           main:
             - path: /srv/downloads
-        nzbget:
-          main:
-            - path: /downloads
         main:
           main:
             - path: /downloads
