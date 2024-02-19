@@ -8,6 +8,11 @@
     {
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePrefixes": ["plexinc/", "docker.io/plexinc/"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)?(-(.*))?$"
     }
   ]
 }
