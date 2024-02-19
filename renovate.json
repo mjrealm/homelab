@@ -12,7 +12,7 @@
     {
       "matchDatasources": ["docker"],
       "matchPackageNames": ["plexinc/pms-docker"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?.*)?$"
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(.*)?$"
     }
   ]
 }
