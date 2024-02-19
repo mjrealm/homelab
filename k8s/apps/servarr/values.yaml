@@ -1,0 +1,244 @@
+---
+app-template:
+  controllers:
+    main:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: sonarr
+          image:
+            repository: lscr.io/linuxserver/sonarr
+            tag: 4.0.1
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+        radarr:
+          image:
+            repository: lscr.io/linuxserver/radarr
+            tag: 5.3.2-develop
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+        lidarr:
+          image:
+            repository: lscr.io/linuxserver/lidarr
+            tag: 2.1.7
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+        prowlarr:
+          image:
+            repository: lscr.io/linuxserver/prowlarr
+            tag: 1.12.2
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+    filebrowser:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        main:
+          image:
+            repository: filebrowser/filebrowser
+            tag: v2.27.0
+          env:
+            PUID: "1000"
+            PGID: "1000"
+  service:
+    main:
+      ports:
+        http:
+          port: 8989
+        http-radarr:
+          port: 7878
+        http-lidarr:
+          port: 8686
+        http-prowlarr:
+          port: 9696
+    filebrowser:
+      controller: filebrowser
+      ports:
+        http:
+          port: 80
+
+  ingress:
+    sonarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Sonarr
+        gethomepage.dev/description: TV Show Library Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: sonarr.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "1"
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &sonarr sonarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http
+      tls:
+        - secretName: sonarr-tls-cert
+          hosts:
+            - *sonarr
+    radarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Radarr
+        gethomepage.dev/description: Movie Library Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: radarr.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "2"
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &radarr radarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-radarr
+      tls:
+        - secretName: radarr-tls-cert
+          hosts:
+            - *radarr
+    lidarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Lidarr
+        gethomepage.dev/description: Music Library Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: lidarr.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "3"
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &lidarr lidarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-lidarr
+      tls:
+        - secretName: lidarr-tls-cert
+          hosts:
+            - *lidarr
+    prowlarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Prowlarr
+        gethomepage.dev/description: Indexer Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: prowlarr.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "4"
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &prowlarr prowlarr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: main
+                port: http-prowlarr
+      tls:
+        - secretName: prowlarr-tls-cert
+          hosts:
+            - *prowlarr
+    filebrowser:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: File Browser
+        gethomepage.dev/description: File Browser for Downloads
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: filebrowser.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "7"
+      hosts:
+        - host: &filebrowser media-fb.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: filebrowser
+                port: http
+      tls:
+        - secretName: filebrowser-tls-cert
+          hosts:
+            - *filebrowser
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      retain: true
+      advancedMounts:
+        main:
+          main:
+            - path: /config
+              subPath: sonarr
+          radarr:
+            - path: /config
+              subPath: radarr
+          lidarr:
+            - path: /config
+              subPath: lidarr
+          prowlarr:
+            - path: /config
+              subPath: prowlarr
+        filebrowser:
+          main:
+            - path: /config
+              subPath: filebrowser
+            - path: /srv/config
+
+    media-downloads:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 150Gi
+      advancedMounts:
+        filebrowser:
+          main:
+            - path: /srv/downloads
+        main:
+          main:
+            - path: /downloads
+
+    media-nfs:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/media/
+
+    filebrowser-db:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      advancedMounts:
+        filebrowser:
+          main:
+            - path: /database
