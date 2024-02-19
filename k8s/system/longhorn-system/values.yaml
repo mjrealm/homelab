@@ -1,0 +1,21 @@
+---
+longhorn:
+  persistence:
+    defaultClassReplicaCount: 2
+  preUpgradeChecker:
+    jobEnabled: false
+  defaultSettings:
+    taintToleration: node-role.kubernetes.io/master=true:NoSchedule
+  ingress:
+    enabled: true
+    host: longhorn.mdeleon.dev
+    tls: true
+    tlsSecret: longhorn-tls-cert
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Longhorn
+      gethomepage.dev/description: Block Storage
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: longhorn.png
+      gethomepage.dev/pod-selector: ""

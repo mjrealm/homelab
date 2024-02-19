@@ -22,7 +22,7 @@ gitea:
     metrics:
       enabled: false
       serviceMonitor:
-        enabled: false
+        enabled: true
     config:
       service:
         DISABLE_REGISTRATION: true

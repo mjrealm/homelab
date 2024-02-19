@@ -31,4 +31,4 @@ emqx:
             - *emqx
 
   metrics:
-    enabled: false
+    enabled: true
