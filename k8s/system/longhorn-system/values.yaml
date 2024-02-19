@@ -4,6 +4,11 @@ longhorn:
     defaultClassReplicaCount: 2
   preUpgradeChecker:
     jobEnabled: false
+  global:
+    cattle:
+      windowsCluster:
+        defaultSetting:
+          taintToleration: node-role.kubernetes.io/master=true:NoSchedule
   ingress:
     enabled: true
     host: longhorn.mdeleon.dev
