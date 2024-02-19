@@ -20,9 +20,9 @@ gitea:
   # Config
   gitea:
     metrics:
-      enabled: true
+      enabled: false
       serviceMonitor:
-        enabled: true
+        enabled: false
     config:
       service:
         DISABLE_REGISTRATION: true
