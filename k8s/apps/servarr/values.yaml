@@ -49,6 +49,19 @@ app-template:
           env:
             PUID: "1000"
             PGID: "1000"
+    sabnzbd:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        main:
+          image:
+            repository: lscr.io/linuxserver/sabnzbd
+            tag: 4.2.2
+          env:
+            PUID: "1000"
+            PGID: "1000"
+            TZ: "America/Los_Angeles"
+
   service:
     main:
       ports:
@@ -60,6 +73,11 @@ app-template:
           port: 8686
         http-prowlarr:
           port: 9696
+    sabnzbd:
+      controller: sabnzbd
+      ports:
+        http:
+          port: 8080
     filebrowser:
       controller: filebrowser
       ports:
@@ -186,6 +204,29 @@ app-template:
         - secretName: filebrowser-tls-cert
           hosts:
             - *filebrowser
+    sabnzbd:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: SABnzbd
+        gethomepage.dev/description: DL client
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: sabnzbd.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "5"
+      hosts:
+        - host: &sabnzbd media-dl.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: sabnzbd
+                port: http
+      tls:
+        - secretName: sabnzbd-tls-cert
+          hosts:
+            - *sabnzbd
 
   persistence:
     config:
@@ -213,19 +254,30 @@ app-template:
             - path: /config
               subPath: filebrowser
             - path: /srv/config
+        sabnzbd:
+          main:
+            - path: /config
+              subPath: sabnzbd
+
+    media-incomplete:
+      enabled: true
+      type: emptyDir
+      advancedMounts:
+        sabnzbd:
+          main:
+            - path: incomplete-downloads
 
     media-downloads:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 150Gi
+      globalMounts:
+        - path: /downloads
       advancedMounts:
         filebrowser:
           main:
             - path: /srv/downloads
-        main:
-          main:
-            - path: /downloads
 
     media-nfs:
       enabled: true
