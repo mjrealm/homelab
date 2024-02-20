@@ -113,7 +113,7 @@ app-template:
     work:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       size: 200Mi
       advancedMounts:
         main:
@@ -127,7 +127,7 @@ app-template:
     config:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       size: 100Mi
       advancedMounts:
         main:
