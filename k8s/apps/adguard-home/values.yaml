@@ -26,6 +26,8 @@ app-template:
               enabled: false
             readiness:
               enabled: false
+            startup:
+              enabled: false
     secondary:
       strategy: Recreate
       containers:
@@ -38,6 +40,8 @@ app-template:
             liveness:
               enabled: false
             readiness:
+              enabled: false
+            startup:
               enabled: false
   service:
     main:
