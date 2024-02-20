@@ -150,3 +150,9 @@ app-template:
         secondary:
           main:
             - path: /opt/adguardhome/conf
+
+  probes:
+    liveness:
+      enabled: false
+    readiness:
+      enabled: false
