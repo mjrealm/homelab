@@ -21,6 +21,11 @@ app-template:
           image:
             repository: adguard/adguardhome
             tag: v0.107.44
+          probes:
+            liveness:
+              enabled: false
+            readiness:
+              enabled: false
     secondary:
       strategy: Recreate
       containers:
@@ -29,6 +34,11 @@ app-template:
           image:
             repository: adguard/adguardhome
             tag: v0.107.44
+          probes:
+            liveness:
+              enabled: false
+            readiness:
+              enabled: false
   service:
     main:
       type: LoadBalancer
@@ -150,9 +160,3 @@ app-template:
         secondary:
           main:
             - path: /opt/adguardhome/conf
-
-  probes:
-    liveness:
-      enabled: false
-    readiness:
-      enabled: false
