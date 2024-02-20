@@ -61,15 +61,6 @@ app-template:
             PUID: "1000"
             PGID: "1000"
             TZ: "America/Los_Angeles"
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  [
-                    "/bin/sh",
-                    "-c",
-                    "sed -i 's/^host_whitelist = \\(.*\\)/host_whitelist = \\1media-dl.mdeleon.dev,servarr-sabnzbd/' /config/sabnzbd.ini",
-                  ]
 
   service:
     main:
