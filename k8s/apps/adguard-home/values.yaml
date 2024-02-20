@@ -36,8 +36,10 @@ app-template:
       controller: main
       ports:
         http:
+          protocol: HTTP
           port: 80
         http-web:
+          protocol: HTTP
           port: 3000
         dns-tcp:
           protocol: TCP
@@ -51,8 +53,10 @@ app-template:
       controller: secondary
       ports:
         http:
+          protocol: HTTP
           port: 80
         http-web:
+          protocol: HTTP
           port: 3000
         dns-tcp:
           protocol: TCP
