@@ -110,31 +110,39 @@ app-template:
             - *secondary
 
   persistence:
-    work:
+    work-primary:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
       size: 200Mi
       advancedMounts:
         main:
           main:
             - path: /opt/adguardhome/work
-              subPath: primary
+    work-secondary:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Mi
+      advancedMounts:
         secondary:
           main:
             - path: /opt/adguardhome/work
-              subPath: secondary
-    config:
+    config-primary:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
       size: 100Mi
       advancedMounts:
         main:
           main:
             - path: /opt/adguardhome/conf
-              subPath: primary
+    config-secondary:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      advancedMounts:
         secondary:
           main:
             - path: /opt/adguardhome/conf
-              subPath: secondary
