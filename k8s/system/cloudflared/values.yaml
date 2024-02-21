@@ -16,6 +16,8 @@ app-template:
             # args:
             #   - --token
             #   - ""
+          env:
+            TUNNEL_MANAGEMENT_DIAGNOSTICS: "false"
   service:
     main:
       ports:
