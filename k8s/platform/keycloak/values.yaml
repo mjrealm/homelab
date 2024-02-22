@@ -2,7 +2,7 @@
 keycloakx:
   image:
     repository: quay.io/keycloak/keycloak
-    tag: "23.0.6"
+    tag: "23.0.7"
 
   ingress:
     enabled: true
