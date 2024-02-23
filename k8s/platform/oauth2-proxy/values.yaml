@@ -1,0 +1,27 @@
+---
+oauth2-proxy:
+  image:
+    repository: "quay.io/oauth2-proxy/oauth2-proxy"
+    tag: "v7.5.1"
+
+  config:
+    clientID: "oauth2-proxy"
+    clientSecret: "i73UGNSqvE87kfxKwjtZxYdlqCiwp0Bu"
+    cookieSecret: "ZmpJTHJXZ3ZVK2E2UWFCRHBVYWVpMkNrYnd1NjNucks="
+    configFile: |-
+      provider=keycloak-oidc      
+      redirect-url=https://oauth.mdeleon.dev/oauth2/callback
+      oidc-issuer-url=http://keycloak-keycloakx-http.keycloak.svc:80/realms/homelab
+      email-domain=mdeleon.dev      
+      code-challenge-method=S256
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - &host oauth.mdeleon.dev
+    tls:
+      - secretName: oauth2-proxy-tls-cert
+        hosts:
+          - *host
