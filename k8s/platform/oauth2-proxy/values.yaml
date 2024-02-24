@@ -10,10 +10,10 @@ oauth2-proxy:
     cookieSecret: "ZmpJTHJXZ3ZVK2E2UWFCRHBVYWVpMkNrYnd1NjNucks="
     configFile: |-
       provider=keycloak-oidc
-      redirect-url=https://oauth.mdeleon.dev/oauth2/callback
-      oidc-issuer-url=http://keycloak-keycloakx-http.keycloak.svc:80/realms/homelab
-      email-domain=mdeleon.dev
-      code-challenge-method=S256
+      # redirect-url=https://oauth.mdeleon.dev/oauth2/callback
+      # oidc-issuer-url=http://keycloak-keycloakx-http.keycloak.svc:80/realms/homelab
+      # email-domain=mdeleon.dev
+      # code-challenge-method=S256
 
   ingress:
     enabled: true
