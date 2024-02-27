@@ -17,7 +17,7 @@ oauth2-proxy:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/proxy-buffer-size: 16k
     hosts:
-      - &host oauth.mdeleon.dev
+      - &host oauth-proxy.mdeleon.dev
     tls:
       - secretName: oauth2-proxy-tls-cert
         hosts:

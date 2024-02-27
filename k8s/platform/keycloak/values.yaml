@@ -16,7 +16,7 @@ keycloakx:
       gethomepage.dev/pod-selector: "app.kubernetes.io/instance in (keycloak)"
       nginx.ingress.kubernetes.io/proxy-buffer-size: 16k
     rules:
-      - host: &host keycloak.mdeleon.dev
+      - host: &host auth.mdeleon.dev
         paths:
           - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
             pathType: Prefix
