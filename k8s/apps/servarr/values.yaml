@@ -181,6 +181,22 @@ app-template:
         - secretName: prowlarr-tls-cert
           hosts:
             - *prowlarr
+    prowlarr-api:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &prowlarr prowlarr.mdeleon.dev
+          paths:
+            - path: /api
+              pathType: Prefix
+              service:
+                name: main
+                port: http-prowlarr
+      tls:
+        - secretName: prowlarr-tls-cert
+          hosts:
+            - *prowlarr
     filebrowser:
       enabled: true
       annotations:
