@@ -24,7 +24,7 @@ app-template:
         gethomepage.dev/description: Document Signing
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
-        gethomepage.dev/icon: "https://github.com/docusealco/docuseal/assets/5418788/c12cd051-81cd-4402-bc3a-92f2cfdc1b06"
+        gethomepage.dev/icon: docuseal.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
