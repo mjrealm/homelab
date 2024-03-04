@@ -75,8 +75,8 @@ app-template:
         main:
           nameOverride: timescale
           image:
-            repository: timescale/timescaledb-ha
-            tag: pg14-latest
+            repository: timescale/timescaledb
+            tag: latest-pg14
           env:
             POSTGRES_DB: "codecov"
             # POSTGRES_PASSWORD: ""
