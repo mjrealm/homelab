@@ -141,22 +141,25 @@ app-template:
   persistence:
     config:
       enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 200Mi
+      type: configMap
+      name: config
       advancedMounts:
         main:
           main:
-            - path: /config
+            - path: /config/codecov.yml
+              subPath: codecov.yml
         frontend:
           main:
-            - path: /config
+            - path: /config/codecov.yml
+              subPath: codecov.yml
         gateway:
           main:
-            - path: /config
+            - path: /config/codecov.yml
+              subPath: codecov.yml
         worker:
           main:
-            - path: /config
+            - path: /config/codecov.yml
+              subPath: codecov.yml
     archive:
       enabled: true
       type: persistentVolumeClaim
