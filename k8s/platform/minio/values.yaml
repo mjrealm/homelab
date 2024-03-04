@@ -18,7 +18,7 @@ tenant:
         size: 10Gi
         storageClassName: longhorn
     features:
-      bucketDNS: false # <bucket>.minio.default.svc.cluster.local
+      bucketDNS: true # <bucket>.minio.default.svc.cluster.local
     # buckets:
     #   - name: codecov
     # prometheusOperator: false
