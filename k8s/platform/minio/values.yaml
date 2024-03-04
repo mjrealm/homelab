@@ -24,8 +24,17 @@ tenant:
     # prometheusOperator: false
 
   ingress:
+    api:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      host: &api minio.mdeleon.dev
+      tls:
+        - secretName: minio-tls-cert
+          hosts:
+            - *api
     console:
-      enabled: false
+      enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/enabled: "true"
