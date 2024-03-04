@@ -142,7 +142,7 @@ app-template:
     config:
       enabled: true
       type: persistentVolumeClaim
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
       size: 200Mi
       advancedMounts:
         main:
