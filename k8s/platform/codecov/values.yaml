@@ -23,7 +23,7 @@ app-template:
             repository: codecov/self-hosted-gateway
             tag: 24.2.1
           env:
-            CODECOV_GATEWAY_MINIO_ENABLEDL: "true"
+            CODECOV_GATEWAY_MINIO_ENABLEDL: "false"
     frontend:
       strategy: Recreate
       containers:
