@@ -142,7 +142,7 @@ app-template:
     config:
       enabled: true
       type: configMap
-      name: config
+      name: codecov-config
       advancedMounts:
         main:
           main:
