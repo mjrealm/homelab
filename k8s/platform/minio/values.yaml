@@ -34,7 +34,7 @@ tenant:
           hosts:
             - *api
     console:
-      enabled: true
+      enabled: false
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/enabled: "true"
@@ -43,8 +43,8 @@ tenant:
         gethomepage.dev/group: Storage
         gethomepage.dev/icon: minio.png
         gethomepage.dev/pod-selector: ""
-      host: &host minio-console.mdeleon.dev
+      host: &console minio-console.mdeleon.dev
       tls:
         - secretName: minio-console-tls-cert
           hosts:
-            - *host
+            - *console
