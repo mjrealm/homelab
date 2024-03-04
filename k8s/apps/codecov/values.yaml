@@ -50,6 +50,11 @@ app-template:
             RUN_ENV: ENTERPRISE
     postgres:
       strategy: Recreate
+      pod:
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
+          fsGroup: 1001
       containers:
         main:
           nameOverride: postgres
