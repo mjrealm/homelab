@@ -1,0 +1,45 @@
+---
+tenant:
+  tenant:
+    name: minio-homelab
+    # configuration:
+    #   name: minio-homelab-env-config
+    metrics:
+      enabled: true
+    pools:
+      - servers: 1
+        name: pool-homelab
+        volumesPerServer: 4
+        size: 10Gi
+        storageClassName: longhorn
+    features:
+      bucketDNS: false # <bucket>.minio.default.svc.cluster.local
+      buckets:
+        - name: codecov
+    # prometheusOperator: false
+
+  ingress:
+    api:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      host: &api minio.mdeleon.dev
+      tls:
+        - secretName: minio-tls-cert
+          hosts:
+            - *api
+    console:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Minio Console
+        gethomepage.dev/description: Object Storage (S3)
+        gethomepage.dev/group: Storage
+        gethomepage.dev/icon: minio.png
+        gethomepage.dev/pod-selector: ""
+      host: &console minio-console.mdeleon.dev
+      tls:
+        - secretName: minio-console-tls-cert
+          hosts:
+            - *console
