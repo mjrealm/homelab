@@ -26,10 +26,10 @@ app-template:
             CODECOV_GATEWAY_MINIO_ENABLED: "true"
             CODECOV_DEFAULT_HOST: codecov-frontend
             CODECOV_DEFAULT_PORT: 8080
-            CODECOV_API_HOST: codecov
+            CODECOV_API_HOST: codecov-api
             CODECOV_API_PORT: 8000
             CODECOV_API_SCHEME: http
-            CODECOV_IA_HOST: codecov
+            CODECOV_IA_HOST: codecov-api
             CODECOV_IA_PORT: 8000
     frontend:
       strategy: Recreate
@@ -85,7 +85,6 @@ app-template:
             tag: pg14-latest
           env:
             POSTGRES_DB: "codecov"
-            # PGDATA: "/var/lib/postgresql/data/pg_data"
   service:
     main:
       controller: main
