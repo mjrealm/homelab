@@ -89,6 +89,7 @@ app-template:
   service:
     main:
       controller: main
+      nameOverride: api
       ports:
         http:
           port: 8000
