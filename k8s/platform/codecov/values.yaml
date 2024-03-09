@@ -24,6 +24,9 @@ app-template:
             tag: 24.2.1
           env:
             CODECOV_GATEWAY_MINIO_ENABLED: "true"
+            CODECOV_MINIO_HOST: minio-homelab-hl.minio.svc
+            CODECOV_MINIO_PORT: 9000
+            CODECOV_MINIO_SCHEME: http
             CODECOV_DEFAULT_HOST: codecov-frontend
             CODECOV_DEFAULT_PORT: 8080
             CODECOV_API_HOST: codecov-api
