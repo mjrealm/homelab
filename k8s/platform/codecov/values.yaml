@@ -24,11 +24,13 @@ app-template:
             tag: 24.2.1
           env:
             CODECOV_GATEWAY_MINIO_ENABLED: "true"
-            CODECOV_DEFAULT_HOST: codecov.codecov.svc
-            CODECOV_DEFAULT_PORT: 8000
-            CODECOV_API_HOST: codecov.codecov.svc
+            CODECOV_DEFAULT_HOST: codecov-frontend
+            CODECOV_DEFAULT_PORT: 8080
+            CODECOV_API_HOST: codecov
             CODECOV_API_PORT: 8000
             CODECOV_API_SCHEME: http
+            CODECOV_IA_HOST: codecov
+            CODECOV_IA_PORT: 8000
     frontend:
       strategy: Recreate
       containers:
