@@ -4,7 +4,7 @@ timescaledb-single:
   fullnameOverride: timescaledb
   image:
     repository: timescale/timescaledb-ha
-    tag: pg14.6-ts2.9.1-p1
+    tag: pg14.11-ts2.14.2
   # secrets:
   #   credentials:
   #     PATRONI_SUPERUSER_USERNAME: ""
