@@ -35,10 +35,10 @@ tenant:
         gethomepage.dev/description: Object Storage (S3)
         gethomepage.dev/group: Storage
         gethomepage.dev/icon: minio.png
-        nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        nginx.ingress.kubernetes.io/rewrite-target: /
-        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        # nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
+        # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        # nginx.ingress.kubernetes.io/rewrite-target: /
+        # nginx.ingress.kubernetes.io/proxy-body-size: "0"
         # nginx.ingress.kubernetes.io/server-snippet: |
         #   client_max_body_size 0;
         # nginx.ingress.kubernetes.io/configuration-snippet: |
