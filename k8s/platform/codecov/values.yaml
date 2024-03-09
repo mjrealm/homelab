@@ -24,6 +24,8 @@ app-template:
             tag: 24.2.1
           env:
             CODECOV_GATEWAY_MINIO_ENABLED: "true"
+            CODECOV_DEFAULT_HOST: codecov.codecov.svc
+            CODECOV_DEFAULT_PORT: 8000
             CODECOV_API_HOST: codecov.codecov.svc
             CODECOV_API_PORT: 8000
             CODECOV_API_SCHEME: http
