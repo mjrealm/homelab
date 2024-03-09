@@ -39,11 +39,11 @@ app-template:
           image:
             repository: codecov/self-hosted-frontend
             tag: 24.2.1
-          # env:
-          #   CODECOV_BASE_HOST: codecov.mdeleon.dev
-          #   CODECOV_API_HOST: codecov.mdeleon.dev:8000
-          #   CODECOV_IA_HOST: codecov.mdeleon.dev:8000
-          #   CODECOV_SCHEME: http
+          env:
+            CODECOV_BASE_HOST: codecov.mdeleon.dev
+            CODECOV_API_HOST: codecov.mdeleon.dev
+            CODECOV_IA_HOST: codecov.mdeleon.dev
+            CODECOV_SCHEME: https
     worker:
       strategy: Recreate
       containers:
