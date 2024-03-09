@@ -24,6 +24,9 @@ app-template:
             tag: 24.2.1
           env:
             CODECOV_GATEWAY_MINIO_ENABLED: "true"
+            CODECOV_API_HOST: codecov.codecov.svc
+            CODECOV_API_PORT: 8000
+            CODECOV_API_SCHEME: http
     frontend:
       strategy: Recreate
       containers:
@@ -34,9 +37,9 @@ app-template:
             tag: 24.2.1
           env:
             CODECOV_BASE_HOST: codecov.mdeleon.dev
-            CODECOV_API_HOST: codecov.codecov.svc
-            CODECOV_API_PORT: 8000
-            CODECOV_API_SCHEME: http
+            CODECOV_API_HOST: codecov.codecov.svc:8000
+            CODECOV_IA_HOST: codecov.codecov.svc:8000
+            CODECOV_SCHEME: http
     worker:
       strategy: Recreate
       containers:
