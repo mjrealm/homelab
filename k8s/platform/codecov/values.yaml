@@ -34,10 +34,9 @@ app-template:
             tag: 24.2.1
           env:
             CODECOV_BASE_HOST: codecov.mdeleon.dev
-            CODECOV_API_HOST: api.codecov.svc
-            CODECOV_API_PORT: 5100
-            CODECOV_IA_HOST: api.codecov.svc:8080
-            CODECOV_SCHEME: http
+            CODECOV_API_HOST: codecov.codecov.svc
+            CODECOV_API_PORT: 8000
+            CODECOV_API_SCHEME: http
     worker:
       strategy: Recreate
       containers:
