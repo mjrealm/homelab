@@ -1,0 +1,196 @@
+---
+app-template:
+  # configMaps:
+  #   config:
+  #     enabled: true
+  #     data:
+  #       codecov.yml: ""
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: api
+          image:
+            repository: codecov/self-hosted-api
+            tag: 24.2.1
+    gateway:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: gateway
+          image:
+            repository: codecov/self-hosted-gateway
+            tag: 24.2.1
+          env:
+            CODECOV_GATEWAY_MINIO_ENABLED: "true"
+    frontend:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: frontend
+          image:
+            repository: codecov/self-hosted-frontend
+            tag: 24.2.1
+          env:
+            CODECOV_BASE_HOST: codecov.mdeleon.dev
+            CODECOV_API_HOST: api.codecov.svc
+            CODECOV_API_PORT: 5100
+            CODECOV_IA_HOST: api.codecov.svc:8080
+            CODECOV_SCHEME: http
+    worker:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: worker
+          image:
+            repository: codecov/self-hosted-worker
+            tag: 24.2.1
+          env:
+            RUN_ENV: ENTERPRISE
+    postgres:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: 14.10
+          env:
+            POSTGRES_DB: "codecov"
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            # POSTGRES_PASSWORD: ""
+            # POSTGRES_USER: ""
+    redis:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: redis
+          image:
+            repository: redis
+            tag: 6.2.14
+    timescaledb:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: timescaledb
+          image:
+            repository: timescale/timescaledb-ha
+            tag: pg14-latest
+          env:
+            POSTGRES_DB: "codecov"
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+  service:
+    main:
+      ports:
+        http:
+          port: 5100
+    gateway:
+      controller: gateway
+      ports:
+        http:
+          port: 8080
+    frontend:
+      controller: frontend
+      ports:
+        http:
+          port: 8080
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
+    redis:
+      controller: redis
+      ports:
+        http:
+          port: 6379
+    timescaledb:
+      controller: timescaledb
+      ports:
+        http:
+          port: 5432
+
+  ingress:
+    codecov:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Codecov
+        gethomepage.dev/description: Code Quality
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: CI/CD
+        gethomepage.dev/icon: "https://avatars.githubusercontent.com/u/8226205"
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &codecov codecov.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                name: gateway
+                port: http
+      tls:
+        - secretName: codecov-tls-cert
+          hosts:
+            - *codecov
+
+  persistence:
+    config:
+      enabled: true
+      type: configMap
+      name: codecov-config
+      advancedMounts:
+        main:
+          main:
+            - path: /config/codecov.yml
+              subPath: codecov.yml
+        frontend:
+          main:
+            - path: /config/codecov.yml
+              subPath: codecov.yml
+        gateway:
+          main:
+            - path: /config/codecov.yml
+              subPath: codecov.yml
+        worker:
+          main:
+            - path: /config/codecov.yml
+              subPath: codecov.yml
+    archive:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Mi
+      advancedMounts:
+        worker:
+          main:
+            - path: /archive
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        postgres:
+          main:
+            - path: /var/lib/postgresql/data
+    redis-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 200Mi
+      advancedMounts:
+        redis:
+          main:
+            - path: /data
+    timescaledb-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        timescaledb:
+          main:
+            - path: /var/lib/postgresql/data
