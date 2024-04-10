@@ -41,7 +41,7 @@ app-template:
           nameOverride: frontend
           image:
             repository: codecov/self-hosted-frontend
-            tag: 24.2.1
+            tag: 24.4.1
           env:
             CODECOV_BASE_HOST: codecov.mdeleon.dev
             CODECOV_API_HOST: codecov.mdeleon.dev
