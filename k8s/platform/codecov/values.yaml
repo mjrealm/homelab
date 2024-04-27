@@ -13,7 +13,7 @@ app-template:
           nameOverride: api
           image:
             repository: codecov/self-hosted-api
-            tag: 24.2.1
+            tag: 24.4.1
     gateway:
       strategy: Recreate
       containers:
@@ -21,7 +21,7 @@ app-template:
           nameOverride: gateway
           image:
             repository: codecov/self-hosted-gateway
-            tag: 24.2.1
+            tag: 24.4.1
           env:
             CODECOV_GATEWAY_MINIO_ENABLED: "true"
             CODECOV_MINIO_HOST: minio-homelab-hl.minio.svc
@@ -41,7 +41,7 @@ app-template:
           nameOverride: frontend
           image:
             repository: codecov/self-hosted-frontend
-            tag: 24.2.1
+            tag: 24.4.1
           env:
             CODECOV_BASE_HOST: codecov.mdeleon.dev
             CODECOV_API_HOST: codecov.mdeleon.dev
@@ -54,7 +54,7 @@ app-template:
           nameOverride: worker
           image:
             repository: codecov/self-hosted-worker
-            tag: 24.2.1
+            tag: 24.4.1
           env:
             RUN_ENV: ENTERPRISE
     postgres:
