@@ -30,10 +30,10 @@ app-template:
             CODECOV_DEFAULT_HOST: codecov-frontend
             CODECOV_DEFAULT_PORT: 8080
             CODECOV_API_HOST: codecov-api
-            CODECOV_API_PORT: 8000
+            CODECOV_API_PORT: 8080
             CODECOV_API_SCHEME: http
             CODECOV_IA_HOST: codecov-api
-            CODECOV_IA_PORT: 8000
+            CODECOV_IA_PORT: 8080
     frontend:
       strategy: Recreate
       containers:
