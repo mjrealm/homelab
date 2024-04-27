@@ -94,7 +94,7 @@ app-template:
       nameOverride: api
       ports:
         http:
-          port: 8000
+          port: 8080
     gateway:
       controller: gateway
       ports:
