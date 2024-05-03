@@ -54,7 +54,7 @@ app-template:
           nameOverride: worker
           image:
             repository: codecov/self-hosted-worker
-            tag: 24.4.1
+            tag: 24.5.1
           env:
             RUN_ENV: ENTERPRISE
     postgres:
