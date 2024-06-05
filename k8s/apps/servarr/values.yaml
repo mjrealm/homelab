@@ -265,7 +265,7 @@ app-template:
       size: 4Gi
       retain: true
       advancedMounts:
-        sonarr:
+        servarr:
           sonarr:
             - path: /config
               subPath: sonarr
