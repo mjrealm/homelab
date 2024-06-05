@@ -1,6 +1,5 @@
 ---
 app-template:
-  # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.2.0/charts/library/common/values.schema.json
   defaultPodOptions:
     enableServiceLinks: true
     affinity:
@@ -117,7 +116,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: servarr
+                identifier: servarr
                 port: http
       tls:
         - secretName: sonarr-tls-cert
@@ -141,7 +140,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: servarr
+                identifier: servarr
                 port: http-radarr
       tls:
         - secretName: radarr-tls-cert
@@ -165,7 +164,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: servarr
+                identifier: servarr
                 port: http-lidarr
       tls:
         - secretName: lidarr-tls-cert
@@ -189,7 +188,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: servarr
+                identifier: servarr
                 port: http-prowlarr
       tls:
         - secretName: prowlarr-tls-cert
@@ -205,7 +204,7 @@ app-template:
             - path: /api
               pathType: Prefix
               service:
-                name: servarr
+                identifier: servarr
                 port: http-prowlarr
       tls:
         - secretName: prowlarr-tls-cert
@@ -228,7 +227,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: filebrowser
+                identifier: filebrowser
                 port: http
       tls:
         - secretName: filebrowser-tls-cert
@@ -251,7 +250,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: sabnzbd
+                identifier: sabnzbd
                 port: http
       tls:
         - secretName: sabnzbd-tls-cert
