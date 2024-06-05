@@ -2,15 +2,15 @@
 app-template:
   defaultPodOptions:
     enableServiceLinks: true
-    # affinity:
-    #   nodeAffinity:
-    #     requiredDuringSchedulingIgnoredDuringExecution:
-    #       nodeSelectorTerms:
-    #         - matchExpressions:
-    #             - key: kubernetes.io/hostname
-    #               operator: In
-    #               values:
-    #                 - monarch
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - monarch
 
   controllers:
     servarr:
