@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
-name: codecov
-version: 1.0.0
+name: homebridge
+version: 0.0.1
 dependencies:
   - name: app-template
     repository: https://bjw-s.github.io/helm-charts
-    version: 2.6.0
+    version: 3.2.1
