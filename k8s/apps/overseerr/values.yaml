@@ -16,6 +16,7 @@ app-template:
 
   service:
     main:
+      controller: main
       ports:
         http:
           port: 5055
@@ -38,7 +39,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: main
+                identifier: main
                 port: http
       tls:
         - secretName: overseerr-tls-cert
