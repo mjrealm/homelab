@@ -20,6 +20,7 @@ app-template:
             TUNNEL_MANAGEMENT_DIAGNOSTICS: "false"
   service:
     main:
+      controller: main
       ports:
         http:
           port: 2000
