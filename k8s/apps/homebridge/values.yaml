@@ -52,6 +52,7 @@ app-template:
   persistence:
     homebridge:
       enabled: true
+      existingClaim: homebridge
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 1Gi
