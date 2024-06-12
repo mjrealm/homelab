@@ -1,7 +1,7 @@
 ---
 uptime-kuma:
   image:
-    tag: 1.23.11
+    tag: 1.23.13
   ingress:
     enabled: true
     annotations:
