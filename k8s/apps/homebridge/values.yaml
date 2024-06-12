@@ -8,13 +8,17 @@ app-template:
 
   controllers:
     main:
-      strategy: Recreate
+      # strategy: Recreate
+      strategy: RollingUpdate
+      rollingUpdate:
+        unavailable: 1
+        surge: 1
       containers:
         main:
           nameOverride: homebridge
           image:
             repository: homebridge/homebridge
-            tag: "2024-01-08"
+            tag: "2024-05-02"
           env:
             TZ: "America/Los_Angeles"
 
