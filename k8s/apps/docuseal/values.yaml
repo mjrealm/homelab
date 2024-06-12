@@ -18,6 +18,7 @@ app-template:
 
   ingress:
     docuseal:
+      nameOverride: docuseal
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
