@@ -14,7 +14,10 @@ app-template:
 
   controllers:
     main:
-      strategy: Recreate
+      strategy: RollingUpdate
+      rollingUpdate:
+        unavailable: 1
+        surge: 1
       containers:
         main:
           nameOverride: adguard-primary
@@ -29,7 +32,10 @@ app-template:
             startup:
               enabled: false
     secondary:
-      strategy: Recreate
+      strategy: RollingUpdate
+      rollingUpdate:
+        unavailable: 1
+        surge: 1
       containers:
         main:
           nameOverride: adguard-secondary
@@ -97,7 +103,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: main
+                identifier: main
                 port: http
       tls:
         - secretName: adguard-primary-tls-cert
@@ -120,7 +126,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                name: secondary
+                identifier: secondary
                 port: http
       tls:
         - secretName: adguard-secondary-tls-cert
