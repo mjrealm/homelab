@@ -3,6 +3,11 @@ on: [push]
 jobs:
   run-lint:
     runs-on: ubuntu-latest
-    container: cytopia/yamllint:alpine-1
     steps:
-      - run: yamllint -f colored -c .yamllint.yaml .
+      - name: Checkout git repo
+        uses: actions/checkout@v4
+
+      - name: Run yamllint
+        uses: bewuethr/yamllint-action@v1
+        with:
+          config-file: "./.yamllint.yaml"
