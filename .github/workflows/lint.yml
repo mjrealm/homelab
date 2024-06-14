@@ -1,0 +1,8 @@
+name: Lint YAML
+on: [push]
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    container: cytopia/yamllint:alpine-1
+    steps:
+      - run: yamllint -f colored -c .yamllint.yaml .
