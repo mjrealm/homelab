@@ -2,7 +2,7 @@
 keycloakx:
   image:
     repository: quay.io/keycloak/keycloak
-    tag: "24.0.5"
+    tag: "25.0.0"
 
   ingress:
     enabled: true
@@ -33,7 +33,8 @@ keycloakx:
     - "--http-port=8080"
     # - "--hostname=http://auth.mdeleon.dev:8080/"
     - "--hostname-strict=false"
-    - "--hostname-strict-https=false"
+    - "--db=postgres"
+    # - "--hostname-strict-https=false"
     - "--spi-events-listener-jboss-logging-success-level=info"
     - "--spi-events-listener-jboss-logging-error-level=warn"
     - "--optimized"
