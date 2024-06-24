@@ -21,7 +21,7 @@ argo-cd:
 
     certificate:
       enabled: true
-      # secretName: argocd-tls-cert
+      secretName: argocd-tls-cert
       domain: *host
       issuer:
         name: letsencrypt-prod
