@@ -120,39 +120,39 @@ app-template:
         postgres:
           postgres:
             - path: /var/lib/postgresql/data
-    data:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 5Gi
-      advancedMounts:
-        paperless:
-          paperless:
-            - path: /usr/src/paperless/data
+    # data:
+    #   enabled: true
+    #   type: persistentVolumeClaim
+    #   accessMode: ReadWriteOnce
+    #   size: 5Gi
+    #   advancedMounts:
+    #     paperless:
+    #       paperless:
+    #         - path: /usr/src/paperless/data
     media:
       enabled: true
       type: nfs
       server: 192.168.1.200
-      path: /volume1/paperless/media
+      path: /volume1/paperless/
       advancedMounts:
         paperless:
           paperless:
-            - path: /usr/src/paperless/media
-    consume:
-      enabled: true
-      type: nfs
-      server: 192.168.1.200
-      path: /volume1/paperless/consume
-      advancedMounts:
-        paperless:
-          paperless:
-            - path: /usr/src/paperless/consume
-    export:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 1Gi
-      advancedMounts:
-        paperless:
-          paperless:
-            - path: /usr/src/paperless/export
+            - path: /usr/src/paperless/
+    # consume:
+    #   enabled: true
+    #   type: nfs
+    #   server: 192.168.1.200
+    #   path: /volume1/paperless/
+    #   advancedMounts:
+    #     paperless:
+    #       paperless:
+    #         - path: /usr/src/paperless/consume
+    # export:
+    #   enabled: true
+    #   type: persistentVolumeClaim
+    #   accessMode: ReadWriteOnce
+    #   size: 1Gi
+    #   advancedMounts:
+    #     paperless:
+    #       paperless:
+    #         - path: /usr/src/paperless/export
