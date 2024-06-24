@@ -1,7 +1,7 @@
 ---
 app-template:
   controllers:
-    main:
+    cert-warden:
       containers:
         cert-warden:
           nameOverride: cert-warden
