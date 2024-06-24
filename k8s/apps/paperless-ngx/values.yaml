@@ -15,6 +15,7 @@ app-template:
             # USERMAP_UID: "1000"
             # USERMAP_GID: "1000"
             PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
+            PAPERLESS_DBENGINE: postgres
             PAPERLESS_DBHOST: paperless-ngx-postgres
             PAPERLESS_TIKA_ENABLED: 1
             PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-ngx-gotenberg:3000
