@@ -27,6 +27,7 @@ argo-cd:
         name: letsencrypt-prod
         kind: ClusterIssuer
         group: cert-manager.io
+      secretTemplateAnnotations:
 
   notifications:
     enabled: false
