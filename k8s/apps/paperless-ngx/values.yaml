@@ -1,0 +1,158 @@
+---
+app-template:
+  defaultPodOptions:
+    enableServiceLinks: true
+
+  controllers:
+    paperless:
+      containers:
+        paperless:
+          nameOverride: paperless-ngx
+          image:
+            repository: ghcr.io/paperless-ngx/paperless-ngx
+            tag: 2.10
+          env:
+            # USERMAP_UID: "1000"
+            # USERMAP_GID: "1000"
+            PAPERLESS_REDIS: redis://redis:6379
+            PAPERLESS_DBHOST: postgres
+            PAPERLESS_TIKA_ENABLED: 1
+            PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
+            PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+            PAPERLESS_TIME_ZONE: "America/Los_Angeles"
+    redis:
+      containers:
+        redis:
+          nameOverride: redis
+          image:
+            repository: redis
+            tag: 7.2.5
+    postgres:
+      containers:
+        postgres:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: 16.3
+          env:
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_DB: "paperless"
+            # POSTGRES_PASSWORD: ""
+            # POSTGRES_USER: ""
+    tika:
+      containers:
+        tika:
+          nameOverride: tika
+          image:
+            repository: docker.io/apache/tika
+            tag: 2.9.2.1
+    gotenberg:
+      containers:
+        gotenberg:
+          nameOverride: gotenberg
+          image:
+            repository: docker.io/gotenberg/gotenberg
+            tag: 7.10
+          command:
+            - "gotenberg"
+            - "--chromium-disable-javascript=true"
+            - "--chromium-allow-list=file:///tmp/.*"
+
+  service:
+    paperless:
+      controller: paperless
+      ports:
+        http:
+          port: 8000
+    redis:
+      controller: redis
+      ports:
+        http:
+          port: 6379
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
+    tika:
+      controller: tika
+      ports:
+        http:
+          port: 9998
+    gotenberg:
+      controller: gotenberg
+      ports:
+        http:
+          port: 3000
+
+  ingress:
+    paperless:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Paperless-ngx
+        gethomepage.dev/description: Documents Manager
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: paperless-ngx.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &paperless paperless.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: paperless
+                port: http
+      tls:
+        - secretName: paperless-tls-cert
+          hosts:
+            - *paperless
+
+  persistence:
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        postgres:
+          postgres:
+            - path: /var/lib/postgresql/data
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      advancedMounts:
+        paperless:
+          paperless:
+            - path: /usr/src/paperless/data
+    media:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/paperless/media
+      advancedMounts:
+        paperless:
+          paperless:
+            - path: /usr/src/paperless/media
+    consume:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/paperless/consume
+      advancedMounts:
+        paperless:
+          paperless:
+            - path: /usr/src/paperless/consume
+    export:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        paperless:
+          paperless:
+            - path: /usr/src/paperless/export
