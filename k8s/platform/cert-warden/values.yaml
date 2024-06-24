@@ -41,7 +41,7 @@ app-template:
               pathType: Prefix
               service:
                 identifier: cert-warden
-                port: https-server
+                port: http-server
       tls:
         - secretName: cert-warden-tls-cert
           hosts:
