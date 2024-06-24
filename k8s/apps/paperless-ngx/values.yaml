@@ -12,8 +12,8 @@ app-template:
             repository: ghcr.io/paperless-ngx/paperless-ngx
             tag: 2.10
           env:
-            USERMAP_UID: "1000"
-            USERMAP_GID: "1000"
+            # USERMAP_UID: "1000"
+            # USERMAP_GID: "1000"
             PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
             PAPERLESS_DBHOST: paperless-ngx-postgres
             PAPERLESS_TIKA_ENABLED: 1
@@ -128,4 +128,22 @@ app-template:
       advancedMounts:
         paperless:
           paperless:
-            - path: /usr/src/paperless/
+            - path: /usr/src/paperless/media
+    consume:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/scanned/
+      advancedMounts:
+        paperless:
+          paperless:
+            - path: /usr/src/paperless/consume
+    export:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        paperless:
+          paperless:
+            - path: /usr/src/paperless/export
