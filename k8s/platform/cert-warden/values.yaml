@@ -1,0 +1,57 @@
+---
+app-template:
+  controllers:
+    main:
+      containers:
+        cert-warden:
+          nameOverride: cert-warden
+          image:
+            repository: ghcr.io/gregtwallace/certwarden
+            tag: "v0.21.4"
+
+  service:
+    cert-warden:
+      controller: cert-warden
+      ports:
+        http-server:
+          port: 4050
+        https-server:
+          port: 4055
+        http-challenge:
+          port: 4060
+        http-debug:
+          port: 4065
+        https-debug:
+          port: 4070
+  ingress:
+    cert-warden:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Cert Warden
+        gethomepage.dev/description: ACME Cert Management
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: System
+        gethomepage.dev/icon: cert-manager.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &certwarden cert-warden.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: cert-warden
+                port: https-server
+      tls:
+        - secretName: cert-warden-tls-cert
+          hosts:
+            - *certwarden
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      globalMounts:
+        - path: /app/data
