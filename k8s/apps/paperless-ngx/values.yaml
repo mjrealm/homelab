@@ -55,7 +55,7 @@ app-template:
             tag: 7.10
           command:
             - "gotenberg"
-            - "--chromium-disable-javascript=true"
+            # - "--chromium-disable-javascript=true"
             - "--chromium-allow-list=file:///tmp/.*"
 
   service:
