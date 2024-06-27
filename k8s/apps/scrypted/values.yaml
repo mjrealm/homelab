@@ -14,7 +14,7 @@ app-template:
           nameOverride: scrypted
           image:
             repository: ghcr.io/koush/scrypted
-            tag: "v0.111.0-jammy-full"
+            tag: "v0.114.0-jammy-full"
           env:
             # SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION: Bearer SET_THIS_TO_SOME_RANDOM_TEXT
             # SCRYPTED_WEBHOOK_UPDATE: http://localhost:10444/v1/update
