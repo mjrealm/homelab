@@ -279,14 +279,13 @@ app-template:
             - path: /config
               subPath: filebrowser
             - path: /srv/config
-        sabnzbd:
 
     media-incomplete:
       enabled: true
       type: emptyDir
       advancedMounts:
-        sabnzbd:
-          main:
+        servarr:
+          sabnzbd:
             - path: incomplete-downloads
 
     media-downloads:
