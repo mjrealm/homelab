@@ -13,18 +13,10 @@ app-template:
                     - wayne
 
   controllers:
-    servarr:
+    lidarr:
       replicas: 1
       strategy: Recreate
       containers:
-        radarr:
-          image:
-            repository: lscr.io/linuxserver/radarr
-            tag: 5.7.0-develop
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
@@ -46,7 +38,18 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-
+    radarr:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        radarr:
+          image:
+            repository: lscr.io/linuxserver/radarr
+            tag: 5.7.0-develop
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
     prowlarr:
       replicas: 1
       strategy: Recreate
@@ -85,12 +88,9 @@ app-template:
             TZ: "America/Los_Angeles"
 
   service:
-    servarr:
-      controller: servarr
+    lidarr:
+      controller: lidarr
       ports:
-        http-radarr:
-          port: 7878
-          primary: true
         http-lidarr:
           port: 8686
     sonarr:
@@ -98,6 +98,11 @@ app-template:
       ports:
         http:
           port: 8989
+    radarr:
+      controller: radarr
+      ports:
+        http-radarr:
+          port: 7878
     prowlarr:
       controller: prowlarr
       ports:
@@ -157,7 +162,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: servarr
+                identifier: radarr
                 port: http-radarr
       tls:
         - secretName: radarr-tls-cert
@@ -181,7 +186,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: servarr
+                identifier: lidarr
                 port: http-lidarr
       tls:
         - secretName: lidarr-tls-cert
@@ -282,10 +287,7 @@ app-template:
       size: 4Gi
       retain: true
       advancedMounts:
-        servarr:
-          radarr:
-            - path: /config
-              subPath: radarr
+        lidarr:
           lidarr:
             - path: /config
               subPath: lidarr
@@ -293,6 +295,10 @@ app-template:
           sonarr:
             - path: /config
               subPath: sonarr
+        radarr:
+          radarr:
+            - path: /config
+              subPath: radarr
         prowlarr:
           prowlarr:
             - path: /config
