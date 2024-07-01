@@ -285,7 +285,7 @@ app-template:
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 4Gi
-      retain: true
+      retain: false
       advancedMounts:
         lidarr:
           lidarr:
