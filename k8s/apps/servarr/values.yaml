@@ -14,7 +14,7 @@ app-template:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - monarch
+                    - wayne
 
   controllers:
     servarr:
