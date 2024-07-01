@@ -13,20 +13,7 @@ app-template:
                     - wayne
 
   controllers:
-    lidarr:
-      replicas: 1
-      strategy: Recreate
-      containers:
-        lidarr:
-          image:
-            repository: lscr.io/linuxserver/lidarr
-            tag: 2.3.3
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
-
-    sonarr:
+    servarr:
       replicas: 1
       strategy: Recreate
       containers:
@@ -38,10 +25,6 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-    radarr:
-      replicas: 1
-      strategy: Recreate
-      containers:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
@@ -50,10 +33,14 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
-    prowlarr:
-      replicas: 1
-      strategy: Recreate
-      containers:
+        lidarr:
+          image:
+            repository: lscr.io/linuxserver/lidarr
+            tag: 2.3.3
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
@@ -62,6 +49,14 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+        sabnzbd:
+          image:
+            repository: lscr.io/linuxserver/sabnzbd
+            tag: 4.3.2
+          env:
+            PUID: "1000"
+            PGID: "1000"
+            TZ: "America/Los_Angeles"
 
     filebrowser:
       replicas: 1
@@ -74,44 +69,20 @@ app-template:
           env:
             PUID: "1000"
             PGID: "1000"
-    sabnzbd:
-      replicas: 1
-      strategy: Recreate
-      containers:
-        main:
-          image:
-            repository: lscr.io/linuxserver/sabnzbd
-            tag: 4.3.2
-          env:
-            PUID: "1000"
-            PGID: "1000"
-            TZ: "America/Los_Angeles"
 
   service:
-    lidarr:
-      controller: lidarr
-      ports:
-        http-lidarr:
-          port: 8686
-    sonarr:
-      controller: sonarr
+    servarr:
+      controller: servarr
       ports:
         http:
           port: 8989
-    radarr:
-      controller: radarr
-      ports:
         http-radarr:
           port: 7878
-    prowlarr:
-      controller: prowlarr
-      ports:
+        http-lidarr:
+          port: 8686
         http-prowlarr:
           port: 9696
-    sabnzbd:
-      controller: sabnzbd
-      ports:
-        http:
+        http-sabnzbd:
           port: 8080
     filebrowser:
       controller: filebrowser
@@ -138,7 +109,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: sonarr
+                identifier: servarr
                 port: http
       tls:
         - secretName: sonarr-tls-cert
@@ -162,7 +133,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: radarr
+                identifier: servarr
                 port: http-radarr
       tls:
         - secretName: radarr-tls-cert
@@ -186,7 +157,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: lidarr
+                identifier: servarr
                 port: http-lidarr
       tls:
         - secretName: lidarr-tls-cert
@@ -210,7 +181,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: prowlarr
+                identifier: servarr
                 port: http-prowlarr
       tls:
         - secretName: prowlarr-tls-cert
@@ -226,7 +197,7 @@ app-template:
             - path: /api
               pathType: Prefix
               service:
-                identifier: prowlarr
+                identifier: servarr
                 port: http-prowlarr
       tls:
         - secretName: prowlarr-tls-cert
@@ -272,8 +243,8 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: sabnzbd
-                port: http
+                identifier: servarr
+                port: http-sabnzbd
       tls:
         - secretName: sabnzbd-tls-cert
           hosts:
@@ -287,31 +258,28 @@ app-template:
       size: 4Gi
       retain: false
       advancedMounts:
-        lidarr:
-          lidarr:
-            - path: /config
-              subPath: lidarr
-        sonarr:
+        servarr:
           sonarr:
             - path: /config
               subPath: sonarr
-        radarr:
           radarr:
             - path: /config
               subPath: radarr
-        prowlarr:
+          lidarr:
+            - path: /config
+              subPath: lidarr
           prowlarr:
             - path: /config
               subPath: prowlarr
+          sabnzbd:
+            - path: /config
+              subPath: sabnzbd
         filebrowser:
           main:
             - path: /config
               subPath: filebrowser
             - path: /srv/config
         sabnzbd:
-          main:
-            - path: /config
-              subPath: sabnzbd
 
     media-incomplete:
       enabled: true
