@@ -2,10 +2,6 @@
 app-template:
   defaultPodOptions:
     enableServiceLinks: true
-    # securityContext:
-    #   runAsUser: 1000
-    #   runAsGroup: 1000
-    #   fsGroup: 1000
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -21,14 +17,6 @@ app-template:
       replicas: 1
       strategy: Recreate
       containers:
-        sonarr:
-          image:
-            repository: lscr.io/linuxserver/sonarr
-            tag: 4.0.5
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
@@ -41,6 +29,19 @@ app-template:
           image:
             repository: lscr.io/linuxserver/lidarr
             tag: 2.3.3
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+
+    sonarr:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        sonarr:
+          image:
+            repository: lscr.io/linuxserver/sonarr
+            tag: 4.0.5
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -87,13 +88,16 @@ app-template:
     servarr:
       controller: servarr
       ports:
-        http:
-          port: 8989
         http-radarr:
           port: 7878
+          primary: true
         http-lidarr:
           port: 8686
-          primary: true
+    sonarr:
+      controller: sonarr
+      ports:
+        http:
+          port: 8989
     prowlarr:
       controller: prowlarr
       ports:
@@ -129,7 +133,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: servarr
+                identifier: sonarr
                 port: http
       tls:
         - secretName: sonarr-tls-cert
@@ -279,15 +283,16 @@ app-template:
       retain: true
       advancedMounts:
         servarr:
-          sonarr:
-            - path: /config
-              subPath: sonarr
           radarr:
             - path: /config
               subPath: radarr
           lidarr:
             - path: /config
               subPath: lidarr
+        sonarr:
+          sonarr:
+            - path: /config
+              subPath: sonarr
         prowlarr:
           prowlarr:
             - path: /config
