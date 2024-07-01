@@ -2,6 +2,10 @@
 app-template:
   defaultPodOptions:
     enableServiceLinks: true
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -41,6 +45,11 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+
+    prowlarr:
+      replicas: 1
+      strategy: Recreate
+      containers:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
@@ -49,6 +58,7 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+
     filebrowser:
       replicas: 1
       strategy: Recreate
@@ -83,9 +93,12 @@ app-template:
           port: 7878
         http-lidarr:
           port: 8686
+          primary: true
+    prowlarr:
+      controller: prowlarr
+      ports:
         http-prowlarr:
           port: 9696
-          primary: true
     sabnzbd:
       controller: sabnzbd
       ports:
@@ -188,7 +201,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: servarr
+                identifier: prowlarr
                 port: http-prowlarr
       tls:
         - secretName: prowlarr-tls-cert
@@ -204,7 +217,7 @@ app-template:
             - path: /api
               pathType: Prefix
               service:
-                identifier: servarr
+                identifier: prowlarr
                 port: http-prowlarr
       tls:
         - secretName: prowlarr-tls-cert
@@ -275,6 +288,7 @@ app-template:
           lidarr:
             - path: /config
               subPath: lidarr
+        prowlarr:
           prowlarr:
             - path: /config
               subPath: prowlarr
