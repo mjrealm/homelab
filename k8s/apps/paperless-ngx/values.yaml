@@ -10,7 +10,7 @@ app-template:
           nameOverride: paperless-ngx
           image:
             repository: ghcr.io/paperless-ngx/paperless-ngx
-            tag: 2.10
+            tag: 2.110
           env:
             # USERMAP_UID: "1000"
             # USERMAP_GID: "1000"
