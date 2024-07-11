@@ -12,6 +12,7 @@ app-template:
             repository: ghcr.io/paperless-ngx/paperless-ngx
             tag: 2.10
           env:
+            PAPERLESS_CONSUMER_POLLING: 10
             PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
             PAPERLESS_DBENGINE: postgres
             PAPERLESS_DBHOST: paperless-ngx-postgres
