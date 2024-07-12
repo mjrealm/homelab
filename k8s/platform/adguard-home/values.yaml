@@ -16,7 +16,7 @@ app-template:
     main:
       strategy: RollingUpdate
       rollingUpdate:
-        unavailable: 1
+        unavailable: 0
         surge: 1
       containers:
         main:
@@ -34,7 +34,7 @@ app-template:
     secondary:
       strategy: RollingUpdate
       rollingUpdate:
-        unavailable: 1
+        unavailable: 0
         surge: 1
       containers:
         main:
