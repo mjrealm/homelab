@@ -31,11 +31,11 @@ keycloakx:
     - "start"
     - "--http-enabled=true"
     - "--http-port=8080"
-    - "--hostname=http://auth.mdeleon.dev:8080/"
     - "--hostname-strict=false"
+    # - "--hostname=http://auth.mdeleon.dev/"
     # - "--hostname-strict-https=false"
-    - "--spi-events-listener-jboss-logging-success-level=info"
-    - "--spi-events-listener-jboss-logging-error-level=warn"
+    # - "--spi-events-listener-jboss-logging-success-level=info"
+    # - "--spi-events-listener-jboss-logging-error-level=warn"
 
   extraEnv: |
     - name: KC_LOG_LEVEL
