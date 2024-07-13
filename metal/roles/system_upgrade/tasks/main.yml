@@ -1,0 +1,45 @@
+---
+# Download and apply manifest
+# https://docs.k3s.io/upgrades/automated#install-the-system-upgrade-controller
+- name: Download system-upgrade-controller
+  ansible.builtin.get_url:
+    url: https://github.com/rancher/system-upgrade-controller/releases/latest/download/system-upgrade-controller.yaml
+    dest: ~/system-upgrade-controller.yaml
+    mode: "0664"
+
+- name: Apply system-upgrade-controller manifest to the cluster.
+  kubernetes.core.k8s:
+    state: present
+    src: ~/system-upgrade-controller.yaml
+
+- name: Download CRD of system-upgrade-controller
+  ansible.builtin.get_url:
+    url: https://github.com/rancher/system-upgrade-controller/releases/latest/download/crd.yaml
+    dest: ~/crd.yaml
+    mode: "0664"
+
+- name: Apply CRD manifest to the cluster.
+  kubernetes.core.k8s:
+    state: present
+    src: ~/crd.yaml
+
+- name: Wait for CRDs
+  kubernetes.core.k8s_info:
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+  loop:
+    - upgrade.cattle.io
+  register: crd
+  until: crd.resources | length > 0
+  retries: 10
+  delay: 20
+
+- name: Apply Plans
+  when: not ansible_check_mode
+  delegate_to: localhost
+  run_once: true
+  kubernetes.core.k8s:
+    template: "{{ item }}"
+  loop:
+    - server-plan.yaml
+    - agent-plan.yaml

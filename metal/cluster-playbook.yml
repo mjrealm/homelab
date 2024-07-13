@@ -3,6 +3,7 @@
   hosts: metal
   roles:
     - k3s
+    - system_upgrade
 
 - name: Setup secrets and tokens
   hosts: localhost
