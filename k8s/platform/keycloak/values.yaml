@@ -19,7 +19,7 @@ keycloakx:
       - host: &host auth.mdeleon.dev
         paths:
           - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
-        pathType: Prefix
+            pathType: Prefix
     tls:
       - hosts:
           - *host
