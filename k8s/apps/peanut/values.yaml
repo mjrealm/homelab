@@ -8,7 +8,7 @@ app-template:
           nameOverride: peanut
           image:
             repository: brandawg93/peanut
-            tag: 2.5.2
+            tag: 2.6.0
           # env:
           #   NUT_HOST:
           #   NUT_PORT:
