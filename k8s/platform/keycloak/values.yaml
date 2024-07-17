@@ -31,10 +31,9 @@ keycloakx:
     - "start"
     - "--http-enabled=true"
     - "--http-port=8080"
-    # - "--hostname-strict=false"
     - "--hostname=https://auth.mdeleon.dev/auth"
-    - "--hostname-debug=true"
-    # - "--hostname-backchannel-dynamic=true"
+    # - "--hostname-strict=false"
+    # - "--hostname-debug=true"
     - "--spi-events-listener-jboss-logging-success-level=info"
     - "--spi-events-listener-jboss-logging-error-level=warn"
 
