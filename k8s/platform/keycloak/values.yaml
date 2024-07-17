@@ -13,16 +13,13 @@ keycloakx:
       gethomepage.dev/description: Identity and Access Management
       gethomepage.dev/group: System
       gethomepage.dev/icon: keycloak.png
-      gethomepage.dev/pod-selector: "app.kubernetes.io/instance in (keycloak)"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name in (keycloakx)"
       nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
     rules:
       - host: &host auth.mdeleon.dev
         paths:
-          - path: /
-            pathType: Prefix
-        # paths:
-        # - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
-        # pathType: Prefix
+          - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
+        pathType: Prefix
     tls:
       - hosts:
           - *host
@@ -34,9 +31,9 @@ keycloakx:
     - "start"
     - "--http-enabled=true"
     - "--http-port=8080"
-    - "--hostname-strict=false"
-    # - "--hostname=http://auth.mdeleon.dev/"
-    # - "--hostname-strict-https=false"
+    # - "--hostname-strict=false"
+    - "--hostname=https://auth.mdeleon.dev"
+    - "--hostname-backchannel-dynamic=true"
     - "--spi-events-listener-jboss-logging-success-level=info"
     - "--spi-events-listener-jboss-logging-error-level=warn"
 
