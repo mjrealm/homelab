@@ -2,7 +2,7 @@
 plex-media-server:
   image:
     repository: plexinc/pms-docker
-    tag: "1.40.0.7998-c29d4c0c8"
+    tag: "1.40.4.8679-424562606"
 
   fullnameOverride: "pms"
 
