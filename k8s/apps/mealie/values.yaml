@@ -30,7 +30,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 16.3
+            tag: 16.4
           env:
             # POSTGRES_PASSWORD: ""
             # POSTGRES_USER: ""
