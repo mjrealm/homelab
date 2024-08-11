@@ -84,6 +84,10 @@ spec:
         kind: CustomResourceDefinition
         jqPathExpressions:
           - .spec.conversion.webhook.clientConfig.caBundle
+      - group: cert-manager.io
+        kind: Certificate
+        jqPathExpressions:
+        - .spec.secretTemplate
 
         
 {{ end }}
