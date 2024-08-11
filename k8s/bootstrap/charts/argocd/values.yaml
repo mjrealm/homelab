@@ -18,6 +18,8 @@ argo-cd:
         gethomepage.dev/description: Declarative GitOps CD for Kubernetes
         gethomepage.dev/group: System
         gethomepage.dev/icon: argocd.png
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
     certificate:
       enabled: true
