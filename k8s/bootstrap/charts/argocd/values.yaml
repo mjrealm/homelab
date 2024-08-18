@@ -24,6 +24,7 @@ argo-cd:
       extraTls:
         - hosts:
             - *host
+          secretName: argocd-tls-cert
 
   notifications:
     enabled: false
