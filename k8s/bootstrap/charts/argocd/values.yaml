@@ -1,32 +1,29 @@
 ---
 argo-cd:
+  global:
+    domain: &host argo.mdeleon.dev
+
   server:
-    extraArgs:
-      - --insecure
     metrics:
       enabled: true
       serviceMonitor:
         enabled: false
     ingress:
       enabled: true
-      hostname: &host argo.mdeleon.dev
-      tls: true
+      hostname: *host
+      tls: false
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Argo CD
         gethomepage.dev/description: Declarative GitOps CD for Kubernetes
         gethomepage.dev/group: System
         gethomepage.dev/icon: argocd.png
-
-    certificate:
-      enabled: true
-      secretName: argocd-tls-cert
-      domain: *host
-      issuer:
-        name: letsencrypt-prod
-        kind: ClusterIssuer
-        group: cert-manager.io
+      extraTls:
+        - hosts:
+            - *host
 
   notifications:
     enabled: false
@@ -37,6 +34,8 @@ argo-cd:
 
   # Helm Secrets
   configs:
+    params:
+      server.insecure: true
     cm:
       helm.valuesFileSchemes: >-
         secrets+gpg-import, secrets+gpg-import-kubernetes,
