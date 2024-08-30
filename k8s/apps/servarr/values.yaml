@@ -65,7 +65,7 @@ app-template:
         main:
           image:
             repository: filebrowser/filebrowser
-            tag: v2.30.0
+            tag: v2.31.1
           env:
             PUID: "1000"
             PGID: "1000"
