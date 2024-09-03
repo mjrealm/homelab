@@ -20,7 +20,7 @@ app-template:
         sonarr:
           image:
             repository: lscr.io/linuxserver/sonarr
-            tag: 4.0.8
+            tag: 4.0.9
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -28,7 +28,7 @@ app-template:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
-            tag: 5.9.1-develop
+            tag: 5.10.1-develop
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -36,7 +36,7 @@ app-template:
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
-            tag: 2.4.3
+            tag: 2.5.3
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -44,7 +44,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: 1.21.2
+            tag: 1.23.1
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -52,7 +52,7 @@ app-template:
         sabnzbd:
           image:
             repository: lscr.io/linuxserver/sabnzbd
-            tag: 4.3.2
+            tag: 4.3.3
           env:
             PUID: "1000"
             PGID: "1000"
@@ -65,7 +65,7 @@ app-template:
         main:
           image:
             repository: filebrowser/filebrowser
-            tag: v2.30.0
+            tag: v2.31.1
           env:
             PUID: "1000"
             PGID: "1000"
