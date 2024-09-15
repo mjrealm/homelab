@@ -22,7 +22,7 @@ headlamp:
       - host: &host headlamp.mdeleon.dev
         paths:
           - path: /
-            pathType: Prefix
+            type: Prefix
     tls:
       - secretName: headlamp-tls-cert
         hosts:
