@@ -1,0 +1,26 @@
+---
+headlamp:
+  config:
+    baseURL: "headlamp.mdeleon.dev"
+    # oidc:
+    #   clientID: "clientID"
+    #   clientSecret: "clientSecret"
+    #   issuerURL: "issuerURL"
+    #   scopes: "scopes"
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Headlamp
+      gethomepage.dev/description: K8s Dashboard
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: kubernetes-dashboard.png
+      nginx.ingress.kubernetes.io/proxy-body-size: 24m
+    hosts:
+      - &host headlamp.mdeleon.dev
+    tls:
+      - secretName: headlamp-tls-cert
+        hosts:
+          - *host
