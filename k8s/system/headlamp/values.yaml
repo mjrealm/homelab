@@ -19,7 +19,10 @@ headlamp:
       gethomepage.dev/icon: kubernetes-dashboard.png
       nginx.ingress.kubernetes.io/proxy-body-size: 24m
     hosts:
-      - &host headlamp.mdeleon.dev
+      - host: &host headlamp.mdeleon.dev
+        paths:
+          - path: /
+            pathType: Prefix
     tls:
       - secretName: headlamp-tls-cert
         hosts:
