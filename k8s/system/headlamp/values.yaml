@@ -1,7 +1,6 @@
 ---
 headlamp:
   config:
-    baseURL: "headlamp.mdeleon.dev"
     # oidc:
     #   clientID: "clientID"
     #   clientSecret: "clientSecret"
