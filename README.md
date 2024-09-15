@@ -1,7 +1,7 @@
 # My Homelab
 
 [![license](https://img.shields.io/github/license/khuedoan/homelab?style=flat-square&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
-[![status-badge](https://ci.mdeleon.dev/api/badges/1/status.svg)](https://ci.mdeleon.dev/repos/1)
+[![Lint YAML](https://github.com/mjrealm/homelab/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/mjrealm/homelab/actions/workflows/lint.yml)
 
 This project was created to automate my personal homelab, following [GitOps](https://codefresh.io/learn/gitops/) principles.
 
@@ -103,19 +103,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td><a href="https://longhorn.io">Longhorn</a></td>
             <td>Block storage system for Kubernetes</td>
             <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/695951"></td>
-            <td><a href="https://min.io/">Minio</a></td>
-            <td>Object Storage (like S3)</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://raw.githubusercontent.com/grafana/mimir/main/images/logo.png"></td>
-            <td><a href="https://grafana.com/oss/mimir/">Grafana Mimir</a></td>
-            <td>Open source TSDB</td>
-            <td></td>
-        </tr>            
+        </tr>                
         <tr>
             <td><img width="32" src="https://avatars.githubusercontent.com/u/21054566"></td>
             <td><a href="https://cilium.io">Cilium</a></td>
@@ -128,61 +116,6 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
             <td>Networking and security observability platform</td>
             <td>&#9973; Optional</td>
         </tr>
-    </tbody>
-</table>
-
-### &#9889; Apps
-
-<table>
-    <thead>
-        <th>Logo</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Notes</th>
-    </thead>
-    <tbody>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/122929872"></td>
-            <td><a href="https://gethomepage.dev">homepage</a></td>
-            <td>Modern and highly customizable application dashboard</td>
-            <td>Annotation discovery</td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/82976448"></td>
-            <td><a href="https://goauthentik.io/">Authentik</a></td>
-            <td>Identity Provider</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/1765001"></td>
-            <td><a href="https://www.getoutline.com/">Outline</a></td>
-            <td>Modern Wiki</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/92342333"></td>
-            <td><a href="https://nightly.mealie.io/">Mealie</a></td>
-            <td>Recipe Manager</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://avatars.githubusercontent.com/u/8361145"></td>
-            <td><a href="https://adguard.com/adguard-home.html">Adguard Home</a></td>
-            <td>Network-wide software for blocking ads, tracking and DNS server</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://github.com/louislam/uptime-kuma/raw/master/public/icon.svg"></td>
-            <td><a href="https://uptime.kuma.pet/">Uptime-Kuma</a></td>
-            <td>A fancy self-hosted monitoring tool</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><img width="32" src="https://overseerr.dev/_next/image?url=%2Fos_logo_filled.svg&w=96&q=75"></td>
-            <td><a href="https://overseerr.dev/">Overseer</a></td>
-            <td>Request manager for media library</td>
-            <td></td>
-        </tr>        
     </tbody>
 </table>
 
@@ -209,18 +142,18 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 - [x] Network security and observability
 - [x] Bare metal load balancer
 - [x] Homepage view
-- [ ] Automated Docker installation and management
-- [ ] Prompts for global variables (user, ip pools etc)
-- [ ] Secure external access via [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
+- [ ] ~~Automated Docker installation and management~~
+- [x] Prompts for global variables (user, ip pools etc)
+- [x] Secure external access via [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
 - [ ] Full-stack monitoring and alerting system
-- [ ] Private code repository
+- [x] Private code repository
 - [ ] Private container registry
 - [ ] Private artifactory
-- [ ] Private code static analysis tool
-- [ ] Identity Access and Management
-- [ ] Automated backups
-- [ ] Private CI/CD platform
-- [ ] CI with [Github Actions](https://github.com/features/actions)
+- [ ] ~~Private code static analysis tool~~
+- [ ] ~~Identity Access and Management~~
+- [ ] ~~Automated backups~~
+- [ ] ~~Private CI/CD platform~~
+- [x] CI with [Github Actions](https://github.com/features/actions)
 - [ ] VPN without port forwarding
 - [ ] Static site documentation
 - [ ] Automated requirements installation (using `brew`)
