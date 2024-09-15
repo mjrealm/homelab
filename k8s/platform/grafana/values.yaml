@@ -1,5 +1,8 @@
 ---
 grafana:
+  replicas: 1
+  deploymentStrategy:
+    type: Recreate
   ingress:
     enabled: true
     annotations:
