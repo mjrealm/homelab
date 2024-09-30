@@ -4,5 +4,5 @@ name: portainer
 version: 1.0.0
 dependencies:
   - name: portainer
-    version: 1.0.53
+    version: 1.0.54
     repository: https://portainer.github.io/k8s/
