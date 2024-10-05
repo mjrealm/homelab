@@ -13,7 +13,7 @@ rancher:
       gethomepage.dev/icon: rancher.png
       nginx.ingress.kubernetes.io/proxy-body-size: 24m
     tls:
-      source: letsEncrypt
+      source: secret
       secretName: rancher-tls-cert
 
   letsEncrypt:
