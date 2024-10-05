@@ -14,17 +14,17 @@ app-template:
 
   controllers:
     main:
-      strategy: RollingUpdate
-      rollingUpdate:
-        unavailable: 1
-        surge: 1
-      # strategy: Recreate
+      # strategy: RollingUpdate
+      # rollingUpdate:
+      #   unavailable: 0
+      #   surge: 1
+      strategy: Recreate
       containers:
         main:
           nameOverride: adguard-primary
           image:
             repository: adguard/adguardhome
-            tag: v0.107.53
+            tag: v0.107.52
           probes:
             liveness:
               enabled: false
@@ -42,7 +42,7 @@ app-template:
           nameOverride: adguard-secondary
           image:
             repository: adguard/adguardhome
-            tag: v0.107.53
+            tag: v0.107.52
           probes:
             liveness:
               enabled: false
