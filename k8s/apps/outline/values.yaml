@@ -49,7 +49,7 @@ app-template:
           nameOverride: redis
           image:
             repository: redis
-            tag: 7.4.0
+            tag: 7.4.1
   service:
     main:
       controller: main
