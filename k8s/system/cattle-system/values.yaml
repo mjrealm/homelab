@@ -14,7 +14,7 @@ rancher:
       nginx.ingress.kubernetes.io/proxy-body-size: 24m
     tls:
       source: secret
-      secretName: rancher-tls-cert
+      secretName: rancher-tls-cert-24cpl
 
   letsEncrypt:
     ingress:
