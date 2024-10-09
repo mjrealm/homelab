@@ -14,11 +14,11 @@ app-template:
 
   controllers:
     main:
-      strategy: RollingUpdate
-      rollingUpdate:
-        unavailable: 1
-        surge: 1
-      # strategy: Recreate
+      # strategy: RollingUpdate
+      # rollingUpdate:
+      #   unavailable: 1
+      #   surge: 1
+      strategy: Recreate
       containers:
         main:
           nameOverride: adguard-primary
