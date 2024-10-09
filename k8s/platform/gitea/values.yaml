@@ -2,7 +2,7 @@
 gitea:
   image:
     repository: gitea/gitea
-    tag: "1.22.2"
+    tag: "1.22.3"
   strategy:
     type: "Recreate"
 
