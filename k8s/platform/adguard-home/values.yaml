@@ -1,16 +1,16 @@
 ---
 app-template:
-  defaultPodOptions:
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/instance
-                  operator: In
-                  values:
-                    - adguard-home
-            topologyKey: "kubernetes.io/hostname"
+  # defaultPodOptions:
+  #   affinity:
+  #     podAntiAffinity:
+  #       requiredDuringSchedulingIgnoredDuringExecution:
+  #         - labelSelector:
+  #             matchExpressions:
+  #               - key: app.kubernetes.io/instance
+  #                 operator: In
+  #                 values:
+  #                   - adguard-home
+  #           topologyKey: "kubernetes.io/hostname"
 
   controllers:
     main:
