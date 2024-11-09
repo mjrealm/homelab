@@ -37,10 +37,18 @@ app-template:
               service:
                 identifier: main
                 port: http
+        - host: &docuseal-mc docs.mcsuites.info
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
       tls:
         - secretName: docuseal-tls-cert
           hosts:
             - *docuseal
+            - *docuseal-mc
 
   persistence:
     data:
