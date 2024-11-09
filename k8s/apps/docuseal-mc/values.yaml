@@ -22,15 +22,15 @@ app-template:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Docuseal
-        gethomepage.dev/description: Document Signing
+        gethomepage.dev/name: Docuseal (MC Suites)
+        gethomepage.dev/description: Document Signing for MC Suites
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: docuseal.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
-        - host: &docuseal docuseal.mdeleon.dev
+        - host: &docuseal-mc docs.mcsuites.info
           paths:
             - path: /
               pathType: Prefix
@@ -38,15 +38,15 @@ app-template:
                 identifier: main
                 port: http
       tls:
-        - secretName: docuseal-tls-cert
+        - secretName: docuseal-mc-tls-cert
           hosts:
-            - *docuseal
+            - *docuseal-mc
 
   persistence:
     data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 1Gi
+      size: 4Gi
       globalMounts:
         - path: /data
