@@ -36,7 +36,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 16.4
+            tag: 16.5
           env:
             PGDATA: "/var/lib/postgresql/data/pg_data"
             POSTGRES_DB: "outline"
