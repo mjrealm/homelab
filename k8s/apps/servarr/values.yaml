@@ -28,7 +28,7 @@ app-template:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
-            tag: 5.15.0-develop
+            tag: 5.15.1-develop
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -44,7 +44,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: 1.25.4
+            tag: 1.26.1
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
