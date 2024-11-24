@@ -58,7 +58,7 @@ gitea:
   initPreScript: |
     mkdir -p /data/gitea/public/assets/css
     cd /data/gitea/public/assets/css
-    wget -O catppuccin-gitea.tar.gz https://github.com/catppuccin/gitea/releases/download/v0.4.1/catppuccin-gitea.tar.gz
+    wget -O catppuccin-gitea.tar.gz https://github.com/catppuccin/gitea/releases/download/v1.0.1/catppuccin-gitea.tar.gz
     tar zxvf catppuccin-gitea.tar.gz
 
   # Ingress
