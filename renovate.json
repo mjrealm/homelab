@@ -13,6 +13,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["plexinc/pms-docker"],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(.*)?$"
+    },
+    {
+      "description": "Automerge patch updates",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
     }
   ]
 }
