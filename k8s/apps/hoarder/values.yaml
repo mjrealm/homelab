@@ -1,0 +1,77 @@
+---
+app-template:
+  controllers:
+    hoarder:
+      strategy: Recreate
+      containers:
+        hoarder:
+          nameOverride: hoarder
+          image:
+            repository: hoarder-app/hoarder
+            tag: 0.19.0
+          # env:
+          #   MEILI_ADDR:
+          #   MEILI_MASTER_KEY:
+          #   NEXTAUTH_SECRET:
+          #   NEXTAUTH_URL:
+    meilisearch:
+      strategy: Recreate
+      containers:
+        meilisearch:
+          image:
+            repository: getmeili/meilisearch
+            tag: v1.11.1
+          env:
+            MEILI_NO_ANALYTICS: "true"
+
+  service:
+    hoarder:
+      controller: hoarder
+      ports:
+        http:
+          port: 3000
+    meilisearch:
+      controller: meilisearch
+      ports:
+        http:
+          port: 7700
+
+  ingress:
+    hoarder:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Hoarder
+        gethomepage.dev/description: Bookmark Everything
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Wiki
+        gethomepage.dev/icon: hoarder.png
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &hoarder hoarder.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: hoarder
+                port: http
+      tls:
+        - secretName: hoarder-tls-cert
+          hosts:
+            - *hoarder
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      globalMounts:
+        - path: /data
+    meili_data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      globalMounts:
+        - path: /meili_data
