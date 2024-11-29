@@ -66,6 +66,7 @@ app-template:
         gethomepage.dev/group: Wiki
         gethomepage.dev/icon: hoarder.png
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "10"
       hosts:
         - host: &hoarder hoarder.mdeleon.dev
           paths:
