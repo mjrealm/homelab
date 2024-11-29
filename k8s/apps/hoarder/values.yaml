@@ -68,7 +68,7 @@ app-template:
       size: 4Gi
       globalMounts:
         - path: /data
-    meili_data:
+    meili-data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
