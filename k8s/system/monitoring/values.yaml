@@ -3,8 +3,8 @@ victoria-metrics-k8s-stack:
   grafana:
     enabled: true
     replicas: 1
-    deploymentStrategy:
-      type: Recreate
+    # deploymentStrategy:
+    #   type: Recreate
     ingress:
       enabled: true
       annotations:
