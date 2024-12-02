@@ -12,7 +12,7 @@ victoria-metrics-k8s-stack:
         gethomepage.dev/icon: alertmanager.png
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalertmanager"
-        gethomepage.dev/weight: "2"
+        gethomepage.dev/weight: 2
       hosts:
         - &alertmanager alertmanager.mdeleon.dev
       tls:
@@ -35,7 +35,7 @@ victoria-metrics-k8s-stack:
         gethomepage.dev/icon: grafana.png
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=grafana"
-        gethomepage.dev/weight: "1"
+        gethomepage.dev/weight: 1
       hosts:
         - &grafana grafana.mdeleon.dev
       tls:
