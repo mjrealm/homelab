@@ -11,6 +11,7 @@ uptime-kuma:
       gethomepage.dev/description: A fancy self-hosted monitoring tool
       gethomepage.dev/group: Observability
       gethomepage.dev/icon: uptime-kuma.png
+      gethomepage.dev/weight: 10
     hosts:
       - host: &host up.mdeleon.dev
         paths:
