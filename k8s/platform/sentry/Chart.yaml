@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: sentry
+version: 1.0.0
+dependencies:
+  - name: sentry
+    version: 26.7.0
+    repository: https://sentry-kubernetes.github.io/charts
