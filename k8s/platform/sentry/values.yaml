@@ -19,5 +19,5 @@ sentry:
       gethomepage.dev/group: Observability
       gethomepage.dev/icon: sentry.png
       nginx.ingress.kubernetes.io/proxy-body-size: 24m
-      # gethomepage.dev/pod-selector: "app.kubernetes.io/name=grafana"
+      gethomepage.dev/pod-selector: "app=sentry"
       gethomepage.dev/weight: 3
