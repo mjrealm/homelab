@@ -23,10 +23,10 @@ app-template:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/name: Docuseal (Business)
-        gethomepage.dev/description: Document Signing for Business
+        gethomepage.dev/description: Document Signing (Business)
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
-        gethomepage.dev/icon: sh-docuseal-light.png
+        gethomepage.dev/icon: sh-docuseal.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
