@@ -75,7 +75,7 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/description: Modern Wiki
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Wiki
+        gethomepage.dev/group: Knowledge
         gethomepage.dev/icon: outline.png
         gethomepage.dev/name: Outline
         gethomepage.dev/pod-selector: ""

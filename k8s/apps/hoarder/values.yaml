@@ -63,8 +63,8 @@ app-template:
         gethomepage.dev/name: Hoarder
         gethomepage.dev/description: Bookmark Everything
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Wiki
-        gethomepage.dev/icon: hoarder.png
+        gethomepage.dev/group: Knowledge
+        gethomepage.dev/icon: sh-hoarder-light.png
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/weight: "10"
       hosts:

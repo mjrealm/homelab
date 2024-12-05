@@ -22,11 +22,11 @@ app-template:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Docuseal (MC Suites)
-        gethomepage.dev/description: Document Signing for MC Suites
+        gethomepage.dev/name: Docuseal (Business)
+        gethomepage.dev/description: Document Signing for Business
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
-        gethomepage.dev/icon: docuseal.png
+        gethomepage.dev/icon: sh-docuseal-light.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
