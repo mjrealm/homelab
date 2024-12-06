@@ -57,7 +57,7 @@ app-template:
         gethomepage.dev/name: Mealie
         gethomepage.dev/description: Recipe Management
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Food
+        gethomepage.dev/group: Knowledge
         gethomepage.dev/icon: mealie.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
