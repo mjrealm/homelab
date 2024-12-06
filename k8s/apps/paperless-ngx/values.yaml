@@ -97,6 +97,7 @@ app-template:
         gethomepage.dev/icon: paperless-ngx.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "1"
       hosts:
         - host: &paperless paperless.mdeleon.dev
           paths:
