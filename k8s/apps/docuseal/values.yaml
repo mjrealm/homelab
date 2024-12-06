@@ -29,6 +29,7 @@ app-template:
         gethomepage.dev/icon: sh-docuseal.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "2"
       hosts:
         - host: &docuseal docuseal.mdeleon.dev
           paths:

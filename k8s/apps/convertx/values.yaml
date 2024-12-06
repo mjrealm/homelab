@@ -26,6 +26,7 @@ app-template:
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-convertx.png
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "10"
       hosts:
         - host: &convertx convertx.mdeleon.dev
           paths:
