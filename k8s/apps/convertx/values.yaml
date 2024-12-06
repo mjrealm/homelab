@@ -7,7 +7,7 @@ app-template:
         convertx:
           image:
             repository: ghcr.io/c4illin/convertx
-            tag: 0.9.0
+            tag: latest
   service:
     convertx:
       controller: convertx
