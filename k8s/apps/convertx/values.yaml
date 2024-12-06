@@ -21,9 +21,9 @@ app-template:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/name: ConvertX
-        gethomepage.dev/description: Document Signing (Personal)
+        gethomepage.dev/description: File Converter
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: File Converter
+        gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-convertx.png
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
