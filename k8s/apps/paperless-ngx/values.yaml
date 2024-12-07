@@ -130,6 +130,7 @@ app-template:
         paperless:
           paperless:
             - path: /usr/src/paperless/media
+            - path: /usr/src/paperless/data
     consume:
       enabled: true
       type: nfs
