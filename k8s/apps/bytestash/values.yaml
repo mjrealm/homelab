@@ -25,10 +25,10 @@ app-template:
         gethomepage.dev/name: ByteStash
         gethomepage.dev/description: Code Snippet Storage
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Code
+        gethomepage.dev/group: Knowledge
         gethomepage.dev/icon: sh-bytestash.png
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
-        gethomepage.dev/weight: "2"
+        gethomepage.dev/weight: "4"
       hosts:
         - host: &bytestash bytestash.mdeleon.dev
           paths:
