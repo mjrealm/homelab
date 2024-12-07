@@ -1,0 +1,59 @@
+---
+app-template:
+  defaultPodOptions:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+
+  controllers:
+    upsnap:
+      strategy: Recreate
+      containers:
+        upsnap:
+          nameOverride: upsnap
+          image:
+            repository: ghcr.io/seriousm4x/upsnap
+            tag: 4.3.4
+          env:
+            TZ: "America/Los_Angeles"
+            UPSNAP_SCAN_RANGE: 192.168.10.0/24 # Scan range is used for device discovery on local network
+
+  service:
+    upsnap:
+      controller: upsnap
+      ports:
+        http:
+          port: 5000
+
+  ingress:
+    upsnap:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: UpSnap
+        gethomepage.dev/description: Wake on LAN
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network
+        gethomepage.dev/icon: sh-upsnap.png
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "10"
+      hosts:
+        - host: &upsnap upsnap.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: upsnap
+                port: http
+      tls:
+        - secretName: upsnap-tls-cert
+          hosts:
+            - *upsnap
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      globalMounts:
+        - path: /app/pb_data
