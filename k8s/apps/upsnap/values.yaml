@@ -22,7 +22,7 @@ app-template:
       controller: upsnap
       ports:
         http:
-          port: 5000
+          port: 8090
 
   ingress:
     upsnap:
