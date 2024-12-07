@@ -1,0 +1,45 @@
+---
+app-template:
+  controllers:
+    karma:
+      strategy: Recreate
+      containers:
+        karma:
+          nameOverride: karma
+          image:
+            repository: ghcr.io/prymitive/karma
+            tag: v0.120
+          env:
+            ALERTMANAGER_URI: "https://alertmanager.mdeleon.dev"
+
+  service:
+    karma:
+      controller: karma
+      ports:
+        http:
+          port: 8080
+
+  ingress:
+    karma:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Karma
+        gethomepage.dev/description: Dashboard for Alertmanager
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Observability
+        gethomepage.dev/icon: alertmanager.png
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "20"
+      hosts:
+        - host: &karma karma.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: karma
+                port: http
+      tls:
+        - secretName: karma-tls-cert
+          hosts:
+            - *karma
