@@ -8,7 +8,7 @@ app-template:
           nameOverride: cloudflared
           image:
             repository: cloudflare/cloudflared
-            tag: 2024.11.1
+            tag: 2024.12.1
             # command:
             #   - tunnel
             #   - --no-autoupdate
