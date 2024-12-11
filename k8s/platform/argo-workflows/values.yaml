@@ -1,0 +1,21 @@
+---
+argo-workflows:
+  serviceAccount:
+    create: true
+    name: "argo-workflow"
+  rbac:
+    create: true
+
+  controller:
+    workflowNamespaces:
+      - default
+      - workflows
+
+  metricsConfig:
+    enabled: true
+
+  telemetryConfig:
+    enabled: true
+
+  serviceMonitor:
+    enabled: true
