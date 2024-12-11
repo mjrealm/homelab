@@ -32,7 +32,7 @@ argo-workflows:
         gethomepage.dev/group: System
         gethomepage.dev/icon: argocd.png
       hosts:
-        - host: &argo-wf argo-wf.mdeleon.dev
+        - host: &argo-wf argowf.mdeleon.dev
       paths:
         - /
       pathType: Prefix
