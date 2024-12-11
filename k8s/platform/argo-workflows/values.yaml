@@ -22,6 +22,8 @@ argo-workflows:
     enabled: true
 
   server:
+    authModes:
+      - server
     ingress:
       enabled: true
       annotations:
