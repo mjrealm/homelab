@@ -1,0 +1,44 @@
+---
+argo-workflows:
+  serviceAccount:
+    create: true
+    name: "argo-workflow"
+  rbac:
+    create: true
+
+  singleNamespace: false
+  controller:
+    workflowNamespaces:
+      - default
+      - argowf
+
+  metricsConfig:
+    enabled: true
+
+  telemetryConfig:
+    enabled: true
+
+  serviceMonitor:
+    enabled: true
+
+  server:
+    authModes:
+      - server
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Argo Workflows
+        gethomepage.dev/description: Workflow Engine for Kubernetes
+        gethomepage.dev/group: System
+        gethomepage.dev/icon: argocd.png
+      hosts:
+        - &argo-wf argowf.mdeleon.dev
+      paths:
+        - /
+      pathType: Prefix
+      tls:
+        - secretName: argo-workflows-tls-cert
+          hosts:
+            - *argo-wf
