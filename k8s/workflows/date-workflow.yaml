@@ -7,6 +7,7 @@ spec:
   timezone: America/Los_Angeles
   concurrencyPolicy: "Replace"
   workflowSpec:
+    serviceAccountName: "argo-workflow"
     entrypoint: date
     templates:
       - name: date
