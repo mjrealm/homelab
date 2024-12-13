@@ -8,7 +8,9 @@ spec:
   concurrencyPolicy: "Replace"
   workflowSpec:
     serviceAccountName: "argo-workflow"
-    entrypoint: date
+    podGC:
+      strategy: OnWorkflowSuccess
+    entrypoint: test
     templates:
       - name: date
         container:
@@ -20,3 +22,11 @@ spec:
           image: busybox
           command: [echo]
           args: ["hello world"]
+      - name: test
+        dag:
+          tasks:
+            - name: date
+              template: date
+            - name: hello-world
+              dependencies: [date]
+              template: hello-world
