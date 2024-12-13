@@ -34,6 +34,7 @@ argo-workflows:
         gethomepage.dev/description: Workflow Engine for Kubernetes
         gethomepage.dev/group: System
         gethomepage.dev/icon: argocd.png
+        gethomepage.dev/pod-selector: "app.kubernetes.io/name=argo-workflows-server"
       hosts:
         - &argo-wf argowf.mdeleon.dev
       paths:
