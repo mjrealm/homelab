@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: test-cron-wf
+spec:
+  schedule: "*/2 * * * *"
+  timezone: America/Los_Angeles
+  concurrencyPolicy: "Replace"
+  workflowSpec:
+    entrypoint: date
+    templates:
+      - name: date
+        container:
+          image: alpine:3.6
+          command: [sh, -c]
+          args: ["date; sleep 90"]
+      - name: hello-world
+        container:
+          image: busybox
+          command: [echo]
+          args: ["hello world"]
