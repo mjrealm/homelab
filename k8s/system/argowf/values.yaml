@@ -1,10 +1,11 @@
 ---
 argo-workflows:
-  serviceAccount:
-    create: true
-    name: "argo-workflow"
-  rbac:
-    create: true
+  workflow:
+    serviceAccount:
+      create: true
+      name: "argo-workflow"
+    rbac:
+      create: true
 
   singleNamespace: false
   controller:
