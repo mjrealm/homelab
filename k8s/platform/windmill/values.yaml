@@ -14,7 +14,8 @@ windmill:
       gethomepage.dev/description: Workflow Engine
       gethomepage.dev/group: Engines
       gethomepage.dev/icon: sh-windmill.png
-      gethomepage.dev/pod-selector: "app=windmill-app"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=windmill-app"
+      gethomepage.dev/href: "https://windmill.mdeleon.dev"
     tls:
       - secretName: windmill-tls-cert
         hosts:
