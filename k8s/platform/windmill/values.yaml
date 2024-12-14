@@ -1,0 +1,20 @@
+---
+windmill:
+  windmill:
+    baseDomain: &host windmill.mdeleon.dev
+    baseProtocol: https
+    appReplicas: 2
+    lspReplicas: 2
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Windmill
+      gethomepage.dev/description: Workflow Engine
+      gethomepage.dev/group: Engines
+      gethomepage.dev/icon: sh-windmill.png
+    tls:
+      - secretName: windmill-tls-cert
+        hosts:
+          - *host
