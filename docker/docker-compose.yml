@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  nginx-proxy-manager:
+    image: docker.io/jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - nginx-proxy-manager:/data
+      - letsencrypt:/etc/letsencrypt
+  adguardhome:
+    container_name: adguardhome
+    image: adguard/adguardhome:latest
+    restart: unless-stopped
+    volumes:
+      - adguardhome:/opt/adguardhome
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      # - 67:67/udp
+      # - 68:68/udp
+      - 8088:80/tcp
+      - 8443:443/tcp
+      - 8443:443/udp
+      - 3000:3000/tcp
+      - 853:853/tcp
+      - 784:784/udp
+      - 853:853/udp
+      - 8853:8853/udp
+      - 5443:5443/tcp
+      - 5443:5443/udp
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  nginx-proxy-manager:
+  letsencrypt:
+  adguardhome:
