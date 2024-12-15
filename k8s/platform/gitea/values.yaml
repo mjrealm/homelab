@@ -20,7 +20,7 @@ gitea:
   # Config
   gitea:
     metrics:
-      enabled: false
+      enabled: true
       serviceMonitor:
         enabled: true
     config:

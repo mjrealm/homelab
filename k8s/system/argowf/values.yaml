@@ -13,14 +13,14 @@ argo-workflows:
       - default
       - argowf
 
-  metricsConfig:
-    enabled: true
+    metricsConfig:
+      enabled: true
 
-  telemetryConfig:
-    enabled: true
+    telemetryConfig:
+      enabled: true
 
-  serviceMonitor:
-    enabled: true
+    serviceMonitor:
+      enabled: true
 
   server:
     authModes:

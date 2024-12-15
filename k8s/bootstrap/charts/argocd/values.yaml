@@ -7,7 +7,7 @@ argo-cd:
     metrics:
       enabled: true
       serviceMonitor:
-        enabled: false
+        enabled: true
     ingress:
       enabled: true
       hostname: *host
