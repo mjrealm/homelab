@@ -19,3 +19,6 @@ longhorn:
       gethomepage.dev/group: System
       gethomepage.dev/icon: longhorn.png
       gethomepage.dev/pod-selector: ""
+  metrics:
+    serviceMonitor:
+      enabled: true

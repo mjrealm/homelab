@@ -3,3 +3,9 @@ metallb:
   speaker:
     frr:
       enabled: false
+
+  prometheus:
+    podMonitor:
+      enabled: true
+    serviceMonitor:
+      enabled: true
