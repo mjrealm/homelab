@@ -1,0 +1,58 @@
+---
+- name: Show Ansible User
+  run_once: false
+  when: inventory_hostname in groups.docker
+  ansible.builtin.debug:
+    var: ansible_user
+
+- name: Uninstall conflicts
+  become: true
+  when:
+    - inventory_hostname in groups.docker
+    - not ansible_check_mode
+  ansible.builtin.raw: for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+  register: apt_remove
+  changed_when: apt_remove.rc != 0
+
+- name: Add official GPG key
+  become: true
+  when: inventory_hostname in groups.docker
+  ansible.builtin.shell: |
+    sudo apt-get update -y
+    sudo apt-get install -y ca-certificates curl
+    sudo install -m 0755 -d /etc/apt/keyrings
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    sudo chmod a+r /etc/apt/keyrings/docker.asc
+  register: update_result
+  changed_when: update_result.rc != 0
+
+- name: Add repo to APT resources
+  become: true
+  when: inventory_hostname in groups.docker
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      sudo apt-get update -y
+    executable: /bin/bash
+  register: update_result
+  changed_when: update_result.rc != 0
+
+- name: Install Docker
+  become: true
+  when: inventory_hostname in groups.docker
+  ansible.builtin.shell: |
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  register: update_result
+  changed_when: update_result.rc != 0
+
+- name: Ensure Docker service is running
+  become: true
+  when: inventory_hostname in groups.docker
+  ansible.builtin.shell: |
+    sudo docker run hello-world
+  register: update_result
+  changed_when: update_result.rc != 0

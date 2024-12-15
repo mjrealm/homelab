@@ -5,12 +5,25 @@ metal:
     # initial server node
     master:
       hosts:
-        metal0: { ansible_host: 192.168.10.11 }
+        metal0:
+          ansible_host: 192.168.10.11
     # with control-plane and datastore components
     server:
       hosts:
     # without any datastore or control-plane components
     agent:
       hosts:
-        metal1: { ansible_host: 192.168.10.10 }
-        metal2: { ansible_host: 192.168.10.12 }
+        metal1:
+          ansible_host: 192.168.10.10
+        metal2:
+          ansible_host: 192.168.10.12
+    docker:
+      hosts:
+        metal3:
+          ansible_host: 192.168.10.20
+        # For Vagrant box testing
+        # metal4:
+        #   ansible_host: 127.0.0.1
+        #   ansible_port: 50022
+        #   ansible_user: vagrant
+        #   ansible_ssh_private_key_file: ../.vagrant/machines/default/qemu/private_key

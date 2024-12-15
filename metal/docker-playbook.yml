@@ -1,0 +1,5 @@
+---
+- name: Create Docker environment
+  hosts: metal
+  roles:
+    - docker
