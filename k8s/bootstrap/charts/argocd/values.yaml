@@ -30,9 +30,19 @@ argo-cd:
     enabled: false
   dex:
     enabled: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
   metrics:
     enabled: true
-
+    serviceMonitor:
+      enabled: true
+  controller:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
   # Helm Secrets
   configs:
     params:
