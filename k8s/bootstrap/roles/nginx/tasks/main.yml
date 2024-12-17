@@ -10,7 +10,7 @@
   kubernetes.core.helm:
     name: ingress-nginx
     chart_ref: charts/ingress-nginx/
-    release_namespace: kube-system
+    release_namespace: ingress-nginx
     create_namespace: false
     dependency_update: true
     values_files:

@@ -15,7 +15,7 @@ bootstrap:
   #   namespace: kube-system # target namespace
   #   project: system # must be a stack
   - name: ingress-nginx
-    namespace: kube-system
+    namespace: ingress-nginx
     project: system
   - name: cert-manager
     namespace: cert-manager
