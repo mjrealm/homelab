@@ -35,7 +35,7 @@ crowdsec:
     dashboard:
       enabled: true
       ingress:
-        enabled: false
+        enabled: true
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
           cert-manager.io/cluster-issuer: letsencrypt-prod
