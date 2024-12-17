@@ -3,6 +3,11 @@ crowdsec:
   container_runtime: containerd
   tls:
     enabled: true
+    certManager:
+      enabled: true
+      issuerRef:
+        name: letsencrypt-prod
+        kind: "ClusterIssuer"
   agent:
     acquisition:
       - namespace: ingress-nginx
