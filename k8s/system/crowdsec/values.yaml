@@ -32,3 +32,21 @@ crowdsec:
       enabled: true
       serviceMonitor:
         enabled: true
+    dashboard:
+      enabled: true
+      ingress:
+        enabled: false
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Crowdsec
+          gethomepage.dev/description: Dashboard for LAPI
+          gethomepage.dev/group: System
+          gethomepage.dev/icon: sh-crowdsec.png
+          gethomepage.dev/pod-selector: "type=lapi"
+        host: &crowdsec crowdsec.mdeleon.dev
+        tls:
+          - secretName: crowdsec-tls-cert
+            hosts:
+              - *crowdsec
