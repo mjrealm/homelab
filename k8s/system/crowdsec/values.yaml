@@ -1,23 +1,12 @@
 ---
 crowdsec:
   container_runtime: containerd
-  tls:
-    enabled: true
-    certManager:
-      enabled: true
-      issuerRef:
-        name: letsencrypt-prod
-        kind: "ClusterIssuer"
   agent:
     acquisition:
       - namespace: ingress-nginx
         podName: ingress-nginx-controller-*
         program: nginx
     env:
-      # - name: DISABLE_LOCAL_API
-      #   value: "false"
-      # - name: DISABLE_ONLINE_API
-      #   value: "false"
       - name: COLLECTIONS
         value: "crowdsecurity/nginx"
     metrics:
@@ -28,15 +17,6 @@ crowdsec:
       config:
         enabled: true
   lapi:
-    env:
-      # - name: DISABLE_ONLINE_API
-      #   value: "true"
-      # - name: ENROLL_KEY
-      #   value: "<enroll-key>"
-      # - name: ENROLL_INSTANCE_NAME
-      #   value: "k3s-ansible"
-      # - name: ENROLL_TAGS
-      #   value: "k8s k3s"
     metrics:
       enabled: true
       serviceMonitor:
