@@ -7,8 +7,10 @@ crowdsec:
         podName: ingress-nginx-controller-*
         program: nginx
     env:
+      - name: DISABLE_LOCAL_API
+        value: "false"
       - name: DISABLE_ONLINE_API
-        value: "true"
+        value: "false"
       - name: COLLECTIONS
         value: "crowdsecurity/nginx"
     metrics:
