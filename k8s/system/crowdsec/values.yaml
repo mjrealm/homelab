@@ -20,8 +20,8 @@ crowdsec:
         enabled: true
   lapi:
     env:
-      - name: DISABLE_ONLINE_API
-        value: "true"
+      # - name: DISABLE_ONLINE_API
+      #   value: "true"
       # - name: ENROLL_KEY
       #   value: "<enroll-key>"
       # - name: ENROLL_INSTANCE_NAME
