@@ -11,6 +11,13 @@ crowdsec:
       #   value: "true"
       - name: COLLECTIONS
         value: "crowdsecurity/nginx"
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    persistentVolume:
+      config:
+        enabled: true
   lapi:
     env:
       # - name: DISABLE_ONLINE_API
@@ -21,3 +28,7 @@ crowdsec:
       #   value: "k3s-ansible"
       # - name: ENROLL_TAGS
       #   value: "k8s k3s"
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
