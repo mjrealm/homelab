@@ -1,0 +1,98 @@
+---
+app-template:
+  controllers:
+    activepieces:
+      strategy: Recreate
+      containers:
+        activepieces:
+          nameOverride: activepieces
+          image:
+            repository: ghcr.io/activepieces/activepieces
+            tag: 0.37.6
+    postgres:
+      strategy: Recreate
+      containers:
+        postgres:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: 14.4
+    redis:
+      strategy: Recreate
+      containers:
+        redis:
+          nameOverride: redis
+          image:
+            repository: redis
+            tag: 7.0.7
+  service:
+    activepieces:
+      controller: activepieces
+      ports:
+        http:
+          port: 80
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
+    redis:
+      controller: redis
+      ports:
+        http:
+          port: 6379
+
+  ingress:
+    activepieces:
+      enabled: true
+      nameOverride: activepieces
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Activepieces
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/description: AI-first Automation
+        gethomepage.dev/group: Automation
+        gethomepage.dev/icon: sh-activepieces.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &host activepieces.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: activepieces
+                port: http
+      tls:
+        - secretName: activepieces-tls-cert
+          hosts:
+            - *host
+
+  persistence:
+    cache:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        activepieces:
+          activepieces:
+            - path: /usr/src/app/cache
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        postgres:
+          postgres:
+            - path: /var/lib/postgresql/data
+    redis:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        redis:
+          redis:
+            - path: /data
