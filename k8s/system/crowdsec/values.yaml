@@ -26,16 +26,4 @@ crowdsec:
     dashboard:
       enabled: true
       ingress:
-        enabled: true
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/ssl-redirect: "false"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-          gethomepage.dev/href: "http://metabase.mdeleon.dev"
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Crowdsec Metabase
-          gethomepage.dev/description: Metabase dashboard
-          gethomepage.dev/group: System
-          gethomepage.dev/icon: sh-metabase.png
-          gethomepage.dev/pod-selector: "type=lapi"
-        host: metabase.mdeleon.dev
+        enabled: false
