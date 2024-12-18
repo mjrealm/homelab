@@ -15,7 +15,9 @@ crowdsec:
         enabled: true
     persistentVolume:
       config:
-        enabled: true
+        enabled: false
+        accessModes:
+          - ReadWriteMany
   lapi:
     metrics:
       enabled: true
@@ -26,8 +28,8 @@ crowdsec:
       ingress:
         enabled: true
         annotations:
-          # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          # cert-manager.io/cluster-issuer: letsencrypt-prod
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Crowdsec
           gethomepage.dev/description: Dashboard for LAPI
@@ -35,7 +37,7 @@ crowdsec:
           gethomepage.dev/icon: sh-crowdsec.png
           gethomepage.dev/pod-selector: "type=lapi"
         host: &host crowdsec.mdeleon.dev
-        tls:
-          - secretName: crowdsec-dash-tls-cert
-            hosts:
-              - *host
+        # tls:
+        #   - secretName: crowdsec-dash-tls-cert
+        #     hosts:
+        #       - *host
