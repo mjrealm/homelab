@@ -1,0 +1,29 @@
+---
+crowdsec:
+  container_runtime: containerd
+  agent:
+    acquisition:
+      - namespace: ingress-nginx
+        podName: ingress-nginx-controller-*
+        program: nginx
+    env:
+      - name: COLLECTIONS
+        value: "crowdsecurity/nginx"
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    persistentVolume:
+      config:
+        enabled: false
+        accessModes:
+          - ReadWriteMany
+  lapi:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    dashboard:
+      enabled: true
+      ingress:
+        enabled: false
