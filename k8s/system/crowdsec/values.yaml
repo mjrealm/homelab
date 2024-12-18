@@ -6,6 +6,7 @@ crowdsec:
       - namespace: ingress-nginx
         podName: ingress-nginx-controller-*
         program: nginx
+        poll_without_inotify: true
     env:
       - name: COLLECTIONS
         value: "crowdsecurity/nginx"
