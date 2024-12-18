@@ -15,7 +15,7 @@ crowdsec:
         enabled: true
     persistentVolume:
       config:
-        enabled: true
+        enabled: false
         accessModes:
           - ReadWriteMany
   lapi:
@@ -30,6 +30,7 @@ crowdsec:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
           nginx.ingress.kubernetes.io/ssl-redirect: "false"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
           gethomepage.dev/href: "http://metabase.mdeleon.dev"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Crowdsec Metabase
