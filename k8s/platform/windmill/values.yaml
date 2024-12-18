@@ -12,7 +12,7 @@ windmill:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Windmill
       gethomepage.dev/description: Workflow Engine
-      gethomepage.dev/group: Engines
+      gethomepage.dev/group: Automation
       gethomepage.dev/icon: sh-windmill.png
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=windmill-app"
       gethomepage.dev/href: "https://windmill.mdeleon.dev"

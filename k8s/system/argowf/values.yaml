@@ -32,7 +32,7 @@ argo-workflows:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Argo Workflows
         gethomepage.dev/description: Workflow Engine for Kubernetes
-        gethomepage.dev/group: System
+        gethomepage.dev/group: Automation
         gethomepage.dev/icon: argocd.png
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=argo-workflows-server"
       hosts:
