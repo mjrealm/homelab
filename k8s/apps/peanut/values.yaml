@@ -80,6 +80,15 @@ app-template:
             - *influxdb
 
   persistence:
+    config:
+      enabled: true
+      type: configMap
+      name: peanut-config
+      advancedMounts:
+        peanut:
+          peanut:
+            - path: /config/settings.yml
+              subPath: settings.yml
     peanut:
       enabled: true
       type: persistentVolumeClaim
