@@ -37,4 +37,4 @@ metadata:
     postgres-operator.crunchydata.com/cluster: zitadel
     postgres-operator.crunchydata.com/pguser: admin
 stringData:
-  password: { { .Values.secrets.postgres.password } }
+  password: { { .Values.pgo.secrets.postgres.password } }
