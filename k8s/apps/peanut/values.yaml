@@ -1,29 +1,39 @@
 ---
 app-template:
   controllers:
-    main:
+    peanut:
       strategy: Recreate
+      annotations:
+        reloader.stakater.com/auto: "true"
       containers:
-        main:
+        peanut:
           nameOverride: peanut
           image:
             repository: brandawg93/peanut
             tag: 3.3.0
-          # env:
-          #   NUT_HOST:
-          #   NUT_PORT:
-          #   USERNAME:
-          #   PASSWORD:
+    influxdb:
+      strategy: Recreate
+      containers:
+        influxdb:
+          nameOverride: influxdb
+          image:
+            repository: influxdb
+            tag: 2
 
   service:
-    main:
-      controller: main
+    peanut:
+      controller: peanut
       ports:
         http:
           port: 8080
+    influxdb:
+      controller: influxdb
+      ports:
+        http:
+          port: 8086
 
   ingress:
-    scrypted:
+    peanut:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -40,9 +50,60 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: main
+                identifier: peanut
                 port: http
       tls:
         - secretName: peanut-tls-cert
           hosts:
             - *peanut
+    influxdb:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: InfluxDB - PeaNUT
+        gethomepage.dev/description: TSDB for PeaNUT
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: UPS
+        gethomepage.dev/icon: sh-influxdb.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &influxdb tsdb-ups.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: influxdb
+                port: http
+      tls:
+        - secretName: influxdb-peanut-tls-cert
+          hosts:
+            - *influxdb
+
+  persistence:
+    peanut:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 50Mi
+      advancedMounts:
+        peanut:
+          peanut:
+            - path: /config
+    influxdb:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      advancedMounts:
+        influxdb:
+          influxdb:
+            - path: /etc/influxdb2
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        influxdb:
+          influxdb:
+            - path: /var/lib/influxdb2
