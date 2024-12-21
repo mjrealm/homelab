@@ -1,5 +1,9 @@
 ---
 homepage:
+  controller:
+    annotations:
+      reloader.stakater.com/auto: "true"
+
   image:
     repository: ghcr.io/gethomepage/homepage
     tag: v0.9.13
