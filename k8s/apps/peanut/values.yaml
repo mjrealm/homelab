@@ -30,7 +30,7 @@ app-template:
         gethomepage.dev/name: PeaNUT
         gethomepage.dev/description: NUT dashboard
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Network
+        gethomepage.dev/group: UPS
         gethomepage.dev/icon: peanut.png
         gethomepage.dev/pod-selector: ""
         gethomepage.dev/weight: "3"
