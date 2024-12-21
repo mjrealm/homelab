@@ -42,8 +42,8 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: UPS
         gethomepage.dev/icon: peanut.png
-        gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "3"
+        gethomepage.dev/pod-selector: "app.kubernetes.io/component=peanut"
+        gethomepage.dev/weight: "1"
       hosts:
         - host: &peanut peanut.mdeleon.dev
           paths:
@@ -65,7 +65,8 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: UPS
         gethomepage.dev/icon: sh-influxdb.png
-        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/pod-selector: "app.kubernetes.io/component=influxdb"
+        gethomepage.dev/weight: "2"
       hosts:
         - host: &influxdb tsdb-ups.mdeleon.dev
           paths:
