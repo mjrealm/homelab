@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: zitadel
+version: 1.0.0
+dependencies:
+  - name: zitadel
+    repository: https://charts.zitadel.com
+    version: 8.8.1
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 16.3.3
