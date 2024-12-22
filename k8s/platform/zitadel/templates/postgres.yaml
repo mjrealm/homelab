@@ -2,7 +2,7 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: pg-zitadel
+  name: zitadel
 spec:
   postgresVersion: 16
   monitoring: true
@@ -36,7 +36,7 @@ kind: Secret
 metadata:
   name: zitadel-pguser-admin
   labels:
-    postgres-operator.crunchydata.com/cluster: pg-zitadel
+    postgres-operator.crunchydata.com/cluster: zitadel
     postgres-operator.crunchydata.com/pguser: admin
 stringData:
   password: {{.Values.postgres.admin.password}}
@@ -46,7 +46,7 @@ kind: Secret
 metadata:
   name: zitadel-pguser-postgres
   labels:
-    postgres-operator.crunchydata.com/cluster: pg-zitadel
+    postgres-operator.crunchydata.com/cluster: zitadel
     postgres-operator.crunchydata.com/pguser: postgres
 stringData:
   password: {{.Values.postgres.postgres.password}}
