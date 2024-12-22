@@ -7,8 +7,8 @@ plex-media-server:
   fullnameOverride: "pms"
 
   # Specific node to install this
-  # nodeSelector:
-  #   kubernetes.io/hostname: wayne
+  nodeSelector:
+    kubernetes.io/hostname: wayne
 
   extraEnv:
     HOSTNAME: "peacemaker-plex"
