@@ -9,6 +9,7 @@ spec:
     - name: admin
       databases:
         - zitadel
+    - name: postgres
   instances:
     - name: zitadel1
       dataVolumeClaimSpec:
@@ -37,4 +38,14 @@ metadata:
     postgres-operator.crunchydata.com/cluster: zitadel
     postgres-operator.crunchydata.com/pguser: admin
 stringData:
-  password: {{ .Values.secrets.postgres.password }}
+  password: {{.Values.secrets.postgres.password}}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: zitadel-pguser-admin
+  labels:
+    postgres-operator.crunchydata.com/cluster: zitadel
+    postgres-operator.crunchydata.com/pguser: admin
+stringData:
+  password: {{.Values.secrets.postgres.postgres.password}}
