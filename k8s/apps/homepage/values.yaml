@@ -6,7 +6,7 @@ homepage:
 
   image:
     repository: ghcr.io/gethomepage/homepage
-    tag: v0.10.1
+    tag: v0.10.2
 
   # The service account is necessary to allow discovery of other services
   serviceAccount:
