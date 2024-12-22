@@ -2,14 +2,15 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: zitadel
+  name: postgres-zitadel
 spec:
   postgresVersion: 16
+  monitoring: true
   users:
+    - name: postgres
     - name: admin
       databases:
         - zitadel
-    - name: postgres
   instances:
     - name: zitadel1
       dataVolumeClaimSpec:
@@ -18,34 +19,34 @@ spec:
         resources:
           requests:
             storage: 1Gi
-  # backups:
-  #   pgbackrest:
-  #     repos:
-  #       - name: repo1
-  #         volume:
-  #           volumeClaimSpec:
-  #             accessModes:
-  #               - "ReadWriteOnce"
-  #             resources:
-  #               requests:
-  #                 storage: 1Gi
+  backups:
+    pgbackrest:
+      repos:
+        - name: local
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - "ReadWriteOnce"
+              resources:
+                requests:
+                  storage: 1Gi
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: zitadel-pguser-admin
   labels:
-    postgres-operator.crunchydata.com/cluster: zitadel
+    postgres-operator.crunchydata.com/cluster: postgres-zitadel
     postgres-operator.crunchydata.com/pguser: admin
 stringData:
-  password: {{.Values.secrets.postgres.password}}
+  password: {{.Values.postgres.admin.password}}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: zitadel-pguser-postgres
   labels:
-    postgres-operator.crunchydata.com/cluster: zitadel
+    postgres-operator.crunchydata.com/cluster: postgres-zitadel
     postgres-operator.crunchydata.com/pguser: postgres
 stringData:
-  password: {{.Values.secrets.postgres.postgres.password}}
+  password: {{.Values.postgres.postgres.password}}
