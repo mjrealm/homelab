@@ -1,4 +1,0 @@
----
-resources:
-  - postgres.yaml
-  - secrets.yaml

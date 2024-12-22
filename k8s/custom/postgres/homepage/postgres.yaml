@@ -5,7 +5,6 @@ metadata:
   name: zitadel
 spec:
   postgresVersion: 16
-  monitoring: true
   users:
     - name: postgres
     - name: admin
