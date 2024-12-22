@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: crunchydata
+version: 1.0.0
+dependencies:
+  - name: pgo
+    version: 5.7.2
+    repository: oci://registry.developers.crunchydata.com/crunchydata
