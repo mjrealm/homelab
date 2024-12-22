@@ -1,0 +1,28 @@
+---
+sealed-secrets:
+  metrics:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+
+sealed-secrets-web:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Sealed Secrets Web
+      gethomepage.dev/description: Web UI For Sealed Secrets
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: https://github.com/bakito/sealed-secrets-web/blob/main/assets/logo.png
+      gethomepage.dev/pod-selector: ""
+      gethomepage.dev/weight: "20"
+    hosts:
+      - paths:
+          - path: /
+            pathType: Prefix
+        host: &host sealed-web.mdeleon.dev
+    tls:
+      - hosts:
+          - *host
+        secretName: sealed-secrets-web-tls
