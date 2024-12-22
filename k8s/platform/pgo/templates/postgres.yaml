@@ -43,9 +43,9 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: zitadel-pguser-admin
+  name: zitadel-pguser-postgres
   labels:
     postgres-operator.crunchydata.com/cluster: zitadel
-    postgres-operator.crunchydata.com/pguser: admin
+    postgres-operator.crunchydata.com/pguser: postgres
 stringData:
   password: {{.Values.secrets.postgres.postgres.password}}
