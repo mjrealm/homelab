@@ -14,7 +14,7 @@ sealed-secrets-web:
       gethomepage.dev/name: Sealed Secrets Web
       gethomepage.dev/description: Web UI For Sealed Secrets
       gethomepage.dev/group: System
-      gethomepage.dev/icon: https://github.com/bakito/sealed-secrets-web/blob/main/assets/logo.png
+      gethomepage.dev/icon: sh-secureai-tools.png
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=sealed-secrets-web"
       gethomepage.dev/weight: "20"
     hosts:
