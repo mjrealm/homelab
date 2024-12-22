@@ -1,5 +1,7 @@
 ---
 zitadel:
+  initJob:
+    enabled: false
   image:
     repository: ghcr.io/zitadel/zitadel
     tag: "v2.66.1"
