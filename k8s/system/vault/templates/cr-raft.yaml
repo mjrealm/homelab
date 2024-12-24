@@ -89,6 +89,13 @@ spec:
                       number: 8200
                 path: /ui
                 pathType: Prefix
+              - api:
+                  service:
+                    name: vault
+                    port:
+                      number: 8201
+                path: /
+                pathType: Prefix
       tls:
         - hosts:
             - *host
