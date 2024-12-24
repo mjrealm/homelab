@@ -66,34 +66,33 @@ spec:
     # the operator will add NGINX, Traefik and HAProxy Ingress compatible annotations
     # to support TLS backends
     annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: Vault by HashiCorp 
-        gethomepage.dev/description: Secret Management
-        gethomepage.dev/group: System
-        gethomepage.dev/icon: sh-hashicorp-vault.png
-        gethomepage.dev/pod-selector: ""
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Vault by HashiCorp
+      gethomepage.dev/description: Secret Management
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: sh-hashicorp-vault.png
+      gethomepage.dev/pod-selector: ""
     # Override the default Ingress specification here
     # This follows the same format as the standard Kubernetes Ingress
     # See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#ingressspec-v1beta1-extensions
     spec:
-        ingressClassName: nginx
-        rules:
+      ingressClassName: nginx
+      rules:
         - host: &host vault.mdeleon.dev
-            http:
+          http:
             paths:
-            - backend:
-                service:
+              - backend:
+                  service:
                     name: vault
                     port:
                     number: 8200
                 path: /ui
                 pathType: Prefix
-        tls:
+      tls:
         - hosts:
             - *host
-            secretName: vault-tls-cert
-
+          secretName: vault-tls-cert
 
   # In some cases, you have to set permissions for the raft directory.
   # For example in the case of using a local kind cluster, uncomment the lines below.
