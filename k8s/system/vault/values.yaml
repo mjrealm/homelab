@@ -3,3 +3,11 @@ vault-operator:
   monitoring:
     serviceMonitor:
       enabled: true
+vault-secrets-webhook:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  certificate:
+    generate: false
+    useCertManager: true
