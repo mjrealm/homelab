@@ -62,9 +62,6 @@ spec:
 
   # Request an Ingress controller with the default configuration
   ingress:
-    # Specify Ingress object annotations here, if TLS is enabled (which is by default)
-    # the operator will add NGINX, Traefik and HAProxy Ingress compatible annotations
-    # to support TLS backends
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
@@ -74,9 +71,6 @@ spec:
       gethomepage.dev/icon: sh-hashicorp-vault.png
       gethomepage.dev/pod-selector: ""
       gethomepage.dev/href: "https://vault.mdeleon.dev/ui"
-    # Override the default Ingress specification here
-    # This follows the same format as the standard Kubernetes Ingress
-    # See: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#ingressspec-v1beta1-extensions
     spec:
       ingressClassName: nginx
       rules:
@@ -165,7 +159,7 @@ spec:
         address: "0.0.0.0:8200"
         tls_cert_file: /vault/tls/server.crt
         tls_key_file: /vault/tls/server.key
-    api_addr: https://vault.vault.svc.cluster.local:8200
+    api_addr: https://vault.vault:8200
     cluster_addr: "https://${.Env.POD_NAME}:8201"
     ui: true
 
@@ -197,8 +191,9 @@ spec:
         roles:
           # Allow every pod in the default namespace to use the secret kv store
           - name: default
-            bound_service_account_names: ["default", "vault-secrets-webhook"]
-            bound_service_account_namespaces: ["default", "vswh"]
+            bound_service_account_names:
+              ["default", "vault-secrets-webhook", "vault"]
+            bound_service_account_namespaces: ["default", "vswh", "vault"]
             policies: allow_secrets
             ttl: 1h
 
