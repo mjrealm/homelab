@@ -4,6 +4,7 @@ vault-operator:
     serviceMonitor:
       enabled: true
 vault-secrets-webhook:
+  debug: true
   metrics:
     enabled: true
     serviceMonitor:
