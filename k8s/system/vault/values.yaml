@@ -3,15 +3,3 @@ vault-operator:
   monitoring:
     serviceMonitor:
       enabled: true
-vault-secrets-webhook:
-  debug: true
-  env:
-    VAULT_ROLE: vault
-
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-  # certificate:
-  #   generate: false
-  #   useCertManager: true

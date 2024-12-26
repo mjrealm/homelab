@@ -168,8 +168,6 @@ spec:
   serviceRegistrationEnabled: true
 
   resources:
-    # A YAML representation of resource ResourceRequirements for vault container
-    # Detail can reference: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container
     vault:
       limits:
         memory: "512Mi"
@@ -202,26 +200,6 @@ spec:
         description: General secrets.
         options:
           version: 2
-      - path: pki
-        type: pki
-        description: Vault PKI Backend
-        config:
-          default_lease_ttl: 168h
-          max_lease_ttl: 720h
-        configuration:
-          config:
-            - name: urls
-              issuing_certificates: https://vault.vault:8200/v1/pki/ca
-              crl_distribution_points: https://vault.vault:8200/v1/pki/crl
-          root/generate:
-            - name: internal
-              common_name: vault.vault
-          roles:
-            - name: vault
-              allowed_domains: localhost,pod,svc,vault
-              allow_subdomains: true
-              generate_lease: true
-              ttl: 1m
 
   vaultEnvsConfig:
     - name: VAULT_LOG_LEVEL
