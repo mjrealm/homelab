@@ -1,5 +1,0 @@
----
-vault-operator:
-  monitoring:
-    serviceMonitor:
-      enabled: true
