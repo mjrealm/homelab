@@ -1,5 +1,8 @@
 ---
 victoria-metrics-k8s-stack:
+  kubeControllerManager:
+    enabled: false
+
   victoria-metrics-operator:
     operator:
       prometheus_converter_add_argocd_ignore_annotations: true
