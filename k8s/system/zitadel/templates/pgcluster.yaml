@@ -4,8 +4,7 @@ kind: PostgresCluster
 metadata:
   name: zitadel
   annotations:
-    argocd.argoproj.io/sync-wave: "-10"
-    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook: PreSync # Required for zitadel init checks
 spec:
   postgresVersion: 16
   users:
