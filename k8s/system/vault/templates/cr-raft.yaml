@@ -69,7 +69,7 @@ spec:
       gethomepage.dev/description: Secret Management
       gethomepage.dev/group: System
       gethomepage.dev/icon: sh-hashicorp-vault.png
-      gethomepage.dev/pod-selector: ""
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=vault"
       gethomepage.dev/href: "https://vault.mdeleon.dev/ui"
     spec:
       ingressClassName: nginx
