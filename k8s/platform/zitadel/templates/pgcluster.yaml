@@ -2,7 +2,7 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: zitadel
+  name: zitadel-postgres
   annotations:
     argocd.argoproj.io/hook: PreSync # Required for zitadel init checks
 spec:
