@@ -1,0 +1,4 @@
+---
+external-secrets:
+  serviceMonitor:
+    enabled: true
