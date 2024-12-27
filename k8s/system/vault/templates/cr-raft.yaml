@@ -2,6 +2,8 @@ apiVersion: "vault.banzaicloud.com/v1alpha1"
 kind: "Vault"
 metadata:
   name: "vault"
+  annotations:
+    argocd.argoproj.io/hook: PostSync
   labels:
     app.kubernetes.io/name: vault
     vault_cr: vault
