@@ -13,7 +13,7 @@ spec:
         type: "Secret"
         namespace: "vault"
         name: "vault-tls"
-        key: "server.key"
+        key: "ca.crt"
       auth:
         tokenSecretRef:
           name: "vault-unseal-keys"
