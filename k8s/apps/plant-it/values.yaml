@@ -1,0 +1,65 @@
+---
+app-template:
+  controllers:
+    plant-it:
+      strategy: Recreate
+      containers:
+        plant-it:
+          nameOverride: plant-it
+          image:
+            repository: msdeluise/plant-it-server
+            tag: 0.10.0
+    redis:
+      strategy: Recreate
+      containers:
+        redis:
+          nameOverride: redis
+          image:
+            repository: redis
+            tag: 7.4.1
+    mysql:
+      strategy: Recreate
+      containers:
+        mysql:
+          nameOverride: mysql
+          image:
+            repository: mysql
+            tag: 8.0.40
+  service:
+    plant-it:
+      controller: plant-it
+      ports:
+        http:
+          port: 3000
+        http-api:
+          port: 8080
+    redis:
+      controller: redis
+      ports:
+        http:
+          port: 6379
+    mysql:
+      controller: mysql
+      ports:
+        http:
+          port: 3306
+
+  persistence:
+    upload:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        plant-it:
+          plant-it:
+            - path: /upload-dir
+    database:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        mysql:
+          mysql:
+            - path: /var/lib/mysql
