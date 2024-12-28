@@ -1,0 +1,39 @@
+---
+app-template:
+  defaultPodOptions:
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+  controllers:
+    hemmelig:
+      strategy: Recreate
+      containers:
+        hemmelig:
+          nameOverride: hemmelig
+          image:
+            repository: hemmeligapp/hemmelig
+            tag: v5.19.17
+  service:
+    hemmelig:
+      controller: hemmelig
+      ports:
+        http:
+          port: 3000
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      globalMounts:
+        - path: /var/tmp/hemmelig/upload/files
+    database:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      globalMounts:
+        - path: /home/node/hemmelig/database/
