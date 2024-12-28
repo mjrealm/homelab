@@ -9,3 +9,12 @@ zitadel:
     enabled: true
     serviceMonitor:
       enabled: true
+
+  initJob:
+    annotations:
+      argocd.argoproj.io/hook: PreSync
+      argocd.argoproj.io/sync-wave: "2"
+  setupJob:
+    annotations:
+      argocd.argoproj.io/hook: PreSync
+      argocd.argoproj.io/sync-wave: "3"
