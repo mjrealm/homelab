@@ -38,7 +38,7 @@ app-template:
       enabled: true
       type: nfs
       server: 192.168.1.200
-      path: /volume1/media/romms
+      path: /volume1/media/romm
       advancedMounts:
         romm:
           romm:
