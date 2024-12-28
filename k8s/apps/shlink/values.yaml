@@ -9,9 +9,22 @@ app-template:
           image:
             repository: ghcr.io/shlinkio/shlink
             tag: 4.4.0
+    web:
+      strategy: Recreate
+      containers:
+        web:
+          nameOverride: web
+          image:
+            repository: ghcr.io/shlinkio/shlink-web-client
+            tag: 4.3.0
   service:
     shlink:
       controller: shlink
+      ports:
+        http:
+          port: 8080
+    web:
+      controller: web
       ports:
         http:
           port: 8080
