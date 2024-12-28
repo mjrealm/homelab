@@ -17,31 +17,6 @@ app-template:
         http:
           port: 5000
 
-  ingress:
-    bytestash:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: ByteStash
-        gethomepage.dev/description: Code Snippet Storage
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Knowledge
-        gethomepage.dev/icon: sh-bytestash.png
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
-        gethomepage.dev/weight: "4"
-      hosts:
-        - host: &bytestash bytestash.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: bytestash
-                port: http
-      tls:
-        - secretName: bytestash-tls-cert
-          hosts:
-            - *bytestash
-
   persistence:
     data:
       enabled: true
