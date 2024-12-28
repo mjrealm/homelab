@@ -1,0 +1,17 @@
+---
+app-template:
+  controllers:
+    shlink:
+      strategy: Recreate
+      containers:
+        shlink:
+          nameOverride: shlink
+          image:
+            repository: shlinkio/shlink
+            tag: 4.4.0
+  service:
+    shlink:
+      controller: shlink
+      ports:
+        http:
+          port: 8080
