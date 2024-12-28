@@ -12,9 +12,9 @@ zitadel:
 
   initJob:
     annotations:
-      argocd.argoproj.io/hook: PreSync
+      argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "2"
   setupJob:
     annotations:
-      argocd.argoproj.io/hook: PreSync
+      argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "3"
