@@ -31,9 +31,9 @@ app-template:
       loadBalancerIP: 192.168.10.204
       controller: plant-it
       ports:
-        http:
+        http-web:
           port: 3000
-        http-api:
+        http:
           port: 8080
     redis:
       controller: redis
