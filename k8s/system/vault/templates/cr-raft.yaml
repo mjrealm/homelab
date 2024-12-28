@@ -65,7 +65,7 @@ spec:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: Vault by HashiCorp
+      gethomepage.dev/name: HashiCorp Vault
       gethomepage.dev/description: Secret Management
       gethomepage.dev/group: Security
       gethomepage.dev/icon: sh-hashicorp-vault.png
