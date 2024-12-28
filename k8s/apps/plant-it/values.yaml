@@ -27,6 +27,8 @@ app-template:
             tag: 8.0.40
   service:
     plant-it:
+      type: LoadBalancer
+      loadBalancerIP: 192.168.10.204
       controller: plant-it
       ports:
         http:
