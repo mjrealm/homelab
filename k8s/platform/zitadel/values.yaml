@@ -15,3 +15,15 @@ app-template:
       ports:
         http:
           port: 8080
+
+  serviceMonitor:
+    zitadel:
+      enabled: true
+      endpoints:
+        - port: http
+          scheme: http
+          path: /debug/metrics
+          interval: 1m
+          scrapeTimeout: 10s
+          honorLabels: false
+          honorTimestamps: true
