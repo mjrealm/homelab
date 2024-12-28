@@ -7,7 +7,7 @@ app-template:
         shlink:
           nameOverride: shlink
           image:
-            repository: shlinkio/shlink
+            repository: ghcr.io/shlinkio/shlink
             tag: 4.4.0
   service:
     shlink:
