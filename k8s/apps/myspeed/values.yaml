@@ -17,31 +17,6 @@ app-template:
         http:
           port: 5216
 
-  ingress:
-    myspeed:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: MySpeed
-        gethomepage.dev/description: Speed test
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Network
-        gethomepage.dev/icon: sh-myspeed.png
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
-        gethomepage.dev/weight: "11"
-      hosts:
-        - host: &host myspeed.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: myspeed
-                port: http
-      tls:
-        - secretName: myspeed-tls-cert
-          hosts:
-            - *host
-
   persistence:
     data:
       enabled: true
