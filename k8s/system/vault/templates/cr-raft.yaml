@@ -71,6 +71,7 @@ spec:
       gethomepage.dev/icon: sh-hashicorp-vault.png
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vault"
       gethomepage.dev/href: "https://vault.mdeleon.dev/ui"
+      gethomepage.dev/weight: "2"
     spec:
       ingressClassName: nginx
       rules:
