@@ -23,30 +23,6 @@ app-template:
           port: 4065
         https-debug:
           port: 4070
-  ingress:
-    cert-warden:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Cert Warden
-        gethomepage.dev/description: ACME Cert Management
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: System
-        gethomepage.dev/icon: cert-manager.png
-        gethomepage.dev/pod-selector: ""
-      hosts:
-        - host: &certwarden cert-warden.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: cert-warden
-                port: http-server
-      tls:
-        - secretName: cert-warden-tls-cert
-          hosts:
-            - *certwarden
-
   persistence:
     data:
       enabled: true

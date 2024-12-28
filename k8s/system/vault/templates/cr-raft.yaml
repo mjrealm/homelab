@@ -67,7 +67,7 @@ spec:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Vault by HashiCorp
       gethomepage.dev/description: Secret Management
-      gethomepage.dev/group: System
+      gethomepage.dev/group: Security
       gethomepage.dev/icon: sh-hashicorp-vault.png
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vault"
       gethomepage.dev/href: "https://vault.mdeleon.dev/ui"

@@ -51,7 +51,7 @@ app-template:
         gethomepage.dev/name: LLDAP
         gethomepage.dev/description: Light LDAP server
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: System
+        gethomepage.dev/group: Security
         gethomepage.dev/icon: authelia.png
         gethomepage.dev/pod-selector: ""
       hosts:
