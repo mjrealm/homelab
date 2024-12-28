@@ -89,6 +89,19 @@ app-template:
       ports:
         http:
           port: 80
+    exporters:
+      controller: exporters
+      ports:
+        http:
+          port: 9707
+        http-radarr:
+          port: 9708
+        http-lidarr:
+          port: 9709
+        http-prowlarr:
+          port: 9710
+        http-sabnzbd:
+          port: 9711
 
   persistence:
     config:
@@ -155,3 +168,34 @@ app-template:
         filebrowser:
           main:
             - path: /database
+
+  serviceMonitor:
+    exporters:
+      enabled: true
+      serviceName: exporters
+      endpoints:
+        - port: http
+          scheme: http
+          path: /metrics
+          interval: 4m
+          scrapeTimeout: 90s
+        - port: http-radarr
+          scheme: http
+          path: /metrics
+          interval: 4m
+          scrapeTimeout: 90s
+        - port: http-lidarr
+          scheme: http
+          path: /metrics
+          interval: 4m
+          scrapeTimeout: 90s
+        - port: http-prowlarr
+          scheme: http
+          path: /metrics
+          interval: 4m
+          scrapeTimeout: 90s
+        - port: http-sabnzbd
+          scheme: http
+          path: /metrics
+          interval: 4m
+          scrapeTimeout: 90s
