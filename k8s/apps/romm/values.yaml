@@ -1,0 +1,81 @@
+---
+app-template:
+  controllers:
+    romm:
+      strategy: Recreate
+      annotations:
+        argocd.argoproj.io/sync-wave: "1"
+      containers:
+        romm:
+          nameOverride: romm
+          image:
+            repository: rommapp/romm
+            tag: v3.6.0
+    mariadb:
+      strategy: Recreate
+      annotations:
+        argocd.argoproj.io/sync-wave: "0"
+      containers:
+        mariadb:
+          nameOverride: mariadb
+          image:
+            repository: mariadb
+            tag: 11.6.2
+  service:
+    romm:
+      controller: romm
+      ports:
+        http:
+          port: 8080
+    mariadb:
+      controller: mariadb
+      ports:
+        http:
+          port: 3306
+
+  persistence:
+    library:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/media/romms
+      advancedMounts:
+        romm:
+          romm:
+            - path: /romm/library
+    resources:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        romm:
+          romm:
+            - path: /romm/resources
+    assets:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        romm:
+          romm:
+            - path: /romm/assets
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 50Mi
+      advancedMounts:
+        romm:
+          romm:
+            - path: /romm/config
+    mariadb:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        mariadb:
+          mariadb:
+            - path: /var/lib/mysql
