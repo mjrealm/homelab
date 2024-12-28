@@ -19,6 +19,7 @@ app-template:
   serviceMonitor:
     zitadel:
       enabled: true
+      serviceName: zitadel
       endpoints:
         - port: http
           scheme: http
