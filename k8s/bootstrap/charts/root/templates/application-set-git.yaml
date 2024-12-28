@@ -83,7 +83,13 @@ spec:
       - group: apiextensions.k8s.io
         kind: CustomResourceDefinition
         jqPathExpressions:
-          - .spec.conversion.webhook.clientConfig.caBundle      
+          - .spec.conversion.webhook.clientConfig.caBundle
+      - group: external-secrets.io
+        kind: ExternalSecret
+        jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy      
 
         
 {{ end }}
