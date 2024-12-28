@@ -1,6 +1,6 @@
 ---
 zitadel:
-  initJob:
+  debug:
     enabled: false
   image:
     repository: ghcr.io/zitadel/zitadel
@@ -9,23 +9,3 @@ zitadel:
     enabled: true
     serviceMonitor:
       enabled: true
-
-  ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: Zitadel
-      gethomepage.dev/description: IdP
-      gethomepage.dev/group: System
-      gethomepage.dev/icon: sh-zitadel.png
-      gethomepage.dev/pod-selector: ""
-    hosts:
-      - host: &host authz.mdeleon.dev
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - secretName: zitadel-tls-cert
-        hosts:
-          - *host
