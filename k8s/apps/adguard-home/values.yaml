@@ -91,54 +91,6 @@ app-template:
           protocol: UDP
           port: 53
 
-  ingress:
-    primary:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Adguard Home (Primary)
-        gethomepage.dev/description: Ad blocker and DNS server
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Network
-        gethomepage.dev/icon: adguard-home.png
-        gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "1"
-      hosts:
-        - host: &primary guard1.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: main
-                port: http
-      tls:
-        - secretName: adguard-primary-tls-cert
-          hosts:
-            - *primary
-    secondary:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Adguard Home (Secondary)
-        gethomepage.dev/description: Ad blocker and DNS server
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Network
-        gethomepage.dev/icon: adguard-home.png
-        gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "2"
-      hosts:
-        - host: &secondary guard2.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: secondary
-                port: http
-      tls:
-        - secretName: adguard-secondary-tls-cert
-          hosts:
-            - *secondary
-
   persistence:
     work-primary:
       enabled: true
