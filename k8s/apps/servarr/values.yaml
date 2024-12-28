@@ -172,7 +172,7 @@ app-template:
   serviceMonitor:
     exporters:
       enabled: true
-      serviceName: exporters
+      serviceName: servarr-exporters
       endpoints:
         - port: http
           scheme: http
