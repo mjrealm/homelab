@@ -1,0 +1,17 @@
+---
+app-template:
+  controllers:
+    zitadel:
+      strategy: Recreate
+      containers:
+        zitadel:
+          nameOverride: zitadel
+          image:
+            repository: ghcr.io/zitadel/zitadel
+            tag: v2.66.1
+  service:
+    zitadel:
+      controller: zitadel
+      ports:
+        http:
+          port: 8080
