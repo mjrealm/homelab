@@ -1,2 +1,4 @@
+---
 resources:
-  - ./custom
+  - custom/pgcluster.yaml
+  - custom/secrets.yaml
