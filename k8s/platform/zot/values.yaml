@@ -1,2 +1,4 @@
 ---
 zot:
+  httpGet:
+    scheme: HTTP
