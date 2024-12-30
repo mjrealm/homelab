@@ -89,7 +89,11 @@ spec:
         jqPathExpressions:
         - .spec.data[].remoteRef.conversionStrategy
         - .spec.data[].remoteRef.decodingStrategy
-        - .spec.data[].remoteRef.metadataPolicy      
+        - .spec.data[].remoteRef.metadataPolicy
+      - group: apps
+        kind: Deployment
+        jsonPointers:
+        - /spec/template/spec/hostUsers
 
         
 {{ end }}
