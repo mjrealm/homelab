@@ -21,7 +21,7 @@ spec:
         key: node-role.kubernetes.io/master,
         effect: NoSchedule,
         operator: Equal,
-        value: true,
+        value: "true",
       }
   serviceAccountName: system-upgrade
   upgrade:
