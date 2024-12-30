@@ -9,6 +9,8 @@ spec:
   postgresVersion: 16
   users:
     - name: postgres
+      databases:
+        - pgbackweb
   instances:
     - name: pgbackweb1
       dataVolumeClaimSpec:
