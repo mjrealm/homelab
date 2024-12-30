@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: mongodb
+version: 0.0.1
+dependencies:
+  - name: community-operator
+    repository: https://mongodb.github.io/helm-charts
+    version: 0.12.0
