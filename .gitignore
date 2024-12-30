@@ -5,5 +5,6 @@ Chart.lock
 .DS_Store
 .wip
 *.dec.yaml
+*.dec.yml
 .vagrant
 .vagrant_ssh_config
