@@ -24,7 +24,7 @@ app-template:
           nameOverride: mysql
           image:
             repository: mysql
-            tag: 8.0.40
+            tag: 8.4.3
   service:
     plant-it:
       controller: plant-it
