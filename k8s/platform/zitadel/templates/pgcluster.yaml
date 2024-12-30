@@ -19,7 +19,7 @@ spec:
           - "ReadWriteOnce"
         resources:
           requests:
-            storage: 1Gi
+            storage: 4Gi
   monitoring:
     pgmonitor:
       exporter:
@@ -38,7 +38,7 @@ spec:
                 - "ReadWriteOnce"
               resources:
                 requests:
-                  storage: 1Gi
+                  storage: 10Gi
           schedules:
             full: "0 1 * * 0" # At 01:00 on Sunday
             differential: "0 1 * * 1-6" # At 01:00 on every day-of-week from Monday through Saturday
