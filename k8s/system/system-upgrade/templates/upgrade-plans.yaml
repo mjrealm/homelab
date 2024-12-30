@@ -4,6 +4,8 @@ kind: Plan
 metadata:
   name: server-plan
   namespace: system-upgrade
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   concurrency: 1
   cordon: true
@@ -13,6 +15,14 @@ spec:
         operator: In
         values:
           - "true"
+  tolerations:
+    # Server nodes are tainted
+    - {
+        key: node-role.kubernetes.io/master,
+        effect: NoSchedule,
+        operator: Equal,
+        value: true,
+      }
   serviceAccountName: system-upgrade
   upgrade:
     image: rancher/k3s-upgrade
@@ -24,6 +34,8 @@ kind: Plan
 metadata:
   name: agent-plan
   namespace: system-upgrade
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   concurrency: 1
   cordon: true
