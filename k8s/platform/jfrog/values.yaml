@@ -1,0 +1,7 @@
+---
+artifactory-oss:
+  artifactory:
+    nginx:
+      enabled: false
+    ingress:
+      enabled: true
