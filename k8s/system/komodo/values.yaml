@@ -24,7 +24,7 @@ app-template:
           args:
             - --quiet
             - --wiredTigerCacheSizeGB
-            - 0.25
+            - "0.25"
   service:
     komodo:
       controller: komodo
