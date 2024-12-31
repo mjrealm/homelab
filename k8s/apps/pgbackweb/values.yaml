@@ -15,12 +15,3 @@ app-template:
       ports:
         http:
           port: 8085
-
-  persistence:
-    backups:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 10Gi
-      globalMounts:
-        - path: /backups
