@@ -1,0 +1,67 @@
+---
+app-template:
+  controllers:
+    komodo:
+      strategy: Recreate
+      labels:
+        - komodo.skip
+      containers:
+        komodo:
+          nameOverride: komodo
+          image:
+            repository: ghcr.io/mbecker20/komodo
+            tag: 1.16.2
+    mongodb:
+      strategy: Recreate
+      labels:
+        - komodo.skip
+      containers:
+        mongodb:
+          nameOverride: mongodb
+          image:
+            repository: mongo
+            tag: 7.0.16
+          args:
+            - --quiet
+            - --wiredTigerCacheSizeGB
+            - 0.25
+  service:
+    komodo:
+      controller: komodo
+      ports:
+        http:
+          port: 9120
+    mongodb:
+      controller: mongodb
+      ports:
+        http:
+          port: 27017
+
+  persistence:
+    mongo-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        mongodb:
+          mongodb:
+            - path: /data/db
+    mongo-config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 100Mi
+      advancedMounts:
+        mongodb:
+          mongodb:
+            - path: /data/configdb
+    repo-cache:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      advancedMounts:
+        komodo:
+          komodo:
+            - path: /repo-cache
