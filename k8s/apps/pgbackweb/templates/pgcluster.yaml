@@ -23,21 +23,3 @@ spec:
     pgmonitor:
       exporter:
         image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-0.15.0-14
-
-  backups:
-    pgbackrest:
-      global:
-        repo1-retention-full: "3" # Keep 3 backups
-        repo1-retention-full-type: count
-      repos:
-        - name: repo1
-          volume:
-            volumeClaimSpec:
-              accessModes:
-                - "ReadWriteOnce"
-              resources:
-                requests:
-                  storage: 5Gi
-          schedules:
-            full: "0 1 * * 0" # At 01:00 on Sunday
-            differential: "0 1 * * 1-6" # At 01:00 on every day-of-week from Monday through Saturday
