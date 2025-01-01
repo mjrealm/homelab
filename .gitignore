@@ -8,3 +8,4 @@ Chart.lock
 *.dec.yml
 .vagrant
 .vagrant_ssh_config
+.env
