@@ -29,8 +29,8 @@ services:
       - homepage.group=Network Tools
       - homepage.name=Traefik
       - homepage.icon=sh-traefik.png
-      - homepage.href=${TRAEFIK_IP_OSCORP}
-      - homepage.description=Ingress Controller (Oscorp)
+      - homepage.href=${TRAEFIK_IP}
+      - homepage.description=${TRAEFIK_DESCRIPTION}
 
 volumes:
   letsencrypt:
