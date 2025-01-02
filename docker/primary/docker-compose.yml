@@ -30,5 +30,32 @@ services:
       - homepage.href=${TRAEFIK_HREF}
       - homepage.description=${TRAEFIK_DESCRIPTION}
 
+  adguardhome:
+    image: adguard/adguardhome:v0.107.55
+    container_name: "adguardhome"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8088:80/tcp"
+      - "3000:3000/tcp"
+      - "68:68/udp"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "adguardhome-work:/opt/adguardhome/work"
+      - "adguardhome-conf:/opt/adguardhome/conf"
+    labels:
+      - homepage.group=DNS Servers
+      - homepage.name=${ADGUARDHOME_NAME}
+      - homepage.icon=sh-adguard-home.png
+      - homepage.href="https://${ADGUARDHOME_DOMAIN}"
+      - homepage.description=Ad Blocker and DNS Server
+      - "traefik.enable=true"
+      - "traefik.http.routers.adguard1.rule=Host(`${ADGUARDHOME_DOMAIN}`)"
+      - "traefik.http.routers.adguard1.entrypoints=websecure"
+      - "traefik.http.routers.adguard1.tls.certresolver=myresolver"
+
 volumes:
   letsencrypt:
+  adguardhome-work:
+  adguardhome-conf:
