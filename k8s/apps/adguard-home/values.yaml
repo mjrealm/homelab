@@ -3,9 +3,9 @@ app-template:
   defaultPodOptions:
     # Install on master nodes
     tolerations:
-      - key: node-role.kubernetes.io/master,
-        effect: NoSchedule,
-        operator: Equal,
+      - key: "node-role.kubernetes.io/master"
+        effect: NoSchedule
+        operator: Equal
         value: "true"
     nodeSelector:
       node-role.kubernetes.io/master: "true"
