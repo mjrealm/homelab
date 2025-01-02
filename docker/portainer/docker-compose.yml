@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ee:2.21.5
+    ports:
+      - 9443:9443
+      - 8000:8000
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    labels:
+      - homepage.group=System
+      - homepage.name=Portaine BE
+      - homepage.icon=sh-portainer.png
+      - homepage.href=${PORTAINER_HREF}
+      - homepage.description=${PORTAINER_DESCRIPTION}
+
+volumes:
+  portainer_data:
+    external: true # Initial setup will create this

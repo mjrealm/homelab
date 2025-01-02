@@ -29,7 +29,7 @@ services:
       - homepage.group=Network Tools
       - homepage.name=Traefik
       - homepage.icon=sh-traefik.png
-      - homepage.href=${TRAEFIK_IP}
+      - homepage.href=${TRAEFIK_HREF}
       - homepage.description=${TRAEFIK_DESCRIPTION}
 
 volumes:
