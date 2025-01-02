@@ -27,8 +27,12 @@ services:
       - homepage.group=Network Tools
       - homepage.name=Traefik
       - homepage.icon=sh-traefik.png
-      - homepage.href=${TRAEFIK_HREF}
+      - homepage.href="https://${TRAEFIK_DOMAIN}"
       - homepage.description=${TRAEFIK_DESCRIPTION}
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik1.rule=Host(`${TRAEFIK_DOMAIN}`)"
+      - "traefik.http.routers.traefik1.entrypoints=websecure"
+      - "traefik.http.routers.traefik1.tls.certresolver=myresolver"
 
   adguardhome:
     image: adguard/adguardhome:v0.107.55
