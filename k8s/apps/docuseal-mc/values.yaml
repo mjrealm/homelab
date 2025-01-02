@@ -1,53 +1,50 @@
 ---
 app-template:
   controllers:
-    main:
+    docuseal:
       strategy: Recreate
       containers:
-        main:
+        docuseal:
           nameOverride: docuseal
           image:
             repository: docuseal/docuseal
             tag: 1.8.5
+    postgres:
+      strategy: Recreate
+      containers:
+        postgres:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: 15.10
   service:
-    main:
-      controller: main
+    docuseal:
+      controller: docuseal
       ports:
         http:
           port: 3000
-
-  ingress:
-    docuseal:
-      nameOverride: docuseal
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Docuseal (Business)
-        gethomepage.dev/description: Document Signing (Business)
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Documents
-        gethomepage.dev/icon: sh-docuseal.png
-        gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
-        gethomepage.dev/weight: "3"
-      hosts:
-        - host: &docuseal-mc docs.mcsuites.info
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: main
-                port: http
-      tls:
-        - secretName: docuseal-mc-tls-cert
-          hosts:
-            - *docuseal-mc
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
 
   persistence:
     data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        docuseal:
+          docuseal:
+            - path: /data
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
       size: 4Gi
-      globalMounts:
-        - path: /data
+      advancedMounts:
+        postgres:
+          postgres:
+            - path: /var/lib/postgresql/data
