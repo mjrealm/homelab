@@ -56,6 +56,7 @@ services:
       - homepage.description=Ad Blocker and DNS Server
       - "traefik.enable=true"
       - "traefik.http.routers.adguard1.rule=Host(`${ADGUARDHOME_DOMAIN}`)"
+      - traefik.http.services.adguard1.loadbalancer.server.port=8088
       - "traefik.http.routers.adguard1.entrypoints=websecure"
       - "traefik.http.routers.adguard1.tls.certresolver=myresolver"
 
