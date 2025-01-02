@@ -20,7 +20,7 @@ app-template:
         meilisearch:
           image:
             repository: getmeili/meilisearch
-            tag: v1.11.3
+            tag: v1.12.1
           env:
             MEILI_NO_ANALYTICS: "true"
     chrome:
@@ -54,31 +54,6 @@ app-template:
       ports:
         http:
           port: 9222
-
-  ingress:
-    hoarder:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Hoarder
-        gethomepage.dev/description: Bookmark Everything
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Knowledge
-        gethomepage.dev/icon: sh-hoarder-light.png
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
-        gethomepage.dev/weight: "3"
-      hosts:
-        - host: &hoarder hoarder.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: hoarder
-                port: http
-      tls:
-        - secretName: hoarder-tls-cert
-          hosts:
-            - *hoarder
 
   persistence:
     data:
