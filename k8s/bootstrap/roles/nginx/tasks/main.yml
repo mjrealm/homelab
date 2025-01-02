@@ -11,7 +11,7 @@
     name: ingress-nginx
     chart_ref: charts/ingress-nginx/
     release_namespace: ingress-nginx
-    create_namespace: false
+    create_namespace: true
     dependency_update: true
     values_files:
       - charts/ingress-nginx/values.yaml

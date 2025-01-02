@@ -11,7 +11,7 @@
     name: prometheus-operator-crds
     chart_ref: charts/prometheus-operator-crds/
     release_namespace: prometheus
-    create_namespace: false
+    create_namespace: true
     dependency_update: true
     values_files:
       - charts/prometheus-operator-crds/values.yaml
