@@ -1,5 +1,11 @@
 ---
 longhorn:
+  global:
+    tolerations:
+      - key: "node-role.kubernetes.io/master"
+        value: "true"
+        effect: "NoSchedule"
+        operator: "Equal"
   persistence:
     defaultClassReplicaCount: 2
   preUpgradeChecker:
