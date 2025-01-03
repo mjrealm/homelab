@@ -1,0 +1,51 @@
+---
+plex-media-server:
+  image:
+    repository: plexinc/pms-docker
+    tag: "1.41.0.8992-8463ad060"
+
+  fullnameOverride: "pms"
+
+  # Specific node to install this
+  nodeSelector:
+    kubernetes.io/hostname: wayne
+
+  extraEnv:
+    HOSTNAME: "peacemaker-plex"
+    TZ: "America/Los_Angeles"
+    PLEX_UID: "1000"
+    PLEX_GID: "1000"
+    # ADVERTISE_IP: ""
+
+  # Volume definition
+  extraVolumeMounts:
+    - mountPath: /data
+      name: media-nfs
+  extraVolumes:
+    - name: media-nfs
+      nfs:
+        path: /volume1/media/
+        server: 192.168.1.200
+
+  # Config dir size
+  pms:
+    configStorage: 40Gi
+
+  service:
+    type: LoadBalancer
+
+  # Should add load balancer ip and port
+  # in Settings > Network > Custom server access URLs
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    url: https://plex.mdeleon.dev
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/name: Plex
+      gethomepage.dev/description: Stream Movies and TV Shows
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Media
+      gethomepage.dev/icon: plex.png
+      gethomepage.dev/pod-selector: ""
+      gethomepage.dev/weight: "1"
