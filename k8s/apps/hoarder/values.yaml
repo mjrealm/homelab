@@ -1,5 +1,16 @@
 ---
 app-template:
+  defaultPodOptions:
+    affinity:
+      podAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                    - hoarder
+            topologyKey: "kubernetes.io/hostname"
   controllers:
     hoarder:
       strategy: Recreate
