@@ -12,6 +12,8 @@ metal:
       hosts:
         metal3:
           ansible_host: 192.168.10.13
+        metal4:
+          ansible_host: 192.168.10.14
     # without any datastore or control-plane components
     agent:
       hosts:
