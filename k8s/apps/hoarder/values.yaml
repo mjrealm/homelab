@@ -19,7 +19,7 @@ app-template:
           nameOverride: hoarder
           image:
             repository: ghcr.io/hoarder-app/hoarder
-            tag: 0.20.0
+            tag: 0.21.0
           # env:
           #   MEILI_ADDR:
           #   MEILI_MASTER_KEY:
@@ -31,7 +31,7 @@ app-template:
         meilisearch:
           image:
             repository: getmeili/meilisearch
-            tag: v1.12.3
+            tag: v1.12.4
           env:
             MEILI_NO_ANALYTICS: "true"
     chrome:
