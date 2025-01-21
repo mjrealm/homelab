@@ -20,7 +20,7 @@ argo-cd:
         gethomepage.dev/name: Argo CD
         gethomepage.dev/description: Declarative GitOps CD for Kubernetes
         gethomepage.dev/group: System
-        gethomepage.dev/icon: argocd.png
+        gethomepage.dev/icon: sh-argo-cd.png
       extraTls:
         - hosts:
             - *host
