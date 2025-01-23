@@ -8,7 +8,7 @@ app-template:
           nameOverride: mealie
           image:
             repository: ghcr.io/mealie-recipes/mealie
-            tag: v2.4.2
+            tag: v2.5.0
           env:
             ALLOW_SIGNUP: "true"
             BASE_URL: "https://mealie.mdeleon.dev"
