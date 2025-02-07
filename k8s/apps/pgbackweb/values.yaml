@@ -8,7 +8,7 @@ app-template:
           nameOverride: pgbackweb
           image:
             repository: eduardolat/pgbackweb
-            tag: 0.3.0
+            tag: 0.4.2
   service:
     pgbackweb:
       controller: pgbackweb
