@@ -20,7 +20,7 @@ app-template:
           nameOverride: mariadb
           image:
             repository: mariadb
-            tag: 11.6.2
+            tag: 11.7.2
   service:
     romm:
       controller: romm
