@@ -10,7 +10,7 @@ app-template:
           nameOverride: romm
           image:
             repository: rommapp/romm
-            tag: 3.6.0
+            tag: 3.7.3
     mariadb:
       strategy: Recreate
       annotations:
@@ -20,7 +20,7 @@ app-template:
           nameOverride: mariadb
           image:
             repository: mariadb
-            tag: 11.6.2
+            tag: 11.7.2
   service:
     romm:
       controller: romm

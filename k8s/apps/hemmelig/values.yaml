@@ -14,7 +14,7 @@ app-template:
           nameOverride: hemmelig
           image:
             repository: hemmeligapp/hemmelig
-            tag: v6.0.10
+            tag: v6.5.5
   service:
     hemmelig:
       controller: hemmelig

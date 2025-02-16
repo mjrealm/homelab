@@ -10,7 +10,7 @@ app-template:
           nameOverride: paperless-ngx
           image:
             repository: ghcr.io/paperless-ngx/paperless-ngx
-            tag: 2.13.5
+            tag: 2.14.7
           env:
             PAPERLESS_CONSUMER_POLLING: 10
             PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
