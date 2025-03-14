@@ -8,7 +8,7 @@ app-template:
           nameOverride: zitadel
           image:
             repository: ghcr.io/zitadel/zitadel
-            tag: v2.71.2
+            tag: v2.71.3
   service:
     zitadel:
       controller: zitadel
