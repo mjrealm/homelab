@@ -20,7 +20,7 @@ app-template:
         sonarr:
           image:
             repository: lscr.io/linuxserver/sonarr
-            tag: 4.0.13
+            tag: 4.0.14
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -28,7 +28,7 @@ app-template:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
-            tag: 5.18.4
+            tag: 5.19.3
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -44,7 +44,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: 1.30.2
+            tag: 1.31.2
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
