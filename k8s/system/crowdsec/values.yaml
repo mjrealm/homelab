@@ -25,6 +25,6 @@ crowdsec:
       serviceMonitor:
         enabled: true
     dashboard:
-      enabled: true
+      enabled: false
       ingress:
         enabled: false
