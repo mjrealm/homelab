@@ -30,3 +30,6 @@ homepage:
         - secretName: homepage-tls-cert
           hosts:
             - *host
+  env:
+    - name: HOMEPAGE_ALLOWED_HOSTS
+      value: *host
