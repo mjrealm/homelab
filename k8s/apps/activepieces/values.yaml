@@ -8,7 +8,7 @@ app-template:
           nameOverride: activepieces
           image:
             repository: ghcr.io/activepieces/activepieces
-            tag: 0.48.7
+            tag: 0.50.0
     postgres:
       strategy: Recreate
       containers:
