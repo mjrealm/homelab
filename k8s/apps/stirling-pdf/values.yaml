@@ -8,7 +8,7 @@ app-template:
           nameOverride: stirling-pdf
           image:
             repository: frooodle/s-pdf
-            tag: 0.44.2
+            tag: 0.45.4
           env:
             DOCKER_ENABLE_SECURITY: "false"
 

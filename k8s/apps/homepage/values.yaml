@@ -6,7 +6,7 @@ homepage:
 
   image:
     repository: ghcr.io/gethomepage/homepage
-    tag: v0.10.9
+    tag: v1.1.1
 
   # The service account is necessary to allow discovery of other services
   serviceAccount:
@@ -30,3 +30,6 @@ homepage:
         - secretName: homepage-tls-cert
           hosts:
             - *host
+  env:
+    - name: HOMEPAGE_ALLOWED_HOSTS
+      value: *host
