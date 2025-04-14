@@ -3,7 +3,7 @@ kind: "Vault"
 metadata:
   name: "vault"
   labels:
-    app.kubernetes.io/name: vault
+    # app.kubernetes.io/name: vault
     vault_cr: vault
 spec:
   size: 3
