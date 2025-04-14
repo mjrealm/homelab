@@ -1,2 +1,24 @@
 ---
 replicaCount: 1
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/name: Headlamp
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: K8s Management
+    gethomepage.dev/group: System
+    gethomepage.dev/icon: sh-headlamp.png
+    gethomepage.dev/pod-selector: ""
+    nginx.ingress.kubernetes.io/proxy-body-size: 24m
+  hosts:
+    - host: &host headlamp.mdeleon.dev
+      paths:
+        - path: /
+          type: Prefix
+  tls:
+    - secretName: headlamp-tls-cert
+      hosts:
+        - *host
