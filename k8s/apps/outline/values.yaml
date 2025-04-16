@@ -13,7 +13,7 @@ app-template:
           nameOverride: outline
           image:
             repository: outlinewiki/outline
-            tag: 0.82.0
+            tag: 0.83.0
           env:
             URL: https://wiki.mdeleon.dev
             FILE_STORAGE: local
