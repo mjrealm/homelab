@@ -7,7 +7,7 @@ app-template:
           nameOverride: cert-warden
           image:
             repository: ghcr.io/gregtwallace/certwarden
-            tag: "v0.24.8"
+            tag: "v0.24.9"
 
   service:
     cert-warden:
