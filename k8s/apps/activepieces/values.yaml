@@ -16,7 +16,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 14.17
+            tag: 14.18
     redis:
       strategy: Recreate
       containers:
