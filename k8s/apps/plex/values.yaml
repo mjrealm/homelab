@@ -38,7 +38,7 @@ plex-media-server:
   # in Settings > Network > Custom server access URLs
   ingress:
     enabled: true
-    url: https://plex.mdeleon.dev
+    url: &host https://plex.mdeleon.dev
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/name: Plex
@@ -48,3 +48,7 @@ plex-media-server:
       gethomepage.dev/icon: plex.png
       gethomepage.dev/pod-selector: ""
       gethomepage.dev/weight: "1"
+    tls:
+      - secretName: plex-tls-cert
+        hosts:
+          - *host
