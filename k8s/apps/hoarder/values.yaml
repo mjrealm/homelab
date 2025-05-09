@@ -19,7 +19,7 @@ app-template:
           nameOverride: hoarder
           image:
             repository: ghcr.io/hoarder-app/hoarder
-            tag: 0.23.2
+            tag: 0.24.1
           # env:
           #   MEILI_ADDR:
           #   MEILI_MASTER_KEY:
