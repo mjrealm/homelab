@@ -36,7 +36,7 @@ app-template:
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
-            tag: 2.10.3
+            tag: 2.11.2
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
