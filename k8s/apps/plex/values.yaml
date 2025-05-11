@@ -38,6 +38,7 @@ plex-media-server:
   # in Settings > Network > Custom server access URLs
   ingress:
     enabled: true
+    ingressClassName: nginx
     url: https://plex.mdeleon.dev
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
