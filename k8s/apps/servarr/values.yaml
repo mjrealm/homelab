@@ -140,6 +140,9 @@ app-template:
         servarr:
           sabnzbd:
             - path: incomplete-downloads
+        filebrowser:
+          main:
+            - path: /srv/incomplete-downloads
 
     media-downloads:
       enabled: true
