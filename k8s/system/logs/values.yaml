@@ -35,6 +35,6 @@ victoria-logs-single:
 
   dashboards:
     # -- Create VictoriaLogs dashboards
-    enabled: true
+    enabled: false
     grafanaOperator:
       enabled: true
