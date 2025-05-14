@@ -30,10 +30,10 @@ victoria-logs-single:
             - *host
   vector:
     # -- Enable deployment of vector
-    enabled: false
+    enabled: true
 
   dashboards:
     # -- Create VictoriaLogs dashboards
-    enabled: false
+    enabled: true
     grafanaOperator:
-      enabled: false
+      enabled: true
