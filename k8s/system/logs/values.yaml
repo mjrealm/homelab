@@ -8,6 +8,8 @@ victoria-logs:
       enabled: true
     ingress:
       enabled: true
+      pathType: Prefix
+      ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/name: VictoriaLogs
