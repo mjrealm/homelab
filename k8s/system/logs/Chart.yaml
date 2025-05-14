@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: victoria-logs
+description: VictoriaLogs is a high-performance, cost-effective, and scalable log management solution.
+version: 1.0.0
+dependencies:
+  - name: victoria-logs-single
+    version: 0.9.8
+    repository: https://victoriametrics.github.io/helm-charts/

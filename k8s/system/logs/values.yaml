@@ -1,0 +1,37 @@
+---
+victoria-logs:
+  server:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    vmServiceScrape:
+      enabled: true
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: VictoriaLogs
+        gethomepage.dev/description: Logs Manager
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Observability
+        gethomepage.dev/icon: sh-victoriametrics.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+      - name: &host vlogs.mdeleon.dev
+        path:
+          - /
+        port: http
+      tls:
+        - secretName: vlogs-tls-cert
+          hosts:
+            - *host
+  vector:
+    # -- Enable deployment of vector
+    enabled: false
+
+  dashboards:
+    # -- Create VictoriaLogs dashboards
+    enabled: false
+    grafanaOperator:
+      enabled: false
