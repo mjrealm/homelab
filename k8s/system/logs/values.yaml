@@ -19,6 +19,7 @@ victoria-logs-single:
         gethomepage.dev/icon: sh-victoriametrics.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/href: "https://vlogs.mdeleon.dev/select/vmui"
       hosts:
       - name: &host vlogs.mdeleon.dev
         path:
