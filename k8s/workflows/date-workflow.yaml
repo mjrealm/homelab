@@ -3,7 +3,7 @@ kind: CronWorkflow
 metadata:
   name: test-cron-wf
 spec:
-  schedule: "*/2 * * * *"
+  schedule: "0 2 * * 7"
   timezone: America/Los_Angeles
   concurrencyPolicy: "Replace"
   workflowSpec:

@@ -5,4 +5,4 @@ version: 0.0.1
 dependencies:
   - name: plex-media-server
     repository: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
-    version: 0.9.1
+    version: 1.0.2

@@ -13,7 +13,7 @@ app-template:
           nameOverride: outline
           image:
             repository: outlinewiki/outline
-            tag: 0.82.0
+            tag: 0.83.0
           env:
             URL: https://wiki.mdeleon.dev
             FILE_STORAGE: local
@@ -36,7 +36,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 16.8
+            tag: 16.9
           env:
             PGDATA: "/var/lib/postgresql/data/pg_data"
             POSTGRES_DB: "outline"
@@ -49,7 +49,7 @@ app-template:
           nameOverride: redis
           image:
             repository: redis
-            tag: 7.4.2
+            tag: 7.4.3
   service:
     main:
       controller: main

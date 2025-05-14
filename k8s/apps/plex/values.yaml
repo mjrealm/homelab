@@ -49,3 +49,7 @@ plex-media-server:
       gethomepage.dev/icon: plex.png
       gethomepage.dev/pod-selector: ""
       gethomepage.dev/weight: "1"
+    tls:
+      - secretName: plex-tls-cert
+        hosts:
+          - plex.mdeleon.dev

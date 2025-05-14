@@ -54,13 +54,22 @@ victoria-metrics-k8s-stack:
     persistence:
       enabled: true
       size: 10Gi
+    plugins:
+      - grafana-clock-panel
+      - grafana-polystat-panel
+      - victoriametrics-logs-datasource
+      - victoriametrics-logs-datasource
     datasources:
       datasources.yaml:
         apiVersion: 1
         datasources:
-          - name: Loki
-            type: loki
+          # - name: Loki
+          #   type: loki
+          #   access: proxy
+          #   url: http://loki.loki.svc.cluster.local:3100
+          - name: VictoriaLogs
+            type: victoriametrics-logs-datasource
             access: proxy
-            url: http://loki.loki.svc.cluster.local:3100
+            url: http://logs-victoria-logs-single-server.logs.svc.cluster.local:9428
   defaultDashboards:
     enabled: true

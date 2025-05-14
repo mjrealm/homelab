@@ -84,6 +84,7 @@ spec:
         kind: CustomResourceDefinition
         jqPathExpressions:
           - .spec.conversion.webhook.clientConfig.caBundle
+          - .spec.preserveUnknownFields
       - group: external-secrets.io
         kind: ExternalSecret
         jqPathExpressions:

@@ -36,7 +36,7 @@ app-template:
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
-            tag: 2.10.3
+            tag: 2.11.2
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -44,7 +44,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: 1.32.2
+            tag: 1.35.1
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -140,6 +140,9 @@ app-template:
         servarr:
           sabnzbd:
             - path: incomplete-downloads
+        filebrowser:
+          main:
+            - path: /srv/incomplete-downloads
 
     media-downloads:
       enabled: true

@@ -10,7 +10,7 @@ app-template:
           nameOverride: paperless-ngx
           image:
             repository: ghcr.io/paperless-ngx/paperless-ngx
-            tag: 2.15.1
+            tag: 2.15.3
           env:
             PAPERLESS_CONSUMER_POLLING: 10
             PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
@@ -26,14 +26,14 @@ app-template:
           nameOverride: redis
           image:
             repository: redis
-            tag: 7.4.2
+            tag: 7.4.3
     postgres:
       containers:
         postgres:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 16.8
+            tag: 16.9
           env:
             PGDATA: "/var/lib/postgresql/data/pg_data"
             POSTGRES_DB: "paperless"
