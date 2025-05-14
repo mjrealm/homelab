@@ -21,10 +21,10 @@ victoria-logs-single:
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/href: "https://vlogs.mdeleon.dev/select/vmui"
       hosts:
-      - name: &host vlogs.mdeleon.dev
-        path:
-          - /
-        port: http
+        - name: &host vlogs.mdeleon.dev
+          path:
+            - /
+          port: http
       tls:
         - secretName: vlogs-tls-cert
           hosts:
