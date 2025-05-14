@@ -71,6 +71,5 @@ victoria-metrics-k8s-stack:
             type: victoriametrics-logs-datasource
             access: proxy
             url: http://logs-victoria-logs-single-server.logs.svc.cluster.local:9428
-            isDefault: true
   defaultDashboards:
     enabled: true
