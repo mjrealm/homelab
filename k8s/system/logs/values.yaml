@@ -1,5 +1,5 @@
 ---
-victoria-logs:
+victoria-logs-single:
   server:
     enabled: true
     serviceMonitor:
