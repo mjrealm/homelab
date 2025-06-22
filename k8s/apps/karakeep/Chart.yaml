@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: hoarder
+name: karakeep
 version: 0.0.1
 dependencies:
   - name: app-template

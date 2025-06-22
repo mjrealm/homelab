@@ -9,17 +9,17 @@ app-template:
                 - key: app.kubernetes.io/instance
                   operator: In
                   values:
-                    - hoarder
+                    - karakeep
             topologyKey: "kubernetes.io/hostname"
   controllers:
-    hoarder:
+    karakeep:
       strategy: Recreate
       containers:
-        hoarder:
-          nameOverride: hoarder
+        karakeep:
+          nameOverride: karakeep
           image:
-            repository: ghcr.io/hoarder-app/hoarder
-            tag: 0.24.1
+            repository: ghcr.io/karakeep-app/karakeep
+            tag: 0.25.0
           # env:
           #   MEILI_ADDR:
           #   MEILI_MASTER_KEY:
@@ -31,7 +31,7 @@ app-template:
         meilisearch:
           image:
             repository: getmeili/meilisearch
-            tag: v1.12.8
+            tag: v1.15.2
           env:
             MEILI_NO_ANALYTICS: "true"
     chrome:
@@ -50,8 +50,8 @@ app-template:
             - --hide-scrollbars
 
   service:
-    hoarder:
-      controller: hoarder
+    karakeep:
+      controller: karakeep
       ports:
         http:
           port: 3000
