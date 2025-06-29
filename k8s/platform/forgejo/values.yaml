@@ -1,0 +1,55 @@
+---
+forgejo:
+  gitea:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    config:
+      service:
+        DISABLE_REGISTRATION: true
+      service.explore:
+        DISABLE_USERS_PAGE: true
+      server:
+        OFFLINE_MODE: true
+        LANDING_PAGE: explore
+        DISABLE_SSH: true
+      repository:
+        DEFAULT_BRANCH: main
+        DISABLE_STARS: true
+        DISABLED_REPO_UNITS: repo.wiki
+      actions:
+        ENABLED: false
+      database:
+        DB_TYPE: postgres
+      session:
+        PROVIDER: db
+      cache:
+        ADAPTER: memory
+      queue:
+        TYPE: level
+      indexer:
+        ISSUE_INDEXER_TYPE: bleve
+        REPO_INDEXER_ENABLED: true
+    # expose themes
+    additionalConfigFromEnvs:
+      - name: GITEA__UI__THEMES
+        value: "catppuccin-latte-rosewater,catppuccin-latte-flamingo,catppuccin-latte-pink,catppuccin-latte-mauve,catppuccin-latte-red,catppuccin-latte-maroon,catppuccin-latte-peach,catppuccin-latte-yellow,catppuccin-latte-green,catppuccin-latte-teal,catppuccin-latte-sky,catppuccin-latte-sapphire,catppuccin-latte-blue,catppuccin-latte-lavender,catppuccin-frappe-rosewater,catppuccin-frappe-flamingo,catppuccin-frappe-pink,catppuccin-frappe-mauve,catppuccin-frappe-red,catppuccin-frappe-maroon,catppuccin-frappe-peach,catppuccin-frappe-yellow,catppuccin-frappe-green,catppuccin-frappe-teal,catppuccin-frappe-sky,catppuccin-frappe-sapphire,catppuccin-frappe-blue,catppuccin-frappe-lavender,catppuccin-macchiato-rosewater,catppuccin-macchiato-flamingo,catppuccin-macchiato-pink,catppuccin-macchiato-mauve,catppuccin-macchiato-red,catppuccin-macchiato-maroon,catppuccin-macchiato-peach,catppuccin-macchiato-yellow,catppuccin-macchiato-green,catppuccin-macchiato-teal,catppuccin-macchiato-sky,catppuccin-macchiato-sapphire,catppuccin-macchiato-blue,catppuccin-macchiato-lavender,catppuccin-mocha-rosewater,catppuccin-mocha-flamingo,catppuccin-mocha-pink,catppuccin-mocha-mauve,catppuccin-mocha-red,catppuccin-mocha-maroon,catppuccin-mocha-peach,catppuccin-mocha-yellow,catppuccin-mocha-green,catppuccin-mocha-teal,catppuccin-mocha-sky,catppuccin-mocha-sapphire,catppuccin-mocha-blue,catppuccin-mocha-lavender"
+
+  # Download themes
+  initPreScript: |
+    mkdir -p /data/gitea/public/assets/css
+    cd /data/gitea/public/assets/css
+    wget -O catppuccin-gitea.tar.gz https://github.com/catppuccin/gitea/releases/download/v1.0.1/catppuccin-gitea.tar.gz
+    tar zxvf catppuccin-gitea.tar.gz
+
+  # Single pod prod-ready
+  redis-cluster:
+    enabled: false
+  postgresql:
+    enabled: true
+  postgresql-ha:
+    enabled: false
+  persistence:
+    enabled: true
+    size: 10Gi
