@@ -37,6 +37,3 @@ node-red:
   persistence:
     enabled: true
     size: 1Gi
-
-  # -- You can configure node-red using a settings file
-  settings: {}
