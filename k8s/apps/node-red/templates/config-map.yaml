@@ -1,0 +1,16 @@
+{{- if .Values.settings.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.settings.configMapName }}
+  labels:
+    app: {{ include "node-red.name" . }}
+    chart: {{ include "node-red.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  {{- range $key, $value := .Values.settings.data }}
+  {{ $key }}: |-
+{{ $value | indent 4 }}
+  {{- end }}
+{{- end }}
