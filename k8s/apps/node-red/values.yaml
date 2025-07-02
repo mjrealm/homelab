@@ -1,0 +1,52 @@
+---
+app-template:
+  controllers:
+    node-red:
+      containers:
+        node-red:
+          nameOverride: node-red
+          image:
+            repository: nodered/node-red
+            tag: "3.1.15"
+          env:
+            TZ: "America/Los_Angeles"
+
+  service:
+    node-red:
+      controller: node-red
+      ports:
+        http:
+          port: 1880
+
+  ingress:
+    node-red:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Node-RED
+        gethomepage.dev/description: Home automation
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Smart Home
+        gethomepage.dev/icon: sh-node-red.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: &nodered red.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: node-red
+                port: http
+      tls:
+        - secretName: node-red-tls-cert
+          hosts:
+            - *nodered
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 500Mi
+      globalMounts:
+        - path: /data
