@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.settings.configMapName }}
+  name: settings-config
   labels:
     app: {{ include "node-red.name" . }}
     chart: {{ include "node-red.chart" . }}
