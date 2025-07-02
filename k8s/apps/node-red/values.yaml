@@ -1,7 +1,8 @@
 ---
 node-red:
   env:
-    TZ: "America/Los_Angeles"
+    - name: TZ
+      value: "America/Los_Angeles"
 
   projectMode:
     enabled: false
