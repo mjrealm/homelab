@@ -31,6 +31,8 @@ node-red:
       - secretName: node-red-tls-cert
         hosts:
           - *nodered
+        certificate:
+          enabled: false # Let certwarden handle
 
   persistence:
     enabled: true
