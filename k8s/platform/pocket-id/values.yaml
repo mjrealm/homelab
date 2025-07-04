@@ -1,6 +1,5 @@
 ---
 pocket-id:
-  config: {}
   persistence:
     enabled: true
     size: 10Gi
