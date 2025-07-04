@@ -3,6 +3,8 @@ pocket-id:
   persistence:
     enabled: true
     size: 10Gi
+  image:
+    tag: v1.5.0
 
 postgresql:
   architecture: standalone
