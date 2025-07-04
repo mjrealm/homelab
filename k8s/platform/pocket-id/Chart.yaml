@@ -4,8 +4,8 @@ name: pocket-id
 version: 1.0.0
 dependencies:
   - name: pocket-id
-    repository: oci://ghcr.io/hobbit44/pocket-id-helm/
+    repository: oci://ghcr.io/hobbit44/pocket-id-helm
     version: 1.5.0
   - name: postgresql
-    repository: oci://registry-1.docker.io/bitnamicharts/
+    repository: oci://registry-1.docker.io/bitnamicharts
     version: 16.7.5
