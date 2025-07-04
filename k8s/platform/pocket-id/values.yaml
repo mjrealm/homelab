@@ -6,3 +6,4 @@ pocket-id:
     size: 10Gi
 
 postgresql:
+  architecture: standalone
