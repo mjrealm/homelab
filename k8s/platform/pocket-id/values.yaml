@@ -1,10 +1,51 @@
 ---
-pocket-id:
-  persistence:
-    enabled: true
-    size: 10Gi
-  image:
-    tag: v1.5.0
+app-template:
+  controllers:
+    pocket-id:
+      strategy: Recreate
+      containers:
+        pocket-id:
+          nameOverride: pocket-id
+          image:
+            repository: ghcr.io/pocket-id/pocket-id
+            tag: v1.5.0
+    postgres:
+      strategy: Recreate
+      containers:
+        postgres:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: 16.9
 
-postgresql:
-  architecture: standalone
+  service:
+    pocket-id:
+      controller: pocket-id
+      ports:
+        http:
+          port: 1411
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 10Gi
+      advancedMounts:
+        pocket-id:
+          pocket-id:
+            - path: /app/data
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        postgres:
+          postgres:
+            - path: /var/lib/postgresql/data
