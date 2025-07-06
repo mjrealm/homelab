@@ -9,3 +9,4 @@ Chart.lock
 .vagrant
 .vagrant_ssh_config
 .env
+.ansible
