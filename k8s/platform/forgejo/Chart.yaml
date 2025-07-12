@@ -5,4 +5,4 @@ version: 1.0.0
 dependencies:
   - name: forgejo
     repository: oci://code.forgejo.org/forgejo-helm
-    version: 12.5.3
+    version: 12.5.4
