@@ -4,7 +4,7 @@ app-template:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
     nodeSelector:
-      kubernetes.io/hostname: wayne
+      scrypted.app/host: "true"
 
   controllers:
     main:
@@ -16,8 +16,8 @@ app-template:
             repository: ghcr.io/koush/scrypted
             tag: "v0.123.58-jammy-full"
           # env:
-            # SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION: Bearer SET_THIS_TO_SOME_RANDOM_TEXT
-            # SCRYPTED_WEBHOOK_UPDATE: http://localhost:10444/v1/update
+          # SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION: Bearer SET_THIS_TO_SOME_RANDOM_TEXT
+          # SCRYPTED_WEBHOOK_UPDATE: http://localhost:10444/v1/update
 
   service:
     main:

@@ -8,7 +8,7 @@ plex-media-server:
 
   # Specific node to install this
   nodeSelector:
-    kubernetes.io/hostname: wayne
+    plex.tv/host: "true"
 
   extraEnv:
     HOSTNAME: "peacemaker"

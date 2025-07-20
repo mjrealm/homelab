@@ -6,12 +6,13 @@ k3s_agent_uninstall_file: /usr/local/bin/k3s-agent-uninstall.sh
 k3s_kube_config_file: ~/.kube/config.k3s
 k3s_kube_config_context: k3s-ansible
 # For basic config with MetalLB
-k3s_server_flags: "--secrets-encryption \
+k3s_server_flags:
+  "--secrets-encryption \
   --disable-cloud-controller \
   --disable=servicelb \
   --disable=traefik \
-  --disable=local-storage \
-  --node-taint=node-role.kubernetes.io/master=true:NoSchedule"
+  --disable=local-storage"
+  # --node-taint=node-role.kubernetes.io/master=true:NoSchedule
 # For use with Cilium CNI only
 # k3s_server_flags: "--flannel-backend=none \
 #   --disable-kube-proxy \

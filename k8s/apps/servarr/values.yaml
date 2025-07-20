@@ -7,10 +7,10 @@ app-template:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: plex.tv/host
                   operator: In
                   values:
-                    - wayne
+                    - "true"
 
   controllers:
     servarr:
@@ -58,17 +58,17 @@ app-template:
             PGID: "1000"
             TZ: "America/Los_Angeles"
 
-    filebrowser:
-      replicas: 1
-      strategy: Recreate
-      containers:
-        main:
-          image:
-            repository: filebrowser/filebrowser
-            tag: v2.36.3
-          env:
-            PUID: "1000"
-            PGID: "1000"
+    # filebrowser:
+    #   replicas: 1
+    #   strategy: Recreate
+    #   containers:
+    #     main:
+    #       image:
+    #         repository: filebrowser/filebrowser
+    #         tag: v2.36.3
+    #       env:
+    #         PUID: "1000"
+    #         PGID: "1000"
 
   service:
     servarr:
@@ -84,11 +84,11 @@ app-template:
           port: 9696
         http-sabnzbd:
           port: 8080
-    filebrowser:
-      controller: filebrowser
-      ports:
-        http:
-          port: 80
+    # filebrowser:
+    #   controller: filebrowser
+    #   ports:
+    #     http:
+    #       port: 80
     exporters:
       controller: exporters
       ports:
@@ -127,11 +127,11 @@ app-template:
           sabnzbd:
             - path: /config
               subPath: sabnzbd
-        filebrowser:
-          main:
-            - path: /config
-              subPath: filebrowser
-            - path: /srv/config
+        # filebrowser:
+        #   main:
+        #     - path: /config
+        #       subPath: filebrowser
+        #     - path: /srv/config
 
     media-incomplete:
       enabled: true
@@ -140,9 +140,9 @@ app-template:
         servarr:
           sabnzbd:
             - path: incomplete-downloads
-        filebrowser:
-          main:
-            - path: /srv/incomplete-downloads
+        # filebrowser:
+        #   main:
+        #     - path: /srv/incomplete-downloads
 
     media-downloads:
       enabled: true
@@ -152,9 +152,9 @@ app-template:
       globalMounts:
         - path: /downloads
       advancedMounts:
-        filebrowser:
-          main:
-            - path: /srv/downloads
+        # filebrowser:
+        #   main:
+        #     - path: /srv/downloads
 
     media-nfs:
       enabled: true
@@ -162,15 +162,15 @@ app-template:
       server: 192.168.1.200
       path: /volume1/media/
 
-    filebrowser-db:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 100Mi
-      advancedMounts:
-        filebrowser:
-          main:
-            - path: /database
+    # filebrowser-db:
+    #   enabled: true
+    #   type: persistentVolumeClaim
+    #   accessMode: ReadWriteOnce
+    #   size: 100Mi
+    #   advancedMounts:
+    #     filebrowser:
+    #       main:
+    #         - path: /database
 
   serviceMonitor:
     exporters:
