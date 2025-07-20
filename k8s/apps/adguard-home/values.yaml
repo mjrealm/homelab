@@ -7,9 +7,6 @@ app-template:
         effect: NoSchedule
         operator: Equal
         value: "true"
-    nodeSelector:
-      node-role.kubernetes.io/master: "true"
-
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -20,6 +17,14 @@ app-template:
                   values:
                     - adguard-home
             topologyKey: "kubernetes.io/hostname"
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/master
+                  operator: In
+                  values:
+                    - "true"
 
   controllers:
     main:
