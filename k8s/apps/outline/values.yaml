@@ -70,7 +70,6 @@ app-template:
   ingress:
     outline:
       enabled: true
-      nameOverride: outline
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/description: Modern Wiki
