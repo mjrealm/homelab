@@ -7,21 +7,20 @@ app-template:
       scrypted.app/host: "true"
 
   controllers:
-    main:
+    scrypted:
       strategy: Recreate
       containers:
-        main:
-          nameOverride: scrypted
+        scrypted:
           image:
             repository: ghcr.io/koush/scrypted
-            tag: "v0.123.58-jammy-full"
+            tag: "lite"
           # env:
           # SCRYPTED_WEBHOOK_UPDATE_AUTHORIZATION: Bearer SET_THIS_TO_SOME_RANDOM_TEXT
           # SCRYPTED_WEBHOOK_UPDATE: http://localhost:10444/v1/update
 
   service:
-    main:
-      controller: main
+    scrypted:
+      controller: scrypted
       ports:
         http:
           port: 11080
@@ -43,7 +42,7 @@ app-template:
             - path: /
               pathType: Prefix
               service:
-                identifier: main
+                identifier: scrypted
                 port: http
       tls:
         - secretName: scrypted-tls-cert
