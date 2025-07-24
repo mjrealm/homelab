@@ -123,7 +123,7 @@ app-template:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 150Gi
+      size: 160Gi
       globalMounts:
         - path: /downloads
 
