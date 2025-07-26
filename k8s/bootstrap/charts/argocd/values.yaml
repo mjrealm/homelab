@@ -119,13 +119,13 @@ argo-cd:
             mkdir -p /custom-tools/helm-plugins
 
             echo "Install helm secrets - ${HELM_SECRETS_VERSION}"
-            wget -vO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
+            wget --debug -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
 
             echo "Install static curl - latest"
-            wget -vO /custom-tools/curl https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64
+            wget --debug -qO /custom-tools/curl https://github.com/moparisthebest/static-curl/releases/latest/download/curl-amd64
 
             echo "Install sops - ${SOPS_VERSION}"
-            wget -vO /custom-tools/sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
+            wget --debug -qO /custom-tools/sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64
 
             echo "Install kubectl - ${KUBECTL_VERSION}"
             wget -qO /custom-tools/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
