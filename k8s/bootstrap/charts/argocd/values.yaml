@@ -116,8 +116,6 @@ argo-cd:
             value: "3.10.2"
         args:
           - |
-            apk add --no-cache wget
-            tar --version
             mkdir -p /custom-tools/helm-plugins
 
             echo "Install helm secrets - ${HELM_SECRETS_VERSION}"
