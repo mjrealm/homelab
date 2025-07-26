@@ -29,9 +29,9 @@ argo-cd:
   notifications:
     enabled: false
   dex:
-    enabled: true
+    enabled: false
     metrics:
-      enabled: true
+      enabled: false
       serviceMonitor:
         enabled: true
   metrics:
