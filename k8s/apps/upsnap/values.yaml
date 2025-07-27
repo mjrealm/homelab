@@ -1,8 +1,8 @@
 ---
 app-template:
-  # defaultPodOptions:
-  #   hostNetwork: true
-  #   dnsPolicy: ClusterFirstWithHostNet
+  defaultPodOptions:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
 
   controllers:
     upsnap:
