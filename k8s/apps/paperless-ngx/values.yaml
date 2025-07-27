@@ -110,7 +110,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-paperless-ngx.png
-        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/pod-selector: "app.kubernetes.io/controller=paperless"
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/weight: "1"
       hosts:
@@ -134,7 +134,7 @@ app-template:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Documents
       gethomepage.dev/icon: sh-paperless-ai.png
-      gethomepage.dev/pod-selector: ""
+      gethomepage.dev/pod-selector: "app.kubernetes.io/controller=paperless-ai"
       gethomepage.dev/weight: "2"
     hosts:
       - host: &paperless-ai paperless-ai.mdeleon.dev
