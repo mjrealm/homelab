@@ -7,6 +7,15 @@ app-template:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: scrypted.app/host
+                  operator: In
+                  values:
+                    - "true"
 
   controllers:
     upsnap:
