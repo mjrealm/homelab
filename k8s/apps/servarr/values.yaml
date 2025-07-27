@@ -133,7 +133,7 @@ app-template:
             - path: incomplete-downloads
         filebrowser:
           filebrowser:
-            - path: /incomplete-downloads
+            - path: incomplete-downloads
 
     media-downloads:
       enabled: true
@@ -145,7 +145,7 @@ app-template:
       advancedMounts:
         filebrowser:
           filebrowser:
-            - path: /srv
+            - path: /srv/downloads
 
     media-nfs:
       enabled: true
