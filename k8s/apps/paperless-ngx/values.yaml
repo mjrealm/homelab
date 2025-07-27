@@ -29,7 +29,7 @@ app-template:
             tag: 3.0.7
           env:
             RAG_SERVICE_ENABLED: true
-            # RAG_SERVICE_URL: http://localhost:8000
+            RAG_SERVICE_URL: http://localhost:8000
     redis:
       containers:
         redis:
