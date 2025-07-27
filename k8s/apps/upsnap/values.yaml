@@ -1,8 +1,8 @@
 ---
 app-template:
-  defaultPodOptions:
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
+  # defaultPodOptions:
+  #   hostNetwork: true
+  #   dnsPolicy: ClusterFirstWithHostNet
 
   controllers:
     upsnap:
@@ -16,11 +16,11 @@ app-template:
           env:
             TZ: "America/Los_Angeles"
             UPSNAP_SCAN_RANGE: 192.168.10.0/24 # Scan range is used for device discovery on local network
-          securityContext:
-            capabilities:
-              add:
-                - NET_ADMIN
-                - NET_RAW
+          # securityContext:
+          #   capabilities:
+          #     add:
+          #       - NET_ADMIN
+          #       - NET_RAW
 
   service:
     upsnap:
