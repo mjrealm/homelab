@@ -103,7 +103,7 @@ app-template:
     fb-config:
       enabled: true
       type: configMap
-      name: filebrowser-config
+      name: servarr
       advancedMounts:
         filebrowser:
           filebrowser:
