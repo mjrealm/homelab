@@ -4,18 +4,9 @@ app-template:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
     securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: node-role.kubernetes.io/master
-                  operator: In
-                  values:
-                    - "true"
+      capabilities:
+        add:
+          - NET_ADMIN
 
   controllers:
     upsnap:
