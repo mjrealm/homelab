@@ -125,29 +125,29 @@ app-template:
         - secretName: paperless-tls-cert
           hosts:
             - *paperless
-  paperless-ai:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      gethomepage.dev/name: Paperless-AI
-      gethomepage.dev/description: Documents Analyzer
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/group: Documents
-      gethomepage.dev/icon: sh-paperless-ai.png
-      gethomepage.dev/pod-selector: "app.kubernetes.io/controller=paperless-ai"
-      gethomepage.dev/weight: "2"
-    hosts:
-      - host: &paperless-ai paperless-ai.mdeleon.dev
-        paths:
-          - path: /
-            pathType: Prefix
-            service:
-              identifier: paperless-ai
-              port: http
-    tls:
-      - secretName: paperless-ai-tls-cert
-        hosts:
-          - *paperless-ai
+    paperless-ai:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Paperless-AI
+        gethomepage.dev/description: Documents Analyzer
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: sh-paperless-ai.png
+        gethomepage.dev/pod-selector: "app.kubernetes.io/controller=paperless-ai"
+        gethomepage.dev/weight: "2"
+      hosts:
+        - host: &paperless-ai paperless-ai.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: paperless-ai
+                port: http
+      tls:
+        - secretName: paperless-ai-tls-cert
+          hosts:
+            - *paperless-ai
 
   persistence:
     pg-data:
