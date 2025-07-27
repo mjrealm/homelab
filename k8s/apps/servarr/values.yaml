@@ -145,7 +145,7 @@ app-template:
       advancedMounts:
         filebrowser:
           filebrowser:
-            - path: /srv/downloads
+            - path: srv
 
     media-nfs:
       enabled: true
