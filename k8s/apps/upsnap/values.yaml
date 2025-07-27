@@ -20,6 +20,7 @@ app-template:
             capabilities:
               add:
                 - NET_ADMIN
+                - NET_RAW
 
   service:
     upsnap:
