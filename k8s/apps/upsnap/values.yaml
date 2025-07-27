@@ -12,7 +12,7 @@ app-template:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: scrypted.app/host
+                - key: node-role.kubernetes.io/master
                   operator: In
                   values:
                     - "true"
