@@ -133,8 +133,7 @@ app-template:
             - path: incomplete-downloads
         filebrowser:
           filebrowser:
-            - path: /srv
-              subPath: incomplete-downloads
+            - path: /incomplete-downloads
 
     media-downloads:
       enabled: true
@@ -147,7 +146,6 @@ app-template:
         filebrowser:
           filebrowser:
             - path: /srv
-              subPath: downloads
 
     media-nfs:
       enabled: true
