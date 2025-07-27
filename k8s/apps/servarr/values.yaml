@@ -13,6 +13,14 @@ app-template:
                     - "true"
 
   controllers:
+    filebrowser:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        filebrowser:
+          image:
+            repository: ghcr.io/gtsteffaniak/filebrowser
+            tag: 0.7.17-beta-slim
     servarr:
       replicas: 1
       strategy: Recreate
@@ -59,6 +67,11 @@ app-template:
             TZ: "America/Los_Angeles"
 
   service:
+    filebrowser:
+      controller: filebrowser
+      ports:
+        http:
+          port: 80
     servarr:
       controller: servarr
       ports:
@@ -118,6 +131,10 @@ app-template:
         servarr:
           sabnzbd:
             - path: incomplete-downloads
+        filebrowser:
+          filebrowser:
+            - path: /srv
+              subPath: incomplete-downloads
 
     media-downloads:
       enabled: true
@@ -126,6 +143,11 @@ app-template:
       size: 160Gi
       globalMounts:
         - path: /downloads
+      advancedMounts:
+        filebrowser:
+          filebrowser:
+            - path: /srv
+              subPath: downloads
 
     media-nfs:
       enabled: true
