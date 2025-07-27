@@ -3,6 +3,8 @@ app-template:
   defaultPodOptions:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
+    securityContext:
+      privileged: true
 
   controllers:
     upsnap:
