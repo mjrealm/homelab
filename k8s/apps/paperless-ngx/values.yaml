@@ -125,6 +125,7 @@ app-template:
         - secretName: paperless-tls-cert
           hosts:
             - *paperless
+
     paperless-ai:
       enabled: true
       annotations:
