@@ -100,6 +100,15 @@ app-template:
           port: 9711
 
   persistence:
+    fb-config:
+      enabled: true
+      type: configMap
+      name: filebrowser-config
+      advancedMounts:
+        filebrowser:
+          filebrowser:
+            - path: /home/filebrowser/data/config.yaml
+              subPath: config.yaml
     config:
       enabled: true
       type: persistentVolumeClaim
@@ -142,10 +151,6 @@ app-template:
       size: 160Gi
       globalMounts:
         - path: /downloads
-      advancedMounts:
-        filebrowser:
-          filebrowser:
-            - path: srv
 
     media-nfs:
       enabled: true
