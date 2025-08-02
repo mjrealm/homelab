@@ -22,6 +22,9 @@ node-red:
       gethomepage.dev/group: Smart Home
       gethomepage.dev/icon: sh-node-red.png
       gethomepage.dev/pod-selector: ""
+      nginx.ingress.kubernetes.io/auth-signin: https://oauth-proxy.mdeleon.dev/oauth2/start?rd=https://$host$request_uri
+      nginx.ingress.kubernetes.io/auth-url: https://oauth-proxy.mdeleon.dev/oauth2/auth
+      nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Access-Token
     hosts:
       - host: &nodered red.mdeleon.dev
         paths:
