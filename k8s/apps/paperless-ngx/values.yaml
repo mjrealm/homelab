@@ -193,7 +193,7 @@ app-template:
       enabled: true
       type: configMap
       name: paperless-ngx
-      defaultMode: 504
+      defaultMode: 0550
       advancedMounts:
         paperless:
           paperless:
