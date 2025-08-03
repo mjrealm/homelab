@@ -192,7 +192,7 @@ app-template:
     scripts:
       enabled: true
       type: configMap
-      name: paperless-scripts
+      name: paperless-ngx
       advancedMounts:
         paperless:
           paperless:
