@@ -189,6 +189,20 @@ app-template:
           paperless:
             - path: /usr/src/paperless/export
 
+    scripts:
+      enabled: true
+      type: configMap
+      name: paperless-scripts
+      advancedMounts:
+        paperless:
+          paperless:
+            - path: /scripts/pre-consume.sh
+              subPath: pre-consume.sh
+              readOnly: false
+            - path: /scripts/pwds.txt
+              subPath: pwds.txt
+              readOnly: true
+
     paperless-ai-data:
       enabled: true
       type: persistentVolumeClaim

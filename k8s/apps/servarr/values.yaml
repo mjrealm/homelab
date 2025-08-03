@@ -109,6 +109,7 @@ app-template:
           filebrowser:
             - path: /home/filebrowser/data/config.yaml
               subPath: config.yaml
+              readOnly: false
     config:
       enabled: true
       type: persistentVolumeClaim
