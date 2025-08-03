@@ -55,17 +55,17 @@ app-template:
           nameOverride: tika
           image:
             repository: docker.io/apache/tika
-            tag: 2.9.2.1
+            tag: 3.2.1.0
     gotenberg:
       containers:
         gotenberg:
           nameOverride: gotenberg
           image:
             repository: docker.io/gotenberg/gotenberg
-            tag: 7.10
+            tag: 8.20
           command:
             - "gotenberg"
-            # - "--chromium-disable-javascript=true"
+            - "--chromium-disable-javascript=true"
             - "--chromium-allow-list=file:///tmp/.*"
 
   service:
