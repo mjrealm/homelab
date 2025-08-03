@@ -203,7 +203,6 @@ app-template:
             - path: /scripts/pwds.txt
               subPath: pwds.txt
               readOnly: true
-              defaultMode: 256
 
     paperless-ai-data:
       enabled: true
