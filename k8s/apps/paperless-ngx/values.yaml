@@ -193,6 +193,7 @@ app-template:
       enabled: true
       type: configMap
       name: paperless-ngx
+      defaultMode: 504
       advancedMounts:
         paperless:
           paperless:
@@ -202,6 +203,7 @@ app-template:
             - path: /scripts/pwds.txt
               subPath: pwds.txt
               readOnly: true
+              defaultMode: 256
 
     paperless-ai-data:
       enabled: true
