@@ -200,6 +200,13 @@ app-template:
             - path: /scripts/pre-consume.sh
               subPath: pre-consume.sh
               readOnly: false
+    txts:
+      enabled: true
+      type: configMap
+      name: paperless-ngx
+      advancedMounts:
+        paperless:
+          paperless:
             - path: /scripts/pwds.txt
               subPath: pwds.txt
               readOnly: true
