@@ -15,6 +15,11 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(.*)?$"
     },
     {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["homebridge/homebridge"],
+      "versioning": "regex:^(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)$"
+    },
+    {
       "description": "Automerge patch updates",
       "matchUpdateTypes": ["patch"],
       "automerge": true
