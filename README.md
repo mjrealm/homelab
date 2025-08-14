@@ -7,6 +7,8 @@ This project was created to automate my personal homelab, following [GitOps](htt
 
 This is **not** a framework. However, you can customize and extend it in any way you want.
 
+⚠️ Since this a personal homelab, all encrypted credentials only applies to my environment. Generate your own secrets.
+
 > :bulb: **What is a homelab?**
 >
 > "Simply put, a home lab consists of one or more servers (or normal PCs acting as servers), that you have in your home and you use them to experiment and try out stuff." -[techie-show](https://techie-show.com/home-lab-guide-basics/)
@@ -34,7 +36,7 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 
 ## Stack
 
-### System
+### Core
 
 <table>
     <thead>
@@ -132,32 +134,3 @@ Using MacBook, I installed these with [Homebrew](https://brew.sh/).
 4. It will ask for user password and Cloudflare API Token. The token is needed to perform a DNS challenge with [Lets Encrypt](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge) (TLS certificate generation).
 
 > :snowflake: You're done! Yes, that's the only command you'll need. :smile:
-
-## Roadmap
-
-- [x] Automated Kubernetes installation and management
-- [x] Automated certificate management
-- [x] Automated installation of applications with GitOps
-- [x] Distributed block storage
-- [x] Network security and observability
-- [x] Bare metal load balancer
-- [x] Homepage view
-- [ ] ~~Automated Docker installation and management~~
-- [x] Prompts for global variables (user, ip pools etc)
-- [x] Secure external access via [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
-- [ ] Full-stack monitoring and alerting system
-- [x] Private code repository
-- [ ] Private container registry
-- [ ] Private artifactory
-- [ ] ~~Private code static analysis tool~~
-- [ ] ~~Identity Access and Management~~
-- [ ] ~~Automated backups~~
-- [ ] ~~Private CI/CD platform~~
-- [x] CI with [Github Actions](https://github.com/features/actions)
-- [ ] VPN without port forwarding
-- [ ] Static site documentation
-- [ ] Automated requirements installation (using `brew`)
-
-## Acknowledgements
-
-This project was heavily-inspired by [Khue's Homelab](https://homelab.khuedoan.com/)
