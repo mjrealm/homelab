@@ -85,19 +85,19 @@ app-template:
           port: 9696
         http-sabnzbd:
           port: 8080
-    exporters:
-      controller: exporters
-      ports:
-        http:
-          port: 9707
-        http-radarr:
-          port: 9708
-        http-lidarr:
-          port: 9709
-        http-prowlarr:
-          port: 9710
-        http-sabnzbd:
-          port: 9711
+    # exporters:
+    #   controller: exporters
+    #   ports:
+    #     http:
+    #       port: 9707
+    #     http-radarr:
+    #       port: 9708
+    #     http-lidarr:
+    #       port: 9709
+    #     http-prowlarr:
+    #       port: 9710
+    #     http-sabnzbd:
+    #       port: 9711
 
   persistence:
     fb-config:
@@ -149,7 +149,7 @@ app-template:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 160Gi
+      size: 300Gi
       globalMounts:
         - path: /downloads
 
@@ -159,33 +159,33 @@ app-template:
       server: 192.168.1.200
       path: /volume1/media/
 
-  serviceMonitor:
-    exporters:
-      enabled: true
-      serviceName: servarr-exporters
-      endpoints:
-        - port: http
-          scheme: http
-          path: /metrics
-          interval: 4m
-          scrapeTimeout: 90s
-        - port: http-radarr
-          scheme: http
-          path: /metrics
-          interval: 4m
-          scrapeTimeout: 90s
-        - port: http-lidarr
-          scheme: http
-          path: /metrics
-          interval: 4m
-          scrapeTimeout: 90s
-        - port: http-prowlarr
-          scheme: http
-          path: /metrics
-          interval: 4m
-          scrapeTimeout: 90s
-        - port: http-sabnzbd
-          scheme: http
-          path: /metrics
-          interval: 4m
-          scrapeTimeout: 90s
+  # serviceMonitor:
+  #   exporters:
+  #     enabled: true
+  #     serviceName: servarr-exporters
+  #     endpoints:
+  #       - port: http
+  #         scheme: http
+  #         path: /metrics
+  #         interval: 4m
+  #         scrapeTimeout: 90s
+  #       - port: http-radarr
+  #         scheme: http
+  #         path: /metrics
+  #         interval: 4m
+  #         scrapeTimeout: 90s
+  #       - port: http-lidarr
+  #         scheme: http
+  #         path: /metrics
+  #         interval: 4m
+  #         scrapeTimeout: 90s
+  #       - port: http-prowlarr
+  #         scheme: http
+  #         path: /metrics
+  #         interval: 4m
+  #         scrapeTimeout: 90s
+  #       - port: http-sabnzbd
+  #         scheme: http
+  #         path: /metrics
+  #         interval: 4m
+  #         scrapeTimeout: 90s
