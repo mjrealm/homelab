@@ -16,7 +16,7 @@ app-template:
         valkey:
           image:
             repository: valkey/valkey
-            tag: 9.0
+            tag: "9.0"
   service:
     postgres:
       controller: postgres
