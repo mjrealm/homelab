@@ -4,6 +4,7 @@ app-template:
     postgres:
       containers:
         postgres:
+          nameOverride: postgres
           image:
             repository: postgres
             tag: 16.9
@@ -14,6 +15,7 @@ app-template:
       strategy: Recreate
       containers:
         valkey:
+          nameOverride: valkey
           image:
             repository: valkey/valkey
             tag: "9.0"
