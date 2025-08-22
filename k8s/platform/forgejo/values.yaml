@@ -1,4 +1,52 @@
 ---
+app-template:
+  controllers:
+    postgres:
+      containers:
+        postgres:
+          image:
+            repository: postgres
+            tag: 16.9
+          env:
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_DB: "forgejo"
+    valkey:
+      strategy: Recreate
+      containers:
+        valkey:
+          image:
+            repository: valkey/valkey
+            tag: 9.0
+  service:
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
+    valkey:
+      controller: valkey
+      ports:
+        http:
+          port: 6379
+  persistence:
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        postgres:
+          postgres:
+            - path: /var/lib/postgresql/data
+    valkey-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        valkey:
+          valkey:
+            - path: /data
 forgejo:
   gitea:
     metrics:
