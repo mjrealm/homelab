@@ -8,28 +8,12 @@ app-template:
           image:
             repository: postgres
             tag: 16.9
-          env:
-            PGDATA: "/var/lib/postgresql/data/pg_data"
-            POSTGRES_DB: "forgejo"
-    valkey:
-      strategy: Recreate
-      containers:
-        valkey:
-          nameOverride: valkey
-          image:
-            repository: valkey/valkey
-            tag: "9.0"
   service:
     postgres:
       controller: postgres
       ports:
         http:
           port: 5432
-    valkey:
-      controller: valkey
-      ports:
-        http:
-          port: 6379
   persistence:
     pg-data:
       enabled: true
@@ -40,47 +24,12 @@ app-template:
         postgres:
           postgres:
             - path: /var/lib/postgresql/data
-    valkey-data:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 4Gi
-      advancedMounts:
-        valkey:
-          valkey:
-            - path: /data
 forgejo:
   gitea:
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
-    config:
-      service:
-        DISABLE_REGISTRATION: true
-      service.explore:
-        DISABLE_USERS_PAGE: true
-      server:
-        OFFLINE_MODE: true
-        LANDING_PAGE: explore
-        DISABLE_SSH: true
-      repository:
-        DEFAULT_BRANCH: main
-        DISABLE_STARS: true
-        DISABLED_REPO_UNITS: repo.wiki
-      actions:
-        ENABLED: false
-      database:
-        DB_TYPE: postgres
-      session:
-        PROVIDER: db
-      cache:
-        ADAPTER: memory
-      queue:
-        TYPE: level
-      indexer:
-        ISSUE_INDEXER_TYPE: bleve
-        REPO_INDEXER_ENABLED: true
     # expose themes
     additionalConfigFromEnvs:
       - name: GITEA__UI__THEMES
@@ -93,13 +42,6 @@ forgejo:
     wget -O catppuccin-gitea.tar.gz https://github.com/catppuccin/gitea/releases/download/v1.0.1/catppuccin-gitea.tar.gz
     tar zxvf catppuccin-gitea.tar.gz
 
-  # Single pod prod-ready
-  redis-cluster:
-    enabled: false
-  postgresql:
-    enabled: true
-  postgresql-ha:
-    enabled: false
   persistence:
     enabled: true
     size: 10Gi
