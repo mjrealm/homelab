@@ -3,9 +3,9 @@ apiVersion: v2
 name: forgejo
 version: 1.0.0
 dependencies:
-  - name: forgejo
-    repository: oci://code.forgejo.org/forgejo-helm
-    version: 14.0.0
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts
     version: 4.2.0
+  - name: forgejo
+    repository: oci://code.forgejo.org/forgejo-helm
+    version: 14.0.0
