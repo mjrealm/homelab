@@ -14,7 +14,7 @@ app-template:
           nameOverride: pgadmin
           image:
             repository: dpage/pgadmin4
-            tag: 9.6
+            tag: 9.7
           # env:
           #   PGADMIN_DEFAULT_EMAIL: ""
           #   PGADMIN_DEFAULT_PASSWORD: ""
