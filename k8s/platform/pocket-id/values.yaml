@@ -8,7 +8,7 @@ app-template:
           nameOverride: pocket-id
           image:
             repository: ghcr.io/pocket-id/pocket-id
-            tag: v1.9.1
+            tag: v1.10.0
     postgres:
       strategy: Recreate
       containers:
