@@ -27,8 +27,7 @@
      {
       "description": "Automerge minor updates",
       "matchUpdateTypes": ["minor"],
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["/^lscr.io/", "peanut/"],
+      "matchPackageNames": ["/^lscr.io/", "*peanut"],
       "automerge": true
     }
   ]
