@@ -20,7 +20,7 @@ app-template:
         filebrowser:
           image:
             repository: ghcr.io/gtsteffaniak/filebrowser
-            tag: 0.7.18-beta-slim
+            tag: 0.8.3-beta-slim
     servarr:
       replicas: 1
       strategy: Recreate
@@ -52,7 +52,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: 1.37.0
+            tag: 2.0.5
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -60,7 +60,7 @@ app-template:
         sabnzbd:
           image:
             repository: lscr.io/linuxserver/sabnzbd
-            tag: 4.5.2
+            tag: 4.5.3
           env:
             PUID: "1000"
             PGID: "1000"
