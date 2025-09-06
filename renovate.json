@@ -27,7 +27,7 @@
      {
       "description": "Automerge minor updates",
       "matchUpdateTypes": ["minor"],
-      "matchPackageNames": ["/^lscr.io/", "*peanut"],
+      "matchPackageNames": ["/^lscr.io/", "peanut/"],
       "automerge": true
     }
   ]
