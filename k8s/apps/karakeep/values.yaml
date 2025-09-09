@@ -31,7 +31,7 @@ app-template:
         meilisearch:
           image:
             repository: getmeili/meilisearch
-            tag: v1.15.2
+            tag: v1.20.0
           env:
             MEILI_NO_ANALYTICS: "true"
     chrome:
