@@ -20,7 +20,7 @@ app-template:
         filebrowser:
           image:
             repository: ghcr.io/gtsteffaniak/filebrowser
-            tag: 0.8.3-beta-slim
+            tag: 0.8.4-beta-slim
     servarr:
       replicas: 1
       strategy: Recreate
@@ -36,7 +36,7 @@ app-template:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
-            tag: 5.26.2
+            tag: 5.27.5
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -44,7 +44,7 @@ app-template:
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
-            tag: 2.12.4
+            tag: 2.13.3
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"

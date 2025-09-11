@@ -24,10 +24,10 @@
       "matchUpdateTypes": ["patch"],
       "automerge": true
     },
-     {
+    {
       "description": "Automerge minor updates",
       "matchUpdateTypes": ["minor"],
-      "matchPackageNames": ["/^lscr.io/", "*peanut"],
+      "matchPackageNames": ["!/.*paperless-ngx/", "!/.*pocket-id/", "!/.*oauth2-proxy/", "!/.*argo-cd/", "!/.*adguardhome/", "!/.*mealie/", "!/.*outline/", "!/.*meilisearch/", "!/.*gotenberg/"],
       "automerge": true
     }
   ]
