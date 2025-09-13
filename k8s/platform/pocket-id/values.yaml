@@ -16,7 +16,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 16.9
+            tag: 16.10
 
   service:
     pocket-id:
