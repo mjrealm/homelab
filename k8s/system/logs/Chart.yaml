@@ -5,5 +5,5 @@ description: VictoriaLogs is a high-performance, cost-effective, and scalable lo
 version: 1.0.0
 dependencies:
   - name: victoria-logs-single
-    version: 0.11.8
+    version: 0.11.10
     repository: https://victoriametrics.github.io/helm-charts/
