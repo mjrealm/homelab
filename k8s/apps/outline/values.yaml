@@ -135,6 +135,6 @@ app-template:
       accessMode: ReadWriteOnce
       size: 4Gi
       advancedMounts:
-        postgres:
+        postgres-db:
           main:
             - path: /var/lib/postgresql/data
