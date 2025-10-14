@@ -42,6 +42,19 @@ app-template:
             POSTGRES_DB: "outline"
             # POSTGRES_PASSWORD: ""
             # POSTGRES_USER: ""
+    postgres-db:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: postgres-db
+          image:
+            repository: postgres
+            tag: "16.10"
+          env:
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_DB: "outline"
+            # POSTGRES_PASSWORD: ""
+            # POSTGRES_USER: ""
     redis:
       strategy: Recreate
       containers:
@@ -66,6 +79,11 @@ app-template:
       ports:
         http:
           port: 6379
+    postgres-db:
+      controller: postgres-db
+      ports:
+        http:
+          port: 5432
 
   ingress:
     outline:
@@ -103,6 +121,15 @@ app-template:
           main:
             - path: /var/lib/outline/data
     pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        postgres:
+          main:
+            - path: /var/lib/postgresql/data
+    pg-data-db:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
