@@ -21,7 +21,7 @@ app-template:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: node-role.kubernetes.io/master
+                - key: node-role.kubernetes.io/control-plane #node-role.kubernetes.io/master
                   operator: In
                   values:
                     - "true"
