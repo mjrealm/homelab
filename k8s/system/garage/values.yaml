@@ -12,7 +12,6 @@ app-template:
           image:
             repository: dxflrs/garage
             tag: v2.1.0
-          env:
   
   service:
     garage:
@@ -47,7 +46,7 @@ app-template:
               service:
                 identifier: garage
                 port: http
-                
+
   persistence:
     config:
       enabled: true
