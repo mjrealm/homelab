@@ -1,5 +1,7 @@
 ---
-deuxfleurs-garage:
+garage:
+  garage:
+    dbEngine: "lmdb"
   monitoring:
     metrics:
       enabled: true
