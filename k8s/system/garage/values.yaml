@@ -19,9 +19,9 @@ app-template:
           image:
             repository: khairul169/garage-webui
             tag: "1.1.0"
-          env:
-            API_BASE_URL: "http://garage.garage.svc:3903" # Garage admin API endpoint URL
-            S3_ENDPOINT_URL: "http://garage.garage.svc:3900" # Garage S3 endpoint URL
+          # env:
+            # API_BASE_URL: "http://garage.garage.svc:3903" # Garage admin API endpoint URL
+            # S3_ENDPOINT_URL: "http://garage.garage.svc:3900" # Garage S3 endpoint URL
             # BASE_PATH: "https://garage-web.mdeleon.dev"
   
   service:
