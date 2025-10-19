@@ -111,12 +111,16 @@ app-template:
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 4Gi
-      globalMounts:
-        - path: /var/lib/garage/data
+      advancedMounts:
+        garage:
+          garage:
+            - path: /var/lib/garage/data
     garage-meta:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 1Gi
-      globalMounts:
-        - path: /var/lib/garage/meta
+      advancedMounts:
+        garage:
+          garage:
+            - path: /var/lib/garage/meta
