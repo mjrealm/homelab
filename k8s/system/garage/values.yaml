@@ -18,7 +18,7 @@ app-template:
           nameOverride: garage-web
           image:
             repository: khairul169/garage-webui
-            tag: v1.1.0
+            tag: "1.1.0"
           env:
             API_BASE_URL: "http://garage.garage.svc:3903" # Garage admin API endpoint URL
             S3_ENDPOINT_URL: "http://garage.garage.svc:3900" # Garage S3 endpoint URL
