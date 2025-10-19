@@ -7,6 +7,6 @@ dependencies:
   #   repository: https://bjw-s-labs.github.io/helm-charts
   #   version: 4.4.0
 
-  - name: deuxfleurs-garage
-    repository: "https://raw.githubusercontent.com/deuxfleurs-org/garage/main/script/helm/garage"
+  - name: deuxfleurs-garage  
+    repository: "https://github.com/deuxfleurs-org/garage/tree/main/script/helm/garage"
     version: 0.0.1
