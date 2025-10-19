@@ -1,0 +1,80 @@
+---
+app-template:
+  defaultPodOptions:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+
+  controllers:
+    garage:
+      containers:
+        garage:
+          nameOverride: garage
+          image:
+            repository: dxflrs/garage
+            tag: v2.1.0
+          env:
+  
+  service:
+    garage:
+      controller: garage
+      type: LoadBalancer
+      loadBalancerIP: 192.168.10.204
+      ports:        
+        api:
+          port: 3900
+        rpc:
+          port: 3901
+        http:
+          port: 3902
+        admin:
+          port: 3903
+
+  ingress:
+    garage:
+      enabled: true
+      hosts:
+        - host: "*.s3.garage.mdeleon.dev"
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: garage
+                port: api
+        - host: "*.web.garage.mdeleon.dev"
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: garage
+                port: http
+                
+  persistence:
+    config:
+      enabled: true
+      type: configMap
+      name: garage.toml
+      defaultMode: 0555
+      advancedMounts:
+        garage:
+          garage:
+            - path: /etc/garage.toml
+              subPath: garage.toml
+              readOnly: true
+    garage-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 4Gi
+      advancedMounts:
+        garage:
+          garage:
+            - path: /var/lib/garage/data
+    garage-meta:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        garage:
+          garage:
+            - path: /var/lib/garage/meta
