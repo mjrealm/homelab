@@ -3,10 +3,6 @@ apiVersion: v2
 name: garage
 version: 0.0.1
 dependencies:
-  # - name: app-template
-  #   repository: https://bjw-s-labs.github.io/helm-charts
-  #   version: 4.4.0
-
-  - name: deuxfleurs-garage  
-    repository: "https://github.com/deuxfleurs-org/garage/tree/main/script/helm/garage"
-    version: 0.0.1
+  - name: garage  
+    repository: https://helm.charliemaiors.dev
+    version: 0.7.1
