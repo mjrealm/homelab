@@ -108,7 +108,8 @@ app-template:
               readOnly: true
     garage-data:
       enabled: true
-      type: persistentVolumeClaim
+      type: statefulset-pvc
+      # type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 4Gi
       advancedMounts:
@@ -117,7 +118,8 @@ app-template:
             - path: /var/lib/garage/data
     garage-meta:
       enabled: true
-      type: persistentVolumeClaim
+      # type: persistentVolumeClaim
+      type: statefulset-pvc
       accessMode: ReadWriteOnce
       size: 1Gi
       advancedMounts:
