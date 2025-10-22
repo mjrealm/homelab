@@ -23,6 +23,7 @@ app-template:
             tag: "1.1.0"
   service:
     garage-web:
+      nameOverride: web-ui
       controller: garage-web      
       ports:
         http:
