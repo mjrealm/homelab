@@ -32,3 +32,7 @@ app-template:
       enabled: true
       type: configMap
       name: garage-config
+      globalMounts:
+        - path: /etc/garage.toml
+          subPath: garage.toml
+          readOnly: true
