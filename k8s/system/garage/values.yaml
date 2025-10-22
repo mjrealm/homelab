@@ -13,6 +13,9 @@ garage:
       size: 5Gi
 
 app-template:
+  global:    
+    nameOverride: garage-web
+    
   controllers:
     garage-web:
       containers:
@@ -23,7 +26,6 @@ app-template:
             tag: "1.1.0"
   service:
     garage-web:
-      nameOverride: web-ui
       controller: garage-web      
       ports:
         http:
