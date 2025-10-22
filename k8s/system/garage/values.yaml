@@ -11,7 +11,7 @@ garage:
       size: 500Mi      
     data:      
       size: 5Gi
-        
+
 app-template:
   controllers:
     garage-web:
@@ -21,12 +21,12 @@ app-template:
           image:
             repository: khairul169/garage-webui
             tag: "1.1.0"
-    service:
-      garage-web:
-        controller: garage-web      
-        ports:
-          http:
-            port: 3909
+  service:
+    garage-web:
+      controller: garage-web      
+      ports:
+        http:
+          port: 3909
   persistence:
     config:
       enabled: true
