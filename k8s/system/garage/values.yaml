@@ -8,7 +8,7 @@ garage:
   persistence:
     enabled: true
     meta:
-      size: 500Mi 
+      size: 500Mi
     data:
       size: 5Gi
 
