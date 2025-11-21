@@ -19,7 +19,7 @@ app-template:
           nameOverride: karakeep
           image:
             repository: ghcr.io/karakeep-app/karakeep
-            tag: 0.27.1
+            tag: 0.28.0
           # env:
           #   MEILI_ADDR:
           #   MEILI_MASTER_KEY:
