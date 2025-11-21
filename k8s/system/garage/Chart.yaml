@@ -3,7 +3,7 @@ apiVersion: v2
 name: garage
 version: 0.0.1
 dependencies:
-  - name: garage  
+  - name: garage
     repository: https://helm.charliemaiors.dev
     version: 0.7.1
   - name: app-template
