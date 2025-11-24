@@ -16,7 +16,7 @@ app-template:
           nameOverride: web
           image:
             repository: ghcr.io/shlinkio/shlink-web-client
-            tag: 4.5.1
+            tag: 4.6.1
   service:
     shlink:
       controller: shlink
