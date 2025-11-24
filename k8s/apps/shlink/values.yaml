@@ -8,7 +8,7 @@ app-template:
           nameOverride: shlink
           image:
             repository: ghcr.io/shlinkio/shlink
-            tag: 4.5.3
+            tag: 4.6.0
     web:
       strategy: Recreate
       containers:
