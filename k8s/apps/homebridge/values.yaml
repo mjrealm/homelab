@@ -18,7 +18,7 @@ app-template:
           nameOverride: homebridge
           image:
             repository: homebridge/homebridge
-            tag: "2025-11-17"
+            tag: "2025-11-25"
           env:
             TZ: "America/Los_Angeles"
 
