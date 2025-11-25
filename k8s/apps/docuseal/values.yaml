@@ -16,7 +16,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 15.140
+            tag: 15.150
   service:
     docuseal:
       controller: docuseal
