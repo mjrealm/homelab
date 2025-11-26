@@ -4,5 +4,5 @@ name: crunchydata
 version: 1.0.0
 dependencies:
   - name: pgo
-    version: 5.8.4
+    version: 5.8.5
     repository: oci://registry.developers.crunchydata.com/crunchydata
