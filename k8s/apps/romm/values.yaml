@@ -10,7 +10,7 @@ app-template:
           nameOverride: romm
           image:
             repository: rommapp/romm
-            tag: 4.3.2
+            tag: 4.4.1
     mariadb:
       strategy: Recreate
       annotations:
