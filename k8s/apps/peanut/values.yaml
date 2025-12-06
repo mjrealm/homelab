@@ -10,7 +10,7 @@ app-template:
           nameOverride: peanut
           image:
             repository: brandawg93/peanut
-            tag: 5.19.0
+            tag: 5.19.1
     influxdb:
       strategy: Recreate
       containers:
