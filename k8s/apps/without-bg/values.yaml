@@ -26,7 +26,7 @@ app-template:
         gethomepage.dev/description: AI background removal
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
-        gethomepage.dev/icon: withoutbg.png
+        gethomepage.dev/icon: sh-withoutbg.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/weight: "5"

@@ -26,7 +26,7 @@ app-template:
         gethomepage.dev/description: PDF Tools
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
-        gethomepage.dev/icon: bentopdf.png
+        gethomepage.dev/icon: sh-bentopdf.png
         gethomepage.dev/pod-selector: ""
         nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/weight: "4"
