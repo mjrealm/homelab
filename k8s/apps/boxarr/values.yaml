@@ -54,3 +54,4 @@ app-template:
       retain: false
       globalMounts:
         - path: /config
+        
