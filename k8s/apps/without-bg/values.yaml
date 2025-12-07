@@ -1,0 +1,44 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: without-bg
+          image:
+            repository: withoutbg/app
+            tag: 1.2.0
+
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 80
+
+  ingress:
+    without-bg:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Without BG
+        gethomepage.dev/description: AI background removal
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: withoutbg.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "5"
+      hosts:
+        - host: &without-bg no-bg.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: without-bg-tls-cert
+          hosts:
+            - *without-bg

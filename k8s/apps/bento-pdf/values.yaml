@@ -1,0 +1,44 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: bento-pdf
+          image:
+            repository: bentopdf/bentopdf
+            tag: 1.10.5
+
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 8080
+
+  ingress:
+    bento-pdf:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Bento PDF
+        gethomepage.dev/description: PDF Tools
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: bentopdf.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        gethomepage.dev/weight: "4"
+      hosts:
+        - host: &pdf pdf.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: pdf-tls-cert
+          hosts:
+            - *pdf

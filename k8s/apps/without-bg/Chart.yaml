@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: stirling-pdf
+name: without-bg
 version: 0.0.1
 dependencies:
   - name: app-template
