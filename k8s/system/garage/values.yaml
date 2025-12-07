@@ -7,15 +7,14 @@ garage:
       enabled: true
   persistence:
     enabled: true
-    meta:      
-      size: 500Mi      
-    data:      
+    meta:
+      size: 500Mi
+    data:
       size: 5Gi
 
 app-template:
-  global:    
+  global:
     nameOverride: garage-web
-    
   controllers:
     garage-web:
       containers:
@@ -26,7 +25,7 @@ app-template:
             tag: "1.1.0"
   service:
     garage-web:
-      controller: garage-web      
+      controller: garage-web
       ports:
         http:
           port: 3909

@@ -8,7 +8,7 @@ app-template:
           nameOverride: docuseal
           image:
             repository: docuseal/docuseal
-            tag: 2.1.8
+            tag: 2.2.4
     postgres:
       strategy: Recreate
       containers:
@@ -16,7 +16,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: 15.140
+            tag: 15.150
   service:
     docuseal:
       controller: docuseal
