@@ -45,7 +45,7 @@ app-template:
         - secretName: boxarr-tls-cert
           hosts:
             - *boxarr
-  persistence:    
+  persistence:
     config:
       enabled: true
       type: persistentVolumeClaim
