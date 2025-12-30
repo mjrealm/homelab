@@ -8,7 +8,7 @@ app-template:
           nameOverride: bento-pdf
           image:
             repository: bentopdf/bentopdf
-            tag: v1.15.1
+            tag: v1.15.3
 
   service:
     main:
