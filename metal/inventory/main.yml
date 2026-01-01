@@ -6,14 +6,14 @@ metal:
     master:
       hosts:
         metal0:
-          ansible_host: 192.168.10.11
+          ansible_host: 192.168.10.14
     # with control-plane and datastore components
     server:
-      hosts:
-        metal3:
-          ansible_host: 192.168.10.13
-        metal4:
-          ansible_host: 192.168.10.14
+    #   hosts:
+    #     metal3:
+    #       ansible_host: 192.168.10.13
+    #     metal4:
+    #       ansible_host: 192.168.10.14
     # without any datastore or control-plane components
     agent:
       hosts:
@@ -21,6 +21,8 @@ metal:
           ansible_host: 192.168.10.10
         metal2:
           ansible_host: 192.168.10.12
+        metal3:
+          ansible_host: 192.168.10.13
     # docker:
     #   hosts:
     #     metal4:

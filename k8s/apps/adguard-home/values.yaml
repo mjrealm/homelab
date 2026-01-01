@@ -17,14 +17,14 @@ app-template:
                   values:
                     - adguard-home
             topologyKey: "kubernetes.io/hostname"
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: node-role.kubernetes.io/control-plane #node-role.kubernetes.io/master
-                  operator: In
-                  values:
-                    - "true"
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #       - matchExpressions:
+      #           - key: node-role.kubernetes.io/control-plane #node-role.kubernetes.io/master
+      #             operator: In
+      #             values:
+      #               - "true"
 
   controllers:
     main:
