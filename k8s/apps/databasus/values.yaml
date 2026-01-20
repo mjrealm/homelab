@@ -22,7 +22,7 @@ app-template:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 1Gi      
+      size: 1Gi
       globalMounts:
         - path: /databasus-data
 

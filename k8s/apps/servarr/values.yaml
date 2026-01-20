@@ -21,7 +21,6 @@ app-template:
           image:
             repository: ghcr.io/gtsteffaniak/filebrowser
             tag: 1.1.6-beta-slim
-    
     servarr:
       replicas: 1
       strategy: Recreate
@@ -72,7 +71,7 @@ app-template:
       controller: filebrowser
       ports:
         http:
-          port: 80    
+          port: 80
     servarr:
       controller: servarr
       ports:
@@ -117,7 +116,7 @@ app-template:
       accessMode: ReadWriteOnce
       size: 4Gi
       retain: false
-      advancedMounts:        
+      advancedMounts:
         servarr:
           sonarr:
             - path: /config
