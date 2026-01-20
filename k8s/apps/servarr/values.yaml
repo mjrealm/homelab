@@ -21,16 +21,6 @@ app-template:
           image:
             repository: ghcr.io/gtsteffaniak/filebrowser
             tag: 1.1.6-beta-slim
-    huntarr:
-      replicas: 1
-      strategy: Recreate
-      containers:
-        huntarr:
-          image:
-            repository: ghcr.io/plexguide/huntarr
-            tag: 8.2.11
-          env:
-            TZ: "America/Los_Angeles"
     
     servarr:
       replicas: 1
@@ -82,12 +72,7 @@ app-template:
       controller: filebrowser
       ports:
         http:
-          port: 80
-    huntarr:
-      controller: huntarr
-      ports:
-        http:
-          port: 9705
+          port: 80    
     servarr:
       controller: servarr
       ports:
@@ -132,10 +117,7 @@ app-template:
       accessMode: ReadWriteOnce
       size: 4Gi
       retain: false
-      advancedMounts:
-        huntarr:
-          huntarr:
-            - path: /config
+      advancedMounts:        
         servarr:
           sonarr:
             - path: /config
