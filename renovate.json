@@ -20,6 +20,11 @@
       "versioning": "regex:^(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)$"
     },
     {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["bentopdf/bentopdf"],
+      "dependencyDashboardApproval": true
+    },
+    {
       "description": "Automerge patch updates",
       "matchUpdateTypes": ["patch"],
       "automerge": true
