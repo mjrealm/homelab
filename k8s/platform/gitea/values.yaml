@@ -77,6 +77,6 @@ gitea:
           - path: /
             pathType: Prefix
     tls:
-      - secretName: gitea-tls-cert
+      - secretName: gitea-dev-tls-cert
         hosts:
           - *gitea
