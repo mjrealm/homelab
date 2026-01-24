@@ -4,8 +4,10 @@ gitea:
     type: "Recreate"
 
   # Single pod prod-ready
-  redis-cluster:
+  valkey-cluster:
     enabled: false
+  valkey:
+    enabled: true
   postgresql:
     enabled: true
   postgresql-ha:
@@ -40,7 +42,7 @@ gitea:
       session:
         PROVIDER: db
       cache:
-        ADAPTER: memory
+        ADAPTER: redis
       queue:
         TYPE: level
       indexer:
