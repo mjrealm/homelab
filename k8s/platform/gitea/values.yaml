@@ -42,7 +42,7 @@ gitea:
       session:
         PROVIDER: db
       cache:
-        ADAPTER: redis
+        ADAPTER: memory
       queue:
         TYPE: level
       indexer:
