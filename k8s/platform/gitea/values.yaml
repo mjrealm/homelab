@@ -63,6 +63,7 @@ gitea:
   # Ingress
   ingress:
     enabled: true
+    pathType: Prefix
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/name: Gitea
@@ -75,8 +76,7 @@ gitea:
       - host: &gitea gitea.mdeleon.dev
         paths:
           - path: /
-            pathType: Prefix
     tls:
-      - secretName: gitea-dev-tls-cert
+      - secretName: gitea-tls-cert
         hosts:
           - *gitea
