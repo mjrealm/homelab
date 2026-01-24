@@ -76,3 +76,5 @@ victoria-metrics-k8s-stack:
 
 prometheus-snmp-exporter:
   restartPolicy: Always
+  configmapReload:
+    enabled: true
