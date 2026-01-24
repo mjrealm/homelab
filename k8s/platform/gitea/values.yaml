@@ -70,9 +70,9 @@ gitea:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Git
       gethomepage.dev/icon: sh-gitea.png
-      gethomepage.dev/pod-selector: ""
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=gitea"
     hosts:
-      - host: &gitea git.mdeleon.dev
+      - host: &gitea gitea.mdeleon.dev
         paths:
           - path: /
             pathType: Prefix
