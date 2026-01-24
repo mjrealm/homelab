@@ -73,3 +73,5 @@ victoria-metrics-k8s-stack:
             url: http://logs-victoria-logs-single-server.logs.svc.cluster.local:9428
   defaultDashboards:
     enabled: true
+
+prometheus-snmp-exporter:
