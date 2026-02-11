@@ -74,7 +74,7 @@ victoria-metrics-k8s-stack:
   defaultDashboards:
     enabled: true
 
-prometheus-snmp-exporter:
-  restartPolicy: Always
-  configmapReload:
-    enabled: true
+#prometheus-snmp-exporter:
+#  restartPolicy: Always
+#  configmapReload:
+#    enabled: true
