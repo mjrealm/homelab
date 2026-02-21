@@ -8,7 +8,7 @@ app-template:
           nameOverride: databasus
           image:
             repository: databasus/databasus
-            tag: v3.14.1
+            tag: v3.16.0
 
   service:
     databasus:
