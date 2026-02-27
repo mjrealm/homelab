@@ -8,7 +8,7 @@ app-template:
           nameOverride: mealie
           image:
             repository: ghcr.io/mealie-recipes/mealie
-            tag: v3.10.2
+            tag: v3.11.0
           env:
             ALLOW_SIGNUP: "true"
             BASE_URL: "https://mealie.mdeleon.dev"
@@ -30,7 +30,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: "16.11"
+            tag: "16.13"
           env:
             # POSTGRES_PASSWORD: ""
             # POSTGRES_USER: ""
