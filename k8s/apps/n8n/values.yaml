@@ -3,6 +3,11 @@ app-template:
   controllers:
     n8n:
       strategy: Recreate
+      pod:
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
       containers:
         n8n:
           nameOverride: n8n
