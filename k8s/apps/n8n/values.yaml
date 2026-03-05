@@ -1,0 +1,84 @@
+---
+app-template:
+  controllers:
+    n8n:
+      strategy: Recreate
+      containers:
+        n8n:
+          nameOverride: n8n
+          image:
+            repository: docker.n8n.io/n8nio/n8n
+            tag: "2.10.3"
+          env:
+            TZ: "America/Los_Angeles"
+            GENERIC_TIMEZONE: "America/Los_Angeles"
+            N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+            N8N_RUNNERS_ENABLED: "true"
+    postgres:
+      strategy: Recreate
+      containers:
+        postgres:
+          nameOverride: postgres
+          image:
+            repository: postgres
+            tag: "16.13"
+          env:
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_DB: "n8n"
+
+  service:
+    n8n:
+      controller: n8n
+      ports:
+        http:
+          port: 5678
+    postgres:
+      controller: postgres
+      ports:
+        http:
+          port: 5432
+
+  ingress:
+    main:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: n8n
+        gethomepage.dev/description: Workflow Automation
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Automation
+        gethomepage.dev/icon: sh-n8n.png
+        gethomepage.dev/pod-selector: ""
+        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+      hosts:
+        - host: &host n8n.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: n8n
+                port: http
+      tls:
+        - secretName: n8n-tls-cert
+          hosts:
+            - *host
+
+  persistence:
+    n8n_data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      advancedMounts:
+        n8n:
+          n8n:
+            - path: /home/node/.n8n
+    pg-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      advancedMounts:
+        postgres:
+          postgres:
+            - path: /var/lib/postgresql/data
