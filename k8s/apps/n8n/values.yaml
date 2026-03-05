@@ -64,7 +64,7 @@ app-template:
             - *host
 
   persistence:
-    n8n_data:
+    data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
