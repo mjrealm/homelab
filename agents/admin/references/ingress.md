@@ -33,6 +33,11 @@ Follow icon guidelines at https://gethomepage.dev/configs/services/#icons
 - Prefer PNG icons over SVG.
 - If the icon is not available, suggest a similar app icon.
 
+#### Pod Selection (Optional)
+The `gethomepage.dev/pod-selector` annotation is **optional** and is only required if there are multiple apps in the same namespace (e.g., when a database like Postgres is also installed alongside the app).
+- If used, the homelab-admin **must** verify the label is actually correct against the deployed pods (e.g., `app.kubernetes.io/name=<my-app>`).
+- If there is only one app in the namespace, do not include this annotation.
+
 ### 3. Authentication (Optional)
 If the application lacks built-in authentication and needs to be secured, use the external OAuth proxy annotations:
 ```yaml
@@ -56,7 +61,7 @@ ingress:
       gethomepage.dev/name: "My App"
       gethomepage.dev/group: "Media" # See list of groups in apps/homepage/secrets.dec.yaml
       gethomepage.dev/icon: "app-icon.png"
-      gethomepage.dev/pod-selector: "app.kubernetes.io/controller=myapp" # For correctly identifying the pod to monitor for health
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=myapp" # OPTIONAL: Only use if multiple apps share the namespace. Must be verified.
       gethomepage.dev/weight: "2" # If you want to change the order of the apps in the group
     hosts:
       - host: &myapp myapp.mdeleon.dev
