@@ -35,7 +35,7 @@ Follow icon guidelines at https://gethomepage.dev/configs/services/#icons
 
 #### Pod Selection (Optional)
 The `gethomepage.dev/pod-selector` annotation is **optional** and is only required if there are multiple apps in the same namespace (e.g., when a database like Postgres is also installed alongside the app).
-- If used, the homelab-admin **must** verify the label is actually correct against the deployed pods (e.g., `app.kubernetes.io/name=<my-app>`).
+- If used, verify the label is actually correct against the deployed pods (e.g., `app.kubernetes.io/name=<my-app>`). Use `kubectl get pods -n <namespace> -l app.kubernetes.io/name=<my-app>` to verify.
 - If there is only one app in the namespace, do not include this annotation.
 
 ### 3. Authentication (Optional)
