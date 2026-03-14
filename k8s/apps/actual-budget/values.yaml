@@ -9,10 +9,6 @@ app-template:
           image:
             repository: actualbudget/actual-server
             tag: 25.3.1
-          env:
-            TZ: "America/Los_Angeles"
-            PUID: "1000"
-            PGID: "1000"
           resources:
             requests:
               cpu: 10m

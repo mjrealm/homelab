@@ -124,5 +124,6 @@ app-template:
                       readOnly: false
 ```
 
-## Notes
+## Critical Notes
 - DO NOT delete `secrets.dec.yaml` file locally. It is used for local development and testing.
+- Add ENV variables to `secrets.dec.yaml` file under `containers.<container_name>.env`. This is to prevent sensitive information from being exposed in the values.yaml file.
