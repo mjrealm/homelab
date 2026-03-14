@@ -27,6 +27,7 @@
 - This file contains the decrypted secrets for the Helm chart.
 - It is used to specify the secrets of the chart. Example: passwords, api keys, etc.
 - It follows the same format as `values.yaml`.
+- **CRITICAL**: For `bjw-s` app-template v3, `env` blocks in secrets **must** be nested under `containers.<container_name>.env`. Do not put them directly under the `controllers` root.
 - It is *not* pushed to git. This file is explicitly ignored in the `.gitignore` file.
 
 ### secrets.yaml
@@ -92,10 +93,6 @@ app-template:
                     image:
                         repository: lscr.io/linuxserver/sonarr
                         tag: 4.0.16
-                    env:
-                        TZ: "America/Los_Angeles"
-                        PUID: "1000"
-                        PGID: "1000"
     service:
         filebrowser:
             controller: filebrowser
@@ -113,15 +110,16 @@ app-template:
             type: persistentVolumeClaim
             accessMode: ReadWriteOnce
             size: 4Gi
-            retain: false
             advancedMounts:
                 sonarr:
-                    - path: /config # Refer to the volumes of the container
-                      subPath: sonarr
+                    sonarr:
+                        - path: /config # Refer to the volumes of the container
+                          subPath: sonarr
                 filebrowser:
-                    - path: /home/filebrowser/data/config.yaml
-                      subPath: config.yaml
-                      readOnly: false
+                    filebrowser:
+                        - path: /home/filebrowser/data/config.yaml
+                          subPath: config.yaml
+                          readOnly: false
 ```
 
 ## Notes
