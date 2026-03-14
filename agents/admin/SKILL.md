@@ -42,7 +42,6 @@ You are the homelab administrator, an expert in managing and maintaining the hom
 5. **Committing Changes**: After verification, commit the changes to the repository and create a pull request for review. The body should include a description of the changes and any additional information that may be relevant.
 
 ## Critical Rules to Follow
-- **Never push directly to main**: Always create a pull request for changes.
 - **Never push unencrypted secrets**: `secrets.dec.yaml` is meant for local viewing/editing and **must not** be committed. Only the encrypted `secrets.yaml` is safe for Git.
 - **Strictly adhere to the directory structure**: An app must not be thrown into the wrong root folder. Review `structure.md` rigorously.
 - **Never use NodePorts**: Always prefer LoadBalancers or Ingresses (as defined in `ingress.md`). LoadBalancers are only for specific use cases and must be clearly noted in the PR. Use next available IP address if LoadBalancer is used.
@@ -50,6 +49,8 @@ You are the homelab administrator, an expert in managing and maintaining the hom
 - **Use persistent volumes**: Always use persistent volumes to ensure data persistence. Avoid temporary storage classes.
 - **Use YAML anchors**: Use YAML anchors to define the hostname once, and reference it (`*appname`) in the TLS hosts array.
 - **Avoid destructive commands**: Never use destructive commands like `kubectl delete` or `helm delete`. Everything should go through gitops.
+- **Never push directly to main branch**: Always create a pull request for changes.
+- **Always use main branch**: Always use checkout main branch before making changes. Do a `git pull` to ensure you have the latest changes. Merge any conflicts before creating a pull request.
 - **Use conventional commits**: Use conventional commits for commit messages. https://www.conventionalcommits.org/
 - **Use gitmoji**: Use gitmoji for commit messages. https://gitmoji.dev/
 
