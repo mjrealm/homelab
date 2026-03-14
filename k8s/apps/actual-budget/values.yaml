@@ -34,11 +34,11 @@ app-template:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Actual Budget"
-        gethomepage.dev/group: "HomeLab"
-        gethomepage.dev/icon: "sh-actual.png"
+        gethomepage.dev/group: "Knowledge"
+        gethomepage.dev/icon: "sh-actual-budget.png"
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=actual"
       hosts:
-        - host: &actual actual.mdeleon.dev
+        - host: &budget budget.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
@@ -46,9 +46,9 @@ app-template:
                 identifier: actual
                 port: http
       tls:
-        - secretName: actual-tls-cert
+        - secretName: budget-tls-cert
           hosts:
-            - *actual
+            - *budget
 
   persistence:
     data:
