@@ -1,0 +1,62 @@
+---
+app-template:
+  controllers:
+    actual:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        actual:
+          image:
+            repository: actualbudget/actual-server
+            tag: 25.3.1
+          env:
+            TZ: "America/Los_Angeles"
+            PUID: "1000"
+            PGID: "1000"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 100Mi
+            limits:
+              memory: 500Mi
+
+  service:
+    actual:
+      controller: actual
+      ports:
+        http:
+          port: 5006
+
+  ingress:
+    actual:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Actual Budget"
+        gethomepage.dev/group: "HomeLab"
+        gethomepage.dev/icon: "sh-actual.png"
+        gethomepage.dev/pod-selector: "app.kubernetes.io/name=actual"
+      hosts:
+        - host: &actual actual.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: actual
+                port: http
+      tls:
+        - secretName: actual-tls-cert
+          hosts:
+            - *actual
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      retain: false
+      advancedMounts:
+        actual:
+          - path: /data
