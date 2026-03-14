@@ -59,4 +59,5 @@ app-template:
       retain: false
       advancedMounts:
         actual:
-          - path: /data
+          actual:
+            - path: /data
