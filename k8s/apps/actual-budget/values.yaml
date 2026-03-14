@@ -32,7 +32,6 @@ app-template:
         gethomepage.dev/name: "Actual Budget"
         gethomepage.dev/group: "Knowledge"
         gethomepage.dev/icon: "sh-actual-budget.png"
-        gethomepage.dev/pod-selector: "app.kubernetes.io/name=actual"
       hosts:
         - host: &budget budget.mdeleon.dev
           paths:
