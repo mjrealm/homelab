@@ -17,6 +17,7 @@ app-template:
 
           [s3_web]
           bind_addr = "[::]:3902"
+          root_domain = "s3.mdeleon.dev"
 
           [admin]
           api_bind_addr = "[::]:3903"
@@ -108,6 +109,7 @@ app-template:
         gethomepage.dev/description: "S3 Compatible Object Storage"
         gethomepage.dev/group: "Storage"
         gethomepage.dev/icon: "sh-garage.svg"  # Assuming standard icon or similar
+        gethomepage.dev/pod-selector: "app.kubernetes.io/controller=webui"
       hosts:
         - host: &s3web s3-web.mdeleon.dev
           paths:
@@ -124,7 +126,7 @@ app-template:
     config:
       enabled: true
       type: configMap
-      name: garage-config
+      name: garage
       advancedMounts:
         garage:
           garage:
