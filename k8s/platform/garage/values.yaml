@@ -109,6 +109,7 @@ app-template:
         gethomepage.dev/description: "S3 Compatible Object Storage"
         gethomepage.dev/group: "Storage"
         gethomepage.dev/icon: "sh-garage.svg"  # Assuming standard icon or similar
+        gethomepage.dev/pod-selector: "app.kubernetes.io/controller=webui"
       hosts:
         - host: &s3web s3-web.mdeleon.dev
           paths:
