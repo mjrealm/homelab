@@ -1,0 +1,122 @@
+---
+app-template:
+  controllers:
+    garage:
+      replicas: 1
+      strategy: Recreate
+      pod:
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
+      containers:
+        garage:
+          image:
+            repository: dxflrs/garage
+            tag: v1.0.0
+          env:
+            GARAGE_S3_API_BIND_ADDR: "[::]:3900"
+            GARAGE_S3_WEB_BIND_ADDR: "[::]:3902"
+            GARAGE_ADMIN_API_BIND_ADDR: "[::]:3903"
+            GARAGE_RPC_BIND_ADDR: "[::]:3901"
+            GARAGE_METADATA_DIR: /meta
+            GARAGE_DATA_DIR: /data
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+
+    webui:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        webui:
+          image:
+            repository: khairul169/garage-webui
+            tag: latest
+          env:
+            GARAGE_ADMIN_ENDPOINT: http://garage.garage.svc.cluster.local:3903
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+
+  service:
+    garage:
+      controller: garage
+      ports:
+        http:
+          port: 3900
+        web:
+          port: 3902
+        admin:
+          port: 3903
+        rpc:
+          port: 3901
+    webui:
+      controller: webui
+      ports:
+        http:
+          port: 3000
+
+  ingress:
+    garage:
+      enabled: true
+      className: nginx
+      hosts:
+        - host: &s3 s3.mdeleon.dev
+          paths:
+            - path: /
+              service:
+                identifier: garage
+                port: http
+      tls:
+        - secretName: s3-tls-cert
+          hosts:
+            - *s3
+    webui:
+      enabled: true
+      className: nginx
+      annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Garage S3"
+        gethomepage.dev/description: "S3 Compatible Object Storage"
+        gethomepage.dev/group: "Storage"
+        gethomepage.dev/icon: "sh-garage.svg" # Assuming standard icon or similar
+      hosts:
+        - host: &s3web s3-web.mdeleon.dev
+          paths:
+            - path: /
+              service:
+                identifier: webui
+                port: http
+      tls:
+        - secretName: s3web-tls-cert
+          hosts:
+            - *s3web
+
+  persistence:
+    metadata:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      storageClass: longhorn
+      advancedMounts:
+        garage:
+          garage:
+            - path: /meta
+
+    data:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/s3
+      advancedMounts:
+        garage:
+          garage:
+            - path: /data
