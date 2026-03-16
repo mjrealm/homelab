@@ -9,6 +9,10 @@ app-template:
           image:
             repository: actualbudget/actual-server
             tag: 25.3.1
+          env:
+            ACTUAL_OPENID_SERVER_HOSTNAME: "https://budget.mdeleon.dev"
+            ACTUAL_OPENID_DISCOVERY_URL: "https://pocket.mdeleon.dev"
+            ACTUAL_OPENID_CLIENT_ID: "04e19ce1-d1a0-401b-ac20-fc64d1aa97fe"
           resources:
             requests:
               cpu: 10m
