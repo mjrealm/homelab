@@ -59,7 +59,9 @@ app-template:
             repository: khairul169/garage-webui
             tag: latest
           env:
-            GARAGE_ADMIN_ENDPOINT: http://garage.garage.svc.cluster.local:3903
+            API_BASE_URL: http://garage:3903
+            S3_ENDPOINT_URL: http://garage:3900
+            # AUTH_USER_PASS is set in secrets.dec.yaml if needed
           resources:
             requests:
               cpu: 10m
@@ -83,7 +85,7 @@ app-template:
       controller: webui
       ports:
         http:
-          port: 3000
+          port: 3909
 
   ingress:
     garage:
@@ -133,6 +135,11 @@ app-template:
       advancedMounts:
         garage:
           garage:
+            - path: /etc/garage.toml
+              subPath: garage.toml
+              readOnly: true
+        webui:
+          webui:
             - path: /etc/garage.toml
               subPath: garage.toml
               readOnly: true
