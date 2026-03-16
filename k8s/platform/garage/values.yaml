@@ -1,5 +1,26 @@
 ---
 app-template:
+  configMaps:
+    config:
+      enabled: true
+      data:
+        garage.toml: |
+          metadata_dir = "/meta"
+          data_dir = "/data"
+          db_engine = "lmdb"
+          replication_factor = 1
+          rpc_bind_addr = "[::]:3901"
+
+          [s3_api]
+          api_bind_addr = "[::]:3900"
+          s3_region = "garage"
+
+          [s3_web]
+          bind_addr = "[::]:3902"
+
+          [admin]
+          api_bind_addr = "[::]:3903"
+
   controllers:
     garage:
       replicas: 1
@@ -86,7 +107,7 @@ app-template:
         gethomepage.dev/name: "Garage S3"
         gethomepage.dev/description: "S3 Compatible Object Storage"
         gethomepage.dev/group: "Storage"
-        gethomepage.dev/icon: "sh-garage.svg" # Assuming standard icon or similar
+        gethomepage.dev/icon: "sh-garage.svg"  # Assuming standard icon or similar
       hosts:
         - host: &s3web s3-web.mdeleon.dev
           paths:
@@ -100,6 +121,17 @@ app-template:
             - *s3web
 
   persistence:
+    config:
+      enabled: true
+      type: configMap
+      name: garage-config
+      advancedMounts:
+        garage:
+          garage:
+            - path: /etc/garage.toml
+              subPath: garage.toml
+              readOnly: true
+
     metadata:
       enabled: true
       type: persistentVolumeClaim
