@@ -8,6 +8,12 @@ This guide documents the standardized Git workflow and commit requirements for t
 - **Sync with main before starting**: Always checkout the `main` branch and run `git pull` before creating a new feature or fix branch to ensure you are working from the latest state.
 - **Merge Conflicts**: If conflicts arise, they must be merged and resolved locally on your branch before the PR can be merged to `main`.
 - **PR Descriptions**: Provide a clear description of the change, why it was made, and any verification steps performed.
+    - Quick summary of changes
+    - What was changed
+    - Why it was changed
+    - Any verification steps performed
+    - Add details like docker image, chart, versions used
+    - Format with bullet points, headers or emojis
 
 ## Commit Standards
 

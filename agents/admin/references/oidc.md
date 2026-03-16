@@ -16,19 +16,13 @@ Configuring OIDC requires credentials (Client ID and Client Secret) from Pocket 
     *   You cannot generate the credentials yourself. You MUST stop and notify the user to log in to their Pocket ID instance and create a new **Client**.
     *   Provide the user with the exact **Redirect URI** they need to use. (Consult the specific app's documentation, usually `https://<app-url>/login/oidc/callback` or `https://<app-url>/oauth2/callback`).
     *   Ask the user to provide you with the resulting **Client ID** and **Client Secret**.
+    *   Consult Pocket ID's documentation for examples. https://pocket-id.org/docs/client-examples
 2.  **Credential Configuration and Deployment**:
     *   Once the user provides the credentials, you must add the **Client Secret** to the application's local `secrets.dec.yaml` file.
     *   Update `values.yaml` with the non-sensitive fields (`Client ID` and `Discovery/Issuer URL`).
     *   Encrypt the secrets into a new file (Ensure you follow `helm-templates.md` and leave `secrets.dec.yaml` intact for local development).
-    *   Commit and push the changes.
-
-## Configuration Standards
-
-- **Environment variables**: Use standard naming like `OIDC_ISSUER_URL`, `OIDC_CLIENT_ID`, and `OIDC_CLIENT_SECRET`.
-- **Secret Management**: OIDC secrets **MUST** be stored in `secrets.dec.yaml`, never in `values.yaml`.
-- **Nesting**: In `bjw-s` app-template, ensure `env` variables are correctly nested under `containers.<name>.env`.
 
 ## Strict Rules to Follow
-- Make sure the PR clearly highlights the OIDC setup in the PR description.Consult Pocket ID's documentation and application documentation for examples. https://pocket-id.org/docs/client-examples
+- OIDC secrets **MUST** be stored in `secrets.dec.yaml`, never in `values.yaml`. Refer to `helm-templates.md` for more information.
+- Make sure the PR clearly highlights the OIDC setup in the PR description.
 - Ensure OIDC is part of free tier of the application. If not, we will need to find an alternative solution like LDAP or `OAuth2 Proxy`.
-- Encrypt secrets. Follow guidelines at `helm-templates.md`.
