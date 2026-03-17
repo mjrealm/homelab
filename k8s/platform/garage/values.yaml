@@ -1,8 +1,6 @@
 ---
 app-template:
   controllers:
-
-  controllers:
     garage:
       replicas: 1
       strategy: Recreate
