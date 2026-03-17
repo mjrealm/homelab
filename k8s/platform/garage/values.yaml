@@ -1,29 +1,6 @@
 ---
 app-template:
-  configMaps:
-    config:
-      enabled: true
-      data:
-        garage.toml: |
-          metadata_dir = "/meta"
-          data_dir = "/data"
-          db_engine = "lmdb"
-          replication_factor = 1
-          rpc_bind_addr = "[::]:3901"
-          rpc_public_addr = "localhost:3901"
-          rpc_secret = "2818f0b4fa6c1b47801571064c2e404f67f01a4fa20299fee6cdd985c7eeffe1"
-
-          [s3_api]
-          api_bind_addr = "[::]:3900"
-          s3_region = "garage"
-
-          [s3_web]
-          bind_addr = "[::]:3902"
-          root_domain = "s3.mdeleon.dev"
-
-          [admin]
-          api_bind_addr = "[::]:3903"
-          admin_token = "2818f0b4fa6c1b47801571064c2e404f67f01a4fa20299fee6cdd985c7eeffe1"
+  controllers:
 
   controllers:
     garage:
