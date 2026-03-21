@@ -1,0 +1,59 @@
+---
+app-template:
+  controllers:
+    jobops:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        jobops:
+          image:
+            repository: ghcr.io/dakheera47/job-ops
+            tag: v0.2.0
+          env:
+            NODE_ENV: production
+            PORT: "3001"
+            PYTHON_PATH: /usr/bin/python3
+          resources:
+            requests:
+              cpu: 10m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+  service:
+    jobops:
+      controller: jobops
+      ports:
+        http:
+          port: 3001
+  ingress:
+    main:
+      enabled: true
+      className: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "JobOps"
+        gethomepage.dev/description: "DevOps principles applied to job hunting"
+        gethomepage.dev/group: "Miscellaneous"
+        gethomepage.dev/icon: "sh-briefcase"
+      hosts:
+        - host: &host jobops.mdeleon.dev
+          paths:
+            - path: /
+              service:
+                identifier: jobops
+                port: http
+      tls:
+        - secretName: jobops-tls-cert
+          hosts:
+            - *host
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      advancedMounts:
+        jobops:
+          jobops:
+            - path: /app/data
