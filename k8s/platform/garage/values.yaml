@@ -13,7 +13,7 @@ app-template:
         garage:
           image:
             repository: dxflrs/garage
-            tag: v1.0.0
+            tag: v2.2.0
           env:
             GARAGE_S3_API_BIND_ADDR: "[::]:3900"
             GARAGE_ADMIN_API_BIND_ADDR: "[::]:3903"
@@ -34,7 +34,7 @@ app-template:
         webui:
           image:
             repository: khairul169/garage-webui
-            tag: latest
+            tag: v1.1.0
           env:
             API_BASE_URL: http://garage:3903
             S3_ENDPOINT_URL: http://garage:3900
