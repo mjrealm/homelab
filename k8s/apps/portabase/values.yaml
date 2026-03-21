@@ -10,7 +10,7 @@ app-template:
             repository: ghcr.io/portabase/portabase
             tag: 1.8.0
           env:
-            TZ: Europe/Paris
+            TZ: America/Los_Angeles
             PROJECT_URL: https://portabase.mdeleon.dev
             POSTGRES_HOST: portabase-postgres
             POSTGRES_PORT: 5432
