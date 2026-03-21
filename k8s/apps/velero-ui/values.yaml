@@ -19,7 +19,6 @@ velero-ui:
     tls:
       - secretName: velero-ui-tls-cert
         hosts:
-        hosts:
           - *host
 
   # Velero UI Specific Configuration
