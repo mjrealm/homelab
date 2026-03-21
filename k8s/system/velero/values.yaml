@@ -19,13 +19,14 @@ velero:
           s3Url: http://garage.garage.svc.cluster.local:3900
           publicUrl: https://s3.mdeleon.dev
 
-  snapshotsEnabled: true
+  snapshotsEnabled: false
 
   schedules:
-    daily-metadata:
+    daily-cluster-backup:
       schedule: "1 1 * * *"
       template:
         ttl: "720h"
+        snapshotVolumes: true
         includedNamespaces:
           - '*'
 
