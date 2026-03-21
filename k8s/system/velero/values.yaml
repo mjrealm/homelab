@@ -22,10 +22,24 @@ velero:
   snapshotsEnabled: false
 
   schedules:
-    daily-cluster-backup:
+    daily-backup:
       schedule: "1 1 * * *"
       template:
-        ttl: "720h"
+        ttl: "168h"  # 7 days
+        snapshotVolumes: true
+        includedNamespaces:
+          - '*'
+    weekly-backup:
+      schedule: "15 1 * * 0"
+      template:
+        ttl: "720h"  # 30 days
+        snapshotVolumes: true
+        includedNamespaces:
+          - '*'
+    monthly-backup:
+      schedule: "30 1 1 * *"
+      template:
+        ttl: "8760h" # 365 days
         snapshotVolumes: true
         includedNamespaces:
           - '*'
