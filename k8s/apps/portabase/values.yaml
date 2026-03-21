@@ -11,7 +11,7 @@ app-template:
             tag: 1.8.0
           env:
             TZ: America/Los_Angeles
-            PROJECT_URL: https://portabase.mdeleon.dev            
+            PROJECT_URL: https://portabase.mdeleon.dev
           resources:
             requests:
               cpu: 10m
