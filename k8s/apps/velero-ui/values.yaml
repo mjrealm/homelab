@@ -1,0 +1,42 @@
+---
+velero-ui:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Velero"
+      gethomepage.dev/description: "Backup Management Dashboard"
+      gethomepage.dev/group: "System"
+      gethomepage.dev/icon: "sh-velero.svg"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=velero-ui"
+    hosts:
+      - host: velero.mdeleon.dev
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: velero-ui-tls-cert
+        hosts:
+          - velero.mdeleon.dev
+
+  # Velero UI Specific Configuration
+  config:
+    velero:
+      namespace: velero
+      service: velero
+      port: 8085
+    s3:
+      endpoint: http://garage.garage.svc.cluster.local:3900
+      bucket: velero
+      region: garage
+      publicUrl: https://s3.mdeleon.dev
+    auth:
+      type: oidc
+      oidc:
+        issuer: https://pocket.mdeleon.dev
+        name: PocketID
+        clientId: "e9db3ec7-b85f-4512-a215-d8f19f847491"
+        clientSecret: "WkZMNsoXlogpjzqErBg39M2RhRURxLjW"
+        redirectUri: https://velero.mdeleon.dev/api/auth/callback/pocketid
