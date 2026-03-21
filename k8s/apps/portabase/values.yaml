@@ -16,6 +16,13 @@ app-template:
             POSTGRES_PORT: 5432
             POSTGRES_USER: portabase
             POSTGRES_DB: portabase
+            AUTH_OIDC_POCKET_ID: "pocket"
+            AUTH_OIDC_POCKET_TITLE: "Pocket ID"
+            AUTH_OIDC_POCKET_DESC: ""
+            AUTH_OIDC_POCKET_ICON: "https://github.com/user-attachments/assets/4ceb2708-9f29-4694-b797-be833efce17d"
+            AUTH_OIDC_POCKET_CLIENT: "34084e8c-2a17-484d-a2c7-852f6de0db5c"
+            AUTH_OIDC_POCKET_ISSUER_URL: "https://pocket-id.mdeleon.dev"
+            AUTH_OIDC_POCKET_HOST: "portabase.mdeleon.dev"
           resources:
             requests:
               cpu: 10m
@@ -55,8 +62,6 @@ app-template:
         gethomepage.dev/description: "Database Auto-Backup"
         gethomepage.dev/group: "Database Tools"
         gethomepage.dev/icon: "sh-portabase.png"
-        nginx.ingress.kubernetes.io/auth-signin: https://oauth-proxy.mdeleon.dev/oauth2/start?rd=https://$host$request_uri
-        nginx.ingress.kubernetes.io/auth-url: https://oauth-proxy.mdeleon.dev/oauth2/auth
       hosts:
         - host: &host portabase.mdeleon.dev
           paths:
