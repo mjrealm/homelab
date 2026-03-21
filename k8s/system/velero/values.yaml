@@ -1,0 +1,46 @@
+---
+velero:
+  initContainers:
+    - name: velero-plugin-for-aws
+      image: velero/velero-plugin-for-aws:v1.11.1
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /target
+          name: plugins
+    - name: velero-plugin-for-csi
+      image: velero/velero-plugin-for-csi:v0.8.1
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /target
+          name: plugins
+
+  configuration:
+    features: EnableCSI
+    backupStorageLocation:
+      - name: default
+        provider: aws
+        bucket: velero
+        config:
+          region: garage
+          s3ForcePathStyle: true
+          s3Url: http://garage.garage.svc.cluster.local:3900
+
+  snapshotsEnabled: false
+
+  schedules:
+    daily-metadata:
+      schedule: "1 1 * * *"
+      template:
+        ttl: "720h"
+        includedNamespaces:
+          - '*'
+
+  extraObjects:
+    - apiVersion: snapshot.storage.k8s.io/v1
+      kind: VolumeSnapshotClass
+      metadata:
+        name: longhorn-velero
+        labels:
+          velero.io/csi-volumesnapshot-class: "true"
+      driver: driver.longhorn.io
+      deletionPolicy: Retain
