@@ -35,7 +35,7 @@ app-template:
         gethomepage.dev/name: "JobOps"
         gethomepage.dev/description: "DevOps principles applied to job hunting"
         gethomepage.dev/group: "Miscellaneous"
-        gethomepage.dev/icon: "sh-briefcase"
+        gethomepage.dev/icon: "sh-wapy-dev.png"
       hosts:
         - host: &host jobops.mdeleon.dev
           paths:
