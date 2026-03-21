@@ -1,0 +1,88 @@
+---
+app-template:
+  controllers:
+    portabase:
+      replicas: 1
+      strategy: Recreate
+      containers:
+        portabase:
+          image:
+            repository: portabase/portabase
+            tag: 1.8.0
+          env:
+            TZ: America/Los_Angeles
+            PROJECT_URL: https://portabase.mdeleon.dev
+            POSTGRES_HOST: portabase-postgres
+            POSTGRES_PORT: 5432
+            POSTGRES_USER: portabase
+            POSTGRES_DB: portabase
+          resources:
+            requests:
+              cpu: 10m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+    postgres:
+      type: statefulset
+      replicas: 1
+      containers:
+        postgres:
+          image:
+            repository: postgres
+            tag: 17-alpine
+          env:
+            PGDATA: /var/lib/postgresql/data/pgdata
+            POSTGRES_USER: portabase
+            POSTGRES_DB: portabase
+  service:
+    portabase:
+      controller: portabase
+      ports:
+        http:
+          port: 80
+    postgres:
+      controller: postgres
+      ports:
+        postgresql:
+          port: 5432
+  ingress:
+    main:
+      enabled: true
+      className: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Portabase"
+        gethomepage.dev/description: "Database Auto-Backup"
+        gethomepage.dev/group: "Database Tools"
+        gethomepage.dev/icon: "sh-portabase.png"
+      hosts:
+        - host: &host portabase.mdeleon.dev
+          paths:
+            - path: /
+              service:
+                identifier: portabase
+                port: http
+      tls:
+        - secretName: portabase-tls-cert
+          hosts:
+            - *host
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      advancedMounts:
+        portabase:
+          portabase:
+            - path: /data
+    postgres-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 10Gi
+      advancedMounts:
+        postgres:
+          postgres:
+            - path: /var/lib/postgresql/data
