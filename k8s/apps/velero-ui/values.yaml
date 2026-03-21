@@ -35,9 +35,3 @@ velero-ui:
       publicUrl: https://s3.mdeleon.dev
     auth:
       type: oidc
-      oidc:
-        issuer: https://pocket.mdeleon.dev
-        name: PocketID
-        clientId: "e9db3ec7-b85f-4512-a215-d8f19f847491"
-        clientSecret: "WkZMNsoXlogpjzqErBg39M2RhRURxLjW"
-        redirectUri: https://velero.mdeleon.dev/api/auth/callback/pocketid
