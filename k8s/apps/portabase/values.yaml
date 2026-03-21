@@ -7,7 +7,7 @@ app-template:
       containers:
         portabase:
           image:
-            repository: ghcr.io/portabase/portabase
+            repository: portabase/portabase
             tag: 1.8.0
           env:
             TZ: America/Los_Angeles
