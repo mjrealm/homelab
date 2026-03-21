@@ -25,11 +25,7 @@ app-template:
         postgres:
           image:
             repository: postgres
-            tag: 17-alpine
-          env:
-            PGDATA: /var/lib/postgresql/data/pgdata
-            POSTGRES_USER: portabase
-            POSTGRES_DB: portabase
+            tag: "17"
   service:
     portabase:
       controller: portabase
