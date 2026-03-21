@@ -34,7 +34,7 @@ app-template:
         webui:
           image:
             repository: khairul169/garage-webui
-            tag: v1.1.0
+            tag: 1.1.0
           env:
             API_BASE_URL: http://garage:3903
             S3_ENDPOINT_URL: http://garage:3900
