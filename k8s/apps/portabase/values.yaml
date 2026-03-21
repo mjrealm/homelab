@@ -21,7 +21,7 @@ app-template:
             AUTH_OIDC_POCKET_DESC: ""
             AUTH_OIDC_POCKET_ICON: "https://github.com/user-attachments/assets/4ceb2708-9f29-4694-b797-be833efce17d"
             AUTH_OIDC_POCKET_CLIENT: "34084e8c-2a17-484d-a2c7-852f6de0db5c"
-            AUTH_OIDC_POCKET_ISSUER_URL: "https://pocket-id.mdeleon.dev"
+            AUTH_OIDC_POCKET_ISSUER_URL: "https://pocket.mdeleon.dev"
             AUTH_OIDC_POCKET_HOST: "portabase.mdeleon.dev"
           resources:
             requests:
