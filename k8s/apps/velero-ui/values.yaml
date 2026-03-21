@@ -12,14 +12,15 @@ velero-ui:
       gethomepage.dev/icon: "sh-velero.svg"
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=velero-ui"
     hosts:
-      - host: velero.mdeleon.dev
+      - host: &host velero.mdeleon.dev
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - secretName: velero-ui-tls-cert
         hosts:
-          - velero.mdeleon.dev
+        hosts:
+          - *host
 
   # Velero UI Specific Configuration
   config:
