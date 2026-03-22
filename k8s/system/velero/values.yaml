@@ -11,26 +11,7 @@ velero:
     features: EnableCSI
     extraEnvVars:
       - name: TZ
-        value: America/Los_Angeles
-    backupStorageLocation:
-      - name: default
-        provider: aws
-        bucket: velero
-        config:
-          region: garage
-          s3ForcePathStyle: true
-          s3Url: http://garage.garage.svc.cluster.local:3900
-          publicUrl: https://s3.mdeleon.dev
-      - name: r2
-        provider: aws
-        bucket: homelab-backups
-        config:
-          region: auto
-          s3ForcePathStyle: true
-          s3Url: https://683d43af18913fe58dc1c66b52e4a027.r2.cloudflarestorage.com
-        credential:
-          name: velero
-          key: r2
+        value: America/Los_Angeles    
 
   snapshotsEnabled: false
 
