@@ -48,6 +48,7 @@
 - Avoid using NodePort services. Use LoadBalancer instead.
 - Prefer using Ingress over LoadBalancer.
 - Explicitly define image tags. Do not use :latest.
+- Always expose the image tag in `values.yaml` for renovate patching.
 
 ## Helm App Template
 Use [bjw-s Helm Charts](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) as a template for creating new charts where official charts are not available.
