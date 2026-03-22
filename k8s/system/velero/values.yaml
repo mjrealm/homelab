@@ -10,7 +10,8 @@ velero:
   configuration:
     features: EnableCSI
     extraEnvVars:
-      TZ: America/Los_Angeles
+      - name: TZ
+        value: America/Los_Angeles
     backupStorageLocation:
       - name: default
         provider: aws
