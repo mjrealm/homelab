@@ -23,12 +23,13 @@ app-template:
             PORT: "3000"
             REDIS_URL: "redis://outline-redis:6379"
             PGSSLMODE: "disable"
-            # SECRET_KEY: ""
+            SECRET_KEY: ""
             # UTILS_SECRET: ""
             # DATABASE_URL: ""
             # DATABASE_URL_TEST: ""
             # SLACK_CLIENT_ID: ""
             # SLACK_CLIENT_SECRET: ""
+            FORCE_HTTPS: "false"
     postgres:
       strategy: Recreate
       containers:
@@ -78,7 +79,6 @@ app-template:
         gethomepage.dev/icon: outline.png
         gethomepage.dev/name: Outline
         gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
       hosts:
         - host: &outline wiki.mdeleon.dev
           paths:
