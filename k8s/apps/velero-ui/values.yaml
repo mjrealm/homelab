@@ -40,10 +40,6 @@ velero-ui:
   env:
     - name: DEFAULT_TIMEZONE
       value: "America/Los_Angeles"
-    - name: VELERO_NAMESPACE
-      value: "velero"
-    - name: VELERO_UI_NAMESPACE
-      value: "velero-ui"
     - name: AUTH_SECRET_PASSPHRASE
       valueFrom:
         secretKeyRef:
