@@ -1,0 +1,15 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    service:
+      spec:
+        loadBalancerIP: 192.168.10.200
+    metrics:
+      prometheus:
+        enabled: true
+        serviceMonitor:
+          enabled: true

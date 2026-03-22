@@ -43,6 +43,14 @@
     INSTALL_K3S_VERSION: "{{ k3s_version }}"
     INSTALL_K3S_EXEC: "server --cluster-init {{ k3s_server_flags }}"
 
+- name: Configure Native K3s Traefik Settings
+  when: inventory_hostname in groups.master
+  become: true
+  ansible.builtin.copy:
+    src: traefik-config.yaml
+    dest: /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
+    mode: "0644"
+
 - name: Get k3s token from the master node
   when: not ansible_check_mode
   run_once: true

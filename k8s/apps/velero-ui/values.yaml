@@ -4,7 +4,6 @@ velero-ui:
     tag: "0.10.0"
   ingress:
     enabled: true
-    className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
