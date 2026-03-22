@@ -32,5 +32,20 @@ velero-ui:
       bucket: velero
       region: garage
       publicUrl: https://s3.mdeleon.dev
+    general:
+      grafanaUrl: "https://grafana.mdeleon.dev"
     auth:
       type: oidc
+  
+  env:
+    - name: DEFAULT_TIMEZONE
+      value: "America/Los_Angeles"
+    - name: VELERO_NAMESPACE
+      value: "velero"
+    - name: VELERO_UI_NAMESPACE
+      value: "velero-ui"
+    - name: AUTH_SECRET_PASSPHRASE
+      valueFrom:
+        secretKeyRef:
+          name: velero-ui-secrets
+          key: auth_secret_passphrase
