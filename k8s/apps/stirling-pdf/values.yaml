@@ -30,7 +30,6 @@ app-template:
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: stirling-pdf.png
         gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
         gethomepage.dev/weight: "4"
       hosts:
         - host: &stirling pdf.mdeleon.dev
