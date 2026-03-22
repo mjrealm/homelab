@@ -12,15 +12,6 @@ velero:
     extraEnvVars:
       - name: TZ
         value: America/Los_Angeles
-    backupStorageLocation:
-      - name: default
-        provider: aws
-        bucket: velero
-        config:
-          region: garage
-          s3ForcePathStyle: true
-          s3Url: http://garage.garage.svc.cluster.local:3900
-          publicUrl: https://s3.mdeleon.dev
 
   snapshotsEnabled: false
 
