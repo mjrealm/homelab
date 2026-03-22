@@ -51,6 +51,14 @@
     dest: /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
     mode: "0644"
 
+- name: Configure Native K3s Traefik Middlewares
+  when: inventory_hostname in groups.master
+  become: true
+  ansible.builtin.copy:
+    src: traefik-middlewares.yaml
+    dest: /var/lib/rancher/k3s/server/manifests/traefik-middlewares.yaml
+    mode: "0644"
+
 - name: Get k3s token from the master node
   when: not ansible_check_mode
   run_once: true

@@ -1,0 +1,9 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: body-limit-24mb
+  namespace: kube-system
+spec:
+  buffering:
+    maxRequestBodyBytes: 25165824 # 24MiB
