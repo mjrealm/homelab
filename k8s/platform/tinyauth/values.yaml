@@ -49,4 +49,3 @@ app-template:
         - secretName: tinyauth-tls-cert
           hosts:
             - *host
-
