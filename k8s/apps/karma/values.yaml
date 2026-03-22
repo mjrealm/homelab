@@ -29,7 +29,6 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Observability
         gethomepage.dev/icon: alertmanager.png
-        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/weight: "20"
       hosts:
         - host: &karma karma.mdeleon.dev

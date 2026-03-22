@@ -28,7 +28,6 @@ app-template:
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-withoutbg.png
         gethomepage.dev/pod-selector: ""
-        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/weight: "5"
       hosts:
         - host: &without-bg no-bg.mdeleon.dev

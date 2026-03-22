@@ -79,7 +79,6 @@ app-template:
         gethomepage.dev/icon: outline.png
         gethomepage.dev/name: Outline
         gethomepage.dev/pod-selector: ""
-        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
       hosts:
         - host: &outline wiki.mdeleon.dev
           paths:

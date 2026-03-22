@@ -25,7 +25,6 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-convertx.png
-        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/weight: "10"
       hosts:
         - host: &convertx convertx.mdeleon.dev
