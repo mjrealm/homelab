@@ -36,7 +36,7 @@ velero-ui:
       grafanaUrl: "https://grafana.mdeleon.dev"
     auth:
       type: oidc
-  
+
   env:
     - name: DEFAULT_TIMEZONE
       value: "America/Los_Angeles"
