@@ -14,9 +14,6 @@ bootstrap:
   # - name: cilium # metadata and git folder
   #   namespace: kube-system # target namespace
   #   project: system # must be a stack
-  - name: ingress-nginx
-    namespace: ingress-nginx
-    project: system
   - name: cert-manager
     namespace: cert-manager
     project: system
