@@ -1,5 +1,7 @@
 ---
 velero-ui:
+  image:
+    tag: "0.10.0"
   ingress:
     enabled: true
     className: nginx
