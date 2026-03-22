@@ -89,6 +89,7 @@ app-template:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.middlewares: tinyauth-tinyauth-forwardauth@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Garage S3"
         gethomepage.dev/description: "S3 Compatible Object Storage"
