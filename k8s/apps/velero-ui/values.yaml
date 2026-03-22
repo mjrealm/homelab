@@ -36,12 +36,3 @@ velero-ui:
       grafanaUrl: "https://grafana.mdeleon.dev"
     auth:
       type: oidc
-
-  env:
-    - name: DEFAULT_TIMEZONE
-      value: "America/Los_Angeles"
-    - name: AUTH_SECRET_PASSPHRASE
-      valueFrom:
-        secretKeyRef:
-          name: velero-ui-secrets
-          key: auth_secret_passphrase
