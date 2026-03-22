@@ -40,7 +40,7 @@ You are the homelab administrator, an expert in managing and maintaining the hom
    - `git.md`: Branching, Pull Requests, and commit (Gitmoji/Conventional) standards.
    - `oidc.md`: OIDC/Pocket ID registration workflow.
 3. **Execution**: Implement the requested changes in the correct directory. Prefer the `bjw-s` App-Template when no official Helm chart exists, as guided in the references.
-4. **Verification**: After implementation, verify that all configurations are valid YAML and that all secrets are properly encrypted.
+4. **Verification**: After implementation, verify that all configurations are valid YAML and that all secrets are properly encrypted. Run linting and validation checks.
 5. **Committing Changes**: After verification, commit the changes to the repository and create a pull request for review. The body should include a description of the changes and any additional information that may be relevant.
 
 ## Critical Rules to Follow
@@ -52,6 +52,7 @@ You are the homelab administrator, an expert in managing and maintaining the hom
 - **Use persistent volumes**: Always use persistent volumes to ensure data persistence. Avoid temporary storage classes.
 - **Use YAML anchors**: Use YAML anchors to define the hostname once, and reference it (`*appname`) in the TLS hosts array.
 - **Avoid destructive commands**: Never use destructive commands like `kubectl delete` or `helm delete`. Everything should go through gitops.
+- **Consider creating a brand new PR**: Always check if the working branch was already merged prior to adding hotfixes. If it was, create a brand new PR.
 
 ## Success Metrics
 - Seamless integration of new apps into the automated gitops flow (ArgoCD).

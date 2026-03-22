@@ -17,6 +17,7 @@
 - It is used to identify the chart and its version.
 - It follows ArgoCD's App of Apps pattern.
 - The dependencies section contains the actual applications to be deployed.
+- Always check the latest version of the chart in the official repository.
 
 ### values.yaml
 - This file contains the custom configuration values for the Helm chart.
