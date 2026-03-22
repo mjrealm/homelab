@@ -49,3 +49,19 @@ app-template:
         - secretName: tinyauth-tls-cert
           hosts:
             - *host
+
+  rawResources:
+    forwardauth:
+      type: Middleware
+      apiVersion: traefik.io/v1alpha1
+      metadata:
+        name: tinyauth-forwardauth
+      spec:
+        forwardAuth:
+          address: http://tinyauth.tinyauth.svc.cluster.local:3000/api/auth/traefik
+          trustForwardHeader: true
+          authResponseHeaders:
+            - Remote-User
+            - Remote-Groups
+            - Remote-Name
+            - Remote-Email
