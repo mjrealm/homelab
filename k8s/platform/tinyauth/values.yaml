@@ -10,6 +10,7 @@ app-template:
             repository: ghcr.io/steveiliop56/tinyauth
             tag: v5.0.4
           env:
+            TINYAUTH_APPURL: "https://tinyauth.mdeleon.dev"
             TINYAUTH_OAUTH_AUTOREDIRECT: pocketid
           # OAUTH secrets are explicitly stored in secrets.dec.yaml
           resources:
