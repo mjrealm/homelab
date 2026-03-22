@@ -14,7 +14,6 @@ argo-cd:
       tls: false
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Argo CD
         gethomepage.dev/description: Declarative GitOps CD for Kubernetes
