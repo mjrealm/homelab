@@ -54,7 +54,7 @@ app-template:
         gethomepage.dev/group: Automation
         gethomepage.dev/icon: sh-n8n.png
         gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
       hosts:
         - host: &host n8n.mdeleon.dev
           paths:

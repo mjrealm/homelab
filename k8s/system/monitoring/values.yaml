@@ -17,7 +17,7 @@ victoria-metrics-k8s-stack:
         gethomepage.dev/description: Alert rules
         gethomepage.dev/group: Observability
         gethomepage.dev/icon: alertmanager.png
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalertmanager"
         gethomepage.dev/weight: "2"
       hosts:
@@ -40,7 +40,7 @@ victoria-metrics-k8s-stack:
         gethomepage.dev/description: Observability Dashboards
         gethomepage.dev/group: Observability
         gethomepage.dev/icon: grafana.png
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=grafana"
         gethomepage.dev/weight: "1"
       hosts:

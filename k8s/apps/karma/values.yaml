@@ -29,7 +29,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Observability
         gethomepage.dev/icon: alertmanager.png
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/weight: "20"
       hosts:
         - host: &karma karma.mdeleon.dev

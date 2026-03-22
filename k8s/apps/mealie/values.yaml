@@ -60,7 +60,7 @@ app-template:
         gethomepage.dev/group: Knowledge
         gethomepage.dev/icon: mealie.png
         gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
       hosts:
         - host: &mealie mealie.mdeleon.dev
           paths:

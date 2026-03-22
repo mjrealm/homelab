@@ -111,7 +111,7 @@ app-template:
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-paperless-ngx.png
         gethomepage.dev/pod-selector: "app.kubernetes.io/controller=paperless"
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/weight: "1"
       hosts:
         - host: &paperless paperless.mdeleon.dev

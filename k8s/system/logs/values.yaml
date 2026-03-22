@@ -18,7 +18,7 @@ victoria-logs-single:
         gethomepage.dev/group: Observability
         gethomepage.dev/icon: sh-victoriametrics.png
         gethomepage.dev/pod-selector: ""
-        nginx.ingress.kubernetes.io/proxy-body-size: 24m
+        traefik.ingress.kubernetes.io/router.middlewares: body-limit-24mb@kubernetescrd
         gethomepage.dev/href: "https://vlogs.mdeleon.dev/select/vmui"
       hosts:
         - name: &host vlogs.mdeleon.dev
