@@ -17,7 +17,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: traefik.mdeleon.dev
+    - host: &host traefik.mdeleon.dev
       http:
         paths:
           - path: /
@@ -29,5 +29,5 @@ spec:
                   number: 8080
   tls:
     - hosts:
-        - traefik.mdeleon.dev
+        - *host
       secretName: traefik-dashboard-tls-cert
