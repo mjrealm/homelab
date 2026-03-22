@@ -91,6 +91,8 @@ app-template:
       className: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/auth-url: "http://tinyauth.tinyauth.svc.cluster.local:3000/api/auth/nginx"
+        nginx.ingress.kubernetes.io/auth-signin: "https://tinyauth.mdeleon.dev?rd=$scheme://$http_host$request_uri"
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Garage S3"
         gethomepage.dev/description: "S3 Compatible Object Storage"
