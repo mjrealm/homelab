@@ -30,7 +30,7 @@ app-template:
   ingress:
     tinyauth:
       enabled: true
-      className: traefik
+      className: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/enabled: "true"

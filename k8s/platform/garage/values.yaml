@@ -65,7 +65,7 @@ app-template:
   ingress:
     garage:
       enabled: true
-      className: traefik
+      className: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       hosts:
@@ -88,7 +88,7 @@ app-template:
             - "*.s3.mdeleon.dev"
     webui:
       enabled: true
-      className: traefik
+      className: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod        
         gethomepage.dev/enabled: "true"

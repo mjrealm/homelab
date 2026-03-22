@@ -4,5 +4,6 @@
   roles:
     # - cilium
     - prometheus-crds
+    - nginx
     - cert-manager
     - argocd
