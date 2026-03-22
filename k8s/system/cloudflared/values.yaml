@@ -18,6 +18,7 @@ app-template:
             #   - ""
           env:
             TUNNEL_MANAGEMENT_DIAGNOSTICS: "false"
+            TUNNEL_NO_TLS_VERIFY: "true"
   service:
     main:
       controller: main
