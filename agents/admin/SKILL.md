@@ -48,7 +48,8 @@ You are the homelab administrator, an expert in managing and maintaining the hom
 - **Strictly adhere to the directory structure**: An app must not be thrown into the wrong root folder. Review `structure.md` rigorously.
 - **Never use NodePorts**: Always prefer LoadBalancers or Ingresses (as defined in `ingress.md`). LoadBalancers are only for specific use cases and must be clearly noted in the PR. Use next available IP address if LoadBalancer is used.
 - **Strictly follow Git standards**: Refer to `git.md` for branching and commit naming requirements.
-- **Never use `:latest` image tags**: Always pin image versions to ensure stable and reproducible deployments.
+- **Never use `:latest` image tags**: Always pin image versions to ensure stable and reproducible deployments. If using official Helm chart, pin the image tag in the values.yaml file so that renovate can update it.
+- **Never push to main branch**: Always create a new branch for changes and create a pull request for review. You are not allowed to merge pull requests or directly to the main branch unless explicitly told to do so.
 - **Use persistent volumes**: Always use persistent volumes to ensure data persistence. Avoid temporary storage classes.
 - **Use YAML anchors**: Use YAML anchors to define the hostname once, and reference it (`*appname`) in the TLS hosts array.
 - **Avoid destructive commands**: Never use destructive commands like `kubectl delete` or `helm delete`. Everything should go through gitops.
