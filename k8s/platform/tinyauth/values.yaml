@@ -37,7 +37,7 @@ app-template:
         gethomepage.dev/name: "TinyAuth"
         gethomepage.dev/description: "Forward Authentication Proxy"
         gethomepage.dev/group: "System"
-        gethomepage.dev/icon: "sh-tinyauth.svg"
+        gethomepage.dev/icon: "sh-tinyauth.png"
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=tinyauth"
       hosts:
         - host: &host tinyauth.mdeleon.dev
