@@ -15,7 +15,7 @@ plex-media-server:
     TZ: "America/Los_Angeles"
     PLEX_UID: "1000"
     PLEX_GID: "1000"
-    # ADVERTISE_IP: ""
+    ADVERTISE_IP: "http://192.168.10.203:32400,https://plex.mdeleon.dev:443"
 
   # Volume definition
   extraVolumeMounts:
@@ -33,6 +33,7 @@ plex-media-server:
 
   service:
     type: LoadBalancer
+    loadBalancerIP: "192.168.10.203"
 
   # Should add load balancer ip and port
   # in Settings > Network > Custom server access URLs
