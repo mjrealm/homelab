@@ -90,9 +90,9 @@ homelab/k8s/
 - Applications in this directory are the absolute prerequisites required to bring the cluster to a functional, automatable state. They must be installed before *any* other applications.
 - While these apps could technically be categorized as `system` or `platform`, they are placed in `bootstrap` to ensure a strict order of operations during a fresh cluster build.
 - **Why these apps are in bootstrap**:
-  - **ingress-nginx**: Provides the core networking ingress controller. Without it, no other applications in the cluster can be exposed to the network or receive incoming traffic.
   - **ArgoCD / FluxCD**: Provides the GitOps deployment engine. This must be installed first so that it can take over and automatically deploy the rest of the applications from the Git repository.
   - **sealed-secrets / external-secrets**: Provides the decryption and secret-management layer. Applications will fail to start if they cannot access their passwords, certificates, or tokens, so the secret manager must exist before any other app is deployed.
+  - **cert-manager**: Provides the TLS certificate management layer. Applications will fail to start if they cannot access their certificates, so the certificate manager must exist before any other app is deployed.
 - Installed by `bootstrap/charts/root/Chart.yaml`
 
 ## Special Cases

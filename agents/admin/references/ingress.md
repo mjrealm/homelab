@@ -39,10 +39,9 @@ The `gethomepage.dev/pod-selector` annotation is **optional** and is only requir
 - If there is only one app in the namespace, do not include this annotation.
 
 ### 3. Authentication (Optional)
-If the application lacks built-in authentication and needs to be secured, use the external OAuth proxy annotations:
+If the application lacks built-in authentication and needs to be secured, use the external TinyAuth proxy annotations:
 ```yaml
-nginx.ingress.kubernetes.io/auth-signin: https://oauth-proxy.mdeleon.dev/oauth2/start?rd=https://$host$request_uri
-nginx.ingress.kubernetes.io/auth-url: https://oauth-proxy.mdeleon.dev/oauth2/auth
+traefik.ingress.kubernetes.io/router.middlewares: tinyauth-tinyauth-forwardauth@kubernetescrd
 ```
 
 ### 4. YAML Anchors for Hosts

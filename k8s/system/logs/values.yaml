@@ -9,7 +9,7 @@ victoria-logs-single:
     ingress:
       enabled: true
       pathType: Prefix
-      ingressClassName: nginx
+      ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/name: VictoriaLogs
