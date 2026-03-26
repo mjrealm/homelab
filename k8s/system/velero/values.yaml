@@ -23,6 +23,14 @@ velero:
         snapshotVolumes: true
         includedNamespaces:
           - '*'
+    daily-backup-r2:
+      schedule: "1 4 * * *"
+      template:
+        storageLocation: r2
+        ttl: "168h"  # 7 days
+        snapshotVolumes: false
+        includedNamespaces:
+          - '*'
     weekly-backup:
       schedule: "15 3 * * 0"
       template:
@@ -42,7 +50,7 @@ velero:
       template:
         storageLocation: r2
         ttl: "720h"  # 30 days
-        snapshotVolumes: true
+        snapshotVolumes: false
         includedNamespaces:
           - '*'
 
