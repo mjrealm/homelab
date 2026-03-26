@@ -5,4 +5,5 @@
     # - cilium
     - prometheus-crds
     - cert-manager
-    - argocd
+    - longhorn
+    # - argocd
