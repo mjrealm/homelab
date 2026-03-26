@@ -10,6 +10,8 @@ longhorn:
     defaultClassReplicaCount: 2
   preUpgradeChecker:
     jobEnabled: false
+  admissionWebhook:
+    failurePolicy: Ignore
   defaultSettings:
     backupTarget: nfs://192.168.1.200:/volume1/backups/k3s/longhorn
     taintToleration: node-role.kubernetes.io/master=true:NoSchedule
