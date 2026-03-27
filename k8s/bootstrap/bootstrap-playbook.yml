@@ -6,4 +6,4 @@
     - prometheus-crds
     - cert-manager
     - longhorn
-    # - argocd
+    - argocd
