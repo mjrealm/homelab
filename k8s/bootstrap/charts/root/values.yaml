@@ -20,6 +20,6 @@ bootstrap:
   - name: argocd
     namespace: argocd
     project: platform
-  - name: longhorn
+  - name: longhorn-system
     namespace: longhorn-system
     project: system
