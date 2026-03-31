@@ -40,7 +40,7 @@ app-template:
         meilisearch:
           image:
             repository: gcr.io/zenika-hub/alpine-chrome
-            tag: 123
+            tag: 124
           args:
             - --no-sandbox
             - --disable-gpu
