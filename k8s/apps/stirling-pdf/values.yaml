@@ -40,7 +40,7 @@ app-template:
                 identifier: main
                 port: http
       tls:
-        - secretName: stirling-tls-cert
+        - secretName: stirling-pdf-tls-cert
           hosts:
             - *stirling
 
