@@ -8,7 +8,7 @@ app-template:
         traefik-manager:
           image:
             repository: ghcr.io/chr0nzz/traefik-manager
-            tag: v0.8.0
+            tag: 0.8.0
           env:
             TRAEFIK_API_URL: http://traefik-api.kube-system.svc.cluster.local:8080/api
             COOKIE_SECURE: "true"
