@@ -10,7 +10,7 @@ app-template:
             repository: ghcr.io/chr0nzz/traefik-manager
             tag: 0.8.0
           env:
-            TRAEFIK_API_URL: http://traefik-api.kube-system.svc.cluster.local:8080/api
+            TRAEFIK_API_URL: http://traefik-api.kube-system.svc.cluster.local:8080
             COOKIE_SECURE: "true"
             DOMAINS: mdeleon.dev
             TIMEZONE: America/Los_Angeles
