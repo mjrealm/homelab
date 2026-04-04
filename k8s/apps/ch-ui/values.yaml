@@ -1,0 +1,76 @@
+---
+app-template:
+  controllers:
+    ch-ui:
+      containers:
+        app:
+          image:
+            repository: ghcr.io/caioricciuti/ch-ui
+            tag: 2.0.22
+          env:
+            PORT: 3488
+            APP_URL: "https://ch.mdeleon.dev"
+            CLICKHOUSE_URL: "http://clickhouse-ui.clickhouse.svc.cluster.local:8123"
+          probes:
+            liveness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /health
+                  port: 3488
+                initialDelaySeconds: 15
+                periodSeconds: 10
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /health
+                  port: 3488
+                initialDelaySeconds: 15
+                periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+
+  service:
+    app:
+      controller: ch-ui
+      ports:
+        http:
+          port: 3488
+
+  ingress:
+    app:
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "ClickHouse"
+        gethomepage.dev/description: "Data Warehouse Platform"
+        gethomepage.dev/group: "Storage"
+        gethomepage.dev/icon: "sh-clickhouse.png"
+        gethomepage.dev/weight: "5"
+      hosts:
+        - host: &host "ch.mdeleon.dev"
+          paths:
+            - path: /
+              service:
+                identifier: app
+                port: http
+      tls:
+        - secretName: ch-ui-tls-cert
+          hosts:
+            - *host
+
+  persistence:
+    data:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /app/data
