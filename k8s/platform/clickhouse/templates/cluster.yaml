@@ -16,6 +16,12 @@ spec:
   keeperClusterRef:
     name: keeper
   settings:
+    extraUsersConfig:
+      admin/password_sha256_hex: {{ .Values.clickhouse.admin.password }}
+      admin/profile: "default"
+      admin/networks/ip: "::/0"
+      admin/access_management: 1
+      default/remove: 1
     extraConfig:
       metric_log:
         database: system
