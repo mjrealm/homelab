@@ -18,9 +18,9 @@ seerr-chart:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Seerr"
-      gethomepage.dev/description: "Media Request Manager (Seerr)"
+      gethomepage.dev/description: "Media Request Manager"
       gethomepage.dev/group: "Media"
-      gethomepage.dev/icon: "sh-seerr.png" # Standard naming convention usually is sh-app.png
+      gethomepage.dev/icon: "sh-seerr.png"
       gethomepage.dev/weight: "2"
       gethomepage.dev/pod-selector: "app.kubernetes.io/instance=seerr"
     hosts:
