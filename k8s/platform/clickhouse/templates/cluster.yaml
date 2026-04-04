@@ -1,0 +1,16 @@
+---
+apiVersion: clickhouse.com/v1alpha1
+kind: ClickHouseCluster
+metadata:
+  name: clickhouse
+spec:
+  replicas: 1
+  image:
+    repository: clickhouse/clickhouse-server
+    tag: "26.3"
+  dataVolumeClaimSpec:
+    resources:
+      requests:
+        storage: 20Gi
+  keeperClusterRef:
+    name: keeper

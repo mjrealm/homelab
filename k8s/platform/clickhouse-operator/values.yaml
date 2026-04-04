@@ -1,0 +1,4 @@
+---
+clickhouse-operator-helm:
+  certManager:
+    install: false
