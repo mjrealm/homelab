@@ -22,6 +22,7 @@ seerr-chart:
       gethomepage.dev/group: "Media"
       gethomepage.dev/icon: "sh-seerr.png" # Standard naming convention usually is sh-app.png
       gethomepage.dev/weight: "2"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/instance=seerr"
     hosts:
       - host: &host "seerr.mdeleon.dev"
         paths:
