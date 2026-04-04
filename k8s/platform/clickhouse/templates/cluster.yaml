@@ -17,7 +17,7 @@ spec:
     name: keeper
   settings:
     extraUsersConfig:
-      admin/password_sha256_hex: "6e24d177448118eb7791e30c3924640dcd94707fc68c75bbbdfdba4e3796faaa"
+      admin/password_sha256_hex: {{ .Values.clickhouse.admin.password }}
       admin/profile: "default"
       admin/networks/ip: "::/0"
       admin/access_management: 1
