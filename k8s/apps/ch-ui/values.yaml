@@ -10,7 +10,7 @@ app-template:
           env:
             PORT: 3488
             APP_URL: "https://ch.mdeleon.dev"
-            CLICKHOUSE_URL: "http://clickhouse-ui.clickhouse.svc.cluster.local:8123"
+            CLICKHOUSE_URL: "http://clickhouse-clickhouse-headless.clickhouse.svc.cluster.local:8123"
           probes:
             liveness:
               enabled: true
