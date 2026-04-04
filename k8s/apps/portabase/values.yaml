@@ -8,7 +8,7 @@ app-template:
         portabase:
           image:
             repository: portabase/portabase
-            tag: 1.9.5
+            tag: 1.11.2
           env:
             TZ: America/Los_Angeles
             PROJECT_URL: https://portabase.mdeleon.dev
