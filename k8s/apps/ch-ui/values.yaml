@@ -10,7 +10,9 @@ app-template:
           env:
             PORT: 3488
             APP_URL: "https://ch.mdeleon.dev"
-            CLICKHOUSE_URL: "http://clickhouse-clickhouse-headless.clickhouse.svc.cluster.local:8123"
+          envFrom:
+            - secretRef:
+                name: ch-ui-secrets
           probes:
             liveness:
               enabled: true
