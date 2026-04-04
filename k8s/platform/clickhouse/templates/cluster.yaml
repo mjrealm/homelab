@@ -5,9 +5,10 @@ metadata:
   name: clickhouse
 spec:
   replicas: 1
-  image:
-    repository: clickhouse/clickhouse-server
-    tag: "26.3"
+  containerTemplate:
+    image:
+      repository: clickhouse/clickhouse-server
+      tag: "26.3"
   dataVolumeClaimSpec:
     resources:
       requests:
