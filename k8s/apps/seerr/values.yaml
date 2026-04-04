@@ -1,0 +1,33 @@
+---
+seerr-chart:
+  image:
+    repository: ghcr.io/seerr-team/seerr
+    tag: v3.1.0
+
+  config:
+    persistence:
+      enabled: true
+      size: 5Gi
+
+  service:
+    port: 5055
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Seerr"
+      gethomepage.dev/description: "Media Request Manager (Seerr)"
+      gethomepage.dev/group: "Media"
+      gethomepage.dev/icon: "sh-seerr.png" # Standard naming convention usually is sh-app.png
+      gethomepage.dev/weight: "2"
+    hosts:
+      - host: &host "seerr.mdeleon.dev"
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: seerr-tls-cert
+        hosts:
+          - *host
