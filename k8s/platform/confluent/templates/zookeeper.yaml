@@ -12,15 +12,13 @@ spec:
   dataVolumeCapacity: 5Gi
   logVolumeCapacity: 5Gi
   configOverride:
-    jvmConfig:
-      heapSize: 256M
+    jvm:
+      - "-Xms256M"
+      - "-Xmx256M"
   podTemplate:
-    spec:
-      containers:
-        - name: zookeeper
-          resources:
-            requests:
-              cpu: 10m
-              memory: 256Mi
-            limits:
-              memory: 512Mi
+    resources:
+      requests:
+        cpu: 10m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
