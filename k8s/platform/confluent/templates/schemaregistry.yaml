@@ -12,12 +12,16 @@ spec:
   configOverrides:
     jvmConfig:
       heapSize: 256M
-  resources:
-    requests:
-      cpu: 10m
-      memory: 256Mi
-    limits:
-      memory: 512Mi
+  podTemplate:
+    spec:
+      containers:
+        - name: schemaregistry
+          resources:
+            requests:
+              cpu: 10m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
   dependencies:
     kafka:
       bootstrapEndpoint: kafka.confluent.svc.cluster.local:9092
