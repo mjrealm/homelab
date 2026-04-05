@@ -10,20 +10,6 @@ spec:
     application: confluentinc/cp-kafka:7.5.0
     init: confluentinc/confluent-init-container:2.7.0
   dataVolumeCapacity: 10Gi
-  configOverrides:
-    server:
-      - log.retention.hours=48
-      - offsets.retention.minutes=2880
-    jvm:
-      - "-Xms512M"
-      - "-Xmx512M"
-  podTemplate:
-    resources:
-      requests:
-        cpu: 50m
-        memory: 512Mi
-      limits:
-        memory: 1Gi
   dependencies:
     zookeeper:
       endpoint: zookeeper.confluent.svc.cluster.local:2181

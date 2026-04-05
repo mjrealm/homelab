@@ -11,14 +11,3 @@ spec:
     init: confluentinc/confluent-init-container:2.7.0
   dataVolumeCapacity: 5Gi
   logVolumeCapacity: 5Gi
-  configOverrides:
-    jvm:
-      - "-Xms256M"
-      - "-Xmx256M"
-  podTemplate:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 256Mi
-      limits:
-        memory: 512Mi

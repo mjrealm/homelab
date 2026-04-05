@@ -9,17 +9,6 @@ spec:
   image:
     application: confluentinc/cp-schema-registry:7.5.0
     init: confluentinc/confluent-init-container:2.7.0
-  configOverrides:
-    jvm:
-      - "-Xms256M"
-      - "-Xmx256M"
-  podTemplate:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 256Mi
-      limits:
-        memory: 512Mi
   dependencies:
     kafka:
       bootstrapEndpoint: kafka.confluent.svc.cluster.local:9092
