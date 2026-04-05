@@ -16,10 +16,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - kafka-ui.mdeleon.dev
+        - &host kafka-ui.mdeleon.dev
       secretName: kafka-ui-tls-cert
   rules:
-    - host: kafka-ui.mdeleon.dev
+    - host: *host
       http:
         paths:
           - path: /
