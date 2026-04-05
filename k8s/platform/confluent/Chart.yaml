@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: confluent
+version: 1.0.0
+description: A Helm chart for the Confluent Platform components
+dependencies:
+  - name: confluent-for-kubernetes
+    repository: https://packages.confluent.io/helm
+    version: 0.1514.19
