@@ -5,9 +5,18 @@ metadata:
   name: zookeeper
   namespace: confluent
 spec:
-  replicas: 3
+  replicas: 1
   image:
     application: confluentinc/cp-zookeeper:7.5.0
     init: confluentinc/confluent-init-container:2.7.0
-  dataVolumeCapacity: 10Gi
-  logVolumeCapacity: 10Gi
+  dataVolumeCapacity: 5Gi
+  logVolumeCapacity: 5Gi
+  configOverride:
+    jvmConfig:
+      heapSize: 256M
+  resources:
+    requests:
+      cpu: 10m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
