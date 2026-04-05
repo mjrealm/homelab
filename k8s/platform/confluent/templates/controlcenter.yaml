@@ -11,18 +11,16 @@ spec:
     init: confluentinc/confluent-init-container:2.7.0
   dataVolumeCapacity: 10Gi
   configOverrides:
-    jvmConfig:
-      heapSize: 1024M
+    jvm:
+      - "-Xms1024M"
+      - "-Xmx1024M"
   podTemplate:
-    spec:
-      containers:
-        - name: controlcenter
-          resources:
-            requests:
-              cpu: 100m
-              memory: 1024Mi
-            limits:
-              memory: 2048Mi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1024Mi
+      limits:
+        memory: 2048Mi
   dependencies:
     kafka:
       bootstrapEndpoint: kafka.confluent.svc.cluster.local:9092
