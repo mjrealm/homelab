@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: confluent-operator
+version: 1.0.0
+dependencies:
+  - name: confluent-for-kubernetes
+    repository: https://packages.confluent.io/helm
+    version: 0.1514.19

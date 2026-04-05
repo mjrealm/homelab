@@ -1,0 +1,3 @@
+---
+confluent-for-kubernetes:
+  namespaced: false
