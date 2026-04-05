@@ -27,6 +27,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: controlcenter-bootstrap
+                name: controlcenter
                 port:
                   number: 9021
