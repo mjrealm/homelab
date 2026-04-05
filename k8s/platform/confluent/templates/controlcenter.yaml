@@ -13,12 +13,16 @@ spec:
   configOverrides:
     jvmConfig:
       heapSize: 1024M
-  resources:
-    requests:
-      cpu: 100m
-      memory: 1024Mi
-    limits:
-      memory: 2048Mi
+  podTemplate:
+    spec:
+      containers:
+        - name: controlcenter
+          resources:
+            requests:
+              cpu: 100m
+              memory: 1024Mi
+            limits:
+              memory: 2048Mi
   dependencies:
     kafka:
       bootstrapEndpoint: kafka.confluent.svc.cluster.local:9092
