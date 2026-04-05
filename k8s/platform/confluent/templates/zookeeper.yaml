@@ -11,7 +11,7 @@ spec:
     init: confluentinc/confluent-init-container:2.7.0
   dataVolumeCapacity: 5Gi
   logVolumeCapacity: 5Gi
-  configOverride:
+  configOverrides:
     jvm:
       - "-Xms256M"
       - "-Xmx256M"
