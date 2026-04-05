@@ -14,9 +14,13 @@ spec:
   configOverride:
     jvmConfig:
       heapSize: 256M
-  resources:
-    requests:
-      cpu: 10m
-      memory: 256Mi
-    limits:
-      memory: 512Mi
+  podTemplate:
+    spec:
+      containers:
+        - name: zookeeper
+          resources:
+            requests:
+              cpu: 10m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
