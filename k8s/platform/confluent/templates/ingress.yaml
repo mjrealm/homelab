@@ -12,6 +12,7 @@ metadata:
     gethomepage.dev/group: "Messaging"
     gethomepage.dev/icon: "confluent.png"
     gethomepage.dev/weight: "5"
+    gethomepage.dev/pod-selector: "app=controlcenter"
 spec:
   ingressClassName: traefik
   tls:
