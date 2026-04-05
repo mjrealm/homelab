@@ -10,18 +10,16 @@ spec:
     application: confluentinc/cp-server-connect:7.5.0
     init: confluentinc/confluent-init-container:2.7.0
   configOverrides:
-    jvmConfig:
-      heapSize: 512M
+    jvm:
+      - "-Xms512M"
+      - "-Xmx512M"
   podTemplate:
-    spec:
-      containers:
-        - name: connect
-          resources:
-            requests:
-              cpu: 50m
-              memory: 512Mi
-            limits:
-              memory: 1024Mi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 512Mi
+      limits:
+        memory: 1024Mi
   dependencies:
     kafka:
       bootstrapEndpoint: kafka.confluent.svc.cluster.local:9092

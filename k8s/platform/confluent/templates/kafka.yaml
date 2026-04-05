@@ -14,18 +14,16 @@ spec:
     server:
       - log.retention.hours=48
       - offsets.retention.minutes=2880
-    jvmConfig:
-      heapSize: 512M
+    jvm:
+      - "-Xms512M"
+      - "-Xmx512M"
   podTemplate:
-    spec:
-      containers:
-        - name: kafka
-          resources:
-            requests:
-              cpu: 50m
-              memory: 512Mi
-            limits:
-              memory: 1024Mi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 512Mi
+      limits:
+        memory: 1024Mi
   dependencies:
     zookeeper:
       endpoint: zookeeper.confluent.svc.cluster.local:2181
