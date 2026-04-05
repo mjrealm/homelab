@@ -50,7 +50,7 @@ app-template:
           nameOverride: redis
           image:
             repository: redis
-            tag: 7.4.8
+            tag: 8.6.2
   service:
     main:
       controller: main
