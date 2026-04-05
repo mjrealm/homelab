@@ -1,0 +1,12 @@
+---
+zot:
+  httpGet:
+    scheme: HTTP
+  persistence: true
+  pvc:
+    create: true
+    storage: 10Gi
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
