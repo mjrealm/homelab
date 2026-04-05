@@ -8,8 +8,6 @@ app-template:
           image:
             repository: stirlingimage/stirling-image
             tag: 1.7.1
-          env:
-            TZ: "America/Los_Angeles"
           resources:
             requests:
               cpu: 10m
@@ -22,7 +20,7 @@ app-template:
       controller: stirling-image
       ports:
         http:
-          port: 8080
+          port: 1349
 
   ingress:
     app:
@@ -34,7 +32,7 @@ app-template:
         gethomepage.dev/name: Stirling-Image
         gethomepage.dev/description: Powerful Image Processing Suite
         gethomepage.dev/group: Documents
-        gethomepage.dev/icon: https://github.com/stirling-image/stirling-image/blob/main/apps/web/public/logo-192.png
+        gethomepage.dev/icon: https://raw.githubusercontent.com/stirling-image/stirling-image/refs/heads/main/apps/web/public/logo-192.png
       hosts:
         - host: &host stirling-image.mdeleon.dev
           paths:
@@ -49,15 +47,10 @@ app-template:
             - *host
 
   persistence:
-    config:
+    data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 2Gi
       globalMounts:
-        - path: /configs
-    logs:
-      enabled: true
-      type: emptyDir
-      globalMounts:
-        - path: /logs
+        - path: /data
