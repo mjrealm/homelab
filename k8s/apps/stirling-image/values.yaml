@@ -1,0 +1,63 @@
+---
+app-template:
+  controllers:
+    stirling-image:
+      strategy: Recreate
+      containers:
+        app:
+          image:
+            repository: stirlingtools/stirling-image
+            tag: 1.6.0
+          env:
+            TZ: "America/Los_Angeles"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              memory: 1024Mi
+
+  service:
+    app:
+      controller: stirling-image
+      ports:
+        http:
+          port: 8080
+
+  ingress:
+    app:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Stirling-Image
+        gethomepage.dev/description: Powerful Image Processing Suite
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: https://github.com/stirling-image/stirling-image/blob/main/apps/web/public/logo-192.png
+      hosts:
+        - host: &host stirling-image.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: app
+                port: http
+      tls:
+        - secretName: stirling-image-tls-cert
+          hosts:
+            - *host
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 2Gi
+      globalMounts:
+        - path: /configs
+    logs:
+      enabled: true
+      type: emptyDir
+      globalMounts:
+        - path: /logs
