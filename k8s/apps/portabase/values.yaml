@@ -25,7 +25,7 @@ app-template:
         postgres:
           image:
             repository: postgres
-            tag: "17"
+            tag: "18"
   service:
     portabase:
       controller: portabase
