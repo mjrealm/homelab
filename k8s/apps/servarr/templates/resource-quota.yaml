@@ -6,4 +6,4 @@ metadata:
   namespace: servarr
 spec:
   hard:
-    requests.storage: "310Gi"
+    requests.storage: "350Gi"
