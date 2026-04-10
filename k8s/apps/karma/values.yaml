@@ -8,7 +8,7 @@ app-template:
           nameOverride: karma
           image:
             repository: ghcr.io/prymitive/karma
-            tag: v0.128
+            tag: v0.129
           env:
             ALERTMANAGER_URI: "https://alertmanager.mdeleon.dev"
 
