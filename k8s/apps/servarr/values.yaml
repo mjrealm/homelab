@@ -92,27 +92,32 @@ app-template:
       controller: sonarr
       ports:
         http:
-          port: 8989
+          port: 80
+          targetPort: 8989
     radarr:
       controller: radarr
       ports:
         http:
-          port: 7878
+          port: 80
+          targetPort: 7878
     lidarr:
       controller: lidarr
       ports:
         http:
-          port: 8686
+          port: 80
+          targetPort: 8686
     prowlarr:
       controller: prowlarr
       ports:
         http:
-          port: 9696
+          port: 80
+          targetPort: 9696
     sabnzbd:
       controller: sabnzbd
       ports:
         http:
-          port: 8080
+          port: 80
+          targetPort: 8080
 
   persistence:
     fb-config:
