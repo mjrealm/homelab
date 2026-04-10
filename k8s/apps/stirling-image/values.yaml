@@ -33,6 +33,7 @@ app-template:
         gethomepage.dev/description: Powerful Image Processing Suite
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: https://raw.githubusercontent.com/stirling-image/stirling-image/refs/heads/main/apps/web/public/logo-192.png
+        traefik.ingress.kubernetes.io/router.middlewares: tinyauth-tinyauth-forwardauth@kubernetescrd
       hosts:
         - host: &host stirling-image.mdeleon.dev
           paths:
