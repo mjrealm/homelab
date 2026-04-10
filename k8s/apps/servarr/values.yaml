@@ -139,6 +139,8 @@ app-template:
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 300Gi
+      labels:
+        velero.io/exclude-from-backup: "true"
       globalMounts:
         - path: /downloads
           subPath: complete
