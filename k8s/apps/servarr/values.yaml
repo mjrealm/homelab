@@ -90,10 +90,10 @@ app-template:
           port: 80
     sonarr:
       controller: sonarr
-      name: sonarr
       ports:
         http:
-          port: 8989
+          port: 80
+          targetPort: 8989
     radarr:
       controller: radarr
       ports:
