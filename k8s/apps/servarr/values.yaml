@@ -137,6 +137,7 @@ app-template:
     media-incomplete:
       enabled: true
       type: emptyDir
+      sizeLimit: 20Gi
       advancedMounts:
         servarr:
           sabnzbd:
