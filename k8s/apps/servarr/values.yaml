@@ -106,7 +106,7 @@ app-template:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 30Gi
+      size: 20Gi
       retain: false
       advancedMounts:
         sonarr:
