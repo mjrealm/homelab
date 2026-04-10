@@ -21,7 +21,7 @@ app-template:
           image:
             repository: ghcr.io/gtsteffaniak/filebrowser
             tag: 1.3.3-beta-slim
-    servarr:
+    sonarr:
       replicas: 1
       strategy: Recreate
       containers:
@@ -33,6 +33,10 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+    radarr:
+      replicas: 1
+      strategy: Recreate
+      containers:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
@@ -41,6 +45,10 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+    lidarr:
+      replicas: 1
+      strategy: Recreate
+      containers:
         lidarr:
           image:
             repository: lscr.io/linuxserver/lidarr
@@ -49,6 +57,10 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+    prowlarr:
+      replicas: 1
+      strategy: Recreate
+      containers:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
@@ -57,6 +69,10 @@ app-template:
             TZ: "America/Los_Angeles"
             PUID: "1000"
             PGID: "1000"
+    sabnzbd:
+      replicas: 1
+      strategy: Recreate
+      containers:
         sabnzbd:
           image:
             repository: lscr.io/linuxserver/sabnzbd
@@ -72,32 +88,31 @@ app-template:
       ports:
         http:
           port: 80
-    servarr:
-      controller: servarr
+    sonarr:
+      controller: sonarr
       ports:
         http:
           port: 8989
-        http-radarr:
+    radarr:
+      controller: radarr
+      ports:
+        http:
           port: 7878
-        http-lidarr:
+    lidarr:
+      controller: lidarr
+      ports:
+        http:
           port: 8686
-        http-prowlarr:
+    prowlarr:
+      controller: prowlarr
+      ports:
+        http:
           port: 9696
-        http-sabnzbd:
+    sabnzbd:
+      controller: sabnzbd
+      ports:
+        http:
           port: 8080
-    # exporters:
-    #   controller: exporters
-    #   ports:
-    #     http:
-    #       port: 9707
-    #     http-radarr:
-    #       port: 9708
-    #     http-lidarr:
-    #       port: 9709
-    #     http-prowlarr:
-    #       port: 9710
-    #     http-sabnzbd:
-    #       port: 9711
 
   persistence:
     fb-config:
@@ -117,19 +132,23 @@ app-template:
       size: 4Gi
       retain: false
       advancedMounts:
-        servarr:
+        sonarr:
           sonarr:
             - path: /config
               subPath: sonarr
+        radarr:
           radarr:
             - path: /config
               subPath: radarr
+        lidarr:
           lidarr:
             - path: /config
               subPath: lidarr
+        prowlarr:
           prowlarr:
             - path: /config
               subPath: prowlarr
+        sabnzbd:
           sabnzbd:
             - path: /config
               subPath: sabnzbd
@@ -152,34 +171,3 @@ app-template:
       type: nfs
       server: 192.168.1.200
       path: /volume1/media/
-
-  # serviceMonitor:
-  #   exporters:
-  #     enabled: true
-  #     serviceName: servarr-exporters
-  #     endpoints:
-  #       - port: http
-  #         scheme: http
-  #         path: /metrics
-  #         interval: 4m
-  #         scrapeTimeout: 90s
-  #       - port: http-radarr
-  #         scheme: http
-  #         path: /metrics
-  #         interval: 4m
-  #         scrapeTimeout: 90s
-  #       - port: http-lidarr
-  #         scheme: http
-  #         path: /metrics
-  #         interval: 4m
-  #         scrapeTimeout: 90s
-  #       - port: http-prowlarr
-  #         scheme: http
-  #         path: /metrics
-  #         interval: 4m
-  #         scrapeTimeout: 90s
-  #       - port: http-sabnzbd
-  #         scheme: http
-  #         path: /metrics
-  #         interval: 4m
-  #         scrapeTimeout: 90s
