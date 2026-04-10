@@ -1,7 +1,8 @@
 ---
 velero-ui:
   image:
-    tag: 0.10.0
+    repository: otwld/velero-ui
+    tag: 0.10.1
   ingress:
     enabled: true
     annotations:
