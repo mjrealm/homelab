@@ -12,15 +12,7 @@ app-template:
                   values:
                     - "true"
 
-  controllers:
-    filebrowser:
-      replicas: 1
-      strategy: Recreate
-      containers:
-        filebrowser:
-          image:
-            repository: ghcr.io/gtsteffaniak/filebrowser
-            tag: 1.3.3-beta-slim
+  controllers:    
     sonarr:
       replicas: 1
       strategy: Recreate
@@ -82,12 +74,7 @@ app-template:
             PGID: "1000"
             TZ: "America/Los_Angeles"
 
-  service:
-    filebrowser:
-      controller: filebrowser
-      ports:
-        http:
-          port: 80
+  service:    
     sonarr:
       controller: sonarr
       ports:
@@ -114,17 +101,7 @@ app-template:
         http:
           port: 8080
 
-  persistence:
-    fb-config:
-      enabled: true
-      type: configMap
-      name: servarr
-      advancedMounts:
-        filebrowser:
-          filebrowser:
-            - path: /home/filebrowser/data/config.yaml
-              subPath: config.yaml
-              readOnly: false
+  persistence:    
     config:
       enabled: true
       type: persistentVolumeClaim
