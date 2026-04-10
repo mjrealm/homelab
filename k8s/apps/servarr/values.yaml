@@ -90,6 +90,7 @@ app-template:
           port: 80
     sonarr:
       controller: sonarr
+      nameOverride: sonarr
       ports:
         http:
           port: 8989
