@@ -8,6 +8,12 @@ victoria-metrics-k8s-stack:
       prometheus_converter_add_argocd_ignore_annotations: true
 
   alertmanager:
+    alertmanagerSpec:
+      storage:
+        volumeClaimTemplate:
+          metadata:
+            labels:
+              velero.io/exclude-from-backup: "true"
     ingress:
       enabled: true
       annotations:
@@ -52,6 +58,8 @@ victoria-metrics-k8s-stack:
     persistence:
       enabled: true
       size: 10Gi
+      labels:
+        velero.io/exclude-from-backup: "true"
     plugins:
       - grafana-clock-panel
       - grafana-polystat-panel
@@ -71,6 +79,14 @@ victoria-metrics-k8s-stack:
             url: http://logs-victoria-logs-single-server.logs.svc.cluster.local:9428
   defaultDashboards:
     enabled: true
+  
+  vmsingle:
+    spec:
+      storageData:
+        volumeClaimTemplate:
+          metadata:
+            labels:
+              velero.io/exclude-from-backup: "true"
 
 #prometheus-snmp-exporter:
 #  restartPolicy: Always
