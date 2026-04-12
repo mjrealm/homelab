@@ -82,7 +82,7 @@ victoria-metrics-k8s-stack:
 
   vmsingle:
     spec:
-      storageData:
+      storage:
         volumeClaimTemplate:
           metadata:
             labels:
