@@ -79,7 +79,7 @@ victoria-metrics-k8s-stack:
             url: http://logs-victoria-logs-single-server.logs.svc.cluster.local:9428
   defaultDashboards:
     enabled: true
-  
+
   vmsingle:
     spec:
       storageData:
@@ -88,7 +88,7 @@ victoria-metrics-k8s-stack:
             labels:
               velero.io/exclude-from-backup: "true"
 
-#prometheus-snmp-exporter:
-#  restartPolicy: Always
-#  configmapReload:
-#    enabled: true
+# prometheus-snmp-exporter:
+#   restartPolicy: Always
+#   configmapReload:
+#     enabled: true
