@@ -2,6 +2,10 @@
 victoria-logs-single:
   server:
     enabled: true
+    persistence:
+      enabled: true
+      labels:
+        velero.io/exclude-from-backup: "true"
     serviceMonitor:
       enabled: true
     vmServiceScrape:
