@@ -9,11 +9,9 @@ victoria-metrics-k8s-stack:
 
   alertmanager:
     alertmanagerSpec:
-      storage:
-        volumeClaimTemplate:
-          metadata:
-            labels:
-              velero.io/exclude-from-backup: "true"
+      storageMetadata:
+        labels:
+          velero.io/exclude-from-backup: "true"
     ingress:
       enabled: true
       annotations:
@@ -82,11 +80,9 @@ victoria-metrics-k8s-stack:
 
   vmsingle:
     spec:
-      storageData:
-        volumeClaimTemplate:
-          metadata:
-            labels:
-              velero.io/exclude-from-backup: "true"
+      storageMetadata:
+        labels:
+          velero.io/exclude-from-backup: "true"
 
 # prometheus-snmp-exporter:
 #   restartPolicy: Always

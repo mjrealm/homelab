@@ -4,6 +4,7 @@ victoria-logs-single:
     enabled: true
     persistence:
       enabled: true
+    storageMetadata:
       labels:
         velero.io/exclude-from-backup: "true"
     serviceMonitor:
