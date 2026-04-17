@@ -13,7 +13,7 @@ app-template:
         garage:
           image:
             repository: dxflrs/garage
-            tag: v2.2.0
+            tag: v2.3.0
           env:
             GARAGE_S3_API_BIND_ADDR: "[::]:3900"
             GARAGE_ADMIN_API_BIND_ADDR: "[::]:3903"
