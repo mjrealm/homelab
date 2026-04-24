@@ -8,7 +8,7 @@ app-template:
         tinyauth:
           image:
             repository: ghcr.io/steveiliop56/tinyauth
-            tag: v5.0.6
+            tag: v5.0.7
           env:
             TINYAUTH_APPURL: "https://tinyauth.mdeleon.dev"
             TINYAUTH_OAUTH_AUTOREDIRECT: pocketid
