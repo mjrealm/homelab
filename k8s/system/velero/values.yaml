@@ -23,10 +23,6 @@ velero:
         ttl: "168h"  # 7 days
         snapshotVolumes: true
         includedNamespaces:
-          - servarr
-          - mongodb
-          - tinyauth
-          - confluent
           - paperless-ngx
     biweekly-backup:
       schedule: "0 4 * * 0,3"
