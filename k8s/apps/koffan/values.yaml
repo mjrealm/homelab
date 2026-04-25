@@ -28,6 +28,7 @@ app-template:
         gethomepage.dev/group: Knowledge
         gethomepage.dev/icon: "sh-koffan.png"
         traefik.ingress.kubernetes.io/router.middlewares: tinyauth-tinyauth-forwardauth@kubernetescrd
+        gethomepage.dev/weight: "4"
       hosts:
         - host: &host koffan.mdeleon.dev
           paths:
