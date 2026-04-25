@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: snapotter
+name: koffan
 version: 1.0.0
 dependencies:
   - name: app-template

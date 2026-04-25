@@ -1,0 +1,51 @@
+---
+app-template:
+  controllers:
+    koffan:
+      strategy: Recreate
+      containers:
+        app:
+          image:
+            repository: ghcr.io/pansalut/koffans
+            tag: v2.10.0          
+
+  service:
+    app:
+      controller: koffan
+      ports:
+        http:
+          port: 8080
+
+  ingress:
+    app:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Koffan
+        gethomepage.dev/description: Grocery Manager
+        gethomepage.dev/group: Knowledge
+        gethomepage.dev/icon: "sh-koffan.png"
+        traefik.ingress.kubernetes.io/router.middlewares: tinyauth-tinyauth-forwardauth@kubernetescrd
+      hosts:
+        - host: &host koffan.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: app
+                port: http
+      tls:
+        - secretName: koffan-tls-cert
+          hosts:
+            - *host
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 2Gi
+      globalMounts:
+        - path: /data
