@@ -19,38 +19,25 @@ velero:
     daily-backup:
       schedule: "1 3 * * *"
       template:
+        storageLocation: r2
         ttl: "168h"  # 7 days
         snapshotVolumes: true
         includedNamespaces:
-          - '*'
-    daily-backup-r2:
-      schedule: "1 4 * * *"
+          - paperless-ngx
+    biweekly-backup:
+      schedule: "0 4 * * 0,3"
       template:
         storageLocation: r2
-        ttl: "168h"  # 7 days
-        snapshotVolumes: false
-        includedNamespaces:
-          - '*'
-    weekly-backup:
-      schedule: "15 3 * * 0"
-      template:
-        ttl: "720h"  # 30 days
+        ttl: "336h"  # 14 days
         snapshotVolumes: true
         includedNamespaces:
           - '*'
     monthly-backup:
       schedule: "30 3 1 * *"
       template:
+        storageLocation: r2
         ttl: "8760h" # 365 days
         snapshotVolumes: true
-        includedNamespaces:
-          - '*'
-    weekly-backup-r2:
-      schedule: "15 4 * * 0"
-      template:
-        storageLocation: r2
-        ttl: "720h"  # 30 days
-        snapshotVolumes: false
         includedNamespaces:
           - '*'
 
