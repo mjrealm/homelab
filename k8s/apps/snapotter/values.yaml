@@ -1,13 +1,13 @@
 ---
 app-template:
   controllers:
-    stirling-image:
+    snapotter:
       strategy: Recreate
       containers:
         app:
           image:
-            repository: stirlingimage/stirling-image
-            tag: 1.11.0
+            repository: snapotter/snapotter
+            tag: 1.15.11
           resources:
             requests:
               cpu: 10m
@@ -17,7 +17,7 @@ app-template:
 
   service:
     app:
-      controller: stirling-image
+      controller: snapotter
       ports:
         http:
           port: 1349
@@ -29,13 +29,13 @@ app-template:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: Stirling-Image
-        gethomepage.dev/description: Powerful Image Processing Suite
+        gethomepage.dev/name: SnapOtter
+        gethomepage.dev/description: Image Editor
         gethomepage.dev/group: Documents
-        gethomepage.dev/icon: https://raw.githubusercontent.com/stirling-image/stirling-image/refs/heads/main/apps/web/public/logo-192.png
+        gethomepage.dev/icon: "https://snapotter.com/logo.png"
         traefik.ingress.kubernetes.io/router.middlewares: tinyauth-tinyauth-forwardauth@kubernetescrd
       hosts:
-        - host: &host stirling-image.mdeleon.dev
+        - host: &host snapotter.mdeleon.dev
           paths:
             - path: /
               pathType: Prefix
@@ -43,7 +43,7 @@ app-template:
                 identifier: app
                 port: http
       tls:
-        - secretName: stirling-image-tls-cert
+        - secretName: snapotter-tls-cert
           hosts:
             - *host
 
