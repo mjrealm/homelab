@@ -4,27 +4,7 @@ redpanda:
     enabled: true
   statefulset:
     replicas: 1
-    pvc:
+  storage:
+    persistentVolume:
       labels:
         velero.io/exclude-from-backup: "true"
-
-  console:
-    enabled: true
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: Redpanda
-        gethomepage.dev/description: Kafka Web UI
-        gethomepage.dev/group: Platform
-        gethomepage.dev/icon: redpanda.png
-      hosts:
-        - host: &host redpanda.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - secretName: redpanda-tls-cert
-          hosts:
-            - *host
