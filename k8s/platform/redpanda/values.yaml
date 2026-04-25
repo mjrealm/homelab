@@ -8,3 +8,5 @@ redpanda:
     persistentVolume:
       labels:
         velero.io/exclude-from-backup: "true"
+  tls:
+    enabled: false
