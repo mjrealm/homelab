@@ -1,0 +1,30 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: redpanda
+  namespace: redpanda
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Redpanda"
+    gethomepage.dev/description: "Kafka-compatible streaming platform"
+    gethomepage.dev/group: "Messaging"
+    gethomepage.dev/icon: "https://github.com/redpanda-data/redpanda/raw/dev/docs/icon-redpanda.svg"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - &host redpanda.mdeleon.dev
+      secretName: redpanda-tls-cert
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: redpanda-console
+                port:
+                  number: 8080

@@ -4,3 +4,7 @@ redpanda:
     enabled: true
   statefulset:
     replicas: 1
+  storage:
+    persistentVolume:
+      labels:
+        velero.io/exclude-from-backup: "true"
