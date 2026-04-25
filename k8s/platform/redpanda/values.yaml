@@ -1,0 +1,6 @@
+---
+redpanda:
+  monitoring:
+    enabled: true
+  statefulset:
+    replicas: 1
