@@ -75,6 +75,8 @@ victoria-metrics-k8s-stack:
     enabled: true
 
   vmsingle:
+    spec:
+      retentionPeriod: "1w"
     labels:
       velero.io/exclude-from-backup: "true"
 

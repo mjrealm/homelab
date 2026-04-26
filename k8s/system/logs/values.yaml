@@ -1,6 +1,7 @@
 ---
 victoria-logs-single:
   server:
+    retentionPeriod: "1w"
     enabled: true
     persistentVolume:
       enabled: true
