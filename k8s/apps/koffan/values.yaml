@@ -7,14 +7,14 @@ app-template:
         app:
           image:
             repository: ghcr.io/pansalut/koffan
-            tag: v2.10.0          
+            tag: v2.10.0
 
   service:
     app:
       controller: koffan
       ports:
         http:
-          port: 8080  
+          port: 8080
 
   persistence:
     data:
