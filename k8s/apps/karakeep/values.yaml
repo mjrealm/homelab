@@ -31,7 +31,7 @@ app-template:
         meilisearch:
           image:
             repository: getmeili/meilisearch
-            tag: v1.43.0
+            tag: v1.42.1
     chrome:
       strategy: Recreate
       containers:
