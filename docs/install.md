@@ -1,6 +1,6 @@
 # Installation Guide
 
-Current Cluster Version: **<!-- K3S_VERSION -->**
+Current Cluster Version: **v1.35.3+k3s1**
 
 The cluster is bootstrapped using Ansible. The playbooks located in the `metal/` directory configure the bare-metal nodes and install K3s.
 
