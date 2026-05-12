@@ -10,11 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mjrealm.github.io/homelab/apps/">
+        <link rel="canonical" href="https://mjrealm.github.io/homelab/system/">
       
       
         <link rel="prev" href="../install/">
       
+      
+        <link rel="next" href="../bootstrap/">
       
       
         
@@ -25,7 +27,7 @@
     
     
       
-        <title>Installed Apps - Homelab Documentation</title>
+        <title>System - Homelab Documentation</title>
       
     
     
@@ -76,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installed-apps" class="md-skip">
+        <a href="#system" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Installed Apps
+              System
             
           </span>
         </div>
@@ -269,17 +271,18 @@
     
   
   
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
-        
-  
-  
     
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../apps.md" class="md-tabs__link">
+          
   
-  Installed Apps
+  
+  Installed Services
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -405,6 +408,91 @@
   
   
   
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installed Services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Installed Services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -420,7 +508,7 @@
   <span class="md-ellipsis">
     
   
-    Installed Apps
+    System
   
 
     
@@ -429,6 +517,70 @@
   
 
       </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bootstrap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bootstrap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -469,8 +621,8 @@
 
 
 
-<h1 id="installed-apps">Installed Apps</h1>
-<p>This is an automatically generated list of all applications and services installed in the cluster.</p>
+<h1 id="system">System</h1>
+<p>This is an automatically generated list of all system installed in the cluster.</p>
 <table>
 <thead>
 <tr>
@@ -483,67 +635,11 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>adguard-home</strong></td>
-<td>No description provided.</td>
-<td><code>adguard/adguardhome</code></td>
-<td><code>v0.107.74</code></td>
-<td><code>k8s/apps/adguard-home</code></td>
-</tr>
-<tr>
-<td><strong>argocd</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/bootstrap/charts/argocd</code></td>
-</tr>
-<tr>
-<td><strong>cert-manager</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/bootstrap/charts/cert-manager</code></td>
-</tr>
-<tr>
-<td><strong>cert-warden</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/gregtwallace/certwarden</code></td>
-<td><code>v0.29.2</code></td>
-<td><code>k8s/platform/cert-warden</code></td>
-</tr>
-<tr>
-<td><strong>ch-ui</strong></td>
-<td>A Helm chart for deploying the CH-UI ClickHouse platform</td>
-<td><code>ghcr.io/caioricciuti/ch-ui</code></td>
-<td><code>v2.0.25</code></td>
-<td><code>k8s/apps/ch-ui</code></td>
-</tr>
-<tr>
-<td><strong>cilium</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/bootstrap/charts/cilium</code></td>
-</tr>
-<tr>
-<td><strong>clickhouse</strong></td>
-<td>A Helm chart for deploying the ClickHouse Cluster and Keeper Cluster</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/platform/clickhouse</code></td>
-</tr>
-<tr>
 <td><strong>cloudflared</strong></td>
 <td>No description provided.</td>
 <td><code>cloudflare/cloudflared</code></td>
 <td><code>2026.3.0</code></td>
 <td><code>k8s/system/cloudflared</code></td>
-</tr>
-<tr>
-<td><strong>convertx</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/c4illin/convertx</code></td>
-<td><code>latest</code></td>
-<td><code>k8s/apps/convertx</code></td>
 </tr>
 <tr>
 <td><strong>crunchydata</strong></td>
@@ -560,102 +656,11 @@
 <td><code>k8s/system/nfs-csi</code></td>
 </tr>
 <tr>
-<td><strong>databasus</strong></td>
-<td>No description provided.</td>
-<td><code>databasus/databasus</code></td>
-<td><code>v3.37.0</code></td>
-<td><code>k8s/apps/databasus</code></td>
-</tr>
-<tr>
-<td><strong>docuseal</strong></td>
-<td>No description provided.</td>
-<td><code>docuseal/docuseal</code></td>
-<td><code>2.5.2</code></td>
-<td><code>k8s/apps/docuseal</code></td>
-</tr>
-<tr>
-<td><strong>docuseal</strong></td>
-<td>No description provided.</td>
-<td><code>docuseal/docuseal</code></td>
-<td><code>2.5.2</code></td>
-<td><code>k8s/apps/docuseal-mc</code></td>
-</tr>
-<tr>
-<td><strong>emqx</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/platform/emqx</code></td>
-</tr>
-<tr>
-<td><strong>garage</strong></td>
-<td>A basic Helm chart for Garage S3</td>
-<td><code>dxflrs/garage</code></td>
-<td><code>v2.3.0</code></td>
-<td><code>k8s/platform/garage</code></td>
-</tr>
-<tr>
 <td><strong>headlamp</strong></td>
 <td>No description provided.</td>
 <td>Unknown</td>
 <td>Unknown</td>
 <td><code>k8s/system/headlamp</code></td>
-</tr>
-<tr>
-<td><strong><a href="https://homebridge.io">homebridge</a></strong></td>
-<td>Apple HomeKit integration bridge</td>
-<td><code>homebridge/homebridge</code></td>
-<td><code>2026-05-11</code></td>
-<td><code>k8s/apps/homebridge</code></td>
-</tr>
-<tr>
-<td><strong>homepage</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/apps/homepage</code></td>
-</tr>
-<tr>
-<td><strong>karakeep</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/karakeep-app/karakeep</code></td>
-<td><code>0.32.0</code></td>
-<td><code>k8s/apps/karakeep</code></td>
-</tr>
-<tr>
-<td><strong>karma</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/prymitive/karma</code></td>
-<td><code>v0.129</code></td>
-<td><code>k8s/apps/karma</code></td>
-</tr>
-<tr>
-<td><strong>koffan</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/pansalut/koffan</code></td>
-<td><code>v2.11.0</code></td>
-<td><code>k8s/apps/koffan</code></td>
-</tr>
-<tr>
-<td><strong>lldap</strong></td>
-<td>No description provided.</td>
-<td><code>lldap/lldap</code></td>
-<td><code>2024-02-08</code></td>
-<td><code>k8s/platform/lldap</code></td>
-</tr>
-<tr>
-<td><strong>longhorn</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/bootstrap/charts/longhorn-system</code></td>
-</tr>
-<tr>
-<td><strong>mealie</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/mealie-recipes/mealie</code></td>
-<td><code>v3.16.0</code></td>
-<td><code>k8s/apps/mealie</code></td>
 </tr>
 <tr>
 <td><strong>metallb</strong></td>
@@ -665,137 +670,11 @@
 <td><code>k8s/system/metallb-system</code></td>
 </tr>
 <tr>
-<td><strong>mongodb</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/platform/mongodb</code></td>
-</tr>
-<tr>
-<td><strong>myspeed</strong></td>
-<td>No description provided.</td>
-<td><code>germannewsmaker/myspeed</code></td>
-<td><code>1.0.9</code></td>
-<td><code>k8s/apps/myspeed</code></td>
-</tr>
-<tr>
-<td><strong>n8n</strong></td>
-<td>No description provided.</td>
-<td><code>docker.n8n.io/n8nio/n8n</code></td>
-<td><code>2.20.6</code></td>
-<td><code>k8s/apps/n8n</code></td>
-</tr>
-<tr>
-<td><strong>outline</strong></td>
-<td>No description provided.</td>
-<td><code>outlinewiki/outline</code></td>
-<td><code>1.7.1</code></td>
-<td><code>k8s/apps/outline</code></td>
-</tr>
-<tr>
-<td><strong>paperless-ngx</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/paperless-ngx/paperless-ngx</code></td>
-<td><code>2.20.15</code></td>
-<td><code>k8s/apps/paperless-ngx</code></td>
-</tr>
-<tr>
-<td><strong>pgadmin4</strong></td>
-<td>No description provided.</td>
-<td><code>dpage/pgadmin4</code></td>
-<td><code>9.15</code></td>
-<td><code>k8s/apps/pgadmin</code></td>
-</tr>
-<tr>
-<td><strong>plex</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/apps/plex</code></td>
-</tr>
-<tr>
-<td><strong>pocket-id</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/pocket-id/pocket-id</code></td>
-<td><code>v2.6.2</code></td>
-<td><code>k8s/platform/pocket-id</code></td>
-</tr>
-<tr>
-<td><strong>portabase</strong></td>
-<td>No description provided.</td>
-<td><code>portabase/portabase</code></td>
-<td><code>1.13.0</code></td>
-<td><code>k8s/apps/portabase</code></td>
-</tr>
-<tr>
-<td><strong>portainer</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/platform/portainer</code></td>
-</tr>
-<tr>
-<td><strong>prometheus</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/bootstrap/charts/prometheus-operator-crds</code></td>
-</tr>
-<tr>
-<td><strong>redpanda</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/platform/redpanda</code></td>
-</tr>
-<tr>
-<td><strong>romm</strong></td>
-<td>No description provided.</td>
-<td><code>rommapp/romm</code></td>
-<td><code>4.8.1</code></td>
-<td><code>k8s/apps/romm</code></td>
-</tr>
-<tr>
-<td><strong>root</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/bootstrap/charts/root</code></td>
-</tr>
-<tr>
-<td><strong>seerr</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/apps/seerr</code></td>
-</tr>
-<tr>
-<td><strong>servarr</strong></td>
-<td>servarr apps like sonarr, radarr etc.</td>
-<td><code>lscr.io/linuxserver/sonarr</code></td>
-<td><code>4.0.17</code></td>
-<td><code>k8s/apps/servarr</code></td>
-</tr>
-<tr>
-<td><strong>snapotter</strong></td>
-<td>No description provided.</td>
-<td><code>snapotter/snapotter</code></td>
-<td><code>1.16.0</code></td>
-<td><code>k8s/apps/snapotter</code></td>
-</tr>
-<tr>
 <td><strong>stakater</strong></td>
 <td>No description provided.</td>
 <td>Unknown</td>
 <td>Unknown</td>
 <td><code>k8s/system/reloader</code></td>
-</tr>
-<tr>
-<td><strong>stirling-pdf</strong></td>
-<td>No description provided.</td>
-<td><code>frooodle/s-pdf</code></td>
-<td><code>2.10.1</code></td>
-<td><code>k8s/apps/stirling-pdf</code></td>
 </tr>
 <tr>
 <td><strong>system-upgrade-controller</strong></td>
@@ -805,39 +684,11 @@
 <td><code>k8s/system/system-upgrade</code></td>
 </tr>
 <tr>
-<td><strong>tinyauth</strong></td>
-<td>No description provided.</td>
-<td><code>ghcr.io/steveiliop56/tinyauth</code></td>
-<td><code>v5.0.7</code></td>
-<td><code>k8s/platform/tinyauth</code></td>
-</tr>
-<tr>
-<td><strong><a href="https://upsnap.io">upsnap</a></strong></td>
-<td>Wake on LAN dashboard</td>
-<td><code>ghcr.io/seriousm4x/upsnap</code></td>
-<td><code>5.3.4</code></td>
-<td><code>k8s/apps/upsnap</code></td>
-</tr>
-<tr>
-<td><strong>uptime-kuma</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/apps/uptime-kuma</code></td>
-</tr>
-<tr>
 <td><strong>velero</strong></td>
 <td>No description provided.</td>
 <td>Unknown</td>
 <td>Unknown</td>
 <td><code>k8s/system/velero</code></td>
-</tr>
-<tr>
-<td><strong>velero-ui</strong></td>
-<td>No description provided.</td>
-<td>Unknown</td>
-<td>Unknown</td>
-<td><code>k8s/apps/velero-ui</code></td>
 </tr>
 <tr>
 <td><strong>victoria-logs</strong></td>
@@ -852,13 +703,6 @@
 <td>Unknown</td>
 <td>Unknown</td>
 <td><code>k8s/system/monitoring</code></td>
-</tr>
-<tr>
-<td><strong>without-bg</strong></td>
-<td>No description provided.</td>
-<td><code>withoutbg/app</code></td>
-<td><code>1.3.1</code></td>
-<td><code>k8s/apps/without-bg</code></td>
 </tr>
 </tbody>
 </table>

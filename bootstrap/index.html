@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mjrealm.github.io/homelab/install/">
+        <link rel="canonical" href="https://mjrealm.github.io/homelab/bootstrap/">
       
       
-        <link rel="prev" href="../architecture/">
+        <link rel="prev" href="../system/">
       
       
-        <link rel="next" href="../system/">
+        <link rel="next" href="../platform/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Installation - Homelab Documentation</title>
+        <title>Bootstrap - Homelab Documentation</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation-guide" class="md-skip">
+        <a href="#bootstrap" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Installation
+              Bootstrap
             
           </span>
         </div>
@@ -249,11 +249,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../install/" class="md-tabs__link">
         
   
   
@@ -270,10 +268,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../apps.md" class="md-tabs__link">
           
   
@@ -377,37 +377,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Installation
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
         
   
   
@@ -423,98 +396,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-configuration-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Configuration Variables
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Configuration Variables">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#metalinventorymainyml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metal/inventory/main.yml
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#metalgroup_varsallyml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metal/group_vars/all.yml
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#metalrolesk3sdefaultsmainyml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metal/roles/k3s/defaults/main.yml
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-running-the-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Running the Playbook
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -523,26 +404,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -560,7 +446,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -631,10 +517,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../bootstrap/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -650,6 +545,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -710,86 +606,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-configuration-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Configuration Variables
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Configuration Variables">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#metalinventorymainyml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metal/inventory/main.yml
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#metalgroup_varsallyml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metal/group_vars/all.yml
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#metalrolesk3sdefaultsmainyml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metal/roles/k3s/defaults/main.yml
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-running-the-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Running the Playbook
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -805,45 +621,63 @@
 
 
 
-<h1 id="installation-guide">Installation Guide</h1>
-<p>Current Cluster Version: <strong>v1.35.3+k3s1</strong></p>
-<p>The cluster is bootstrapped using Ansible. The playbooks located in the <code>metal/</code> directory configure the bare-metal nodes and install K3s.</p>
-<h2 id="1-prerequisites">1. Prerequisites</h2>
-<ul>
-<li>Target nodes with a fresh OS installed.</li>
-<li>SSH access to the nodes configured.</li>
-<li><code>ansible</code> installed on your control machine.</li>
-</ul>
-<h2 id="2-configuration-variables">2. Configuration Variables</h2>
-<p>Before running the playbook, you must update the following files to match your environment:</p>
-<h3 id="metalinventorymainyml"><code>metal/inventory/main.yml</code></h3>
-<p>This file defines your nodes. Update the IP addresses and node names:
-<div class="highlight"><pre><span></span><code><span class="nt">master</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">metal0</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">ansible_host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.10.14</span>
-<span class="nt">agent</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">metal1</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">ansible_host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.10.10</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-</code></pre></div></p>
-<h3 id="metalgroup_varsallyml"><code>metal/group_vars/all.yml</code></h3>
-<p>Update the <code>ansible_user</code> to the SSH user you use to connect to your nodes:
-<div class="highlight"><pre><span></span><code><span class="nt">ansible_user</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your_username</span>
-</code></pre></div></p>
-<h3 id="metalrolesk3sdefaultsmainyml"><code>metal/roles/k3s/defaults/main.yml</code></h3>
-<p>This file contains the core configuration for your K3s installation. Key variables to review:
-- <code>k3s_version</code>: The version of Kubernetes to install.
-- <code>k3s_server_flags</code>: The flags passed to the K3s server on startup. This is where you disable default components like Traefik or ServiceLB if you intend to use custom ingress/load balancers (e.g., MetalLB, Cilium).</p>
-<h2 id="3-running-the-playbook">3. Running the Playbook</h2>
-<p>Once your variables are set, run the cluster playbook from the <code>metal/</code> directory:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>metal
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/main.yml<span class="w"> </span>cluster-playbook.yml
-</code></pre></div>
-<p>Once the playbook finishes, grab your <code>kubeconfig</code> (located at <code>~/.kube/config.k3s</code> as defined by <code>k3s_kube_config_file</code>) and verify the nodes are ready:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
-</code></pre></div>
+<h1 id="bootstrap">Bootstrap</h1>
+<p>This is an automatically generated list of all bootstrap installed in the cluster.</p>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>Description</th>
+<th>Image</th>
+<th>Version</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>argocd</strong></td>
+<td>No description provided.</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/bootstrap/charts/argocd</code></td>
+</tr>
+<tr>
+<td><strong>cert-manager</strong></td>
+<td>No description provided.</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/bootstrap/charts/cert-manager</code></td>
+</tr>
+<tr>
+<td><strong>cilium</strong></td>
+<td>No description provided.</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/bootstrap/charts/cilium</code></td>
+</tr>
+<tr>
+<td><strong>longhorn</strong></td>
+<td>No description provided.</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/bootstrap/charts/longhorn-system</code></td>
+</tr>
+<tr>
+<td><strong>prometheus</strong></td>
+<td>No description provided.</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/bootstrap/charts/prometheus-operator-crds</code></td>
+</tr>
+<tr>
+<td><strong>root</strong></td>
+<td>No description provided.</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/bootstrap/charts/root</code></td>
+</tr>
+</tbody>
+</table>
 
 
 
