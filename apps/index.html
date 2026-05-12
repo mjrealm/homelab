@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mjrealm.github.io/homelab/architecture/">
+        <link rel="canonical" href="https://mjrealm.github.io/homelab/apps/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../install/">
       
       
-        <link rel="next" href="../install/">
+        <link rel="next" href="../system/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Architecture - Homelab Documentation</title>
+        <title>Apps - Homelab Documentation</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#architecture-design" class="md-skip">
+        <a href="#apps" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Architecture
+              Apps
             
           </span>
         </div>
@@ -230,11 +230,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../architecture/" class="md-tabs__link">
         
   
   
@@ -270,11 +268,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../apps/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -350,37 +350,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Architecture
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
         
   
   
@@ -396,76 +369,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Directory Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#explanation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Explanation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Explanation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-the-metal-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. The metal Directory
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-the-k8s-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. The k8s Directory
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -501,26 +404,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -538,7 +446,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -553,10 +461,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../apps/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -572,6 +489,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -688,64 +606,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Directory Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#explanation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Explanation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Explanation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-the-metal-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. The metal Directory
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-the-k8s-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. The k8s Directory
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -761,36 +621,246 @@
 
 
 
-<h1 id="architecture-design">Architecture &amp; Design</h1>
-<p>This homelab is divided into two primary logical components: <strong>Bare Metal Provisioning</strong> and <strong>Kubernetes Configuration</strong>.</p>
-<h2 id="directory-structure">Directory Structure</h2>
-<div class="highlight"><pre><span></span><code>.
-├── metal/             # Bare metal provisioning and OS configuration via Ansible
-│   ├── inventory/     # Ansible inventory defining the nodes
-│   ├── group_vars/    # Global variables for the cluster
-│   └── roles/         # Ansible roles (e.g., setting up K3s)
-│
-├── k8s/               # Kubernetes manifests and Helm charts
-│   ├── apps/          # User-facing applications and services
-│   ├── bootstrap/     # GitOps controllers and initial cluster setup
-│   ├── platform/      # Core platform services (Ingress, storage, cert-manager)
-│   └── system/        # System-level configurations (monitoring, logs, CRDs)
-</code></pre></div>
-<h2 id="explanation">Explanation</h2>
-<h3 id="1-the-metal-directory">1. The <code>metal</code> Directory</h3>
-<p>The <code>metal</code> directory contains all the Ansible playbooks required to transform a fresh OS installation into a fully functional Kubernetes node. It handles:
-- System updates and package installations.
-- Network configuration.
-- Installing the K3s server and agent binaries.
-- Configuring node roles and labels.</p>
-<h3 id="2-the-k8s-directory">2. The <code>k8s</code> Directory</h3>
-<p>The <code>k8s</code> directory contains the desired state of the Kubernetes cluster. It is structured to separate different layers of the stack:</p>
-<ul>
-<li><strong>bootstrap</strong>: Contains the initial manifests needed to start the GitOps engine.</li>
-<li><strong>platform</strong>: Fundamental services that other applications rely on. This includes things like the ingress controller, CSI drivers for storage, and certificate management.</li>
-<li><strong>system</strong>: Observability, monitoring, logging, and cluster-wide CRDs.</li>
-<li><strong>apps</strong>: The actual workloads, dashboards, and services deployed in the homelab. Each app typically has its own directory with a <code>Chart.yaml</code> and <code>values.yaml</code>.</li>
-</ul>
+<h1 id="apps">Apps</h1>
+<p>This is an automatically generated list of all apps installed in the cluster.</p>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>Description</th>
+<th>Official URL</th>
+<th>Image</th>
+<th>Version</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>adguard-home</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>adguard/adguardhome</code></td>
+<td><code>v0.107.74</code></td>
+<td><code>k8s/apps/adguard-home</code></td>
+</tr>
+<tr>
+<td><strong>ch-ui</strong></td>
+<td>A Helm chart for deploying the CH-UI ClickHouse platform</td>
+<td>None</td>
+<td><code>ghcr.io/caioricciuti/ch-ui</code></td>
+<td><code>v2.0.25</code></td>
+<td><code>k8s/apps/ch-ui</code></td>
+</tr>
+<tr>
+<td><strong>convertx</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>ghcr.io/c4illin/convertx</code></td>
+<td><code>latest</code></td>
+<td><code>k8s/apps/convertx</code></td>
+</tr>
+<tr>
+<td><strong>databasus</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>databasus/databasus</code></td>
+<td><code>v3.37.0</code></td>
+<td><code>k8s/apps/databasus</code></td>
+</tr>
+<tr>
+<td><strong>docuseal</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>docuseal/docuseal</code></td>
+<td><code>2.5.2</code></td>
+<td><code>k8s/apps/docuseal</code></td>
+</tr>
+<tr>
+<td><strong>docuseal</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>docuseal/docuseal</code></td>
+<td><code>2.5.2</code></td>
+<td><code>k8s/apps/docuseal-mc</code></td>
+</tr>
+<tr>
+<td><strong><a href="https://homebridge.io">homebridge</a></strong></td>
+<td>Apple HomeKit integration bridge</td>
+<td><a href="https://homebridge.io">https://homebridge.io</a></td>
+<td><code>homebridge/homebridge</code></td>
+<td><code>2026-05-11</code></td>
+<td><code>k8s/apps/homebridge</code></td>
+</tr>
+<tr>
+<td><strong>homepage</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/apps/homepage</code></td>
+</tr>
+<tr>
+<td><strong>karakeep</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>ghcr.io/karakeep-app/karakeep</code></td>
+<td><code>0.32.0</code></td>
+<td><code>k8s/apps/karakeep</code></td>
+</tr>
+<tr>
+<td><strong>karma</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>ghcr.io/prymitive/karma</code></td>
+<td><code>v0.129</code></td>
+<td><code>k8s/apps/karma</code></td>
+</tr>
+<tr>
+<td><strong>koffan</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>ghcr.io/pansalut/koffan</code></td>
+<td><code>v2.11.0</code></td>
+<td><code>k8s/apps/koffan</code></td>
+</tr>
+<tr>
+<td><strong>mealie</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>ghcr.io/mealie-recipes/mealie</code></td>
+<td><code>v3.16.0</code></td>
+<td><code>k8s/apps/mealie</code></td>
+</tr>
+<tr>
+<td><strong>myspeed</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>germannewsmaker/myspeed</code></td>
+<td><code>1.0.9</code></td>
+<td><code>k8s/apps/myspeed</code></td>
+</tr>
+<tr>
+<td><strong>n8n</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>docker.n8n.io/n8nio/n8n</code></td>
+<td><code>2.20.6</code></td>
+<td><code>k8s/apps/n8n</code></td>
+</tr>
+<tr>
+<td><strong>outline</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>outlinewiki/outline</code></td>
+<td><code>1.7.1</code></td>
+<td><code>k8s/apps/outline</code></td>
+</tr>
+<tr>
+<td><strong>paperless-ngx</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>ghcr.io/paperless-ngx/paperless-ngx</code></td>
+<td><code>2.20.15</code></td>
+<td><code>k8s/apps/paperless-ngx</code></td>
+</tr>
+<tr>
+<td><strong>pgadmin4</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>dpage/pgadmin4</code></td>
+<td><code>9.15</code></td>
+<td><code>k8s/apps/pgadmin</code></td>
+</tr>
+<tr>
+<td><strong>plex</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/apps/plex</code></td>
+</tr>
+<tr>
+<td><strong>portabase</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>portabase/portabase</code></td>
+<td><code>1.13.0</code></td>
+<td><code>k8s/apps/portabase</code></td>
+</tr>
+<tr>
+<td><strong>romm</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>rommapp/romm</code></td>
+<td><code>4.8.1</code></td>
+<td><code>k8s/apps/romm</code></td>
+</tr>
+<tr>
+<td><strong>seerr</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/apps/seerr</code></td>
+</tr>
+<tr>
+<td><strong>servarr</strong></td>
+<td>servarr apps like sonarr, radarr etc.</td>
+<td>None</td>
+<td><code>lscr.io/linuxserver/sonarr</code></td>
+<td><code>4.0.17</code></td>
+<td><code>k8s/apps/servarr</code></td>
+</tr>
+<tr>
+<td><strong>snapotter</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>snapotter/snapotter</code></td>
+<td><code>1.16.0</code></td>
+<td><code>k8s/apps/snapotter</code></td>
+</tr>
+<tr>
+<td><strong>stirling-pdf</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>frooodle/s-pdf</code></td>
+<td><code>2.10.1</code></td>
+<td><code>k8s/apps/stirling-pdf</code></td>
+</tr>
+<tr>
+<td><strong><a href="https://upsnap.io">upsnap</a></strong></td>
+<td>Wake on LAN dashboard</td>
+<td><a href="https://upsnap.io">https://upsnap.io</a></td>
+<td><code>ghcr.io/seriousm4x/upsnap</code></td>
+<td><code>5.3.4</code></td>
+<td><code>k8s/apps/upsnap</code></td>
+</tr>
+<tr>
+<td><strong>uptime-kuma</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/apps/uptime-kuma</code></td>
+</tr>
+<tr>
+<td><strong>velero-ui</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><code>k8s/apps/velero-ui</code></td>
+</tr>
+<tr>
+<td><strong>without-bg</strong></td>
+<td>No description provided.</td>
+<td>None</td>
+<td><code>withoutbg/app</code></td>
+<td><code>1.3.1</code></td>
+<td><code>k8s/apps/without-bg</code></td>
+</tr>
+</tbody>
+</table>
 
 
 
