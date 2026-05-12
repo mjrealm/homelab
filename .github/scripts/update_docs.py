@@ -70,25 +70,44 @@ def main():
     # Sort apps alphabetically
     apps_data.sort(key=lambda x: x["name"].lower())
 
-    # Generate apps.md
+    # Group apps by type
+    grouped_apps = {}
+    for app in apps_data:
+        # path is like k8s/apps/upsnap. split by '/' and get the second part
+        parts = app['path'].split('/')
+        app_type = parts[1] if len(parts) > 1 else 'other'
+        
+        if app_type not in grouped_apps:
+            grouped_apps[app_type] = []
+        grouped_apps[app_type].append(app)
+
+    # Generate md files for each type
     docs_dir = repo_root / "docs"
     docs_dir.mkdir(exist_ok=True)
-    apps_md_path = docs_dir / "apps.md"
     
-    with open(apps_md_path, "w") as f:
-        f.write("# Installed Apps\n\n")
-        f.write("This is an automatically generated list of all applications and services installed in the cluster.\n\n")
-        f.write("| App | Description | Image | Version | Path |\n")
-        f.write("|---|---|---|---|---|\n")
+    for app_type, apps_in_type in grouped_apps.items():
+        apps_md_path = docs_dir / f"{app_type}.md"
+        title = app_type.capitalize()
         
-        for app in apps_data:
-            name_link = f"[{app['name']}]({app['url']})" if app['url'] else app['name']
-            repo_code = f"`{app['repo']}`" if app['repo'] != "Unknown" else "Unknown"
-            tag_code = f"`{app['tag']}`" if app['tag'] != "Unknown" else "Unknown"
-            path_code = f"`{app['path']}`"
-            f.write(f"| **{name_link}** | {app['description']} | {repo_code} | {tag_code} | {path_code} |\n")
+        with open(apps_md_path, "w") as f:
+            f.write(f"# {title}\n\n")
+            f.write(f"This is an automatically generated list of all {app_type} installed in the cluster.\n\n")
+            f.write("| App | Description | Image | Version | Path |\n")
+            f.write("|---|---|---|---|---|\n")
+            
+            for app in apps_in_type:
+                name_link = f"[{app['name']}]({app['url']})" if app['url'] else app['name']
+                repo_code = f"`{app['repo']}`" if app['repo'] != "Unknown" else "Unknown"
+                tag_code = f"`{app['tag']}`" if app['tag'] != "Unknown" else "Unknown"
+                path_code = f"`{app['path']}`"
+                f.write(f"| **{name_link}** | {app['description']} | {repo_code} | {tag_code} | {path_code} |\n")
 
-    print(f"Successfully generated {apps_md_path}")
+        print(f"Successfully generated {apps_md_path}")
+
+    # Remove the old apps.md if it exists
+    old_apps_md = docs_dir / "apps.md"
+    if old_apps_md.exists():
+        old_apps_md.unlink()
 
     # 2. Inject K3s version into install.md
     k3s_defaults_file = repo_root / "metal/roles/k3s/defaults/main.yml"

@@ -14,7 +14,7 @@ This repository follows **GitOps** principles to manage my bare-metal servers an
 ## Quick Links
 - [Architecture](architecture.md) - Learn how the repository and infrastructure are structured.
 - [Installation Guide](install.md) - How to bootstrap the cluster.
-- [Installed Apps](apps.md) - A full, auto-updating list of all services running in the cluster.
+- [Installed Services](apps.md) - A full, auto-updating list of all workloads, system components, and platform services running in the cluster.
 
 > :bulb: **What is a homelab?**
 >

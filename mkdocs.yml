@@ -30,7 +30,11 @@ nav:
   - Home: index.md
   - Architecture: architecture.md
   - Installation: install.md
-  - Installed Apps: apps.md
+  - Installed Services:
+      - Apps: apps.md
+      - System: system.md
+      - Bootstrap: bootstrap.md
+      - Platform: platform.md
 
 markdown_extensions:
   - admonition
