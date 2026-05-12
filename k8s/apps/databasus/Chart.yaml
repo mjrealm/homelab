@@ -2,6 +2,9 @@
 apiVersion: v2
 name: databasus
 version: 0.0.1
+annotations:
+  homelab/description: "Database management dashboard"
+  homelab/url: "https://github.com/BeryJu/databasus"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

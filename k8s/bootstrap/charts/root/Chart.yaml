@@ -2,3 +2,6 @@
 apiVersion: v2
 name: root
 version: 1.0.0
+annotations:
+  homelab/description: "Root ArgoCD Application"
+  homelab/url: "https://argoproj.github.io/cd/"

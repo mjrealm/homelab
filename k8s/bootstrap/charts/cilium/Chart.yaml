@@ -2,6 +2,9 @@
 apiVersion: v2
 name: cilium
 version: 1.0.0
+annotations:
+  homelab/description: "eBPF-based Networking, Observability, Security"
+  homelab/url: "https://cilium.io/"
 dependencies:
   - name: cilium
     version: 1.19.3

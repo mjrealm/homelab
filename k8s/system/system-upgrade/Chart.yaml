@@ -2,3 +2,6 @@
 apiVersion: v2
 name: system-upgrade-controller
 version: 0.0.1
+annotations:
+  homelab/description: "system-upgrade-controller service"
+  homelab/url: ""

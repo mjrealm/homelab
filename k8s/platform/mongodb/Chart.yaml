@@ -2,6 +2,9 @@
 apiVersion: v2
 name: mongodb
 version: 0.0.1
+annotations:
+  homelab/description: "NoSQL Database"
+  homelab/url: "https://www.mongodb.com/"
 dependencies:
   - name: community-operator
     repository: https://mongodb.github.io/helm-charts

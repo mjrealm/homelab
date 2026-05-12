@@ -2,6 +2,9 @@
 apiVersion: v2
 name: vm
 version: 1.0.0
+annotations:
+  homelab/description: "vm service"
+  homelab/url: ""
 dependencies:
   - name: victoria-metrics-k8s-stack
     version: 0.78.0

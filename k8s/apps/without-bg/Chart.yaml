@@ -2,6 +2,9 @@
 apiVersion: v2
 name: without-bg
 version: 0.0.1
+annotations:
+  homelab/description: "Background removal tool"
+  homelab/url: "https://github.com/withoutbg/withoutbg"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

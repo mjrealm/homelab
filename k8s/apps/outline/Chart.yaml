@@ -2,6 +2,9 @@
 apiVersion: v2
 name: outline
 version: 1.0.0
+annotations:
+  homelab/description: "Team knowledge base & wiki"
+  homelab/url: "https://www.getoutline.com/"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

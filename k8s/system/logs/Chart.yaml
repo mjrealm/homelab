@@ -3,6 +3,9 @@ apiVersion: v2
 name: victoria-logs
 description: VictoriaLogs is a high-performance, cost-effective, and scalable log management solution.
 version: 1.0.0
+annotations:
+  homelab/description: "victoria-logs service"
+  homelab/url: ""
 dependencies:
   - name: victoria-logs-single
     version: 0.12.4

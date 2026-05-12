@@ -2,6 +2,9 @@
 apiVersion: v2
 name: n8n
 version: 0.1.0
+annotations:
+  homelab/description: "Workflow automation tool"
+  homelab/url: "https://n8n.io/"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

@@ -2,6 +2,9 @@
 apiVersion: v2
 name: prometheus
 version: 1.0.0
+annotations:
+  homelab/description: "prometheus service"
+  homelab/url: ""
 dependencies:
   - name: prometheus-operator-crds
     version: 28.0.1

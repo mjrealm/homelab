@@ -1,6 +1,9 @@
 apiVersion: v2
 name: velero-ui
 version: 1.0.0
+annotations:
+  homelab/description: "UI for Velero"
+  homelab/url: "https://github.com/kubernetes-sigs/velero-ui"
 dependencies:
   - name: velero-ui
     repository: https://helm.otwld.com/

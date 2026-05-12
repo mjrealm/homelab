@@ -1,6 +1,9 @@
 apiVersion: v2
 name: portabase
 version: 1.0.0
+annotations:
+  homelab/description: "Database management"
+  homelab/url: "https://github.com/BeryJu/portabase"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

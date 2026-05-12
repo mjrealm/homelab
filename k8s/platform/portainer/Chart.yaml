@@ -2,6 +2,9 @@
 apiVersion: v2
 name: portainer
 version: 1.0.0
+annotations:
+  homelab/description: "Container management UI"
+  homelab/url: "https://www.portainer.io/"
 dependencies:
   - name: portainer
     version: 2.39.0

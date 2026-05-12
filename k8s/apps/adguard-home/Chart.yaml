@@ -2,6 +2,9 @@
 apiVersion: v2
 name: adguard-home
 version: 1.0.0
+annotations:
+  homelab/description: "Network-wide ad and tracker blocking"
+  homelab/url: "https://adguard.com/"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

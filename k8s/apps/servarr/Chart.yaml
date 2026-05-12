@@ -3,6 +3,9 @@ apiVersion: v2
 name: servarr
 description: servarr apps like sonarr, radarr etc.
 version: 0.0.1
+annotations:
+  homelab/description: "Media management suite (Sonarr, Radarr, etc.)"
+  homelab/url: "https://wiki.servarr.com/"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

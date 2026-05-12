@@ -2,6 +2,9 @@
 apiVersion: v2
 name: clickhouse
 version: 1.0.0
+annotations:
+  homelab/description: "Fast open-source OLAP database"
+  homelab/url: "https://clickhouse.com/"
 description: A Helm chart for deploying the ClickHouse Cluster and Keeper Cluster
 dependencies:
   - name: clickhouse-operator-helm

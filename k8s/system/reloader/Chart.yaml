@@ -2,6 +2,9 @@
 apiVersion: v2
 name: stakater
 version: 0.0.1
+annotations:
+  homelab/description: "stakater service"
+  homelab/url: ""
 dependencies:
   - name: reloader
     repository: https://stakater.github.io/stakater-charts

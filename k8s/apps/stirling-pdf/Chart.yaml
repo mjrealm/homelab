@@ -2,6 +2,9 @@
 apiVersion: v2
 name: stirling-pdf
 version: 0.0.1
+annotations:
+  homelab/description: "Robust, locally hosted web-based PDF manipulation tool"
+  homelab/url: "https://github.com/Stirling-Tools/Stirling-PDF"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

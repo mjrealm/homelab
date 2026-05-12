@@ -2,6 +2,9 @@
 apiVersion: v2
 name: romm
 version: 1.0.0
+annotations:
+  homelab/description: "Retro games manager"
+  homelab/url: "https://github.com/rommapp/romm"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

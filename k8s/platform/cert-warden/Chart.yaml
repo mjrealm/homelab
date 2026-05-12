@@ -2,6 +2,9 @@
 apiVersion: v2
 name: cert-warden
 version: 0.0.1
+annotations:
+  homelab/description: "cert-warden service"
+  homelab/url: ""
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

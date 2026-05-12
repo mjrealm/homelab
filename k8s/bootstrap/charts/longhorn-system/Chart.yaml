@@ -2,6 +2,9 @@
 apiVersion: v2
 name: longhorn
 version: 1.0.0
+annotations:
+  homelab/description: "longhorn service"
+  homelab/url: ""
 dependencies:
   - name: longhorn
     version: 1.11.2

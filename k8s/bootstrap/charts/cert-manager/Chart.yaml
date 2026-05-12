@@ -2,6 +2,9 @@
 apiVersion: v2
 name: cert-manager
 version: 1.0.0
+annotations:
+  homelab/description: "Cloud native certificate management"
+  homelab/url: "https://cert-manager.io/"
 dependencies:
   - name: cert-manager
     version: v1.20.2

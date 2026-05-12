@@ -2,6 +2,9 @@
 apiVersion: v2
 name: metallb
 version: 1.0.0
+annotations:
+  homelab/description: "metallb service"
+  homelab/url: ""
 dependencies:
   - name: metallb
     version: 0.15.3

@@ -92,16 +92,15 @@ def main():
         with open(apps_md_path, "w") as f:
             f.write(f"# {title}\n\n")
             f.write(f"This is an automatically generated list of all {app_type} installed in the cluster.\n\n")
-            f.write("| App | Description | Official URL | Image | Version | Path |\n")
-            f.write("|---|---|---|---|---|---|\n")
+            f.write("| App | Description | Image | Version | Path |\n")
+            f.write("|---|---|---|---|---|\n")
             
             for app in apps_in_type:
-                name_link = f"[{app['name']}]({app['url']})" if app['url'] else app['name']
-                url_col = f"[{app['url']}]({app['url']})" if app['url'] else "None"
+                name_link = f"<a href=\"{app['url']}\" target=\"_blank\">{app['name']}</a>" if app['url'] else app['name']
                 repo_code = f"`{app['repo']}`" if app['repo'] != "Unknown" else "Unknown"
                 tag_code = f"`{app['tag']}`" if app['tag'] != "Unknown" else "Unknown"
                 path_code = f"`{app['path']}`"
-                f.write(f"| **{name_link}** | {app['description']} | {url_col} | {repo_code} | {tag_code} | {path_code} |\n")
+                f.write(f"| **{name_link}** | {app['description']} | {repo_code} | {tag_code} | {path_code} |\n")
 
         print(f"Successfully generated {apps_md_path}")
 

@@ -2,6 +2,9 @@
 apiVersion: v2
 name: csi-driver-nfs
 version: 1.0.0
+annotations:
+  homelab/description: "csi-driver-nfs service"
+  homelab/url: ""
 dependencies:
   - name: csi-driver-nfs
     version: 4.13.2

@@ -2,6 +2,9 @@
 apiVersion: v2
 name: argocd
 version: 1.0.0
+annotations:
+  homelab/description: "Declarative continuous deployment for Kubernetes"
+  homelab/url: "https://argoproj.github.io/cd/"
 dependencies:
   - name: argo-cd
     version: 9.5.13

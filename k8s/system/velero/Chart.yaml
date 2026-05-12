@@ -1,6 +1,9 @@
 apiVersion: v2
 name: velero
 version: 1.0.0
+annotations:
+  homelab/description: "Backup and migrate Kubernetes resources"
+  homelab/url: "https://velero.io/"
 dependencies:
   - name: velero
     repository: https://vmware-tanzu.github.io/helm-charts

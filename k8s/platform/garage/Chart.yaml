@@ -4,6 +4,9 @@ name: garage
 description: A basic Helm chart for Garage S3
 type: application
 version: 1.0.0
+annotations:
+  homelab/description: "S3-compatible distributed object storage"
+  homelab/url: "https://garagehq.deuxfleurs.fr/"
 dependencies:
   - name: app-template
     version: 5.0.0

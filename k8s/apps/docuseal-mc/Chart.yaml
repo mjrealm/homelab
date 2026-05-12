@@ -2,6 +2,9 @@
 apiVersion: v2
 name: docuseal
 version: 0.0.1
+annotations:
+  homelab/description: "Open source document signing"
+  homelab/url: "https://www.docuseal.co/"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

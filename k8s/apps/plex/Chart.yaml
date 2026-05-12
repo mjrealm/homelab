@@ -2,6 +2,9 @@
 apiVersion: v2
 name: plex
 version: 0.0.1
+annotations:
+  homelab/description: "Media server"
+  homelab/url: "https://www.plex.tv/"
 dependencies:
   - name: plex-media-server
     repository: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages

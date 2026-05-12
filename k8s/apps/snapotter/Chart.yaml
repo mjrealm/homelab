@@ -2,6 +2,9 @@
 apiVersion: v2
 name: snapotter
 version: 1.0.0
+annotations:
+  homelab/description: "snapotter service"
+  homelab/url: ""
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

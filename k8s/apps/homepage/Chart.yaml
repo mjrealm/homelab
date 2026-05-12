@@ -2,6 +2,9 @@
 apiVersion: v2
 name: homepage
 version: 1.0.0
+annotations:
+  homelab/description: "Modern, fully static, fast dashboard"
+  homelab/url: "https://gethomepage.dev/"
 dependencies:
   - name: homepage
     version: 2.1.0

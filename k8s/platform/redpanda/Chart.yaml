@@ -2,6 +2,9 @@
 apiVersion: v2
 name: redpanda
 version: 1.0.0
+annotations:
+  homelab/description: "Kafka compatible streaming platform"
+  homelab/url: "https://redpanda.com/"
 dependencies:
   - name: redpanda
     repository: https://charts.redpanda.com/

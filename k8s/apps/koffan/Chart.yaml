@@ -2,6 +2,9 @@
 apiVersion: v2
 name: koffan
 version: 1.0.0
+annotations:
+  homelab/description: "koffan service"
+  homelab/url: ""
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

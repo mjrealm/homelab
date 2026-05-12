@@ -2,6 +2,9 @@
 apiVersion: v2
 name: myspeed
 version: 0.0.1
+annotations:
+  homelab/description: "Speedtest tracking dashboard"
+  homelab/url: "https://myspeed.dev/"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

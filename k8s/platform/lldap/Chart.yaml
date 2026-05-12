@@ -2,6 +2,9 @@
 apiVersion: v2
 name: lldap
 version: 0.0.1
+annotations:
+  homelab/description: "Lightweight LDAP server"
+  homelab/url: "https://github.com/lldap/lldap"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

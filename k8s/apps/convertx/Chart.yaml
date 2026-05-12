@@ -2,6 +2,9 @@
 apiVersion: v2
 name: convertx
 version: 0.0.1
+annotations:
+  homelab/description: "File converter"
+  homelab/url: "https://github.com/c4illin/ConvertX"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts
