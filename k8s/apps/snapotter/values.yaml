@@ -7,7 +7,7 @@ app-template:
         app:
           image:
             repository: snapotter/snapotter
-            tag: 1.15.11
+            tag: 1.16.0
           resources:
             requests:
               cpu: 10m
