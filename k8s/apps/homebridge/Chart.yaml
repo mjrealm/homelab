@@ -2,6 +2,9 @@
 apiVersion: v2
 name: homebridge
 version: 0.0.1
+annotations:
+  homelab/description: "Apple HomeKit integration bridge"
+  homelab/url: "https://homebridge.io"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts
