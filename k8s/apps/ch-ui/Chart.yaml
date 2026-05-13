@@ -5,8 +5,8 @@ description: A Helm chart for deploying the CH-UI ClickHouse platform
 type: application
 version: 1.0.0
 annotations:
-  homelab/description: "ch-ui service"
-  homelab/url: ""
+  homelab/description: "Clickhouse UI"
+  homelab/url: "https://github.com/caioricciuti/ch-ui"
 dependencies:
   - name: app-template
     version: 5.0.0

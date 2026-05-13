@@ -3,8 +3,8 @@ apiVersion: v2
 name: karakeep
 version: 0.0.1
 annotations:
-  homelab/description: "Karaoke management system"
-  homelab/url: "https://karakeep.com/"
+  homelab/description: "Bookmark-everything app"
+  homelab/url: "https://github.com/karakeep-app/karakeep"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts
