@@ -7,5 +7,5 @@ annotations:
   homelab/url: "https://argoproj.github.io/cd/"
 dependencies:
   - name: argo-cd
-    version: 9.5.13
+    version: 9.5.14
     repository: https://argoproj.github.io/argo-helm
