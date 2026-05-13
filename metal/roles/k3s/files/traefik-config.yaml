@@ -8,6 +8,15 @@ spec:
     service:
       spec:
         loadBalancerIP: 192.168.10.200
+    ports:
+      web:
+        forwardedHeaders:
+          trustedIPs:
+            - "10.42.0.0/16"
+      websecure:
+        forwardedHeaders:
+          trustedIPs:
+            - "10.42.0.0/16"
     metrics:
       prometheus:
         enabled: true
