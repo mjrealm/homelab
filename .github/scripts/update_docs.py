@@ -3,31 +3,57 @@ import re
 import yaml
 from pathlib import Path
 
-def extract_image_info(values_data):
+def extract_image_info(app_dir, values_data, chart_data):
     """
-    Attempt to extract the image repository and tag from a values.yaml dictionary.
-    Handles standard bjw-s app-template structures and some common direct structures.
+    Attempt to extract the image repository and tag from various sources.
     """
-    if not values_data:
-        return "Unknown", "Unknown"
-        
-    # Check for app-template v3+ structure
-    if "controllers" in values_data:
-        for ctrl_name, ctrl_data in values_data["controllers"].items():
-            if "containers" in ctrl_data:
-                for cont_name, cont_data in ctrl_data["containers"].items():
-                    if "image" in cont_data:
-                        img = cont_data["image"]
-                        return img.get("repository", "Unknown"), img.get("tag", "Unknown")
+    if values_data:
+        # Check for app-template v3+ structure
+        if "controllers" in values_data:
+            for ctrl_name, ctrl_data in values_data["controllers"].items():
+                if "containers" in ctrl_data:
+                    for cont_name, cont_data in ctrl_data["containers"].items():
+                        if "image" in cont_data:
+                            img = cont_data["image"]
+                            return img.get("repository", "Unknown"), str(img.get("tag", "Unknown"))
 
-    # Check for older app-template or aliased dependency structure
-    if "app-template" in values_data and isinstance(values_data["app-template"], dict):
-        return extract_image_info(values_data["app-template"])
+        # Check for older app-template or aliased dependency structure
+        for key in ["app-template", "main", chart_data.get("name", "")]:
+            if key in values_data and isinstance(values_data[key], dict):
+                repo, tag = extract_image_info(app_dir, values_data[key], {})
+                if repo != "Unknown":
+                    return repo, tag
 
-    # Check for generic image block
-    if "image" in values_data and isinstance(values_data["image"], dict):
-        img = values_data["image"]
-        return img.get("repository", "Unknown"), img.get("tag", "Unknown")
+        # Check for generic image block
+        if "image" in values_data and isinstance(values_data["image"], dict):
+            img = values_data["image"]
+            return img.get("repository", "Unknown"), str(img.get("tag", "Unknown"))
+
+    # Check dependencies in Chart.yaml
+    if chart_data and "dependencies" in chart_data:
+        deps = chart_data["dependencies"]
+        if isinstance(deps, list) and len(deps) > 0:
+            # Usually the first dependency is the main one
+            dep = deps[0]
+            repo = dep.get("repository", dep.get("name", "Unknown"))
+            tag = str(dep.get("version", "Unknown"))
+            if tag != "Unknown":
+                # Clean up repository url if it's a URL
+                repo = repo.split("/")[-1] if repo.startswith("http") else repo
+                return repo, tag
+
+    # Fallback: scan all yaml files in the directory for 'image: repo/name:tag'
+    for yaml_file in app_dir.rglob("*.yaml"):
+        if yaml_file.name == "Chart.yaml":
+            continue
+        try:
+            with open(yaml_file, "r") as f:
+                content = f.read()
+                match = re.search(r'image:\s*([a-zA-Z0-9_.\-/]+):([a-zA-Z0-9_.\-]+)', content)
+                if match:
+                    return match.group(1), match.group(2)
+        except Exception:
+            pass
 
     return "Unknown", "Unknown"
 
@@ -51,10 +77,12 @@ def main():
             url = annotations.get("homelab/url", "")
             
             repo, tag = "Unknown", "Unknown"
+            values_data = {}
             if values_file.exists():
                 with open(values_file, "r") as f:
                     values_data = yaml.safe_load(f) or {}
-                    repo, tag = extract_image_info(values_data)
+            
+            repo, tag = extract_image_info(app_dir, values_data, chart_data)
                     
             apps_data.append({
                 "name": app_name,
