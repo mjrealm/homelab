@@ -30,3 +30,13 @@ app-template:
       size: 1Gi
       globalMounts:
         - path: /config
+    
+    output:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/media/downloads
+      advancedMounts:
+        jdownloader:
+          jdownloader:
+            - path: /output
