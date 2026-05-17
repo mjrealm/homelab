@@ -1,0 +1,32 @@
+---
+app-template:
+  controllers:
+    jdownloader:
+      strategy: Recreate
+      containers:
+        jdownloader:
+          image:
+            repository: jlesage/jdownloader-2
+            tag: v26.03.1
+          env:
+            TZ: America/Los_Angeles
+            KEEP_APP_RUNNING: "0"
+            DARK_MODE: "1"
+            WEB_AUDIO: "1"
+            WEB_FILE_MANAGER: "1"
+
+  service:
+    jdownloader:
+      controller: jdownloader
+      ports:
+        http:
+          port: 5800
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /config
