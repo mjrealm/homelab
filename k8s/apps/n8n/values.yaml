@@ -13,7 +13,7 @@ app-template:
           nameOverride: n8n
           image:
             repository: docker.n8n.io/n8nio/n8n
-            tag: "2.21.1"
+            tag: "2.21.3"
           env:
             TZ: "America/Los_Angeles"
             GENERIC_TIMEZONE: "America/Los_Angeles"
@@ -26,7 +26,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: "16.13"
+            tag: "16.14"
           env:
             PGDATA: "/var/lib/postgresql/data/pg_data"
             POSTGRES_DB: "n8n"

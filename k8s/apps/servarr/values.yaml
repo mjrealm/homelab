@@ -68,7 +68,7 @@ app-template:
         sabnzbd:
           image:
             repository: lscr.io/linuxserver/sabnzbd
-            tag: 5.0.1
+            tag: 5.0.3
           env:
             PUID: "1000"
             PGID: "1000"
