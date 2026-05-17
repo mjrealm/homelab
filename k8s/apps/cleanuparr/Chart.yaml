@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: cleanuparr
+version: 1.0
+annotations:
+  homelab/description: "Download manager for servarr"
+  homelab/url: "https://github.com/cleanuparr/cleanuparr"
+dependencies:
+  - name: app-template
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.0.1
