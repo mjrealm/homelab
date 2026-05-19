@@ -1,0 +1,31 @@
+---
+app-template:
+  controllers:
+    maintainerr:
+      strategy: Recreate
+      containers:
+        maintainerr:
+          image:
+            repository: ghcr.io/maintainerr/maintainerr
+            tag: 3.11.2
+          env:
+            TZ: America/Los_Angeles
+            PORT: "11011"
+            PUID: "1000"
+            PGID: "1000"
+
+  service:
+    maintainerr:
+      controller: maintainerr
+      ports:
+        http:
+          port: 6246
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /opt/data
