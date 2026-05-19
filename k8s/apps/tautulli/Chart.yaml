@@ -1,10 +1,10 @@
 ---
 apiVersion: v2
-name: cleanuparr
+name: tautulli
 version: 1.0
 annotations:
-  homelab/description: "Download client manager"
-  homelab/url: "https://github.com/cleanuparr/cleanuparr"
+  homelab/description: "Plex monitoring and tracking"
+  homelab/url: "https://github.com/Tautulli/Tautulli"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

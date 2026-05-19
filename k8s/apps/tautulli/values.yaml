@@ -1,0 +1,30 @@
+---
+app-template:
+  controllers:
+    tautulli:
+      strategy: Recreate
+      containers:
+        tautulli:
+          image:
+            repository: ghcr.io/tautulli/tautulli
+            tag: v2.17.1
+          env:
+            TZ: America/Los_Angeles
+            PUID: "1000"
+            PGID: "1000"
+
+  service:
+    tautulli:
+      controller: tautulli
+      ports:
+        http:
+          port: 8181
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /config
