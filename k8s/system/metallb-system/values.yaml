@@ -3,3 +3,7 @@ metallb:
   speaker:
     frr:
       enabled: false
+  frr-k8s:
+    prometheus:
+      serviceMonitor:
+        enabled: false
