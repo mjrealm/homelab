@@ -7,5 +7,5 @@ annotations:
   homelab/url: ""
 dependencies:
   - name: metallb
-    version: 0.16.0
+    version: 0.16.1
     repository: https://metallb.github.io/metallb
