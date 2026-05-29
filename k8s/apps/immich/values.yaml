@@ -27,4 +27,12 @@ immich:
       cache:
         enabled: true
         size: 10Gi        
-        type: persistentVolumeClaim        
+        type: persistentVolumeClaim
+
+  persistence:
+    external-photos:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/media/photos/
+      
