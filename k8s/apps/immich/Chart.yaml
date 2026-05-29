@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: immich
+version: 1.0.0
+annotations:
+  homelab/description: "High performance self-hosted photo and video management solution"
+  homelab/url: "https://immich.app/"
+dependencies:
+  - name: immich
+    repository: oci://ghcr.io/immich-app/immich-charts/immich
+    version: 0.12.0

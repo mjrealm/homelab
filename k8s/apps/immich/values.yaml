@@ -1,0 +1,30 @@
+---
+immich:
+  # defaultPodOptions:
+  #   nodeSelector:
+  #     plex.tv/host: "true" # For intel sync
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            tag: v2.7.5
+  immich:
+    metrics:
+      enabled: true        
+
+  valkey:
+    enabled: true
+    persistence:
+      data:
+        enabled: true
+        size: 1Gi      
+        type: persistentVolumeClaim
+
+  machine-learning:
+    enabled: true
+    persistence:
+      cache:
+        enabled: true
+        size: 10Gi        
+        type: persistentVolumeClaim        
