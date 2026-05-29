@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-library-nfs-pv
+spec:
+  capacity:
+    storage: 1Mi # Size is ignored by NFS, but required by spec
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.1.200
+    path: /volume1/photos/
+  mountOptions:
+    - nfsvers=4.1
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: library
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "" # Must be empty to bind directly to the specific PV
+  volumeName: immich-library-nfs-pv
+  resources:
+    requests:
+      storage: 1Mi # Must match PV capacity
