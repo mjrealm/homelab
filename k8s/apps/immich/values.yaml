@@ -13,7 +13,7 @@ app-template:
       type: nfs
       server: 192.168.1.200
       path: /volume1/media/photos/
-      
+
 immich:
   # defaultPodOptions:
   #   nodeSelector:
@@ -23,17 +23,17 @@ immich:
       containers:
         main:
           image:
-            tag: v2.7.5    
+            tag: v2.7.5
   immich:
     metrics:
-      enabled: true        
+      enabled: true
 
   valkey:
     enabled: true
     persistence:
       data:
         enabled: true
-        size: 1Gi      
+        size: 1Gi
         type: persistentVolumeClaim
 
   machine-learning:
@@ -41,7 +41,7 @@ immich:
     persistence:
       cache:
         enabled: true
-        size: 10Gi        
+        size: 10Gi
         type: persistentVolumeClaim
 
   persistence:
@@ -50,4 +50,3 @@ immich:
       type: nfs
       server: 192.168.1.200
       path: /volume1/media/photos/
-      
