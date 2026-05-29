@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: cnpg
+version: 1.0.0
+annotations:
+  homelab/description: "CloudNativePG operator"
+  homelab/url: "https://cloudnative-pg.io/"
+dependencies:
+  - name: cloudnative-pg
+    version: 0.28.2
+    repository: https://cloudnative-pg.github.io/chart

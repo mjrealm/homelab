@@ -1,0 +1,8 @@
+---
+cloudnative-pg:
+  crds:
+    create: true
+  config:
+    clusterWide: true
+  monitoring:
+    podMonitorEnabled: true
