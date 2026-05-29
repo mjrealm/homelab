@@ -7,7 +7,7 @@ annotations:
   homelab/url: ""
 dependencies:
   - name: victoria-metrics-k8s-stack
-    version: 0.80.0
+    version: 0.81.0
     repository: https://victoriametrics.github.io/helm-charts/
   #- name: prometheus-snmp-exporter
   #  version: 9.11.0
