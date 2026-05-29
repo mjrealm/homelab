@@ -1,4 +1,19 @@
 ---
+app-template:
+  controllers:
+    album-creator:
+      containers:
+        main:
+          image:
+            repository: salvoxia/immich-folder-album-creator
+            tag: 0.25.2
+  persistence:
+    external-photos:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/media/photos/
+      
 immich:
   # defaultPodOptions:
   #   nodeSelector:
@@ -8,13 +23,7 @@ immich:
       containers:
         main:
           image:
-            tag: v2.7.5
-    # album-creator:
-    #   containers:
-    #     main:
-    #       image:
-    #         repository: salvoxia/immich-folder-album-creator
-    #         tag: 0.25.2
+            tag: v2.7.5    
   immich:
     metrics:
       enabled: true        
