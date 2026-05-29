@@ -9,11 +9,12 @@ immich:
         main:
           image:
             tag: v2.7.5
-        album-creator:
+    album-creator:
+      containers:
+        main:
           image:
             repository: salvoxia/immich-folder-album-creator
-            tag: 0.25.2          
-
+            tag: 0.25.2
   immich:
     metrics:
       enabled: true        
