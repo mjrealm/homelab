@@ -7,5 +7,5 @@ annotations:
   homelab/url: "https://immich.app/"
 dependencies:
   - name: immich
-    repository: oci://ghcr.io/immich-app/immich-charts/immich
+    repository: oci://ghcr.io/immich-app/immich-charts
     version: 0.12.0
