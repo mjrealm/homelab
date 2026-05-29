@@ -8,4 +8,4 @@ annotations:
 dependencies:
   - name: cloudnative-pg
     version: 0.28.2
-    repository: https://cloudnative-pg.github.io/chart
+    repository: https://cloudnative-pg.github.io/charts
