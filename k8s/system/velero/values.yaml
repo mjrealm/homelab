@@ -24,6 +24,8 @@ velero:
         snapshotVolumes: true
         includedNamespaces:
           - paperless-ngx
+          - immich
+          - mealie
     biweekly-backup:
       schedule: "0 4 * * 0,3"
       template:
