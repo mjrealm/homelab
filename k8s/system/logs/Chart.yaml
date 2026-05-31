@@ -8,5 +8,5 @@ annotations:
   homelab/url: ""
 dependencies:
   - name: victoria-logs-single
-    version: 0.13.1
+    version: 0.13.3
     repository: https://victoriametrics.github.io/helm-charts/
