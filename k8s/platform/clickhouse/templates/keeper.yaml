@@ -5,6 +5,9 @@ metadata:
   name: keeper
 spec:
   replicas: 1
+  podTemplate:
+    nodeSelector:
+      kubernetes.io/hostname: wayne
   dataVolumeClaimSpec:
     resources:
       requests:

@@ -27,7 +27,7 @@ immich:
   immich:
     metrics:
       enabled: true
-      
+
   server:
     controllers:
       main:
