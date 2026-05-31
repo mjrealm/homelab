@@ -29,6 +29,10 @@ immich:
       enabled: true
 
   server:
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: 192.168.10.213
     controllers:
       main:
         replicas: 2
