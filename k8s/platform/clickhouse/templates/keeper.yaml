@@ -7,7 +7,7 @@ spec:
   replicas: 1
   podTemplate:
     nodeSelector:
-      kubernetes.io/hostname: wayne
+      kubernetes.io/hostname: monarch
   dataVolumeClaimSpec:
     resources:
       requests:
