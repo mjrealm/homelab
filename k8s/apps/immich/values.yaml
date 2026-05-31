@@ -31,7 +31,7 @@ immich:
   server:
     controllers:
       main:
-        replicas: 1
+        replicas: 2
 
   valkey:
     enabled: true
