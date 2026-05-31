@@ -32,7 +32,7 @@ immich:
     service:
       main:
         type: LoadBalancer
-        loadBalancerIP: 192.168.10.213
+        loadBalancerIP: 192.168.10.207
     controllers:
       main:
         replicas: 2
