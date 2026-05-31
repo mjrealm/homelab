@@ -13,6 +13,11 @@ app-template:
       type: nfs
       server: 192.168.1.200
       path: /volume1/media/photos/
+    home-photos:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/homes/
 
 immich:
   # defaultPodOptions:
