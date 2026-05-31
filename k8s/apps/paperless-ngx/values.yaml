@@ -99,7 +99,7 @@ app-template:
       ports:
         http:
           port: 3000
-          
+
   persistence:
     pg-data:
       enabled: true
