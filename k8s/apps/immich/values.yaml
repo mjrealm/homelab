@@ -20,7 +20,6 @@ immich:
   #     plex.tv/host: "true" # For intel sync
   controllers:
     main:
-      replicas: 1
       containers:
         main:
           image:
@@ -28,6 +27,8 @@ immich:
   immich:
     metrics:
       enabled: true
+      
+  server:
     controllers:
       main:
         replicas: 3

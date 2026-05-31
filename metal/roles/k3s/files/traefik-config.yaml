@@ -22,3 +22,8 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: false
+    additionalArguments:
+      - --entryPoints.web.transport.respondingTimeouts.readTimeout=0s
+      - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0s
+      - --entryPoints.websecure.transport.respondingTimeouts.writetimeout=0s
+      - --entryPoints.websecure.transport.respondingTimeouts.idletimeout=600s
