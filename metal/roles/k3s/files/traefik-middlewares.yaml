@@ -7,3 +7,12 @@ metadata:
 spec:
   buffering:
     maxRequestBodyBytes: 25165824 # 24MiB
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: body-limit-10gb
+  namespace: kube-system
+spec:
+  buffering:
+    maxRequestBodyBytes: 10737418240 # 10GB
