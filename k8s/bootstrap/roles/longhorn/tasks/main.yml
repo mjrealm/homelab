@@ -16,3 +16,16 @@
     values_files:
       - charts/longhorn-system/values.yaml
     wait: true
+
+- name: Apply CSI Snapshotter CRDs via Kustomize
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('kubernetes.core.kustomize', dir='https://github.com/kubernetes-csi/external-snapshotter//client/config/crd?ref=' ~ csi_snapshotter_version) }}"
+
+- name: Apply CSI Snapshotter Controller Deployment and RBAC via Kustomize
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('kubernetes.core.kustomize', dir='https://github.com/kubernetes-csi/external-snapshotter//deploy/kubernetes/snapshot-controller?ref=' ~ csi_snapshotter_version) }}"
+    namespace: kube-system
