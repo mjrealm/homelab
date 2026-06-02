@@ -31,7 +31,7 @@ immich:
   server:
     controllers:
       main:
-        replicas: 3
+        replicas: 2
 
   valkey:
     enabled: true
@@ -45,7 +45,7 @@ immich:
     enabled: true
     controllers:
       main:
-        replicas: 3
+        replicas: 2
     persistence:
       cache:
         enabled: true
