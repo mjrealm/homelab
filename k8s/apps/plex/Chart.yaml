@@ -8,4 +8,4 @@ annotations:
 dependencies:
   - name: plex-media-server
     repository: https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages
-    version: 1.5.0
+    version: 1.6.0
