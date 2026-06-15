@@ -1,0 +1,25 @@
+---
+victoria-metrics-k8s-stack:
+  kubeControllerManager:
+    enabled: false
+
+  victoria-metrics-operator:
+    operator:
+      prometheus_converter_add_argocd_ignore_annotations: true
+
+  alertmanager:
+    enabled: false
+  grafana:
+    enabled: false
+  defaultDashboards:
+    enabled: false
+  vmsingle:
+    spec:
+      retentionPeriod: "1w"
+    labels:
+      velero.io/exclude-from-backup: "true"
+
+# prometheus-snmp-exporter:
+#   restartPolicy: Always
+#   configmapReload:
+#     enabled: true

@@ -3,8 +3,8 @@ apiVersion: v2
 name: vm
 version: 1.0.0
 annotations:
-  homelab/description: "vm service"
-  homelab/url: ""
+  homelab/description: "Metrics and Observability"
+  homelab/url: "https://victoriametrics.cloud/"
 dependencies:
   - name: victoria-metrics-k8s-stack
     version: 0.83.0
