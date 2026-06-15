@@ -1,7 +1,7 @@
 ---
 victoria-metrics-k8s-stack:
-  kubeControllerManager:
-    enabled: false
+  # kubeControllerManager:
+    # enabled: false
 
   victoria-metrics-operator:
     operator:
