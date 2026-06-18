@@ -8,4 +8,4 @@ annotations:
 dependencies:
   - name: redpanda
     repository: https://charts.redpanda.com/
-    version: 26.1.5
+    version: 26.1.6
