@@ -23,6 +23,7 @@ immich:
       containers:
         main:
           image:
+            repository: ghcr.io/immich-app/immich-server
             tag: v2.7.5
   immich:
     metrics:
@@ -46,7 +47,7 @@ immich:
     enabled: true
     controllers:
       main:
-        replicas: 2
+        replicas: 1
     persistence:
       cache:
         enabled: true
