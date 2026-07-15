@@ -1,6 +1,0 @@
----
-community-operator:
-  operator:
-    watchNamespace: "*"
-  database:
-    namespace: mongodb
