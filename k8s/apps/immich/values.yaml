@@ -40,6 +40,7 @@ immich:
         enabled: true
         size: 1Gi
         type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
 
   machine-learning:
     enabled: true
@@ -51,6 +52,7 @@ immich:
         enabled: true
         size: 10Gi
         type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
 
   persistence:
     external-photos:
