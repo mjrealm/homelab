@@ -32,7 +32,7 @@ immich:
   server:
     controllers:
       main:
-        replicas: 2
+        replicas: 1
 
   valkey:
     enabled: true
