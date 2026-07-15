@@ -32,7 +32,7 @@ app-template:
           nameOverride: adguard-primary
           image:
             repository: adguard/adguardhome
-            tag: v0.107.77
+            tag: v0.107.78
           probes:
             liveness:
               enabled: false
@@ -53,7 +53,7 @@ app-template:
           nameOverride: adguard-secondary
           image:
             repository: adguard/adguardhome
-            tag: v0.107.77
+            tag: v0.107.78
           probes:
             liveness:
               enabled: false

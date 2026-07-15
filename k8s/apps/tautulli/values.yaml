@@ -7,7 +7,7 @@ app-template:
         tautulli:
           image:
             repository: ghcr.io/tautulli/tautulli
-            tag: v2.17.1
+            tag: v2.17.2
           env:
             TZ: America/Los_Angeles
             PUID: "1000"

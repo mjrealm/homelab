@@ -20,7 +20,7 @@ app-template:
         sonarr:
           image:
             repository: lscr.io/linuxserver/sonarr
-            tag: 4.0.17
+            tag: 4.0.19
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
