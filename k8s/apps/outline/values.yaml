@@ -73,6 +73,7 @@ app-template:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.middlewares: outline-force-secure@kubernetescrd
         gethomepage.dev/description: Modern Wiki
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Knowledge
