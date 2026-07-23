@@ -56,7 +56,7 @@ app-template:
         prowlarr:
           image:
             repository: lscr.io/linuxserver/prowlarr
-            tag: 2.4.0
+            tag: 2.5.2
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
