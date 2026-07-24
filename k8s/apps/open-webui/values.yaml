@@ -1,7 +1,7 @@
 ---
 open-webui:
   ollama:
-    enabled: false # Do not install ollama Helm chart  
+    enabled: false  # Do not install ollama Helm chart
   pipelines:
     enabled: false
   image:
@@ -11,4 +11,3 @@ open-webui:
   persistence:
     enabled: true
     size: 5Gi
-    
