@@ -1,0 +1,14 @@
+---
+open-webui:
+  ollama:
+    enabled: false # Do not install ollama Helm chart  
+  pipelines:
+    enabled: false
+  image:
+    repository: ghcr.io/open-webui/open-webui
+    tag: v0.10.2
+
+  persistence:
+    enabled: true
+    size: 5Gi
+    
