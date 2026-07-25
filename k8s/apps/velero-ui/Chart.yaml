@@ -7,4 +7,4 @@ annotations:
 dependencies:
   - name: velero-ui
     repository: https://helm.otwld.com/
-    version: 0.14.0
+    version: 0.15.0
