@@ -7,5 +7,5 @@ annotations:
   homelab/url: "https://cilium.io/"
 dependencies:
   - name: cilium
-    version: 1.19.6
+    version: 1.20.0
     repository: https://helm.cilium.io/
