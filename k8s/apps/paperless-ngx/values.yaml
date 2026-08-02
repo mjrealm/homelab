@@ -10,7 +10,7 @@ app-template:
           nameOverride: paperless-ngx
           image:
             repository: ghcr.io/paperless-ngx/paperless-ngx
-            tag: 3.0.4
+            tag: 3.0.5
     redis:
       containers:
         redis:
