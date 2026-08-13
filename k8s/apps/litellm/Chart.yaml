@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: litellm
+version: 0.0.1
+dependencies:
+  - name: litellm
+    repository: oci://ghcr.io/berriai/litellm-helm
+    version: 1.96.2
