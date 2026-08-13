@@ -134,6 +134,7 @@ argo-cd:
             cp /custom-tools/helm-plugins/helm-secrets/scripts/wrapper/helm.sh /custom-tools/helm
 
             chmod +x /custom-tools/*
+            chmod -R 777 /custom-tools/helm-plugins/
         volumeMounts:
           - mountPath: /custom-tools
             name: custom-tools
