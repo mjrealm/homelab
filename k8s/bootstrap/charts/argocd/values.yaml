@@ -152,8 +152,6 @@ argo-cd:
               "${HELM_SECRETS_AGE_PATH}"
 
             cp "${HELM_PLUGINS}/helm-secrets/scripts/wrapper/helm.sh" /gitops-tools/helm
-            helm version
-            helm plugin list
         volumeMounts:
           - mountPath: /gitops-tools
             name: gitops-tools
