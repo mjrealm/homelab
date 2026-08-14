@@ -1,5 +1,5 @@
 ---
-litellm:
+litellm-helm:
   replicaCount: 3
   image:
     # Use "ghcr.io/berriai/litellm-database" for optimized image with database
