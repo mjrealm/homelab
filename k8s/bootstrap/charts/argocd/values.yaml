@@ -108,7 +108,7 @@ argo-cd:
         command: [sh, -euc]
         env:
           - name: HELM_SECRETS_VERSION
-            value: "4.7.7"
+            value: "4.7.5"
           - name: KUBECTL_VERSION
             value: "1.36.3"
           - name: VALS_VERSION
