@@ -1,0 +1,24 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: litellm-database
+spec:
+  instances: 1
+  storage:
+    size: 10Gi
+  bootstrap:
+    initdb:
+      database: litellm
+      owner: app
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: litellm-database
+spec:
+  name: litellm
+  owner: app
+  cluster:
+    name: litellm-database
