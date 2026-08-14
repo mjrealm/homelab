@@ -5,4 +5,4 @@ version: 0.0.1
 dependencies:
   - name: litellm
     repository: oci://ghcr.io/berriai/litellm-helm
-    version: 1.96.2
+    version: 1.95.1
