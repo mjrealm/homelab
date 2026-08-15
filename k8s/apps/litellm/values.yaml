@@ -1,11 +1,10 @@
 ---
 litellm-helm:
-  replicaCount: 3
-  image:
-    # Use "ghcr.io/berriai/litellm-database" for optimized image with database
+  replicaCount: 1
+  image:    
     repository: ghcr.io/berriai/litellm-database
     tag: "1.96.2"
   autoscaling:
     enabled: false
-    minReplicas: 1
-    maxReplicas: 3
+    # minReplicas: 1
+    # maxReplicas: 3
