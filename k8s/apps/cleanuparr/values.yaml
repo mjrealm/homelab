@@ -7,7 +7,7 @@ app-template:
         cleanuparr:
           image:
             repository: ghcr.io/cleanuparr/cleanuparr
-            tag: 2.10.3
+            tag: 2.10.5
           env:
             TZ: America/Los_Angeles
             PORT: "11011"
