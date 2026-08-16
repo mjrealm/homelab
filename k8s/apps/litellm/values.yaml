@@ -3,7 +3,7 @@ litellm-helm:
   replicaCount: 1
   image:
     repository: ghcr.io/berriai/litellm-database
-    tag: "1.96.2"
+    tag: "v1.97.0"
   autoscaling:
     enabled: false
     # minReplicas: 1
