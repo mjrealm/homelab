@@ -11,7 +11,7 @@ app-template:
           nameOverride: hermes
           image:
             repository: nousresearch/hermes-agent
-            tag: "v2026.8.13"
+            tag: "v2026.8.16"
           env:
             TZ: "America/Los_Angeles"
 
