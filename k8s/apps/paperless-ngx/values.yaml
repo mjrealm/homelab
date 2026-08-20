@@ -24,7 +24,7 @@ app-template:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: "16.14"
+            tag: "16.15"
     tika:
       containers:
         tika:
