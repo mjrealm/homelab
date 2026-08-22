@@ -17,14 +17,14 @@ app-template:
           nameOverride: redis
           image:
             repository: redis
-            tag: 7.4.10
+            tag: 7.4.11
     postgres:
       containers:
         postgres:
           nameOverride: postgres
           image:
             repository: postgres
-            tag: "16.14"
+            tag: "16.15"
     tika:
       containers:
         tika:
