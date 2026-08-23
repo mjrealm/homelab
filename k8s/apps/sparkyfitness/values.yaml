@@ -1,0 +1,26 @@
+---
+sparkyfitness:
+  server:
+    image:
+      repository: codewithcj/sparkyfitness-server
+      tag: "v1.6.2"
+  config:
+    timezone: "America/Los_Angeles"
+    frontendUrl: "https://fitness.mdeleon.dev"
+    disableSignup: false
+    # -- Force email/password login to be enabled (fail-safe against OIDC lockout)
+    forceEmailLogin: true
+    # -- Hide email/password login on login page (overridden by forceEmailLogin)
+    disableEmailLogin: false
+    oidc:
+      enabled: true
+      providerName: "Pocket ID"
+      issuerUrl: "https://pocket.mdeleon.dev"
+      scope: "openid profile email"
+      domain: "mdeleon.dev"
+      autoRegister: true
+      autoRedirect: true
+      logoUrl: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/pocket-id.png"
+      secrets:
+        clientId: "bff1e5f8-2eae-4995-8f2c-474266883895"
+        clientSecret: "J8tD5FcWJdhLEXlS1EXnj9LtkzJ6dAUE"

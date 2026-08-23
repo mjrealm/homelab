@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: sparkyfitness
+version: 0.0.1
+dependencies:
+  - name: sparkyfitness
+    repository: oci://ghcr.io/codewithcj/charts/sparkyfitness
+    version: 1.6.2
