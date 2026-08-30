@@ -9,9 +9,6 @@ app-template:
           image:
             repository: samanhappy/mcphub
             tag: "1.0.33"
-          env:
-            USE_DB: "True"
-            DB_URL: ""
     postgres:
       containers:
         postgres:
