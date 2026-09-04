@@ -8,7 +8,7 @@ app-template:
           nameOverride: mcphub
           image:
             repository: samanhappy/mcphub
-            tag: "1.0.33"
+            tag: "1.0.34"
     postgres:
       containers:
         postgres:
