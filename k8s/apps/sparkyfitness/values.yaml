@@ -2,5 +2,5 @@
 sparkyfitness:
   server:
     image:
-      repository: codewithcj/sparkyfitness-server
+      repository: codewithcj/sparkyfitness_server
       tag: "v1.6.2"
