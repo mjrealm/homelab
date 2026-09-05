@@ -37,7 +37,7 @@ app-template:
       containers:
         meilisearch:
           image:
-            repository: zenika-hub/alpine-chrome
+            repository: zenika/alpine-chrome
             tag: 124
           args:
             - --no-sandbox
