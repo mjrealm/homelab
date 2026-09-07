@@ -3,5 +3,3 @@ kured:
   image:
     repository: ghcr.io/kubereboot/kured
     tag: "1.23.0"
-
-    

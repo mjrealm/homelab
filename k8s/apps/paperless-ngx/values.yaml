@@ -60,6 +60,13 @@ app-template:
           image:
             repository: icereed/paperless-gpt
             tag: v0.27.0
+    paperless-mcp:
+      containers:
+        paperless-mcp:
+          nameOverride: paperless-mcp
+          image:
+            repository: ghcr.io/barryw/paperlessmcp
+            tag: 0.6.0
 
   service:
     paperless:
@@ -97,6 +104,11 @@ app-template:
       ports:
         http:
           port: 8080
+    paperless-mcp:
+      controller: paperless-mcp
+      ports:
+        http:
+          port: 5000
 
   persistence:
     pg-data:
@@ -185,3 +197,12 @@ app-template:
         paperless-gpt:
           paperless-gpt:
             - path: /app/prompts
+    paperless-mcp-outbox:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        paperless-mcp:
+          paperless-mcp:
+            - path: /home/mcp/outbox
