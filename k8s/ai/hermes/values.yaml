@@ -12,8 +12,6 @@ app-template:
           image:
             repository: nousresearch/hermes-agent
             tag: "v2026.9.7"
-          env:
-            TZ: "America/Los_Angeles"
 
   service:
     main:
@@ -23,36 +21,14 @@ app-template:
           port: 8642
         dashboard:
           port: 9119
-
-  ingress:
-    hermes:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        gethomepage.dev/name: Hermes Agent
-        gethomepage.dev/description: AI Agent
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: AI
-        gethomepage.dev/icon: sh-hermes-agent.png
-        gethomepage.dev/pod-selector: ""
-      hosts:
-        - host: &hermes hermes.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: main
-                port: dashboard
-      tls:
-        - secretName: hermes-dashboard-tls-cert
-          hosts:
-            - *hermes
+        mcp:
+          port: 8080
 
   persistence:
     data:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 5Gi
+      size: 20Gi
       globalMounts:
         - path: /opt/data
