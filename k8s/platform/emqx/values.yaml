@@ -2,7 +2,7 @@
 emqx:
   image:
     repository: emqx/emqx
-    tag: 6.3.0
+    tag: 6.3.1
 
   replicaCount: 1
 
