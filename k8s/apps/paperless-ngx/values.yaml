@@ -59,7 +59,7 @@ app-template:
           nameOverride: paperless-gpt
           image:
             repository: icereed/paperless-gpt
-            tag: v0.27.0
+            tag: v0.29.0
     paperless-mcp:
       containers:
         paperless-mcp:
