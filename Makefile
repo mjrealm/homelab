@@ -17,7 +17,7 @@ decrypt-secrets:
 clean-secrets:
 	find k8s -type f -name 'secrets.dec.yaml' -delete
 deps: venv
-	brew install kubectl helm sops age
+	brew install kubectl helm sops age gitleaks
 	$(VENV)/bin/ansible-galaxy collection install kubernetes.core community.general
 	mkdir -p .keys
 	curl -fsSL https://github.com/jkroepke.gpg \
@@ -32,5 +32,6 @@ venv:
 	pyenv install --skip-existing
 	test -d $(VENV) || "$$(pyenv prefix)/bin/python" -m venv $(VENV)
 	$(VENV)/bin/pip install -r requirements.txt
+	$(VENV)/bin/pre-commit install
 kubeconfig:
 	make -C metal kubeconfig
