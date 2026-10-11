@@ -32,3 +32,5 @@ venv:
 	pyenv install --skip-existing
 	test -d $(VENV) || "$$(pyenv prefix)/bin/python" -m venv $(VENV)
 	$(VENV)/bin/pip install -r requirements.txt
+kubeconfig:
+	make -C metal kubeconfig
