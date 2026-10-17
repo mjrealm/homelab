@@ -2,15 +2,15 @@
 hindsight:
   api:
     image:
-      tag: "1.0.0"
+      # Slim image: no local models, embeddings and reranking come from oMLX
+      tag: "1.0.0-slim"
     env:
       HINDSIGHT_API_LLM_PROVIDER: openai
       HINDSIGHT_API_LLM_MODEL: Qwen3-VL-8B-Instruct-4bit # gitleaks:allow
-    # Keep downloaded embedding/reranker models across restarts
-    persistence:
-      modelCache:
-        enabled: true
-        size: 5Gi
+      HINDSIGHT_API_EMBEDDINGS_PROVIDER: openai
+      HINDSIGHT_API_EMBEDDINGS_OPENAI_MODEL: bge-m3-mlx-fp16
+      HINDSIGHT_API_RERANKER_PROVIDER: cohere
+      HINDSIGHT_API_RERANKER_COHERE_MODEL: Qwen3-Reranker-0.6B-4bit
   controlPlane:
     image:
       tag: "1.0.0"
