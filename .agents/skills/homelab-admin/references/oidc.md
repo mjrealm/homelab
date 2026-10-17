@@ -4,7 +4,7 @@
 https://github.com/pocket-id/pocket-id
 
 
-For applications that doesn't support OIDC, use **OAuth2 Proxy** as a reverse proxy to handle authentication. It will handle the OIDC authentication and forward the request to the application.
+For applications that don't support OIDC, put them behind **TinyAuth** forward authentication (see `ingress.md`).
 
 ## The OIDC "Catch-22" Workflow
 
@@ -20,9 +20,9 @@ Configuring OIDC requires credentials (Client ID and Client Secret) from Pocket 
 2.  **Credential Configuration and Deployment**:
     *   Once the user provides the credentials, you must add the **Client Secret** to the application's local `secrets.dec.yaml` file.
     *   Update `values.yaml` with the non-sensitive fields (`Client ID` and `Discovery/Issuer URL`).
-    *   Encrypt the secrets into a new file (Ensure you follow `helm-templates.md` and leave `secrets.dec.yaml` intact for local development).
+    *   Encrypt the secrets as described in `AGENTS.md`, and leave `secrets.dec.yaml` in place for local development.
 
 ## Strict Rules to Follow
-- OIDC secrets **MUST** be stored in `secrets.dec.yaml`, never in `values.yaml`. Refer to `helm-templates.md` for more information.
+- OIDC secrets **MUST** be stored in `secrets.dec.yaml`, never in `values.yaml`. Refer to `helm-template.md` for more information.
 - Make sure the PR clearly highlights the OIDC setup in the PR description.
-- Ensure OIDC is part of free tier of the application. If not, we will need to find an alternative solution like LDAP or `OAuth2 Proxy`.
+- Ensure OIDC is part of free tier of the application. If not, find an alternative such as LDAP (lldap) or TinyAuth.
