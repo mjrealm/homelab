@@ -1,0 +1,44 @@
+---
+hindsight:
+  api:
+    image:
+      tag: "1.0.0"
+    env:
+      HINDSIGHT_API_LLM_PROVIDER: openai
+      HINDSIGHT_API_LLM_MODEL: Qwen3-VL-8B-Instruct-4bit # gitleaks:allow
+    # Keep downloaded embedding/reranker models across restarts
+    persistence:
+      modelCache:
+        enabled: true
+        size: 5Gi
+  controlPlane:
+    image:
+      tag: "1.0.0"
+  postgresql:
+    image:
+      repository: pgvector/pgvector
+      tag: "pg18-trixie"
+    persistence:
+      enabled: true
+      size: 8Gi
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Hindsight
+      gethomepage.dev/description: AI agent memory
+      gethomepage.dev/group: AI
+      gethomepage.dev/icon: hindsight.png
+      gethomepage.dev/pod-selector: ""
+    hosts:
+      - host: &hindsight hindsight.mdeleon.dev
+        paths:
+          - path: /
+            pathType: Prefix
+            service: controlPlane
+    tls:
+      - secretName: hindsight-tls-cert
+        hosts:
+          - *hindsight

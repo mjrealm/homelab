@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: hindsight
+version: 1.0.0
+annotations:
+  homelab/description: "Long-term memory for AI agents"
+  homelab/url: "https://hindsight.vectorize.io/"
+dependencies:
+  - name: hindsight
+    repository: oci://ghcr.io/vectorize-io/charts
+    version: 1.0.0
