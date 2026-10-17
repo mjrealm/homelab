@@ -1,5 +1,9 @@
 ---
 app-template:
+  defaultPodOptions:
+    securityContext:
+      fsGroup: 10000
+      fsGroupChangePolicy: OnRootMismatch
   controllers:
     main:
       strategy: RollingUpdate
