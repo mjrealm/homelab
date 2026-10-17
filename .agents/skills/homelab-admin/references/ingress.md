@@ -58,7 +58,7 @@ ingress:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "My App"
-      gethomepage.dev/group: "Media" # See list of groups in apps/homepage/secrets.dec.yaml
+      gethomepage.dev/group: "Media" # See list of groups in k8s/apps/homepage/secrets.dec.yaml
       gethomepage.dev/icon: "app-icon.png"
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=myapp" # OPTIONAL: Only use if multiple apps share the namespace. Must be verified.
       gethomepage.dev/weight: "2" # If you want to change the order of the apps in the group

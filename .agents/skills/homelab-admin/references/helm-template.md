@@ -1,4 +1,4 @@
-## Helm Chart Guide
+# Helm Chart Guide
 
 ## Structure
 ```
@@ -29,14 +29,13 @@
 - It is used to specify the secrets of the chart. Example: passwords, api keys, etc.
 - It follows the same format as `values.yaml`.
 - **CRITICAL**: For `bjw-s` app-template v3, `env` blocks in secrets **must** be nested under `containers.<container_name>.env`. Do not put them directly under the `controllers` root.
-- It is *not* pushed to git. This file is explicitly ignored in the `.gitignore` file.
+- It is *not* pushed to git; `*.dec.yaml` is in `.gitignore`.
 
 ### secrets.yaml
 - This file contains the encrypted secrets for the Helm chart.
-- It is encrypted using `helm secrets encrypt secrets.dec.yaml > secrets.yaml` command.
+- It is encrypted from `secrets.dec.yaml` with the `helm-secrets` plugin (SOPS + age); see "Secrets" in `AGENTS.md` for the exact command.
 - Since it is encrypted, it is safe to push to git.
-- Encryption is handled by `helm-secrets` plugin. It uses Mozilla SOPS for encryption with Age. The public key is stored in `.sops.yaml` file.
-- Helm secrets plugin is installed by ArgoCD. It automatically decrypts the secrets when rendering the templates.
+- Argo CD has the helm-secrets plugin installed and decrypts the file when rendering the chart.
 
 ### templates/
 - This directory contains any custom manifests for the chart.
@@ -69,7 +68,7 @@ version: 1.0.0
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 4.6.2
+    version: 5.3.0
 
 ---
 ```
