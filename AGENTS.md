@@ -71,7 +71,7 @@ Secrets are encrypted with **sops + age** and decrypted by Argo CD through the *
 - Pin image tags and expose them in `values.yaml` so Renovate can update them. Never use `:latest`.
 - Use persistent volumes for app data, not temporary storage.
 - Expose apps with an Ingress (`ingressClassName: traefik`). Use a LoadBalancer only when an Ingress can't work, and call it out in the PR. Never use NodePort.
-- Define each hostname once with a YAML anchor and reference it in the TLS hosts list.
+- Define each hostname once with a YAML anchor (`&app` / `*app`) and reference it in the TLS hosts list. Keep the ingress in `values.yaml`; sops expands anchors in `secrets.dec.yaml`.
 
 ## Validation
 
@@ -84,6 +84,18 @@ gitleaks git --staged .
 ```
 
 Check that every changed `secrets.yaml` has a `sops:` block.
+
+## Clean up
+
+Remove everything you created only to validate or test, even if it is gitignored, before you commit and when you finish:
+
+```bash
+rm -rf k8s/<stack>/<app>/charts k8s/<stack>/<app>/Chart.lock   # created by `helm dependency build`
+```
+
+- Also delete rendered output, downloaded or extracted charts and archives, test files, and extra worktrees or branches you made.
+- Check with `git status --short --ignored`: only the files you meant to change, plus your local `secrets.dec.yaml` and `.venv`, should remain.
+- Don't delete `secrets.dec.yaml`; it is the working copy.
 
 ## Git and pull requests
 
