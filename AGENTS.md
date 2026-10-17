@@ -87,8 +87,21 @@ Check that every changed `secrets.yaml` has a `sops:` block.
 
 ## Git and pull requests
 
-- Never commit to `main`. Start from the latest `main` (`git checkout main && git pull`) and work on a new branch.
-- Before adding a fix to an existing branch, check whether its PR was already merged. If so, start a new branch and PR.
+- Never commit to `main`. Always work on a branch created from the latest `main`.
+- Before every commit and push, check whether the current branch's PR was already merged:
+
+  ```bash
+  gh pr view --json state --jq .state   # MERGED, CLOSED, OPEN, or an error if no PR exists
+  ```
+
+  PRs are squash-merged, so `git branch --merged` doesn't detect this; use `gh`. If the PR is `MERGED` or `CLOSED`, don't push to that branch. Switch to `main`, pull the latest, and start a new branch (uncommitted changes carry over):
+
+  ```bash
+  git checkout main && git pull
+  git checkout -b <type>/<short-description>
+  ```
+
+- When starting new work, also switch to `main` and pull first, even if the current branch is unmerged.
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): summary`, e.g. `feat(apps): add actual-budget`, `fix(outline): ingress host`. Types: `feat`, `fix`, `chore`, `docs`, `refactor`.
 - PR descriptions cover what changed, why, which stack an app went into, chart and image versions, and how it was verified.
 - Don't merge PRs unless asked.
