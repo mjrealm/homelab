@@ -32,3 +32,10 @@ app-template:
       size: 20Gi
       globalMounts:
         - path: /opt/data
+    wiki:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 30Gi
+      globalMounts:
+        - path: /wiki
