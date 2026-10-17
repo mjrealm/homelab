@@ -38,14 +38,20 @@ The `gethomepage.dev/pod-selector` annotation is **optional** and is only requir
 - If used, verify the label is actually correct against the deployed pods (e.g., `app.kubernetes.io/name=<my-app>`). Use `kubectl get pods -n <namespace> -l app.kubernetes.io/name=<my-app>` to verify.
 - If there is only one app in the namespace, do not include this annotation.
 
-### 3. Authentication (Optional)
-If the application lacks built-in authentication and needs to be secured, use the external TinyAuth proxy annotations:
+### 3. Authentication (search, then ask the user)
+1. Search the app's documentation for OIDC support (and check it is in the free tier).
+2. Ask the user; don't choose for them:
+   - **OIDC supported:** offer OIDC with Pocket ID (see `oidc.md`), or no auth.
+   - **OIDC not supported:** offer TinyAuth, or no auth.
+3. Add an auth annotation only if the user chose it. For TinyAuth:
 ```yaml
 traefik.ingress.kubernetes.io/router.middlewares: tinyauth-tinyauth-forwardauth@kubernetescrd
 ```
 
 ### 4. YAML Anchors for Hosts
-To prevent typos and keep the file DRY, use YAML anchors (`&appname`) to define the hostname once, and reference it (`*appname`) in the TLS hosts array. The standard internal domain is `mdeleon.dev` or a subdomain of it.
+Define the hostname once with an anchor named after the app (`host: &myapp myapp.mdeleon.dev`) and reference it in the TLS hosts list (`- *myapp`). The standard internal domain is `mdeleon.dev` or a subdomain of it.
+
+**Keep the ingress in `values.yaml`, not `secrets.dec.yaml`.** sops expands YAML anchors when it encrypts, so an ingress in the secrets file ends up with the hostname repeated. Only put real secrets (tokens, passwords, client secrets) in `secrets.dec.yaml`.
 
 ## Example: bjw-s App-Template Ingress
 Here is the standard way to define an ingress when using the `bjw-s` helm app-template:

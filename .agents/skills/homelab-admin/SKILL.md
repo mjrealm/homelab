@@ -18,7 +18,7 @@ Repo layout, stacks, secrets handling, conventions, validation and Git rules are
 Read the relevant file before writing manifests:
 
 - `references/helm-template.md` — chart structure and the bjw-s app-template pattern.
-- `references/ingress.md` — TLS, Homepage dashboard annotations, icons, TinyAuth.
+- `references/ingress.md` — TLS, Homepage dashboard annotations, icons, optional TinyAuth.
 - `references/oidc.md` — registering an app with Pocket ID.
 
 ## Workflows
@@ -28,10 +28,12 @@ Read the relevant file before writing manifests:
 1. **Gather information.** Read the app's documentation and its chart's default `values.yaml`. List its dependencies (database, cache, object storage) and check whether a platform service already provides them. Look at how similar apps in the repo are set up.
 2. **Pick the stack.** Use the categories in `AGENTS.md` and check the app doesn't already exist under another name.
 3. **Write the chart** in `k8s/<stack>/<app>/`, following `references/helm-template.md`. Prefer the official chart; otherwise use bjw-s app-template.
-4. **Expose it** with an ingress following `references/ingress.md`, so it shows up on the Homepage dashboard.
-5. **Add login.** If the app supports OIDC, follow `references/oidc.md`. If it has no authentication at all, put it behind TinyAuth.
+4. **Expose it** with an ingress in `values.yaml` following `references/ingress.md`, so it shows up on the Homepage dashboard. Use YAML anchors for the hostname.
+5. **Settle authentication.** Search the app's documentation to find out whether it supports OIDC (and whether that is in the free tier). Then ask the user; don't choose for them, and don't add TinyAuth by default:
+   - **OIDC supported:** offer OIDC through Pocket ID (follow `references/oidc.md`), or no auth.
+   - **OIDC not supported:** offer TinyAuth forward auth (see `references/ingress.md`), or no auth.
 6. **Handle secrets.** Put them in `secrets.dec.yaml` and encrypt as described in `AGENTS.md`.
-7. **Validate, commit and open a PR** as described in `AGENTS.md`.
+7. **Validate, clean up, commit and open a PR** as described in `AGENTS.md`. Remove `charts/`, `Chart.lock` and any other files you created for testing, even if gitignored.
 
 ### Uninstall an application
 
@@ -44,7 +46,7 @@ Read the relevant file before writing manifests:
 
 1. Compare the change against the chart's default `values.yaml` and keep the same structure.
 2. Put any new sensitive values in `secrets.dec.yaml` and re-encrypt.
-3. Validate, commit and open a PR as described in `AGENTS.md`.
+3. Validate, clean up, commit and open a PR as described in `AGENTS.md`.
 
 ## Success criteria
 

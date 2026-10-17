@@ -4,7 +4,7 @@
 https://github.com/pocket-id/pocket-id
 
 
-For applications that don't support OIDC, put them behind **TinyAuth** forward authentication (see `ingress.md`).
+Search the app's documentation to confirm it supports OIDC before offering this. If it does, offer OIDC (or no auth); if not, offer TinyAuth (or no auth). See `ingress.md`.
 
 ## The OIDC "Catch-22" Workflow
 
