@@ -26,6 +26,8 @@ velero:
           - paperless-ngx
           - immich
           - mealie
+          - hermes
+          - hindsight
     biweekly-backup:
       schedule: "0 4 * * 0,3"
       template:
