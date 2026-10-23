@@ -1,0 +1,52 @@
+---
+phoenix-helm:
+  # Postgres is provided by the CNPG cluster in templates/postgres.yaml.
+  postgresql:
+    enabled: false
+  persistence:
+    enabled: false
+  database:
+    postgres:
+      host: phoenix-database-rw
+      port: 5432
+      db: phoenix
+      user: app
+
+  image:
+    tag: version-20.26.0-nonroot
+
+  service:
+    type: ClusterIP
+
+  securityContext:
+    pod:
+      enabled: true
+    container:
+      enabled: true
+
+  server:
+    rootUrl: https://phoenix.mdeleon.dev
+    telemetryEnabled: false
+
+  auth:
+    useSecureCookies: true
+    oauth2:
+      enabled: true
+
+  ingress:
+    enabled: true
+    className: traefik
+    host: &phoenix phoenix.mdeleon.dev
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/name: Phoenix
+      gethomepage.dev/description: AI Observability
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: AI
+      gethomepage.dev/icon: https://github.com/Arize-ai.png
+      gethomepage.dev/pod-selector: app=phoenix
+    tls:
+      enabled: true
+      certSource: secret
+      secret:
+        secretName: phoenix-tls-cert

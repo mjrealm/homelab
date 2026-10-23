@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: phoenix
+version: 1.0.0
+annotations:
+  homelab/description: "Open-source AI observability and evaluation platform"
+  homelab/url: "https://phoenix.arize.com/"
+dependencies:
+  - name: phoenix-helm
+    repository: oci://registry-1.docker.io/arizephoenix
+    version: 12.0.26

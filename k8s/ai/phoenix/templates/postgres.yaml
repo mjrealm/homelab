@@ -1,0 +1,14 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: phoenix-database
+spec:
+  instances: 1
+  storage:
+    size: 5Gi
+  bootstrap:
+    initdb:
+      database: phoenix
+      owner: app
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
