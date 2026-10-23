@@ -1,0 +1,64 @@
+---
+victoria-metrics-k8s-stack:
+  vmsingle:
+    spec:
+      retentionPeriod: "1"
+      storageMetadata:
+        labels:
+          velero.io/exclude-from-backup: "true"
+      storage:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+    ingress:
+      enabled: true
+      pathType: Prefix
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: VictoriaMetrics
+        gethomepage.dev/description: Metrics Manager
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Observability
+        gethomepage.dev/icon: sh-victoriametrics.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/href: "https://vmetrics.mdeleon.dev/vmui"
+      hosts:
+        - &host vmetrics.mdeleon.dev
+      tls:
+        - secretName: vmetrics-tls-cert
+          hosts:
+            - *host
+
+  # No Grafana, Alertmanager or rules yet; only collect and query metrics.
+  grafana:
+    enabled: false
+  defaultDashboards:
+    enabled: false
+  defaultRules:
+    create: false
+  alertmanager:
+    enabled: false
+  vmalert:
+    enabled: false
+
+  # k3s embeds these in a single process and does not expose their metrics.
+  kubeControllerManager:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+  kubeProxy:
+    enabled: false
+  kubeEtcd:
+    enabled: false
+
+victoria-metrics-mcp:
+  vm:
+    type: single
+    entrypoint: http://vmsingle-victoria-metrics-victoria-metrics-k8s-stack.victoria-metrics.svc:8428
+  mcp:
+    mode: http
+  ingress:
+    enabled: false

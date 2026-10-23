@@ -1,0 +1,15 @@
+---
+apiVersion: v2
+name: victoria-metrics
+description: VictoriaMetrics is a high-performance, cost-effective, and scalable metrics management solution.
+version: 1.0.0
+annotations:
+  homelab/description: "victoria-metrics service"
+  homelab/url: ""
+dependencies:
+  - name: victoria-metrics-k8s-stack
+    version: 0.96.0
+    repository: https://victoriametrics.github.io/helm-charts/
+  - name: victoria-metrics-mcp
+    version: 0.4.0
+    repository: https://victoriametrics.github.io/helm-charts/
