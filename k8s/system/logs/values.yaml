@@ -42,3 +42,13 @@ victoria-logs-single:
     enabled: false
     grafanaOperator:
       enabled: true
+
+victoria-logs-mcp:
+  vl:
+    entrypoint: http://logs-victoria-logs-single-server.logs.svc:9428
+  mcp:
+    # Server operation mode: http / sse
+    mode: http
+    passthroughHeaders: []
+  ingress:
+    enabled: false
