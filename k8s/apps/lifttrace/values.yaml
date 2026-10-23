@@ -14,6 +14,9 @@ app-template:
             DB_PATH: /data/db/lifttrace.db
             UPLOADS_PATH: /data/uploads
             UPDATE_CHECK: "off"
+            MCP_ENABLED: "1"
+            MCP_WRITE_ENABLED: "1"
+            MCP_DESTROY_ENABLED: "1"
             TZ: America/Los_Angeles
             OIDC_DISPLAY_NAME: Pocket ID
             OIDC_SCOPE: openid profile email
