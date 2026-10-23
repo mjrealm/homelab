@@ -43,7 +43,7 @@ victoria-logs-single:
 
 victoria-logs-mcp:
   vl:
-    entrypoint: http://logs-victoria-logs-single-server.logs.svc:9428
+    entrypoint: http://victoria-logs-victoria-logs-single-server.victoria-logs.svc:9428
   mcp:
     # Server operation mode: http / sse
     mode: http
