@@ -156,3 +156,22 @@ argo-cd:
         volumeMounts:
           - mountPath: /gitops-tools
             name: gitops-tools
+
+
+app-template:
+  controllers:
+    mcp-server:
+      strategy: Recreate
+      containers:
+        mcp-server:
+          nameOverride: argo-mcp-server
+          image:
+            repository: ghcr.io/argoproj-labs/mcp-for-argocd
+            tag: "0.9.0"
+
+  service:
+    mcp-server:
+      controller: mcp-server
+      ports:
+        http:
+          port: 3000
