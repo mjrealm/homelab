@@ -9,8 +9,6 @@ victoria-logs-single:
         velero.io/exclude-from-backup: "true"
     serviceMonitor:
       enabled: true
-    vmServiceScrape:
-      enabled: true
     ingress:
       enabled: true
       pathType: Prefix
