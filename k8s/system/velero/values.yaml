@@ -28,6 +28,7 @@ velero:
           - mealie
           - hermes
           - hindsight
+          - outline
     biweekly-backup:
       schedule: "0 4 * * 0,3"
       template:
