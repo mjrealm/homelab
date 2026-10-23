@@ -23,18 +23,7 @@ velero-ui:
         hosts:
           - *host
 
-  # Velero UI Specific Configuration
-  config:
-    velero:
-      namespace: velero
-      service: velero
-      port: 8085
-    s3:
-      endpoint: http://garage.garage.svc.cluster.local:3900
-      bucket: velero
-      region: garage
-      publicUrl: https://s3.mdeleon.dev
+  configuration:
     general:
+      veleroNamespace: velero
       grafanaUrl: "https://grafana.mdeleon.dev"
-    auth:
-      type: oidc
