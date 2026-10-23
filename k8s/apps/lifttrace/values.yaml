@@ -13,12 +13,9 @@ app-template:
           env:
             DB_PATH: /data/db/lifttrace.db
             UPLOADS_PATH: /data/uploads
-            PUBLIC_URL: https://lifttrace.mdeleon.dev
             UPDATE_CHECK: "off"
             TZ: America/Los_Angeles
-            OIDC_ISSUER: https://pocket.mdeleon.dev
             OIDC_DISPLAY_NAME: Pocket ID
-            OIDC_REDIRECT_URIS: https://lifttrace.mdeleon.dev/api/auth/oidc/callback/1
             OIDC_SCOPE: openid profile email
 
   service:
