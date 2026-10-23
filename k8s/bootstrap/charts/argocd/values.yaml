@@ -161,6 +161,7 @@ argo-cd:
 app-template:
   controllers:
     mcp-server:
+      suffix: mcp-server
       strategy: Recreate
       containers:
         mcp-server:
@@ -171,6 +172,7 @@ app-template:
 
   service:
     mcp-server:
+      suffix: mcp-server
       controller: mcp-server
       ports:
         http:
