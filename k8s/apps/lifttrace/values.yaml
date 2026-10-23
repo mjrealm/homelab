@@ -1,0 +1,66 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: lifttrace
+          image:
+            repository: ghcr.io/traceapps/lifttrace
+            # Only :latest and :dev are published, so pin the build by digest.
+            tag: latest@sha256:f19b28299b77d5cc81ba96aba54549b4f8b619d3173728c54caf817e982a7968
+          env:
+            DB_PATH: /data/db/lifttrace.db
+            UPLOADS_PATH: /data/uploads
+            PUBLIC_URL: https://lifttrace.mdeleon.dev
+            UPDATE_CHECK: "off"
+            TZ: America/Los_Angeles
+            OIDC_ISSUER: https://pocket.mdeleon.dev
+            OIDC_DISPLAY_NAME: Pocket ID
+            OIDC_REDIRECT_URIS: https://lifttrace.mdeleon.dev/api/auth/oidc/callback/1
+            OIDC_SCOPE: openid profile email
+
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 3002
+
+  ingress:
+    lifttrace:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: LiftTrace
+        gethomepage.dev/description: Weightlifting Tracker
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Fitness
+        gethomepage.dev/icon: https://raw.githubusercontent.com/traceapps/lifttrace/main/public/icons/icon-192.png
+      hosts:
+        - host: &lifttrace lifttrace.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: lifttrace-tls-cert
+          hosts:
+            - *lifttrace
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      advancedMounts:
+        main:
+          main:
+            - path: /data/db
+              subPath: db
+            - path: /data/uploads
+              subPath: uploads
