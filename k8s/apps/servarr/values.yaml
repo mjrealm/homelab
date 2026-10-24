@@ -74,6 +74,24 @@ app-template:
             PGID: "1000"
             TZ: "America/Los_Angeles"
 
+    mcp-arr:
+      replicas: 1
+      strategy: RollingUpdate
+      containers:
+        mcp-arr:
+          image:
+            repository: ghcr.io/aplaceforallmystuff/mcp-arr
+            tag: 1.7.3
+          env:
+            TZ: "America/Los_Angeles"
+            MCP_TRANSPORT: http
+            HOST: 0.0.0.0
+            PORT: "3000"
+            SONARR_URL: http://servarr-sonarr:8989
+            RADARR_URL: http://servarr-radarr:7878
+            LIDARR_URL: http://servarr-lidarr:8686
+            PROWLARR_URL: http://servarr-prowlarr:9696
+
   service:
     sonarr:
       controller: sonarr
@@ -100,6 +118,11 @@ app-template:
       ports:
         http:
           port: 8080
+    mcp-arr:
+      controller: mcp-arr
+      ports:
+        http:
+          port: 3000
 
   persistence:
     config:
