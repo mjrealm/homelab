@@ -39,6 +39,10 @@ app-template:
             - path: /external-photos
 
 immich:
+  # app-template 5.3.0 and the immich chart share the bjw-s common library, which
+  # needs this key; without it the immich templates fail with a nil pointer.
+  namespace:
+    create: false
   # defaultPodOptions:
   #   nodeSelector:
   #     plex.tv/host: "true" # For intel sync
