@@ -48,9 +48,30 @@ plex-media-server:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Media
       gethomepage.dev/icon: plex.png
-      gethomepage.dev/pod-selector: ""
+      gethomepage.dev/pod-selector: app.kubernetes.io/name=plex-media-server
       gethomepage.dev/weight: "1"
     tls:
       - secretName: plex-tls-cert
         hosts:
           - plex.mdeleon.dev
+
+app-template:
+  controllers:
+    plex-mcp:
+      strategy: RollingUpdate
+      containers:
+        plex-mcp:
+          image:
+            repository: ghcr.io/vladimir-tutin/plex-mcp-server
+            tag: 1.5.0
+          env:
+            TZ: America/Los_Angeles
+            MCP_TRANSPORT: streamable-http
+            PLEX_URL: http://pms.plex.svc:32400
+
+  service:
+    plex-mcp:
+      controller: plex-mcp
+      ports:
+        http:
+          port: 3001
