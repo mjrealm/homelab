@@ -9,3 +9,6 @@ dependencies:
   - name: seerr-chart
     repository: oci://ghcr.io/seerr-team/seerr
     version: 3.10.0
+  - name: app-template
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.3.0
