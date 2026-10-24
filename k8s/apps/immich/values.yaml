@@ -17,7 +17,7 @@ app-template:
           env:
             TZ: America/Los_Angeles
             MCP_PORT: "5000"
-            IMMICH_TOOL_MODE: gateway
+            IMMICH_TOOL_MODE: static
             IMMICH_BASE_URL: http://immich-server.immich.svc:2283
 
   service:
