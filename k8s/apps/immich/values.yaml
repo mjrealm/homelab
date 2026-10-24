@@ -10,7 +10,7 @@ app-template:
     immich-mcp:
       strategy: RollingUpdate
       containers:
-        main:
+        immich-mcp:
           image:
             repository: ghcr.io/barryw/immichmcp
             tag: v3.3.5
@@ -23,6 +23,7 @@ app-template:
   service:
     immich-mcp:
       controller: immich-mcp
+      suffix: mcp
       ports:
         http:
           port: 5000
