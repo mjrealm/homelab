@@ -92,20 +92,6 @@ app-template:
             LIDARR_URL: http://servarr-lidarr:8686
             PROWLARR_URL: http://servarr-prowlarr:9696
 
-    overseerr-mcp:
-      replicas: 1
-      strategy: RollingUpdate
-      containers:
-        overseerr-mcp:
-          image:
-            repository: ghcr.io/jhomen368/overseerr-mcp
-            tag: 2.3.1
-          env:
-            TZ: "America/Los_Angeles"
-            HTTP_MODE: "true"
-            PORT: "8085"
-            SEERR_URL: http://seerr-seerr-chart.seerr.svc:5055
-
   service:
     sonarr:
       controller: sonarr
@@ -137,11 +123,6 @@ app-template:
       ports:
         http:
           port: 3000
-    overseerr-mcp:
-      controller: overseerr-mcp
-      ports:
-        http:
-          port: 8085
 
   persistence:
     config:

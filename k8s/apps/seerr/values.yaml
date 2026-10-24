@@ -22,7 +22,7 @@ seerr-chart:
       gethomepage.dev/group: "Media"
       gethomepage.dev/icon: "sh-seerr.png"
       gethomepage.dev/weight: "2"
-      gethomepage.dev/pod-selector: "app.kubernetes.io/instance=seerr"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=seerr-chart"
     hosts:
       - host: &host "seerr.mdeleon.dev"
         paths:
@@ -32,3 +32,25 @@ seerr-chart:
       - secretName: seerr-tls-cert
         hosts:
           - *host
+
+app-template:
+  controllers:
+    overseerr-mcp:
+      strategy: RollingUpdate
+      containers:
+        overseerr-mcp:
+          image:
+            repository: ghcr.io/jhomen368/overseerr-mcp
+            tag: 2.3.1
+          env:
+            TZ: America/Los_Angeles
+            HTTP_MODE: "true"
+            PORT: "8085"
+            SEERR_URL: http://seerr-seerr-chart.seerr.svc:5055
+
+  service:
+    overseerr-mcp:
+      controller: overseerr-mcp
+      ports:
+        http:
+          port: 8085
