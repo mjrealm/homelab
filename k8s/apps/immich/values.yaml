@@ -7,12 +7,36 @@ app-template:
           image:
             repository: salvoxia/immich-folder-album-creator
             tag: 1.0.0
+    immich-mcp:
+      strategy: RollingUpdate
+      containers:
+        main:
+          image:
+            repository: ghcr.io/barryw/immichmcp
+            tag: v3.3.5
+          env:
+            TZ: America/Los_Angeles
+            MCP_PORT: "5000"
+            IMMICH_TOOL_MODE: gateway
+            IMMICH_BASE_URL: http://immich-server.immich.svc:2283
+
+  service:
+    immich-mcp:
+      controller: immich-mcp
+      ports:
+        http:
+          port: 5000
+
   persistence:
     external-photos:
       enabled: true
       type: nfs
       server: 192.168.1.200
       path: /volume1/media/photos/
+      advancedMounts:
+        album-creator:
+          main:
+            - path: /external-photos
 
 immich:
   # defaultPodOptions:
