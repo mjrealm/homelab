@@ -1,0 +1,199 @@
+---
+app-template:
+  controllers:
+    main:
+      # The API keeps its data in JSON files on one ReadWriteOnce volume, so a
+      # second pod would be a second writer.
+      replicas: 1
+      strategy: Recreate
+      # The MCP server (mcp/ in the repo) isn't in any published image, so an init
+      # container fetches it, and supergateway, into a shared volume.
+      initContainers:
+        setup:
+          image:
+            repository: node
+            tag: 22.23.4-alpine
+          env:
+            OPENGYM_TAG: v1.4.2  # same version as the api and web images
+            SUPERGATEWAY_VERSION: 4.2.1
+          command:
+            - sh
+            - -ec
+            - |
+              apk add --no-cache git
+              git clone --depth 1 --branch "$OPENGYM_TAG" --filter=blob:none --sparse \
+                https://github.com/DuarteSantos8/openGym.git /opt/opengym
+              git -C /opt/opengym sparse-checkout set mcp frontend/src/lib
+              npm install --prefix /opt/opengym/mcp --omit=dev --ignore-scripts --no-audit --no-fund
+              npm install --prefix /opt/supergateway "supergateway@$SUPERGATEWAY_VERSION" \
+                --ignore-scripts --no-audit --no-fund
+      containers:
+        api:
+          image:
+            repository: ghcr.io/duartesantos8/opengym-api
+            tag: 1.4.2  # keep in step with the web image
+          env:
+            PORT: "3000"
+            DATA_DIR: /data
+            RP_NAME: openGym
+            RP_ID: opengym.mdeleon.dev
+            ORIGIN: https://opengym.mdeleon.dev
+            # Register your own profile right after the first deploy, then set
+            # INVITE_ONLY to "1": with no profile and no admin yet, nobody could
+            # create the first invite code.
+            FIRST_USER_ADMIN: "1"
+            ALLOW_GUEST: "0"
+          probes:
+            liveness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/health
+                  port: 3000
+                initialDelaySeconds: 30
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/health
+                  port: 3000
+          resources:
+            requests:
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+        web:
+          image:
+            repository: ghcr.io/duartesantos8/opengym-web
+            tag: 1.4.2  # same version as the api container
+          env:
+            # The image runs as uid 101, which can't bind ports below 1024 here.
+            NGINX_PORT: "8080"
+            # Both containers share the pod network, so the API is on localhost.
+            BACKEND: 127.0.0.1
+            PORT: "3000"
+          probes:
+            liveness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /
+                  port: 8080
+                initialDelaySeconds: 30
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /
+                  port: 8080
+          resources:
+            requests:
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+        # Read-only MCP server over streamable HTTP. supergateway wraps the stdio
+        # server and spawns it per request, so it always reads fresh data.
+        # It serves the only profile on the instance; set OPENGYM_UID if there are more.
+        mcp:
+          image:
+            repository: node
+            tag: 22.23.4-alpine
+          env:
+            OPENGYM_DATA: /data
+          command:
+            - node
+            - /opt/supergateway/node_modules/.bin/supergateway
+            - --stdio
+            - node /opt/opengym/mcp/src/index.js
+            - --outputTransport
+            - streamableHttp
+            - --port
+            - "8000"
+            - --healthEndpoint
+            - /healthz
+          probes:
+            liveness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /healthz
+                  port: 8000
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /healthz
+                  port: 8000
+          resources:
+            requests:
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+
+  service:
+    main:
+      controller: main
+      forceRename: opengym
+      ports:
+        http:
+          port: 8080
+    mcp:
+      controller: main
+      forceRename: opengym-mcp
+      ports:
+        mcp:
+          port: 8000
+
+  ingress:
+    main:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: openGym
+        gethomepage.dev/description: Gym and Body-Weight Tracker
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Fitness
+        gethomepage.dev/icon: sh-opengym.png
+      hosts:
+        - host: &opengym opengym.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: opengym-tls-cert
+          hosts:
+            - *opengym
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 5Gi  # users, passkeys, session secret and uploads: back this up
+      advancedMounts:
+        main:
+          api:
+            - path: /data
+          mcp:
+            - path: /data
+              readOnly: true
+    mcp-tools:
+      enabled: true
+      type: emptyDir
+      advancedMounts:
+        main:
+          setup:
+            - path: /opt
+          mcp:
+            - path: /opt
+              readOnly: true
