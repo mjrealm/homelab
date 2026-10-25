@@ -30,7 +30,7 @@ app-template:
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: stirling-pdf.png
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "4"
+        gethomepage.dev/weight: "8"
       hosts:
         - host: &stirling pdf.mdeleon.dev
           paths:

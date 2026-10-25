@@ -40,6 +40,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-paperless-starfruit.png
+        gethomepage.dev/weight: "3"
       hosts:
         - host: &starfruit starfruit.mdeleon.dev
           paths:
