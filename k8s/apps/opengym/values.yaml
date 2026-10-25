@@ -38,10 +38,10 @@ app-template:
             RP_NAME: openGym
             RP_ID: opengym.mdeleon.dev
             ORIGIN: https://opengym.mdeleon.dev
-            # Register your own profile right after the first deploy, then set
-            # INVITE_ONLY to "1": with no profile and no admin yet, nobody could
-            # create the first invite code.
+            # Admins create invite codes in Settings > Account > Admin dashboard.
+            # Only turn INVITE_ONLY on once an admin profile exists.
             FIRST_USER_ADMIN: "1"
+            INVITE_ONLY: "1"
             ALLOW_GUEST: "0"
           probes:
             liveness:
