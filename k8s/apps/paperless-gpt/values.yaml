@@ -1,0 +1,65 @@
+---
+app-template:
+  controllers:
+    main:
+      # Config and prompts live on RWO volumes, so a single replica with Recreate.
+      replicas: 1
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: paperless-gpt
+          image:
+            repository: icereed/paperless-gpt
+            tag: v0.31.0
+
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 8080
+
+  ingress:
+    main:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Paperless-GPT
+        gethomepage.dev/description: AI OCR
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: sh-chatgpt.png
+        gethomepage.dev/weight: "4"
+      hosts:
+        - host: &paperless-gpt paperless-gpt.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: paperless-gpt-tls-cert
+          hosts:
+            - *paperless-gpt
+
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        main:
+          main:
+            - path: /app/config
+    prompts:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        main:
+          main:
+            - path: /app/prompts
