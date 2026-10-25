@@ -6,6 +6,27 @@ app-template:
       # second pod would be a second writer.
       replicas: 1
       strategy: Recreate
+      # The MCP server (mcp/ in the repo) isn't in any published image, so an init
+      # container fetches it, and supergateway, into a shared volume.
+      initContainers:
+        setup:
+          image:
+            repository: node
+            tag: 22.23.4-alpine
+          env:
+            OPENGYM_TAG: v1.4.2  # same version as the api and web images
+            SUPERGATEWAY_VERSION: 4.2.1
+          command:
+            - sh
+            - -ec
+            - |
+              apk add --no-cache git
+              git clone --depth 1 --branch "$OPENGYM_TAG" --filter=blob:none --sparse \
+                https://github.com/DuarteSantos8/openGym.git /opt/opengym
+              git -C /opt/opengym sparse-checkout set mcp frontend/src/lib
+              npm install --prefix /opt/opengym/mcp --omit=dev --ignore-scripts --no-audit --no-fund
+              npm install --prefix /opt/supergateway "supergateway@$SUPERGATEWAY_VERSION" \
+                --ignore-scripts --no-audit --no-fund
       containers:
         api:
           image:
@@ -74,13 +95,60 @@ app-template:
               memory: 32Mi
             limits:
               memory: 128Mi
+        # Read-only MCP server over streamable HTTP. supergateway wraps the stdio
+        # server and spawns it per request, so it always reads fresh data.
+        # It serves the only profile on the instance; set OPENGYM_UID if there are more.
+        mcp:
+          image:
+            repository: node
+            tag: 22.23.4-alpine
+          env:
+            OPENGYM_DATA: /data
+          command:
+            - node
+            - /opt/supergateway/node_modules/.bin/supergateway
+            - --stdio
+            - node /opt/opengym/mcp/src/index.js
+            - --outputTransport
+            - streamableHttp
+            - --port
+            - "8000"
+            - --healthEndpoint
+            - /healthz
+          probes:
+            liveness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /healthz
+                  port: 8000
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /healthz
+                  port: 8000
+          resources:
+            requests:
+              memory: 64Mi
+            limits:
+              memory: 256Mi
 
   service:
     main:
       controller: main
+      forceRename: opengym
       ports:
         http:
           port: 8080
+    mcp:
+      controller: main
+      forceRename: opengym-mcp
+      ports:
+        mcp:
+          port: 8000
 
   ingress:
     main:
@@ -116,3 +184,16 @@ app-template:
         main:
           api:
             - path: /data
+          mcp:
+            - path: /data
+              readOnly: true
+    mcp-tools:
+      enabled: true
+      type: emptyDir
+      advancedMounts:
+        main:
+          setup:
+            - path: /opt
+          mcp:
+            - path: /opt
+              readOnly: true
