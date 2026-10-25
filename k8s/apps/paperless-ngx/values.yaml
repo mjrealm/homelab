@@ -43,23 +43,6 @@ app-template:
             - "gotenberg"
             - "--chromium-disable-javascript=true"
             # - "--chromium-allow-list=file:///tmp/.*"
-    paperless-ai:
-      containers:
-        paperless-ai:
-          nameOverride: paperless-ai
-          image:
-            repository: clusterzx/paperless-ai
-            tag: 3.0.9
-          env:
-            RAG_SERVICE_ENABLED: true
-            RAG_SERVICE_URL: http://localhost:8000
-    paperless-gpt:
-      containers:
-        paperless-gpt:
-          nameOverride: paperless-gpt
-          image:
-            repository: icereed/paperless-gpt
-            tag: v0.31.0
     paperless-mcp:
       containers:
         paperless-mcp:
@@ -94,16 +77,6 @@ app-template:
       ports:
         http:
           port: 3000
-    paperless-ai:
-      controller: paperless-ai
-      ports:
-        http:
-          port: 3000
-    paperless-gpt:
-      controller: paperless-gpt
-      ports:
-        http:
-          port: 8080
     paperless-mcp:
       controller: paperless-mcp
       ports:
@@ -170,33 +143,6 @@ app-template:
             - path: /scripts/pwds.txt
               subPath: pwds.txt
               readOnly: true
-    paperless-ai-data:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 4Gi
-      advancedMounts:
-        paperless-ai:
-          paperless-ai:
-            - path: /app/data
-    paperless-gpt-config:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 4Gi
-      advancedMounts:
-        paperless-gpt:
-          paperless-gpt:
-            - path: /app/config
-    paperless-gpt-prompts:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 4Gi
-      advancedMounts:
-        paperless-gpt:
-          paperless-gpt:
-            - path: /app/prompts
     paperless-mcp-outbox:
       enabled: true
       type: persistentVolumeClaim
