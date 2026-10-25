@@ -28,7 +28,7 @@ app-template:
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-withoutbg.png
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "5"
+        gethomepage.dev/weight: "9"
       hosts:
         - host: &without-bg no-bg.mdeleon.dev
           paths:
