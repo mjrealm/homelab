@@ -19,7 +19,7 @@ velero:
     daily-backup:
       schedule: "1 3 * * *"
       template:
-        storageLocation: r2
+        storageLocation: default
         ttl: "168h"  # 7 days
         snapshotVolumes: true
         includedNamespaces:
@@ -32,7 +32,7 @@ velero:
     biweekly-backup:
       schedule: "0 4 * * 0,3"
       template:
-        storageLocation: r2
+        storageLocation: default
         ttl: "336h"  # 14 days
         snapshotVolumes: true
         includedNamespaces:
@@ -40,7 +40,7 @@ velero:
     monthly-backup:
       schedule: "30 3 1 * *"
       template:
-        storageLocation: r2
+        storageLocation: default
         ttl: "8760h" # 365 days
         snapshotVolumes: true
         includedNamespaces:
