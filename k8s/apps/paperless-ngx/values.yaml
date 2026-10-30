@@ -49,7 +49,7 @@ app-template:
           nameOverride: paperless-mcp
           image:
             repository: ghcr.io/barryw/paperlessmcp
-            tag: v0.6.2
+            tag: v0.6.3
 
   service:
     paperless:
