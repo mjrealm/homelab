@@ -37,7 +37,7 @@ app-template:
         gethomepage.dev/description: Weightlifting Tracker
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Fitness
-        gethomepage.dev/icon: https://raw.githubusercontent.com/traceapps/lifttrace/main/public/icons/icon-192.png
+        gethomepage.dev/icon: https://raw.githubusercontent.com/traceapps/lifttrace/main/public/icons/logo-transparent.png
       hosts:
         - host: &lifttrace lifttrace.mdeleon.dev
           paths:
