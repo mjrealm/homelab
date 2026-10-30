@@ -45,6 +45,14 @@ velero:
         snapshotVolumes: true
         includedNamespaces:
           - '*'
+    monthly-backup-aws:
+      schedule: "30 4 1 * *"
+      template:
+        storageLocation: aws
+        ttl: "8760h" # 365 days
+        snapshotVolumes: true
+        includedNamespaces:
+          - '*'
 
   extraObjects:
     - apiVersion: snapshot.storage.k8s.io/v1
