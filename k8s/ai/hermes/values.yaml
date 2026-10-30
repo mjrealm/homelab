@@ -16,6 +16,8 @@ app-template:
           image:
             repository: nousresearch/hermes-agent
             tag: "stable"
+          env:
+            HINDSIGHT_BANK_ID_TEMPLATE: "hermes-{profile}"
 
   service:
     main:
