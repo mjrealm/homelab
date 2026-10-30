@@ -27,3 +27,8 @@ velero-ui:
     general:
       veleroNamespace: velero
       grafanaUrl: "https://grafana.mdeleon.dev"
+
+    policies:
+      enabled: true
+      value: |
+        u,*,manage,all
