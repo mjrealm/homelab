@@ -2,9 +2,6 @@
 apiVersion: v2
 name: upsnap
 version: 0.0.1
-annotations:
-  homelab/description: "Wake on LAN dashboard"
-  homelab/url: "https://github.com/seriousm4x/upsnap"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts

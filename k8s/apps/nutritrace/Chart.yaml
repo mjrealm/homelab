@@ -2,9 +2,6 @@
 apiVersion: v2
 name: nutritrace
 version: 1.0.0
-annotations:
-  homelab/description: "Self-hosted nutrition and calorie tracker"
-  homelab/url: "https://github.com/traceapps/nutritrace"
 dependencies:
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts
