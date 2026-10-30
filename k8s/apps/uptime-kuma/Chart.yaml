@@ -2,9 +2,6 @@
 apiVersion: v2
 name: uptime-kuma
 version: 1.0.0
-annotations:
-  homelab/description: "Self-hosted monitoring tool"
-  homelab/url: "https://uptime.kuma.pet/"
 dependencies:
   - name: uptime-kuma
     version: 4.2.0
