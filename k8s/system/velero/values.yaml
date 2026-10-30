@@ -41,7 +41,15 @@ velero:
       schedule: "30 3 1 * *"
       template:
         storageLocation: r2
-        ttl: "8760h" # 365 days
+        ttl: "8760h"  # 365 days
+        snapshotVolumes: true
+        includedNamespaces:
+          - '*'
+    monthly-backup-aws:
+      schedule: "30 4 1 * *"
+      template:
+        storageLocation: aws
+        ttl: "8760h"  # 365 days
         snapshotVolumes: true
         includedNamespaces:
           - '*'
