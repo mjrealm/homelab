@@ -14,6 +14,7 @@ velero:
         value: America/Los_Angeles
 
   snapshotsEnabled: false
+  deployNodeAgent: true
 
   schedules:
     daily-backup:
@@ -22,6 +23,7 @@ velero:
         storageLocation: r2
         ttl: "168h"  # 7 days
         snapshotVolumes: true
+        snapshotMoveData: true
         includedNamespaces:
           - paperless-ngx
           - immich
@@ -35,6 +37,7 @@ velero:
         storageLocation: r2
         ttl: "336h"  # 14 days
         snapshotVolumes: true
+        snapshotMoveData: true
         includedNamespaces:
           - '*'
     monthly-backup:
@@ -43,6 +46,7 @@ velero:
         storageLocation: r2
         ttl: "8760h" # 365 days
         snapshotVolumes: true
+        snapshotMoveData: true
         includedNamespaces:
           - '*'
 
