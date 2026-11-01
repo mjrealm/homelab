@@ -1,0 +1,70 @@
+---
+app-template:
+  defaultPodOptions:
+    securityContext:
+      fsGroup: 10000
+      fsGroupChangePolicy: OnRootMismatch
+  controllers:
+    mj:
+      strategy: RollingUpdate
+      rollingUpdate:
+        unavailable: 1
+        surge: 1
+      containers:
+        mj:
+          nameOverride: mj
+          image:
+            repository: nousresearch/hermes-agent
+            tag: "stable"
+    cg:
+      strategy: RollingUpdate
+      rollingUpdate:
+        unavailable: 1
+        surge: 1
+      containers:
+        cg:
+          nameOverride: cg
+          image:
+            repository: nousresearch/hermes-agent
+            tag: "stable"
+
+  service:
+    mj:
+      controller: mj
+      ports:
+        http:
+          port: 8642
+        dashboard:
+          port: 9119
+        mcp:
+          port: 8080
+    cg:
+      controller: cg
+      ports:
+        http:
+          port: 8642
+        dashboard:
+          port: 9119
+        mcp:
+          port: 8080
+
+
+  persistence:
+    mj:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 30Gi
+      advancedMounts:
+        mj:
+          mj:
+            - path: /opt/data
+    cg:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 30Gi
+      advancedMounts:
+        cg:
+          cg:
+            - path: /opt/data
