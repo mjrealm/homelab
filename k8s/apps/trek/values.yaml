@@ -12,6 +12,7 @@ trek:
     OIDC_ISSUER: https://pocket.mdeleon.dev
     OIDC_DISPLAY_NAME: Pocket-ID
     OIDC_USERNAME_CLAIM: preferred_username
+    ALLOW_INTERNAL_NETWORK: "true"
   persistence:
     data:
       size: 4Gi
