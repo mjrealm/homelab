@@ -1,0 +1,61 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      containers:
+        main:
+          nameOverride: airtrail
+          image:
+            repository: johly/airtrail
+            tag: v3.14.0
+          env:
+            TZ: America/Los_Angeles
+            ORIGIN: https://airtrail.mdeleon.dev
+            ADDRESS_HEADER: X-Forwarded-For
+            UPLOAD_LOCATION: /app/uploads
+            DB_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: airtrail-database-app
+                  key: uri
+            OAUTH_ENABLED: "true"
+            OAUTH_ISSUER_URL: https://pocket.mdeleon.dev/.well-known/openid-configuration
+            OAUTH_SCOPE: openid profile email
+            OAUTH_BUTTON_TEXT: Log in with Pocket-ID
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 3000
+  ingress:
+    main:
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: AirTrail
+        gethomepage.dev/description: Flight Tracker
+        gethomepage.dev/group: Miscellaneous
+        gethomepage.dev/icon: sh-airtrail.png
+      hosts:
+        - host: &airtrail airtrail.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: airtrail-tls-cert
+          hosts:
+            - *airtrail
+  persistence:
+    uploads:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 2Gi
+      globalMounts:
+        - path: /app/uploads
