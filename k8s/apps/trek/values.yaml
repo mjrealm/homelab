@@ -1,0 +1,37 @@
+---
+trek:
+  image:
+    repository: mauriceboe/trek
+    tag: 5.1.0
+  env:
+    TZ: America/Los_Angeles
+    APP_URL: https://trek.mdeleon.dev
+    ALLOWED_ORIGINS: https://trek.mdeleon.dev
+    FORCE_HTTPS: "true"
+    TRUST_PROXY: "1"
+    OIDC_ISSUER: https://pocket.mdeleon.dev
+    OIDC_DISPLAY_NAME: Pocket-ID
+    OIDC_USERNAME_CLAIM: preferred_username
+  persistence:
+    data:
+      size: 4Gi
+    uploads:
+      size: 10Gi
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: TREK
+      gethomepage.dev/description: Travel Planner
+      gethomepage.dev/group: Knowledge
+      gethomepage.dev/icon: sh-trek.png
+    hosts:
+      - host: &trek trek.mdeleon.dev
+        paths:
+          - /
+    tls:
+      - secretName: trek-tls-cert
+        hosts:
+          - *trek
