@@ -4,7 +4,7 @@ name: argocd
 version: 1.0.0
 dependencies:
   - name: argo-cd
-    version: 10.11.7
+    version: 10.15.0
     repository: https://argoproj.github.io/argo-helm
   - name: app-template
     repository: https://bjw-s-labs.github.io/helm-charts
