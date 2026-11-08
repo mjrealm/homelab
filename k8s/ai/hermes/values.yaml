@@ -16,30 +16,10 @@ app-template:
           image:
             repository: nousresearch/hermes-agent
             tag: "stable"
-    cg:
-      strategy: RollingUpdate
-      rollingUpdate:
-        unavailable: 1
-        surge: 1
-      containers:
-        cg:
-          nameOverride: cg
-          image:
-            repository: nousresearch/hermes-agent
-            tag: "stable"
 
   service:
     mj:
       controller: mj
-      ports:
-        http:
-          port: 8642
-        dashboard:
-          port: 9119
-        mcp:
-          port: 8080
-    cg:
-      controller: cg
       ports:
         http:
           port: 8642
@@ -54,17 +34,8 @@ app-template:
       enabled: true
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
-      size: 30Gi
+      size: 100Gi
       advancedMounts:
         mj:
           mj:
-            - path: /opt/data
-    cg:
-      enabled: true
-      type: persistentVolumeClaim
-      accessMode: ReadWriteOnce
-      size: 30Gi
-      advancedMounts:
-        cg:
-          cg:
             - path: /opt/data
