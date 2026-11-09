@@ -32,6 +32,9 @@ app-template:
   persistence:
     mj:
       enabled: true
+      # Keep the claim name from when hermes had two instances (hermes-mj); with a
+      # single one app-template would otherwise name it "hermes" and orphan the data.
+      forceRename: hermes-mj
       type: persistentVolumeClaim
       accessMode: ReadWriteOnce
       size: 100Gi
