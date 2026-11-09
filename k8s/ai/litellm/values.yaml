@@ -19,6 +19,11 @@ litellm-helm:
   redis:
     enabled: false
 
+  # The chart's migration Job is an Argo CD PreSync hook, which runs before the
+  # CNPG cluster exists. The proxy migrates the schema itself on startup.
+  migrationJob:
+    enabled: false
+
   # Models are added from the admin UI and stored (encrypted) in Postgres.
   proxy_config:
     model_list: []
