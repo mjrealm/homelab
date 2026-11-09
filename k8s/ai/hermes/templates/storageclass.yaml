@@ -1,0 +1,21 @@
+---
+# Used by the hermes-mj PVC, which was restored from a Longhorn backup. The
+# fromBackup URL only matters when a PVC is provisioned from this class.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: longhorn-restore-hermes-mj
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+parameters:
+  backupTargetName: default
+  dataEngine: v1
+  dataLocality: disabled
+  disableRevisionCounter: "true"
+  fsType: ext4
+  numberOfReplicas: "2"
+  staleReplicaTimeout: "30"
+  unmapMarkSnapChainRemoved: ignored
+  fromBackup: "nfs://192.168.1.200:/volume1/backups/k3s/longhorn?backup=backup-65849a0f6b974920&volume=pvc-f6fca72d-68b5-4efe-8d6e-95976379450e"
