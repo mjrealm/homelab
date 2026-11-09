@@ -1,0 +1,171 @@
+---
+app-template:
+  controllers:
+    frontend:
+      strategy: RollingUpdate
+      pod:
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
+          runAsNonRoot: true
+      containers:
+        frontend:
+          image:
+            repository: ghcr.io/anyesh/wardrowbe
+            tag: 1.13.0-frontend
+          env:
+            BACKEND_URL: http://wardrowbe-backend:8000
+            NEXTAUTH_URL: https://wardrowbe.mdeleon.dev
+            OIDC_ISSUER_URL: https://pocket.mdeleon.dev
+          envFrom:
+            - secret: app
+
+    # The backend, both workers and the migration share one pod because they share
+    # the ReadWriteOnce upload volume.
+    backend:
+      strategy: Recreate
+      pod:
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          runAsNonRoot: true
+          fsGroup: 1000
+          fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        migrate:
+          image: &backend-image
+            repository: ghcr.io/anyesh/wardrowbe
+            tag: 1.13.0-backend
+          args: [alembic, upgrade, head]
+          env: &backend-env
+            DATABASE_URL: postgresql+asyncpg://app:$(DB_PASSWORD)@wardrowbe-database-rw:5432/wardrowbe
+            DB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: wardrowbe-database-app
+                  key: password
+            REDIS_URL: redis://wardrowbe-redis:6379/0
+            STORAGE_PATH: /data/wardrobe
+            APP_URL: https://wardrowbe.mdeleon.dev
+            LOG_LEVEL: INFO
+            OIDC_ISSUER_URL: https://pocket.mdeleon.dev
+            TRUSTED_PROXY_COUNT: "1"
+            AI_BASE_URL: https://192.168.1.24:8000/v1
+            AI_VISION_MODEL: qwen36-35b:fast
+            AI_TEXT_MODEL: qwen36-35b:fast
+          envFrom: &backend-env-from
+            - secret: app
+      containers:
+        backend:
+          image: *backend-image
+          env:
+            <<: *backend-env
+            CORS_ORIGINS: '["https://wardrowbe.mdeleon.dev"]'
+          envFrom: *backend-env-from
+          probes:
+            liveness: &health
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/v1/health
+                  port: 8000
+            readiness: *health
+        worker:
+          image: *backend-image
+          args: [arq, app.workers.worker.WorkerSettings]
+          env: *backend-env
+          envFrom: *backend-env-from
+        image-worker:
+          image: *backend-image
+          args: [arq, app.workers.image_worker.ImageWorkerSettings]
+          env:
+            <<: *backend-env
+            IMAGE_WORKER_CONCURRENCY: "1"
+            BG_REMOVAL_PROVIDER: rembg
+            BG_REMOVAL_MODEL: u2net
+          envFrom: *backend-env-from
+
+    redis:
+      strategy: Recreate
+      containers:
+        redis:
+          image:
+            repository: redis
+            tag: 7-alpine
+
+  service:
+    frontend:
+      controller: frontend
+      ports:
+        http:
+          port: 3000
+    backend:
+      controller: backend
+      ports:
+        http:
+          port: 8000
+    redis:
+      controller: redis
+      ports:
+        redis:
+          port: 6379
+
+  ingress:
+    main:
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Wardrowbe
+        gethomepage.dev/description: Wardrobe Manager
+        gethomepage.dev/group: Miscellaneous
+        gethomepage.dev/icon: sh-wardrowbe.png
+        gethomepage.dev/pod-selector: app.kubernetes.io/controller=frontend
+      hosts:
+        - host: &wardrowbe wardrowbe.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: frontend
+                port: http
+      tls:
+        - secretName: wardrowbe-tls-cert
+          hosts:
+            - *wardrowbe
+
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 10Gi
+      advancedMounts:
+        backend:
+          migrate:
+            - path: /data/wardrobe
+          backend:
+            - path: /data/wardrobe
+          worker:
+            - path: /data/wardrobe
+          image-worker:
+            - path: /data/wardrobe
+    rembg-models:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 2Gi
+      advancedMounts:
+        backend:
+          image-worker:
+            - path: /opt/rembg/models
+    redis-data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        redis:
+          redis:
+            - path: /data
