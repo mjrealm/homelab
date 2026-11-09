@@ -32,6 +32,8 @@ litellm-helm:
 
   envVars:
     PROXY_BASE_URL: https://litellm.mdeleon.dev
+    # Send visitors of / to the admin UI instead of the Swagger docs.
+    ROOT_REDIRECT_URL: /ui
     # Pocket ID SSO. GENERIC_CLIENT_ID and GENERIC_CLIENT_SECRET live in secrets.yaml.
     GENERIC_AUTHORIZATION_ENDPOINT: https://pocket.mdeleon.dev/authorize
     GENERIC_TOKEN_ENDPOINT: https://pocket.mdeleon.dev/api/oidc/token
