@@ -1,0 +1,57 @@
+---
+litellm-helm:
+  image:
+    tag: "1.108.3"
+    pullPolicy: IfNotPresent
+
+  # Postgres is provided by the CNPG cluster in templates/postgres.yaml.
+  db:
+    deployStandalone: false
+    useExisting: true
+    endpoint: litellm-database-rw
+    database: litellm
+    secret:
+      name: litellm-database-app
+      usernameKey: username
+      passwordKey: password
+  postgresql:
+    enabled: false
+  redis:
+    enabled: false
+
+  # Models are added from the admin UI and stored (encrypted) in Postgres.
+  proxy_config:
+    model_list: []
+    general_settings:
+      master_key: os.environ/PROXY_MASTER_KEY
+
+  envVars:
+    PROXY_BASE_URL: https://litellm.mdeleon.dev
+    # Pocket ID SSO. GENERIC_CLIENT_ID and GENERIC_CLIENT_SECRET live in secrets.yaml.
+    GENERIC_AUTHORIZATION_ENDPOINT: https://pocket.mdeleon.dev/authorize
+    GENERIC_TOKEN_ENDPOINT: https://pocket.mdeleon.dev/api/oidc/token
+    GENERIC_USERINFO_ENDPOINT: https://pocket.mdeleon.dev/api/oidc/userinfo
+    GENERIC_SCOPE: openid profile email
+    GENERIC_USER_ID_ATTRIBUTE: preferred_username
+    GENERIC_USER_EMAIL_ATTRIBUTE: email
+    GENERIC_USER_DISPLAY_NAME_ATTRIBUTE: name
+
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/name: LiteLLM
+      gethomepage.dev/description: LLM Gateway
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: AI
+      gethomepage.dev/icon: sh-litellm.png
+    hosts:
+      - host: &litellm litellm.mdeleon.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: litellm-tls-cert
+        hosts:
+          - *litellm
