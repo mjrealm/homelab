@@ -28,6 +28,7 @@ trek:
       gethomepage.dev/description: Travel Planner
       gethomepage.dev/group: Knowledge
       gethomepage.dev/icon: sh-trek.png
+      gethomepage.dev/pod-selector: app=trek
     hosts:
       - host: &trek trek.mdeleon.dev
         paths:
