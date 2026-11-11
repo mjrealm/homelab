@@ -37,8 +37,13 @@ app-template:
             repository: ghcr.io/anyesh/wardrowbe
             tag: 1.13.0-backend
           args: [alembic, upgrade, head]
+          # app-template sorts env map keys alphabetically, so DATABASE_URL would
+          # render before DB_PASSWORD. Kubernetes only expands $(VAR) for variables
+          # defined earlier in the list, so dependsOn forces DB_PASSWORD first.
           env: &backend-env
-            DATABASE_URL: postgresql+asyncpg://app:$(DB_PASSWORD)@wardrowbe-database-rw:5432/wardrowbe
+            DATABASE_URL:
+              value: postgresql+asyncpg://app:$(DB_PASSWORD)@wardrowbe-database-rw:5432/wardrowbe
+              dependsOn: DB_PASSWORD
             DB_PASSWORD:
               valueFrom:
                 secretKeyRef:
