@@ -55,7 +55,7 @@ Legacy: oMLX on the Mac mini at `http://192.168.1.24:8000/v1`. It is being repla
 | paperless-ngx | `k8s/apps/` | Commented-out `PAPERLESS_AI_*` in `secrets.dec.yaml` | Inactive. Enable only if AI is re-enabled. |
 | paperless-starfruit | `k8s/apps/` | None in the repo. Configured in the app's own UI. | Metadata and OCR (AI features, provider set in the app) |
 
-When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `Qwen36-35b:fast` and `qwen36-35b:fast` are different.
+When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `qwen3.8:fast` and `Qwen3.8:fast` are different.
 
 ## Setup commands
 
