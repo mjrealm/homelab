@@ -35,6 +35,27 @@ Each app directory has:
 └── templates/        # optional extra manifests
 ```
 
+## AI-consuming apps
+
+These apps call an LLM, embedding, reranker, or vision model. When changing model config, check every app here. Keep this list up to date when an app is added, removed, or switched.
+
+Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/v1` (in-cluster). Models and keys are managed in LiteLLM. Keys go in `secrets.dec.yaml`, never in `values.yaml`.
+
+| App | Stack | Where the AI config lives | What it uses |
+|---|---|---|---|
+| hermes | `k8s/ai/` | `secrets.dec.yaml` (`postStart` script: `providers.litellm.*`) | LiteLLM provider (chat) |
+| hindsight | `k8s/ai/` | `values.yaml` (model names), `secrets.dec.yaml` (base URLs, keys) | LLM, embeddings, reranker (Cohere-compatible) |
+| litellm | `k8s/ai/` | `values.yaml` (`proxy_config`, `envVars`) | The gateway itself. Models are stored in Postgres. |
+| wardrowbe | `k8s/apps/` | `values.yaml` (`AI_BASE_URL`, `AI_TEXT_MODEL`, `AI_VISION_MODEL`), `secrets.dec.yaml` (`AI_API_KEY`) | Text and vision chat |
+| karakeep | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `INFERENCE_*_MODEL`) | Text and image inference |
+| mealie | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`) | Chat |
+| paperless-gpt | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `LLM_MODEL`, `VISION_LLM_MODEL`) | Chat and vision OCR |
+| paperless-ngx | `k8s/apps/` | Commented-out `PAPERLESS_AI_*` in `secrets.dec.yaml` | Inactive. Enable only if AI is re-enabled. |
+| paperless-starfruit | `k8s/apps/` | Configured in the app's web UI, not env vars. Nothing in the repo. Set the OpenAI-compatible base URL and model in the UI. | Metadata and OCR |
+| trek | `k8s/apps/` | Configured in the app's admin UI (Admin > Addons > AI Parsing), not env vars. Nothing in the repo. Set the OpenAI provider, base URL, and key in the UI. | AI Parsing (fallback for booking imports) |
+
+When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `qwen3.8:fast` and `Qwen3.8:fast` are different.
+
 ## Setup commands
 
 ```bash

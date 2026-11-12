@@ -55,9 +55,9 @@ app-template:
             LOG_LEVEL: INFO
             OIDC_ISSUER_URL: https://pocket.mdeleon.dev
             TRUSTED_PROXY_COUNT: "1"
-            AI_BASE_URL: https://192.168.1.24:8000/v1
-            AI_VISION_MODEL: qwen36-35b:fast
-            AI_TEXT_MODEL: qwen36-35b:fast
+            AI_BASE_URL: http://litellm.litellm.svc:4000/v1
+            AI_VISION_MODEL: qwen3.8:fast
+            AI_TEXT_MODEL: qwen3.8:fast
           envFrom: &backend-env-from
             - secret: app
       containers:
