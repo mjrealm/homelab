@@ -54,7 +54,6 @@ Legacy: oMLX on the Mac mini at `http://192.168.1.24:8000/v1`. It is being repla
 | paperless-gpt | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `LLM_MODEL`, `VISION_LLM_MODEL`) | Chat and vision OCR |
 | paperless-ngx | `k8s/apps/` | Commented-out `PAPERLESS_AI_*` in `secrets.dec.yaml` | Inactive. Enable only if AI is re-enabled. |
 | paperless-starfruit | `k8s/apps/` | None in the repo. Configured in the app's own UI. | Metadata and OCR (AI features, provider set in the app) |
-| homepage | `k8s/apps/` | `secrets.dec.yaml` (services list) | Not an AI client. Has an oMLX link tile to remove when oMLX is retired. |
 
 When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `Qwen36-35b:fast` and `qwen36-35b:fast` are different.
 
