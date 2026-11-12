@@ -41,8 +41,6 @@ These apps call an LLM, embedding, reranker, or vision model. When changing mode
 
 Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/v1` (in-cluster). Models and keys are managed in LiteLLM. Keys go in `secrets.dec.yaml`, never in `values.yaml`.
 
-Legacy: oMLX on the Mac mini at `http://192.168.1.24:8000/v1`. It is being replaced by LiteLLM. Any app still pointing at it should move to LiteLLM.
-
 | App | Stack | Where the AI config lives | What it uses |
 |---|---|---|---|
 | hermes | `k8s/ai/` | `secrets.dec.yaml` (`postStart` script: `providers.litellm.*`) | LiteLLM provider (chat) |
@@ -53,7 +51,8 @@ Legacy: oMLX on the Mac mini at `http://192.168.1.24:8000/v1`. It is being repla
 | mealie | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`) | Chat |
 | paperless-gpt | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `LLM_MODEL`, `VISION_LLM_MODEL`) | Chat and vision OCR |
 | paperless-ngx | `k8s/apps/` | Commented-out `PAPERLESS_AI_*` in `secrets.dec.yaml` | Inactive. Enable only if AI is re-enabled. |
-| paperless-starfruit | `k8s/apps/` | None in the repo. Configured in the app's own UI. | Metadata and OCR (AI features, provider set in the app) |
+| paperless-starfruit | `k8s/apps/` | Configured in the app's web UI, not env vars. Nothing in the repo. Set the OpenAI-compatible base URL and model in the UI. | Metadata and OCR |
+| trek | `k8s/apps/` | Configured in the app's admin UI (Admin > Addons > AI Parsing), not env vars. Nothing in the repo. Set the OpenAI provider, base URL, and key in the UI. | AI Parsing (fallback for booking imports) |
 
 When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `qwen3.8:fast` and `Qwen3.8:fast` are different.
 
