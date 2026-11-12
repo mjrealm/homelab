@@ -23,8 +23,8 @@ app-template:
       ports:
         http:
           port: 8642
-        webapp:
-          port: 9120
+        dashboard:
+          port: 9119
         mcp:
           port: 8080
 
