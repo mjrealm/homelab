@@ -2,7 +2,7 @@
 hindsight:
   api:
     image:
-      # Slim image: no local models, embeddings and reranking come from oMLX
+      # Slim image: no local models, embeddings and reranking come from LiteLLM
       tag: "1.0.0-slim"
     env:
       HINDSIGHT_API_LLM_PROVIDER: openai
