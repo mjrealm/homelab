@@ -81,7 +81,7 @@ app-template:
         mcp-arr:
           image:
             repository: ghcr.io/aplaceforallmystuff/mcp-arr
-            tag: 1.7.3
+            tag: 1.7.4
           env:
             TZ: "America/Los_Angeles"
             MCP_TRANSPORT: http
