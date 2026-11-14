@@ -5,4 +5,4 @@ version: 1.0.0
 dependencies:
   - name: trek
     repository: https://chart.liketrek.com
-    version: 5.1.3
+    version: 5.1.4
