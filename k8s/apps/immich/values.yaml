@@ -77,6 +77,9 @@ immich:
     controllers:
       main:
         replicas: 1
+        # The cache PVC is ReadWriteOnce (Longhorn). RollingUpdate starts the new pod
+        # before the old one releases the volume, causing Multi-Attach errors.
+        strategy: Recreate
     persistence:
       cache:
         enabled: true
