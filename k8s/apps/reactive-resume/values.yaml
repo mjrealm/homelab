@@ -22,6 +22,7 @@ app-template:
             LOCAL_STORAGE_PATH: "/app/data"
             FLAG_DISABLE_EMAIL_AUTH: "true"
             FLAG_DISABLE_SIGNUPS: "false"
+            FLAG_ALLOW_UNSAFE_AI_BASE_URL: "true"
             OAUTH_PROVIDER_NAME: "Pocket ID"
             OAUTH_DISCOVERY_URL: "https://pocket.mdeleon.dev/.well-known/openid-configuration"
             OAUTH_SCOPES: "openid profile email"
