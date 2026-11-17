@@ -1,0 +1,14 @@
+# Grants cluster-admin to the Pocket ID user logging in to Headlamp.
+# Matches the username claim configured on kube-apiserver (oidc-username-claim=email).
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: headlamp-oidc-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: michael.deleon09@gmail.com
