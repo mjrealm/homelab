@@ -143,3 +143,4 @@ rm -rf k8s/<stack>/<app>/charts k8s/<stack>/<app>/Chart.lock   # created by `hel
 
 - Make all cluster changes through Git. Don't run `kubectl delete`, `helm uninstall`, or `kubectl apply` against Argo CD-managed resources; self-heal will revert them anyway.
 - Read-only `kubectl` (get, describe, logs) is fine for verifying and debugging.
+- Only remove an app directory (and so its PVCs) when the user explicitly asks to remove that app. Don't remove apps on your own initiative, even to clean up or simplify. Removal requires an explicit instruction in the current request.
