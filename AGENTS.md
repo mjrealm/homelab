@@ -17,7 +17,7 @@ Each app lives in exactly one stack:
 | Stack | What belongs there | Examples |
 |---|---|---|
 | `k8s/apps/` | Standalone end-user services that do one thing well. Most apps go here. They consume platform services (SSO, messaging) but don't orchestrate other apps. | immich, mealie, paperless-ngx, n8n |
-| `k8s/platform/` | Shared base layers other apps depend on: identity, messaging, databases, management hubs. | pocket-id, lldap, tinyauth, emqx, cnpg, portainer |
+| `k8s/platform/` | Shared base layers other apps depend on: identity, messaging, databases, management hubs. | pocket-id, lldap, tinyauth, emqx, cnpg |
 | `k8s/system/` | Components that keep the cluster itself running and observable. | velero, metallb, reloader, kured, cloudflared |
 | `k8s/ai/` | AI agents, model UIs and AI tooling. | hermes, open-webui, mcphub |
 | `k8s/bootstrap/` | Prerequisites installed before Argo CD can deploy anything else. | argocd, cert-manager, cilium |
