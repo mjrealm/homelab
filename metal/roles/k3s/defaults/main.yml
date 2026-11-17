@@ -5,6 +5,7 @@ k3s_node_token_file: /var/lib/rancher/k3s/server/node-token
 k3s_agent_uninstall_file: /usr/local/bin/k3s-agent-uninstall.sh
 k3s_kube_config_file: ~/.kube/config.k3s
 k3s_kube_config_context: k3s-ansible
+k3s_server_config_file: /etc/rancher/k3s/config.yaml
 # For basic config with MetalLB
 k3s_server_flags:
   "--secrets-encryption \
@@ -21,3 +22,9 @@ k3s_server_flags:
 #   --disable=servicelb \
 #   --disable=local-storage
 #   "
+
+# Kubernetes OIDC authentication (Pocket ID), passed to kube-apiserver via /etc/rancher/k3s/config.yaml
+k3s_oidc_issuer_url: https://pocket.mdeleon.dev
+k3s_oidc_client_id: a4bda779-5b3d-43de-8e62-5a4e4a79bca4
+k3s_oidc_username_claim: email
+k3s_oidc_groups_claim: groups
