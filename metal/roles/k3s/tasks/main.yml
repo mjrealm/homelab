@@ -70,6 +70,20 @@
     dest: /usr/local/bin/k3s-install.sh
     mode: "0755"
 
+- name: Configure kube-apiserver OIDC authentication on "master" node
+  when: inventory_hostname in groups.master
+  become: true
+  ansible.builtin.copy:
+    dest: "{{ k3s_server_config_file }}"
+    mode: "0600"
+    content: |
+      kube-apiserver-arg:
+        - "oidc-issuer-url={{ k3s_oidc_issuer_url }}"
+        - "oidc-client-id={{ k3s_oidc_client_id }}"
+        - "oidc-username-claim={{ k3s_oidc_username_claim }}"
+        - "oidc-groups-claim={{ k3s_oidc_groups_claim }}"
+  notify: Restart k3s
+
 - name: Install k3s on "master" node
   when: inventory_hostname in groups.master
   become: true
