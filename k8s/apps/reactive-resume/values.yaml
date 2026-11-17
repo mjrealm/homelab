@@ -62,6 +62,7 @@ app-template:
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: reactive-resume.png
         gethomepage.dev/pod-selector: "app.kubernetes.io/name=reactive-resume"
+        gethomepage.dev/weight: "11"
       hosts:
         - host: &rxresume rxresume.mdeleon.dev
           paths:
