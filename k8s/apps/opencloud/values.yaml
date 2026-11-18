@@ -27,6 +27,8 @@ app-template:
           env:
             OC_URL: https://opencloud.mdeleon.dev
             PROXY_HTTP_ADDR: 0.0.0.0:9200
+            # Grants the admin role to this user (their OpenCloud user ID).
+            OC_ADMIN_USER_ID: 3af2fe9b-c73e-479e-b326-1aa2d91efb81
             # Content Security Policy file, mounted from the configMap below.
             PROXY_CSP_CONFIG_FILE_LOCATION: /etc/opencloud-csp/csp.yaml
             # Traefik terminates TLS, so the backend speaks plain HTTP.
