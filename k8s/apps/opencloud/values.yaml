@@ -3,6 +3,12 @@ app-template:
   controllers:
     main:
       strategy: Recreate
+      pod:
+        securityContext:
+          # The image runs as UID 1000; fsGroup makes the Longhorn volumes writable.
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
       initContainers:
         init:
           image:
