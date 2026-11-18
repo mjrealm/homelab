@@ -30,7 +30,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Documents
         gethomepage.dev/icon: sh-chatgpt.png
-        gethomepage.dev/weight: "4"
+        gethomepage.dev/weight: "5"
       hosts:
         - host: &paperless-gpt paperless-gpt.mdeleon.dev
           paths:

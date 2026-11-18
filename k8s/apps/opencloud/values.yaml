@@ -59,7 +59,7 @@ app-template:
         gethomepage.dev/icon: sh-opencloud-dark.png
         gethomepage.dev/name: OpenCloud
         gethomepage.dev/pod-selector: ""
-        gethomepage.dev/weight: "5"
+        gethomepage.dev/weight: "3"
       hosts:
         - host: &opencloud opencloud.mdeleon.dev
           paths:
