@@ -41,7 +41,7 @@ app-template:
             PROXY_USER_OIDC_CLAIM: sub
             PROXY_AUTOPROVISION_CLAIM_USERNAME: preferred_username
             PROXY_USER_CS3_CLAIM: username
-            WEBFINGER_WEB_OIDC_CLIENT_ID: "0ebb0c61-67a6-4930-a454-9b5095f1451e"
+            OC_OIDC_CLIENT_ID: "0ebb0c61-67a6-4930-a454-9b5095f1451e"
   service:
     main:
       controller: main
