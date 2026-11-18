@@ -27,6 +27,8 @@ app-template:
           env:
             OC_URL: https://opencloud.mdeleon.dev
             PROXY_HTTP_ADDR: 0.0.0.0:9200
+            # Content Security Policy file, mounted from the configMap below.
+            PROXY_CSP_CONFIG_FILE_LOCATION: /etc/opencloud-csp/csp.yaml
             # Traefik terminates TLS, so the backend speaks plain HTTP.
             PROXY_TLS: "false"
             # Sign-in is delegated to Pocket ID, so the built-in IdP does not run.
@@ -42,6 +44,51 @@ app-template:
             PROXY_AUTOPROVISION_CLAIM_USERNAME: preferred_username
             PROXY_USER_CS3_CLAIM: username
             OC_OIDC_CLIENT_ID: "0ebb0c61-67a6-4930-a454-9b5095f1451e"
+  configMaps:
+    csp:
+      data:
+        csp.yaml: |
+          # OpenCloud default CSP, plus the Pocket ID issuer for OIDC discovery and silent renew.
+          directives:
+            child-src:
+              - '''self'''
+            connect-src:
+              - '''self'''
+              - 'blob:'
+              - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
+              - 'https://update.opencloud.eu/'
+              - 'https://pocket.mdeleon.dev'
+            default-src:
+              - '''none'''
+            font-src:
+              - '''self'''
+            frame-ancestors:
+              - '''self'''
+            frame-src:
+              - '''self'''
+              - 'blob:'
+              - 'https://embed.diagrams.net/'
+              - 'https://pocket.mdeleon.dev'
+            img-src:
+              - '''self'''
+              - 'data:'
+              - 'blob:'
+              - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
+            manifest-src:
+              - '''self'''
+            media-src:
+              - '''self'''
+              - 'blob:'
+            object-src:
+              - '''self'''
+              - 'blob:'
+            script-src:
+              - '''self'''
+              - '''unsafe-inline'''
+            style-src:
+              - '''self'''
+              - '''unsafe-inline'''
+              - 'blob:'
   service:
     main:
       controller: main
@@ -73,6 +120,15 @@ app-template:
           hosts:
             - *opencloud
   persistence:
+    csp:
+      enabled: true
+      type: configMap
+      identifier: csp
+      advancedMounts:
+        main:
+          main:
+            - path: /etc/opencloud-csp
+              readOnly: true
     config:
       enabled: true
       type: persistentVolumeClaim
