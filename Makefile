@@ -14,6 +14,8 @@ apply-root:
 	make -C k8s apply-root
 decrypt-secrets:
 	./scripts/decrypt-secrets.sh
+wardrowbe-mcp-login:
+	./scripts/wardrowbe-mcp-login.sh
 clean-secrets:
 	find k8s -type f -name 'secrets.dec.yaml' -delete
 deps: venv

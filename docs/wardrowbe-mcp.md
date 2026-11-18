@@ -15,26 +15,17 @@ The client ID is in `k8s/apps/wardrowbe/values.yaml` and `k8s/apps/wardrowbe/sec
 
 ## 2. One-time sign-in (laptop)
 
-Stop any earlier login that is still holding port 8765:
+If an earlier login is still holding port 8765, stop it first: `pkill -f "cli.js login"`.
+
+From the homelab repo, with `secrets.dec.yaml` decrypted:
 
 ```bash
-pkill -f "cli.js login"
+make wardrowbe-mcp-login
 ```
 
-Run the login. Read the secret from the decrypted file so it stays out of your shell history:
+The script reads `OIDC_CLIENT_ID` and `OIDC_CLIENT_SECRET` from `k8s/apps/wardrowbe/secrets.dec.yaml`, so the secret never appears on the command line. Complete the sign-in in the browser. The refresh token is written to `~/.config/wardrowbe-mcp/refresh-token.txt` with owner-only permissions, and the script does not print it. Use `OUT=<path>` to pick a different file.
 
-```bash
-cd ~/src/wardrowbe-mcp
-export OIDC_CLIENT_SECRET="$(sed -n 's/^ *OIDC_CLIENT_SECRET: *//p' ~/src/homelab/k8s/apps/wardrowbe/secrets.dec.yaml | head -1)"
-node dist/cli.js login \
-  --issuer https://pocket.mdeleon.dev \
-  --client-id <OIDC_CLIENT_ID> \
-  > ~/refresh-token.txt
-```
-
-Complete the sign-in in the browser. The token is written to `~/refresh-token.txt`, and the progress messages appear on screen. Check it with `wc -c ~/refresh-token.txt`; it should be a few hundred bytes.
-
-The package also works through `npx -y @mdeleon23/wardrowbe-mcp login ...`. That path was not verified: `npx` failed with `wardrowbe-mcp: command not found` on the same machine where the local build worked. Use the local build unless the npx path is confirmed.
+The script runs the local build at `~/src/wardrowbe-mcp/dist/cli.js` if it exists (override with `WARDROWBE_MCP_DIR`). Otherwise it falls back to `npx -y @mdeleon23/wardrowbe-mcp`. The npx path is not verified: it failed with `wardrowbe-mcp: command not found` on a machine where the local build worked.
 
 ## 3. Give the token to MCPhub
 
@@ -53,11 +44,7 @@ Set these on the Wardrowbe server in MCPhub:
 
 MCPhub's server definitions are not tracked in this repo, so set these in MCPhub's UI or in its config. Keep the secret and refresh token out of `values.yaml`.
 
-Then delete the local token file:
-
-```bash
-rm ~/refresh-token.txt
-```
+Then delete the local token file: `rm ~/.config/wardrowbe-mcp/refresh-token.txt`.
 
 ## 4. Check
 
