@@ -12,7 +12,7 @@ database:
 
 backup:
   enabled: true
-  bucket: infisical-backups-416964654612-us-east-2-an # S3 bucket from Phase 0
+  bucket: infisical-backups-416964654612-us-east-2-an # S3 bucket for the Barman backups
   path: infisical
   # Name Barman archives under. After a restore into a new Cluster, set this to a
   # fresh value so the old archive is not overwritten.
