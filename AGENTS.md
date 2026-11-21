@@ -64,7 +64,11 @@ make decrypt-secrets   # decrypt every k8s/**/secrets.yaml to secrets.dec.yaml (
 make clean-secrets     # delete all secrets.dec.yaml files
 make kubeconfig        # fetch kubeconfig from the control plane and merge it into ~/.kube/config
 make metal             # provision nodes with Ansible (checks SSH access first)
+make bootstrap         # run the whole bootstrap playbook (cert-manager, longhorn, Infisical stack, Argo CD, ...)
+make bootstrap-infisical  # run only the Infisical roles (external-secrets, cnpg, barman-cloud, infisical, infisical-operator); prompts for the AWS key
 ```
+
+Run Ansible through `make`, not `ansible-playbook` directly: the Makefile puts the project's `.venv` on `PATH`.
 
 Before running `kubectl` or `helm`, confirm the context is `k3s-ansible`:
 

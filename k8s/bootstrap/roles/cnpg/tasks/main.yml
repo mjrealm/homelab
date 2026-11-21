@@ -1,7 +1,15 @@
 ---
 # Installs the CNPG operator from its GitOps location. The platform ApplicationSet
-# keeps managing the same chart afterwards. Skip this role on a live cluster,
-# where Argo CD already runs the operator (--skip-tags cnpg).
+# keeps managing the same chart afterwards. The install is skipped when the
+# operator already exists, as on a live cluster where Argo CD runs it.
+- name: Look for an existing CloudNativePG operator
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    name: cnpg-cloudnative-pg
+    namespace: cnpg
+  register: cnpg_operator
+  tags: cnpg
+
 - name: Add CloudNativePG chart repo
   when: not ansible_check_mode
   kubernetes.core.helm_repository:
@@ -10,7 +18,7 @@
   tags: cnpg
 
 - name: Install CloudNativePG using Helm
-  when: not ansible_check_mode
+  when: not ansible_check_mode and cnpg_operator.resources | length == 0
   kubernetes.core.helm:
     name: cnpg
     chart_ref: ../platform/cnpg/
