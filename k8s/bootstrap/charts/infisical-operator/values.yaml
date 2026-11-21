@@ -1,2 +1,9 @@
 ---
+# One service account, and one Infisical machine identity, per stack.
+stacks:
+  - apps
+  - platform
+  - system
+  - ai
+
 secrets-operator: {}
