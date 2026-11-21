@@ -32,6 +32,11 @@ infisical-standalone:
     image:
       tag: v0.167.14
     kubeSecretRef: infisical-secrets # created by the ExternalSecret
+    extraEnv:
+      # Kubernetes Auth validates the API server host, and the in-cluster address
+      # is a private IP. The Gateway alternative is a paid feature.
+      - name: ALLOW_INTERNAL_IP_CONNECTIONS
+        value: "true"
   ingress:
     enabled: true
     hostName: &infisical infisical.mdeleon.dev
