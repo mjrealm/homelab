@@ -32,8 +32,8 @@ Management** project:
 
 - **Project name:** the stack name.
 - Keep the project slug equal to the name. The operator uses the slug.
-- Keep the **Production** environment with slug `prod`. Delete or ignore the
-  others.
+- Keep only the **Production** environment, with slug `prod`. In **Project
+  Settings**, delete `dev` and `staging`. Check the slug: the operator uses it.
 
 A project is the only access boundary. Folder-level permissions are paid, so
 never put two stacks in one project.
