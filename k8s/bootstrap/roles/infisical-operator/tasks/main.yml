@@ -1,0 +1,23 @@
+---
+- name: Install the Infisical operator using Helm
+  when: not ansible_check_mode
+  kubernetes.core.helm:
+    name: infisical-operator
+    chart_ref: charts/infisical-operator/
+    release_namespace: infisical-operator
+    create_namespace: true
+    dependency_update: true
+    values_files:
+      - charts/infisical-operator/values.yaml
+    wait: true
+  tags: infisical-operator
+
+- name: Wait for the InfisicalSecret CRD
+  kubernetes.core.k8s_info:
+    kind: CustomResourceDefinition
+    name: infisicalsecrets.secrets.infisical.com
+  register: crd
+  until: crd.resources | length > 0
+  retries: 10
+  delay: 20
+  tags: infisical-operator

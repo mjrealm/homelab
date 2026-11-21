@@ -1,0 +1,73 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: infisical-database
+spec:
+  instances: 1
+  imageName: {{ .Values.database.image }}
+  storage:
+    size: {{ .Values.database.size }}
+  {{- if .Values.recovery.enabled }}
+  bootstrap:
+    recovery:
+      source: infisical-origin
+  externalClusters:
+    - name: infisical-origin
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: infisical-aws
+          serverName: {{ .Values.recovery.sourceServerName }}
+  {{- else }}
+  bootstrap:
+    initdb:
+      database: infisical
+      owner: app
+  {{- end }}
+  {{- if .Values.backup.enabled }}
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: infisical-aws
+        serverName: {{ .Values.backup.serverName }}
+  {{- end }}
+{{- if .Values.backup.enabled }}
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: infisical-aws
+spec:
+  retentionPolicy: {{ .Values.backup.retention | quote }}
+  configuration:
+    destinationPath: s3://{{ .Values.backup.bucket }}/{{ .Values.backup.path }}
+    s3Credentials:
+      accessKeyId:
+        name: infisical-backup-aws # created by the infisical Ansible role
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: infisical-backup-aws
+        key: ACCESS_SECRET_KEY
+      region:
+        name: infisical-backup-aws
+        key: AWS_REGION
+    wal:
+      compression: gzip
+    data:
+      compression: gzip
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: infisical-daily
+spec:
+  schedule: {{ .Values.backup.schedule | quote }}
+  backupOwnerReference: self
+  cluster:
+    name: infisical-database
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+{{- end }}

@@ -10,6 +10,8 @@ metal:
 	make -C metal
 bootstrap:
 	make -C k8s
+bootstrap-infisical:
+	make -C k8s bootstrap-infisical
 apply-root:
 	make -C k8s apply-root
 decrypt-secrets:

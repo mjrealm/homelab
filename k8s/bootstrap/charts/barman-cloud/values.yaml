@@ -1,0 +1,3 @@
+---
+# Installed into the `cnpg` namespace, next to the CNPG operator.
+plugin-barman-cloud: {}

@@ -24,3 +24,15 @@ bootstrap:
   - name: longhorn-system
     namespace: longhorn-system
     project: system
+  - name: external-secrets
+    namespace: external-secrets
+    project: platform
+  - name: barman-cloud
+    namespace: cnpg
+    project: platform
+  - name: infisical
+    namespace: infisical
+    project: platform
+  - name: infisical-operator
+    namespace: infisical-operator
+    project: platform
