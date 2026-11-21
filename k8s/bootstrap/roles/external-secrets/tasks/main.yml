@@ -2,11 +2,11 @@
 - name: Check that the AWS credentials are set
   ansible.builtin.assert:
     that:
-      - lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') | length > 0
-      - lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') | length > 0
+      - infisical_aws_access_key_id | length > 0
+      - infisical_aws_secret_access_key | length > 0
     fail_msg: >-
-      Export INFISICAL_AWS_ACCESS_KEY_ID and INFISICAL_AWS_SECRET_ACCESS_KEY
-      (the homelab-infisical-bootstrap IAM key from Bitwarden) before running.
+      The AWS access key ID and secret access key are required (the
+      homelab-infisical-bootstrap IAM key from Bitwarden).
   tags: external-secrets
 
 - name: Add External Secrets chart repo
@@ -55,6 +55,6 @@
         namespace: external-secrets
       type: Opaque
       stringData:
-        access-key-id: "{{ lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') }}"
-        secret-access-key: "{{ lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') }}"
+        access-key-id: "{{ infisical_aws_access_key_id }}"
+        secret-access-key: "{{ infisical_aws_secret_access_key }}"
   tags: external-secrets

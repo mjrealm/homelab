@@ -1,6 +1,21 @@
 ---
 - name: Bootstrap k8s
   hosts: localhost
+  # Press Enter to accept a default. Defaults come from the matching
+  # INFISICAL_AWS_* environment variables, so scripted runs still work.
+  vars_prompt:
+    - name: infisical_aws_access_key_id
+      prompt: AWS access key ID (homelab-infisical-bootstrap)
+      private: false
+      default: "{{ lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') }}"
+    - name: infisical_aws_secret_access_key
+      prompt: AWS secret access key
+      private: true
+      default: "{{ lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') }}"
+    - name: infisical_aws_region
+      prompt: AWS region
+      private: false
+      default: "{{ lookup('env', 'INFISICAL_AWS_REGION') | default('us-west-2', true) }}"
   roles:
     # - cilium
     - prometheus-crds

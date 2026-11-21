@@ -2,12 +2,11 @@
 - name: Check that the backup settings are set
   ansible.builtin.assert:
     that:
-      - lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') | length > 0
-      - lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') | length > 0
-      - lookup('env', 'INFISICAL_AWS_REGION') | length > 0
+      - infisical_aws_access_key_id | length > 0
+      - infisical_aws_secret_access_key | length > 0
+      - infisical_aws_region | length > 0
     fail_msg: >-
-      Export INFISICAL_AWS_ACCESS_KEY_ID, INFISICAL_AWS_SECRET_ACCESS_KEY and
-      INFISICAL_AWS_REGION before running.
+      The AWS access key ID, secret access key and region are required.
   tags: infisical
 
 - name: Create the Infisical namespace
@@ -34,9 +33,9 @@
         namespace: infisical
       type: Opaque
       stringData:
-        ACCESS_KEY_ID: "{{ lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') }}"
-        ACCESS_SECRET_KEY: "{{ lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') }}"
-        AWS_REGION: "{{ lookup('env', 'INFISICAL_AWS_REGION') }}"
+        ACCESS_KEY_ID: "{{ infisical_aws_access_key_id }}"
+        ACCESS_SECRET_KEY: "{{ infisical_aws_secret_access_key }}"
+        AWS_REGION: "{{ infisical_aws_region }}"
   tags: infisical
 
 - name: Add Infisical chart repo
