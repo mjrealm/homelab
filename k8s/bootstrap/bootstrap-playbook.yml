@@ -6,4 +6,9 @@
     - prometheus-crds
     - cert-manager
     - longhorn
+    - external-secrets
+    - cnpg
+    - barman-cloud
+    - infisical
+    - infisical-operator
     - argocd

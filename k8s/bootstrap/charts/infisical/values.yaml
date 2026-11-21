@@ -1,0 +1,93 @@
+---
+# Non-secret settings read by this chart's own templates.
+aws:
+  region: us-west-2 # CHANGEME: region of the SSM parameters and S3 bucket
+  ssmPath: /homelab/infisical # parameters: ENCRYPTION_KEY, AUTH_SECRET, REDIS_PASSWORD
+
+siteUrl: https://infisical.mdeleon.dev
+
+database:
+  image: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
+  size: 5Gi
+
+backup:
+  enabled: true
+  bucket: CHANGEME-homelab-infisical-backups # S3 bucket from Phase 0
+  path: infisical
+  # Name Barman archives under. After a restore into a new Cluster, set this to a
+  # fresh value so the old archive is not overwritten.
+  serverName: infisical-database
+  retention: 14d
+  schedule: "0 0 3 * * *" # six fields: sec min hour day month weekday
+
+# Restore from the S3 backup instead of creating an empty database.
+recovery:
+  enabled: false
+  sourceServerName: infisical-database
+
+infisical-standalone:
+  infisical:
+    replicaCount: 1
+    rolloutOnEveryRender: false # keeps Argo CD from rolling the pod on every sync
+    image:
+      tag: v0.167.14
+    kubeSecretRef: infisical-secrets # created by the ExternalSecret
+  ingress:
+    enabled: true
+    hostName: &infisical infisical.mdeleon.dev
+    ingressClassName: traefik
+    nginx:
+      enabled: false
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls:
+      - secretName: infisical-tls-cert
+        hosts:
+          - *infisical
+  # Use CNPG and the Redis below instead of the bundled Bitnami subcharts.
+  postgresql:
+    enabled: false
+    useExistingPostgresSecret:
+      enabled: true
+      existingConnectionStringSecret:
+        name: infisical-database-app # created by CNPG
+        key: uri
+  redis:
+    enabled: false
+
+app-template:
+  controllers:
+    redis:
+      strategy: Recreate
+      containers:
+        redis:
+          image:
+            repository: docker.io/library/redis
+            tag: 8.6.8-alpine
+          command:
+            - sh
+            - -c
+            - exec redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"
+          env:
+            REDIS_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: infisical-secrets
+                  key: REDIS_PASSWORD
+  service:
+    redis:
+      forceRename: infisical-redis
+      controller: redis
+      ports:
+        redis:
+          port: 6379
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        redis:
+          redis:
+            - path: /data

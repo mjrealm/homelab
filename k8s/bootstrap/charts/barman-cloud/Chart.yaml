@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: barman-cloud
+version: 1.0.0
+dependencies:
+  - name: plugin-barman-cloud
+    version: 0.9.0
+    repository: https://cloudnative-pg.github.io/charts

@@ -1,0 +1,61 @@
+---
+- name: Check that the backup settings are set
+  ansible.builtin.assert:
+    that:
+      - lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') | length > 0
+      - lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') | length > 0
+      - lookup('env', 'INFISICAL_AWS_REGION') | length > 0
+    fail_msg: >-
+      Export INFISICAL_AWS_ACCESS_KEY_ID, INFISICAL_AWS_SECRET_ACCESS_KEY and
+      INFISICAL_AWS_REGION before running.
+  tags: infisical
+
+- name: Create the Infisical namespace
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: infisical
+  tags: infisical
+
+- name: Create the backup credentials Secret for Barman
+  when: not ansible_check_mode
+  no_log: true
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: infisical-backup-aws
+        namespace: infisical
+      type: Opaque
+      stringData:
+        ACCESS_KEY_ID: "{{ lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') }}"
+        ACCESS_SECRET_KEY: "{{ lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') }}"
+        AWS_REGION: "{{ lookup('env', 'INFISICAL_AWS_REGION') }}"
+  tags: infisical
+
+- name: Add Infisical chart repo
+  when: not ansible_check_mode
+  kubernetes.core.helm_repository:
+    name: infisical-helm-charts
+    repo_url: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
+  tags: infisical
+
+- name: Install Infisical using Helm
+  when: not ansible_check_mode
+  kubernetes.core.helm:
+    name: infisical
+    chart_ref: charts/infisical/
+    release_namespace: infisical
+    create_namespace: true
+    dependency_update: true
+    values_files:
+      - charts/infisical/values.yaml
+    wait: true
+    wait_timeout: 15m
+  tags: infisical

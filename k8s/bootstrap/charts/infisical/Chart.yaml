@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: infisical
+version: 1.0.0
+dependencies:
+  - name: infisical-standalone
+    version: 1.12.4
+    repository: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
+  - name: app-template
+    version: 5.3.0
+    repository: https://bjw-s-labs.github.io/helm-charts

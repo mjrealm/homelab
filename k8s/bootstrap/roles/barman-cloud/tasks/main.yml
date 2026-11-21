@@ -1,0 +1,23 @@
+---
+- name: Install the Barman Cloud plugin using Helm
+  when: not ansible_check_mode
+  kubernetes.core.helm:
+    name: barman-cloud
+    chart_ref: charts/barman-cloud/
+    release_namespace: cnpg
+    create_namespace: true
+    dependency_update: true
+    values_files:
+      - charts/barman-cloud/values.yaml
+    wait: true
+  tags: barman-cloud
+
+- name: Wait for the ObjectStore CRD
+  kubernetes.core.k8s_info:
+    kind: CustomResourceDefinition
+    name: objectstores.barmancloud.cnpg.io
+  register: crd
+  until: crd.resources | length > 0
+  retries: 10
+  delay: 20
+  tags: barman-cloud
