@@ -1,7 +1,7 @@
 ---
 # Non-secret settings read by this chart's own templates.
 aws:
-  region: us-west-2 # CHANGEME: region of the SSM parameters and S3 bucket
+  region: us-east-2 # region of the SSM parameters and S3 bucket
   ssmPath: /homelab/infisical # parameters: ENCRYPTION_KEY, AUTH_SECRET, REDIS_PASSWORD
 
 siteUrl: https://infisical.mdeleon.dev

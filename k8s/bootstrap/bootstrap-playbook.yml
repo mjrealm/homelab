@@ -15,7 +15,7 @@
     - name: infisical_aws_region
       prompt: AWS region
       private: false
-      default: "{{ lookup('env', 'INFISICAL_AWS_REGION') | default('us-west-2', true) }}"
+      default: "{{ lookup('env', 'INFISICAL_AWS_REGION') | default('us-east-2', true) }}"
   roles:
     # - cilium
     - prometheus-crds

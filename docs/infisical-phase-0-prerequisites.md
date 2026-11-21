@@ -1,7 +1,7 @@
 # Infisical Phase 0: AWS, R2, Bitwarden setup
 
 One-time manual setup before deploying Infisical. Never commit or paste any
-value from this guide into chat. Use one AWS region throughout (`us-west-2`
+value from this guide into chat. Use one AWS region throughout (`us-east-2`
 below) and check the region selector before each step.
 
 ## 1. AWS account (skip if you already have one!)
