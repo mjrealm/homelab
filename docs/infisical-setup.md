@@ -30,9 +30,13 @@ Before you start:
 Do this for `apps`, `platform`, `system` and `ai`:
 
 1. Create a **Secret Management** project.
-2. Set **Project name** to the stack name. The slug must equal the name.
-3. Open **Project Settings** and delete the `dev` and `staging` environments.
-4. Check that the remaining environment has the slug `prod`.
+2. Set **Project name** to the stack name.
+3. Open **Project Settings**, **General**. Infisical generates a random slug
+   such as `apps-3-vp6`. Set **Project Slug** to the stack name and save.
+4. Check that the slug now equals the stack name. The `InfisicalSecret` files
+   use `projectSlug: <stack>`.
+5. In **Project Settings**, delete the `dev` and `staging` environments.
+6. Check that the remaining environment has the slug `prod`.
 
 A project is the only access boundary. Folder-level permissions are paid, so
 never put two stacks in one project.
@@ -221,13 +225,16 @@ cluster CA changes.
    kubectl describe infisicalsecret <app> -n <app>
    ```
 
-3. Match the symptom:
+3. After fixing the cause, wait 1-2 minutes. The operator backs off between
+   retries, so the old error stays visible until the next one.
+4. Match the symptom:
 
    | Symptom | Cause |
    |---|---|
    | Authentication or `403` error | The CA certificate is stale, or the allowed service account name or namespace does not match `infisical-<stack>` and `infisical-operator`. |
    | A token review error | The service account is missing its `system:auth-delegator` binding. |
-   | Project or secret not found | Wrong `projectSlug`, `envSlug` or `secretsPath`, or the identity is not added to the project. |
+   | `Project with slug '<stack>' not found` | The project still has its generated slug (step 2), or the identity is not added to the project (step 5). |
+   | Other project or secret not found | Wrong `envSlug` or `secretsPath`, or the key is missing in Infisical. |
    | The Secret is empty | The folder name does not match `secretsPath`. |
 
 If an empty Token Reviewer JWT does not work, use a dedicated reviewer service
