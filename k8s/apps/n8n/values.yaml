@@ -3,6 +3,8 @@ app-template:
   controllers:
     n8n:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       pod:
         securityContext:
           runAsUser: 1000
@@ -19,8 +21,23 @@ app-template:
             GENERIC_TIMEZONE: "America/Los_Angeles"
             N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
             N8N_RUNNERS_ENABLED: "true"
+            DB_TYPE: postgresdb
+            DB_POSTGRESDB_DATABASE: n8n
+            DB_POSTGRESDB_HOST: n8n-postgres
+            DB_POSTGRESDB_PORT: "5432"
+            DB_POSTGRESDB_USER: n8n
+            DB_POSTGRESDB_SCHEMA: public
+            DB_POSTGRESDB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: POSTGRES_PASSWORD
+            N8N_HOST: n8n.mdeleon.dev
+            WEBHOOK_URL: https://n8n.mdeleon.dev/
     postgres:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         postgres:
           nameOverride: postgres
@@ -30,6 +47,12 @@ app-template:
           env:
             PGDATA: "/var/lib/postgresql/data/pg_data"
             POSTGRES_DB: "n8n"
+            POSTGRES_USER: n8n
+            POSTGRES_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-secrets
+                  key: POSTGRES_PASSWORD
 
   service:
     n8n:
