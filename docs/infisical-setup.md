@@ -1,165 +1,236 @@
 # Infisical setup: projects, identities and the operator
 
-Follow this on a new cluster, or after a rebuild where Infisical started with an
-empty database. It sets up everything inside Infisical that the repo cannot
-create: the admin user, the projects, and one machine identity per stack.
+Use this on a new cluster, or after a rebuild where Infisical started with an
+empty database. It covers what the repo cannot create: the admin user, the
+projects, and one machine identity per stack.
 
-After a rebuild that restored Infisical from a backup, the admin, projects,
-identities and secrets are already there. Skip to
+After a rebuild that restored Infisical from a backup, skip to
 [After a restore](#after-a-restore).
 
-Prerequisite: the bootstrap stack is installed (`make bootstrap-infisical`) and
-`https://infisical.mdeleon.dev` loads.
+Before you start:
 
-The service accounts `infisical-apps`, `infisical-platform`, `infisical-system`
-and `infisical-ai` are created by the `infisical-operator` chart in the
-`infisical-operator` namespace. Check they exist:
+- The bootstrap stack is installed (`make bootstrap-infisical`).
+- `https://infisical.mdeleon.dev` loads.
+- The four service accounts exist (created by the `infisical-operator` chart):
 
-```bash
-kubectl get sa -n infisical-operator | grep infisical-
-```
+  ```bash
+  kubectl get sa -n infisical-operator | grep infisical-
+  ```
 
-## 1. Create the admin
+## One-time setup
 
-Open `https://infisical.mdeleon.dev` and sign up. The first account becomes the
-admin, so do this straight away. Save the email and password in Bitwarden under
-"Infisical admin".
+### 1. Create the admin
 
-## 2. Create the four projects
+1. Open `https://infisical.mdeleon.dev`.
+2. Sign up. The first account becomes the admin, so do this straight away.
+3. Save the email and password in Bitwarden as "Infisical admin".
 
-For each of `apps`, `platform`, `system` and `ai`, create a **Secret
-Management** project:
+### 2. Create the four projects
 
-- **Project name:** the stack name.
-- Keep the project slug equal to the name. The operator uses the slug.
-- Keep only the **Production** environment, with slug `prod`. In **Project
-  Settings**, delete `dev` and `staging`. Check the slug: the operator uses it.
+Do this for `apps`, `platform`, `system` and `ai`:
+
+1. Create a **Secret Management** project.
+2. Set **Project name** to the stack name. The slug must equal the name.
+3. Open **Project Settings** and delete the `dev` and `staging` environments.
+4. Check that the remaining environment has the slug `prod`.
 
 A project is the only access boundary. Folder-level permissions are paid, so
 never put two stacks in one project.
 
-## 3. Get the cluster CA certificate
+### 3. Get the cluster CA certificate
 
-```bash
-kubectl get cm kube-root-ca.crt -n default -o jsonpath='{.data.ca\.crt}'
-```
+1. Run:
 
-Copy the whole output, including the `BEGIN` and `END` lines.
+   ```bash
+   kubectl get cm kube-root-ca.crt -n default -o jsonpath='{.data.ca\.crt}'
+   ```
 
-## 4. Create one machine identity per stack
+2. Copy the whole output, including the `BEGIN` and `END` lines.
 
-Go to **Organization**, **Access Control**, **Machine Identities**, **Create**.
-Do this four times:
+### 4. Create one machine identity per stack
 
-- **Name:** `infisical-apps`, `infisical-platform`, `infisical-system`,
-  `infisical-ai`.
-- **Role:** Member. It only covers organization-level resources. Project access
-  is set in step 5.
+Do this for each stack:
 
-Each new identity starts with Universal Auth. Edit **Authentication**, remove
-Universal Auth, and add **Kubernetes Auth**:
+1. Go to **Organization**, **Access Control**, **Machine Identities**,
+   **Create**.
+2. Set **Name** to `infisical-<stack>` and **Role** to `Member`.
+3. Open the new identity and edit **Authentication**.
+4. Remove **Universal Auth**.
+5. Add **Kubernetes Auth** with these values:
 
-| Field | Value |
-|---|---|
-| Kubernetes Host / Base Kubernetes API URL | `https://kubernetes.default.svc` |
-| Token Reviewer JWT | leave empty |
-| Allowed Service Account Names | `infisical-apps` (match the identity) |
-| Allowed Namespaces | `infisical-operator` |
-| Allowed Audience | leave empty |
-| CA Certificate | the PEM from step 3 (this turns on TLS verification) |
-| Access Token TTL, Max TTL | defaults |
+   | Field | Value |
+   |---|---|
+   | Kubernetes Host | `https://kubernetes.default.svc` |
+   | Token Reviewer JWT | leave empty |
+   | Allowed Service Account Names | `infisical-<stack>` |
+   | Allowed Namespaces | `infisical-operator` |
+   | Allowed Audience | leave empty |
+   | CA Certificate | the PEM from step 3 |
+   | Access Token TTL, Max TTL | defaults |
+
+6. Copy the **Identity ID** from the top of the identity's page, and write it in
+   the table below.
 
 With the reviewer JWT empty, Infisical validates the pod's own token. That works
-because each service account is bound to `system:auth-delegator`. Infisical runs
-inside the cluster, so the in-cluster API address is correct.
+because each service account is bound to `system:auth-delegator`.
 
-Copy each **Identity ID**. They are not secrets. You need them in step 7.
+Identity IDs are not secrets. Keep them current here. They end up in each app's
+`InfisicalSecret`.
 
-## 5. Add each identity to its project
-
-For each stack, open the project, then **Access Control**, **Machine
-Identities**, **Add Machine Identity to Project**, **Assign Existing**:
-
-| Project | Identity | Project role |
+| Stack | Identity | Identity ID |
 |---|---|---|
-| `apps` | `infisical-apps` | Viewer |
-| `platform` | `infisical-platform` | Viewer |
-| `system` | `infisical-system` | Viewer |
-| `ai` | `infisical-ai` | Viewer |
+| `apps` | `infisical-apps` | `fefa3b53-6b57-4b79-a20a-e7a9db8c00bf` |
+| `platform` | `infisical-platform` | `e2ccd552-d832-493d-8ca4-205f4e8c3f08` |
+| `system` | `infisical-system` | `b80ad456-f091-4fdc-9477-518d2b3852e8` |
+| `ai` | `infisical-ai` | `e884d4d2-4998-4abe-b7fa-813b2b410f69` |
 
-Viewer is enough: the operator only reads secrets.
+If you recreate an identity, its ID changes. Search the repo for the old ID and
+replace it.
 
-## 6. Create a folder per app and add the secrets
+### 5. Add each identity to its project
 
-In a project, open **Secrets**, choose the `prod` environment, and create a
-folder named after the app (for example `upsnap`). Add the app's secrets inside
-it as key and value pairs. Folder path in the CRD is `/<app>`.
+Do this for each stack:
 
-## 7. Per app: the InfisicalSecret
+1. Open the project.
+2. Go to **Access Control**, **Machine Identities**, **Add Machine Identity to
+   Project**, **Assign Existing**.
+3. Pick `infisical-<stack>` with the project role **Viewer**.
 
-Each app's chart gets a `templates/infisicalsecret.yaml`. Replace the angle
-brackets. The service address below is the in-cluster Infisical backend.
+Viewer is enough, because the operator only reads secrets.
 
-```yaml
-apiVersion: secrets.infisical.com/v1alpha1
-kind: InfisicalSecret
-metadata:
-  name: <app>
-spec:
-  hostAPI: http://infisical-infisical-standalone-infisical.infisical.svc.cluster.local:8080/api
-  syncConfig:
-    resyncInterval: 60s
-  authentication:
-    kubernetesAuth:
-      identityId: <identity id of the stack>
-      autoCreateServiceAccountToken: true
-      serviceAccountRef:
-        name: infisical-<stack>
-        namespace: infisical-operator
-      secretsScope:
-        projectSlug: <stack>
-        envSlug: prod
-        secretsPath: /<app>
-        recursive: false
-  managedKubeSecretReferences:
-    - secretName: <app>-secrets
-      secretNamespace: <app>
-      creationPolicy: Owner
-```
+## Adding an app's secrets
 
-Then point the app at `<app>-secrets` with `envFrom` or `existingSecret`, and add
-the annotation `secrets.infisical.com/auto-reload: "true"` to the Deployment so a
-changed secret restarts the pod.
+Repeat this for each app. The worked example is `convertx` (stack `apps`, secret
+`JWT_SECRET`).
+
+### 6. Put the secrets in Infisical
+
+1. Open the stack's project, then **Secrets**.
+2. Select the `prod` environment.
+3. Create a folder named after the app: `convertx`.
+4. Open the folder and add each key and value: `JWT_SECRET`.
+
+### 7. Add the InfisicalSecret to the app
+
+1. Create `k8s/<stack>/<app>/templates/infisicalsecret.yaml`.
+2. Fill in the app, the stack and its identity ID from the table above.
+
+   Example, `k8s/apps/convertx/templates/infisicalsecret.yaml`:
+
+   ```yaml
+   apiVersion: secrets.infisical.com/v1alpha1
+   kind: InfisicalSecret
+   metadata:
+     name: convertx
+   spec:
+     hostAPI: http://infisical-infisical-standalone-infisical.infisical.svc.cluster.local:8080/api
+     syncConfig:
+       resyncInterval: 60s
+     authentication:
+       kubernetesAuth:
+         identityId: fefa3b53-6b57-4b79-a20a-e7a9db8c00bf
+         autoCreateServiceAccountToken: true
+         serviceAccountRef:
+           name: infisical-apps
+           namespace: infisical-operator
+         secretsScope:
+           projectSlug: apps
+           envSlug: prod
+           secretsPath: /convertx
+           recursive: false
+     managedKubeSecretReferences:
+       - secretName: convertx-secrets
+         secretNamespace: {{ .Release.Namespace }}
+         creationPolicy: Owner
+   ```
+
+   What to change per app:
+
+   - `metadata.name` and `secretsPath`: the app name.
+   - `identityId`, `serviceAccountRef.name` and `projectSlug`: the stack's row.
+   - `secretName`: `<app>-secrets`.
+
+### 8. Point the app at the Secret
+
+1. In `values.yaml`, load the Secret into the container with `envFrom`, and add
+   the auto-reload annotation to the controller.
+
+   Example, `k8s/apps/convertx/values.yaml`:
+
+   ```yaml
+   app-template:
+     controllers:
+       convertx:
+         annotations:
+           secrets.infisical.com/auto-reload: "true"
+         containers:
+           convertx:
+             envFrom:
+               - secretRef:
+                   name: convertx-secrets
+   ```
+
+2. Delete the app's `secrets.yaml`. Leave your local `secrets.dec.yaml` alone.
+3. Keep the ingress and other non-secret values in `values.yaml`.
+
+### 9. Check it
+
+1. Merge the PR, after the keys exist in Infisical. Otherwise the pod waits in
+   `CreateContainerConfigError`.
+2. Check the sync:
+
+   ```bash
+   kubectl get infisicalsecret,secret -n convertx
+   kubectl get pods -n convertx
+   ```
+
+3. Expect the `InfisicalSecret` to be healthy, `convertx-secrets` to exist, and
+   the pod to be Running.
+4. To test a reload, change a value in Infisical and wait for the resync
+   interval (60s). The pod restarts.
 
 Instant updates is an Enterprise feature, so a changed value reaches the pod
 after the resync interval, not at once.
 
 ## After a restore
 
-The database already holds the admin, projects, identities and secrets. Only
-what depends on the new cluster needs fixing:
+The database already holds the admin, projects, identities and secrets. Only the
+cluster CA changes.
 
 1. Log in with the admin from Bitwarden.
-2. Run `kubectl get cm kube-root-ca.crt -n default -o jsonpath='{.data.ca\.crt}'`.
-   A rebuilt k3s cluster has a new CA.
-3. For each of the four identities, edit **Kubernetes Auth** and replace the **CA
-   Certificate**. The host and service account names stay the same.
-4. Check one app: `kubectl get infisicalsecret -A` should show the secrets
-   syncing, with no authentication errors.
+2. Get the new CA, because a rebuilt k3s cluster has a new one:
+
+   ```bash
+   kubectl get cm kube-root-ca.crt -n default -o jsonpath='{.data.ca\.crt}'
+   ```
+
+3. For each of the four identities, edit **Kubernetes Auth** and replace the
+   **CA Certificate**. The host and names stay the same.
+4. Check that secrets sync with no authentication errors:
+
+   ```bash
+   kubectl get infisicalsecret -A
+   ```
 
 ## If authentication fails
 
-Check the `infisical-operator` pod logs, and the status on an `InfisicalSecret`
-(`kubectl describe infisicalsecret <app> -n <app>`). Typical causes:
+1. Check the `infisical-operator` pod logs.
+2. Check the status of the resource:
 
-| Symptom | Cause |
-|---|---|
-| Authentication or `403` error | The CA certificate is stale, or Allowed Service Account Names or Namespaces does not match `infisical-<stack>` and `infisical-operator`. |
-| A token review error | The service account is missing its `system:auth-delegator` binding. |
-| Project or secret not found | Wrong `projectSlug`, `envSlug` or `secretsPath`, or the identity is not added to the project. |
-| The Secret is empty | The folder name does not match `secretsPath`. |
+   ```bash
+   kubectl describe infisicalsecret <app> -n <app>
+   ```
 
-If validating with an empty Token Reviewer JWT does not work, the fallback is a
-dedicated reviewer service account with a long-lived token. Use the "Manual
-long-lived service account tokens" steps in Infisical's `InfisicalSecret`
-documentation, and paste that token into **Token Reviewer JWT**.
+3. Match the symptom:
+
+   | Symptom | Cause |
+   |---|---|
+   | Authentication or `403` error | The CA certificate is stale, or the allowed service account name or namespace does not match `infisical-<stack>` and `infisical-operator`. |
+   | A token review error | The service account is missing its `system:auth-delegator` binding. |
+   | Project or secret not found | Wrong `projectSlug`, `envSlug` or `secretsPath`, or the identity is not added to the project. |
+   | The Secret is empty | The folder name does not match `secretsPath`. |
+
+If an empty Token Reviewer JWT does not work, use a dedicated reviewer service
+account with a long-lived token. Follow the "Manual long-lived service account
+tokens" steps in Infisical's `InfisicalSecret` documentation, and paste that
+token into **Token Reviewer JWT**.
