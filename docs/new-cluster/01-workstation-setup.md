@@ -25,7 +25,8 @@ Prepare the machine you run `make` from. This guide assumes macOS with
 
 2. Wait for it to finish. It installs:
 
-   - Homebrew packages: `kubectl`, `helm`, `sops`, `age`, `gitleaks`, `pyenv`.
+   - Homebrew packages: `kubectl`, `helm`, `sops`, `age`, `gitleaks`, `node`,
+     `pyenv`.
    - The Python version in `.python-version`, through pyenv, in `.venv`.
    - From `requirements.txt` into `.venv`: `ansible`, `kubernetes`, `pre-commit`
      and `yamllint`.
@@ -48,3 +49,15 @@ Prepare the machine you run `make` from. This guide assumes macOS with
    `secrets-getter` and `secrets-post-renderer`.
 
 Next: [Cloud prerequisites](02-cloud-prerequisites.md).
+
+## Preview the docs
+
+1. Run:
+
+   ```bash
+   make docs
+   ```
+
+2. Open <http://localhost:3000/homelab/>. The page reloads when you save a file
+   in `docs/`.
+3. Stop it with Ctrl+C.
