@@ -3,11 +3,16 @@ app-template:
   controllers:
     convertx:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         convertx:
           image:
             repository: ghcr.io/c4illin/convertx
             tag: latest
+          envFrom:
+            - secretRef:
+                name: convertx-secrets
   service:
     convertx:
       controller: convertx
