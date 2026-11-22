@@ -10,3 +10,7 @@ Chart.lock
 .vagrant_ssh_config
 .env
 .ansible.venv
+
+website/node_modules
+website/build
+website/.docusaurus
