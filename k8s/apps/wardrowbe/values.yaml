@@ -12,7 +12,7 @@ app-template:
         frontend:
           image:
             repository: ghcr.io/anyesh/wardrowbe
-            tag: 1.13.0-frontend
+            tag: 1.14.0-frontend
           env:
             BACKEND_URL: http://wardrowbe-backend:8000
             NEXTAUTH_URL: https://wardrowbe.mdeleon.dev
@@ -35,7 +35,7 @@ app-template:
         migrate:
           image: &backend-image
             repository: ghcr.io/anyesh/wardrowbe
-            tag: 1.13.0-backend
+            tag: 1.14.0-backend
           args: [alembic, upgrade, head]
           # app-template sorts env map keys alphabetically, so DATABASE_URL would
           # render before DB_PASSWORD. Kubernetes only expands $(VAR) for variables
