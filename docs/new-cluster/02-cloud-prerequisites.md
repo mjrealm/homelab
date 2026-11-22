@@ -1,6 +1,6 @@
-# Infisical Phase 0: AWS, R2, Bitwarden setup
+# Cloud prerequisites: AWS, R2, Bitwarden
 
-One-time manual setup before deploying Infisical. Never commit or paste any
+Manual setup in the cloud consoles, before you bootstrap the cluster. Never commit or paste any
 value from this guide into chat. Use one AWS region throughout (`us-east-2`
 below) and check the region selector before each step.
 
@@ -36,7 +36,9 @@ For each: tier **Standard**, type **SecureString**, default KMS key.
 
 **S3**, **Create bucket**:
 
-- Name: `<you>-homelab-infisical-backups`
+- Name: any globally unique name. The current one is `backup.bucket` in
+  `k8s/bootstrap/charts/infisical/values.yaml`. If you pick a different name,
+  update that value.
 - Block all public access: on
 - Versioning: enable
 
@@ -161,4 +163,5 @@ Then check and clean up:
 - [ ] R2 bucket and scoped token
 - [ ] Everything in Bitwarden
 
-Non-secret names Phase 1 needs: region, S3 bucket, R2 bucket, R2 account ID.
+Keep these non-secret names for the bootstrap: region, S3 bucket, R2 bucket,
+R2 account ID.

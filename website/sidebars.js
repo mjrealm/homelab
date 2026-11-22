@@ -6,8 +6,13 @@ const sidebars = {
     'index',
     {
       type: 'category',
-      label: 'Infisical',
-      items: ['infisical-phase-0-prerequisites', 'infisical-setup'],
+      label: 'New cluster',
+      items: [
+        'new-cluster/workstation-setup',
+        'new-cluster/cloud-prerequisites',
+        'new-cluster/cluster-install',
+        'new-cluster/infisical-setup',
+      ],
     },
   ],
 };

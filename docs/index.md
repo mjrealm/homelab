@@ -8,7 +8,15 @@ sidebar_position: 0
 Guides for the GitOps k3s homelab in
 [mjrealm/homelab](https://github.com/mjrealm/homelab).
 
-## Infisical
+## New cluster
 
-- [Phase 0: AWS, R2 and Bitwarden prerequisites](infisical-phase-0-prerequisites.md)
-- [Setup: projects, identities and the operator](infisical-setup.md)
+Follow these in order to build the cluster from scratch:
+
+1. [Workstation setup](new-cluster/01-workstation-setup.md): clone the repo and
+   install the tools.
+2. [Cloud prerequisites](new-cluster/02-cloud-prerequisites.md): AWS, R2 and
+   Bitwarden.
+3. [Install the cluster](new-cluster/03-cluster-install.md): k3s, the bootstrap
+   stack and Argo CD.
+4. [Infisical setup](new-cluster/04-infisical-setup.md): projects, identities and
+   the operator.
