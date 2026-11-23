@@ -3,20 +3,39 @@ app-template:
   controllers:
     docuseal:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         docuseal:
           nameOverride: docuseal
           image:
             repository: docuseal/docuseal
             tag: 3.3.8
+          env:
+            DATABASE_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: docuseal-mc-secrets
+                  key: DATABASE_URL
     postgres:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         postgres:
           nameOverride: postgres
           image:
             repository: postgres
             tag: 15.190
+          env:
+            POSTGRES_USER: postgres
+            POSTGRES_DB: docuseal
+            PGDATA: /var/lib/postgresql/data/pg_data
+            POSTGRES_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: docuseal-mc-secrets
+                  key: POSTGRES_PASSWORD
   service:
     docuseal:
       controller: docuseal
@@ -28,6 +47,31 @@ app-template:
       ports:
         http:
           port: 5432
+
+  ingress:
+    docuseal:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Docuseal (Business)
+        gethomepage.dev/description: Document Signing (Business)
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: sh-docuseal.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "6"
+      hosts:
+        - host: &docuseal-mc docs.mcsuites.info
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: docuseal
+                port: http
+      tls:
+        - secretName: docuseal-mc-tls-cert
+          hosts:
+            - *docuseal-mc
 
   persistence:
     data:
