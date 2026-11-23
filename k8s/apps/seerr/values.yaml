@@ -23,6 +23,10 @@ seerr-chart:
       gethomepage.dev/icon: "sh-seerr.png"
       gethomepage.dev/weight: "2"
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=seerr-chart"
+      gethomepage.dev/widget.type: seerr
+      gethomepage.dev/widget.url: http://seerr-seerr-chart.seerr.svc:5055
+      # Resolved by Homepage from the HOMEPAGE_VAR_SEERR_KEY env var (homepage-secrets)
+      gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_SEERR_KEY}}"
     hosts:
       - host: &host "seerr.mdeleon.dev"
         paths:
@@ -37,6 +41,8 @@ app-template:
   controllers:
     overseerr-mcp:
       strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         overseerr-mcp:
           image:
@@ -47,6 +53,11 @@ app-template:
             HTTP_MODE: "true"
             PORT: "8085"
             SEERR_URL: http://seerr-seerr-chart.seerr.svc:5055
+            SEERR_API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: seerr-secrets
+                  key: SEERR_API_KEY
 
   service:
     overseerr-mcp:
