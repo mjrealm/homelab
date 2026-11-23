@@ -7,7 +7,7 @@ aws:
 siteUrl: https://infisical.mdeleon.dev
 
 database:
-  image: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
+  image: ghcr.io/cloudnative-pg/postgresql:19-standard-trixie
   size: 5Gi
 
 backup:
