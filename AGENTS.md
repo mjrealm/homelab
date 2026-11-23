@@ -47,6 +47,7 @@ Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/
 | hindsight | `k8s/ai/` | `values.yaml` (model names), `secrets.dec.yaml` (base URLs, keys) | LLM, embeddings, reranker (Cohere-compatible) |
 | litellm | `k8s/ai/` | `values.yaml` (`proxy_config`, `envVars`) | The gateway itself. Models are stored in Postgres. |
 | wardrowbe | `k8s/apps/` | `values.yaml` (`AI_BASE_URL`, `AI_TEXT_MODEL`, `AI_VISION_MODEL`), `secrets.dec.yaml` (`AI_API_KEY`) | Text and vision chat |
+| sure | `k8s/apps/` | `values.yaml` (`ASSISTANT_TYPE`, `EXTERNAL_ASSISTANT_URL`, `OPENAI_URI_BASE`, `OPENAI_MODEL`), Infisical `/sure` (`OPENAI_ACCESS_TOKEN`, `EXTERNAL_ASSISTANT_TOKEN`, `MCP_API_TOKEN`, `MCP_USER_EMAIL`) | Chat is delegated to the Hermes `angela` profile (external agent, calls back via `/mcp`). LiteLLM handles categorization. |
 | karakeep | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `INFERENCE_*_MODEL`) | Text and image inference |
 | mealie | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`) | Chat |
 | paperless-gpt | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `LLM_MODEL`, `VISION_LLM_MODEL`) | Chat and vision OCR |
