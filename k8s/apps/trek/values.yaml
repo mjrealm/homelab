@@ -29,7 +29,7 @@ trek:
       gethomepage.dev/name: TREK
       gethomepage.dev/description: Travel Planner
       gethomepage.dev/group: Knowledge
-      gethomepage.dev/weight: "4"
+      gethomepage.dev/weight: "5"
       gethomepage.dev/icon: sh-trek.png
       gethomepage.dev/pod-selector: app=trek
     hosts:
