@@ -3,6 +3,8 @@ app-template:
   controllers:
     frontend:
       strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       pod:
         securityContext:
           runAsUser: 1001
@@ -18,12 +20,15 @@ app-template:
             NEXTAUTH_URL: https://wardrowbe.mdeleon.dev
             OIDC_ISSUER_URL: https://pocket.mdeleon.dev
           envFrom:
-            - secret: app
+            - secretRef:
+                name: wardrowbe-secrets
 
     # The backend, both workers and the migration share one pod because they share
     # the ReadWriteOnce upload volume.
     backend:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       pod:
         securityContext:
           runAsUser: 1000
@@ -59,7 +64,8 @@ app-template:
             AI_VISION_MODEL: qwen3.8:fast
             AI_TEXT_MODEL: qwen3.8:fast
           envFrom: &backend-env-from
-            - secret: app
+            - secretRef:
+                name: wardrowbe-secrets
       containers:
         backend:
           image: *backend-image

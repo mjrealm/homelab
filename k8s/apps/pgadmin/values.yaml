@@ -9,16 +9,19 @@ app-template:
   controllers:
     main:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: pgadmin
           image:
             repository: dpage/pgadmin4
             tag: 9.19
-          # env:
-          #   PGADMIN_DEFAULT_EMAIL: ""
-          #   PGADMIN_DEFAULT_PASSWORD: ""
-          #   PGADMIN_DISABLE_POSTFIX: "true"
+          env:
+            PGADMIN_DISABLE_POSTFIX: "true"
+          envFrom:
+            - secretRef:
+                name: pgadmin-secrets
   service:
     main:
       controller: main
@@ -58,3 +61,12 @@ app-template:
       size: 4Gi
       globalMounts:
         - path: /var/lib/pgadmin
+    backups:
+      enabled: true
+      type: nfs
+      server: 192.168.1.200
+      path: /volume1/backups/
+      advancedMounts:
+        main:
+          main:
+            - path: /backups
