@@ -3,11 +3,21 @@ app-template:
   controllers:
     snapotter:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         app:
           image:
             repository: snapotter/snapotter
             tag: 2.3.0
+          env:
+            AUTH_ENABLED: "false"
+            DEFAULT_USERNAME: admin
+            DEFAULT_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: snapotter-secrets
+                  key: DEFAULT_PASSWORD
           resources:
             requests:
               cpu: 10m

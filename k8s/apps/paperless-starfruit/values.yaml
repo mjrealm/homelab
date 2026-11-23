@@ -5,6 +5,8 @@ app-template:
       # SQLite on one ReadWriteOnce volume, so a single replica with Recreate.
       replicas: 1
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: paperless-starfruit
@@ -15,6 +17,11 @@ app-template:
             PORT: "3000"
             DATABASE_PATH: /data/app.db
             CORS_ORIGIN: https://starfruit.mdeleon.dev
+            ENCRYPTION_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-starfruit-secrets
+                  key: ENCRYPTION_KEY
           resources:
             requests:
               memory: 256Mi
