@@ -1,0 +1,161 @@
+---
+app-template:
+  controllers:
+    main:
+      strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
+      pod:
+        securityContext:
+          # The image runs as UID 1000; fsGroup makes the Longhorn volumes writable.
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
+      initContainers:
+        init:
+          image:
+            repository: opencloudeu/opencloud-rolling
+            tag: 9.2.0
+          env:
+            IDM_ADMIN_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: opencloud-secrets
+                  key: IDM_ADMIN_PASSWORD
+          command:
+            - /bin/sh
+            - -c
+            # Create the config on first start only; `opencloud init` is required before `server`.
+            - '[ -f /etc/opencloud/opencloud.yaml ] || opencloud init --insecure true --admin-password "$IDM_ADMIN_PASSWORD"'
+      containers:
+        main:
+          image:
+            repository: opencloudeu/opencloud-rolling
+            tag: 9.2.0
+          env:
+            OC_URL: https://opencloud.mdeleon.dev
+            PROXY_HTTP_ADDR: 0.0.0.0:9200
+            # Content Security Policy file, mounted from the configMap below.
+            PROXY_CSP_CONFIG_FILE_LOCATION: /etc/opencloud-csp/csp.yaml
+            # Traefik terminates TLS, so the backend speaks plain HTTP.
+            PROXY_TLS: "false"
+            # Sign-in is delegated to Pocket ID, so the built-in IdP does not run.
+            OC_EXCLUDE_RUN_SERVICES: idp
+            OC_OIDC_ISSUER: https://pocket.mdeleon.dev
+            IDP_DOMAIN: pocket.mdeleon.dev
+            IDP_ISSUER_URL: https://pocket.mdeleon.dev
+            PROXY_OIDC_REWRITE_WELLKNOWN: "true"
+            PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: jwt
+            # Users are created on first login from the Pocket ID claims.
+            PROXY_AUTOPROVISION_ACCOUNTS: "true"
+            PROXY_USER_OIDC_CLAIM: sub
+            PROXY_AUTOPROVISION_CLAIM_USERNAME: preferred_username
+            PROXY_USER_CS3_CLAIM: username
+            OC_OIDC_CLIENT_ID: "0ebb0c61-67a6-4930-a454-9b5095f1451e"
+  configMaps:
+    csp:
+      data:
+        csp.yaml: |
+          # OpenCloud default CSP, plus the Pocket ID issuer for OIDC discovery and silent renew.
+          directives:
+            child-src:
+              - '''self'''
+            connect-src:
+              - '''self'''
+              - 'blob:'
+              - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
+              - 'https://update.opencloud.eu/'
+              - 'https://pocket.mdeleon.dev'
+            default-src:
+              - '''none'''
+            font-src:
+              - '''self'''
+            frame-ancestors:
+              - '''self'''
+            frame-src:
+              - '''self'''
+              - 'blob:'
+              - 'https://embed.diagrams.net/'
+              - 'https://pocket.mdeleon.dev'
+            img-src:
+              - '''self'''
+              - 'data:'
+              - 'blob:'
+              - 'https://raw.githubusercontent.com/opencloud-eu/awesome-apps/'
+            manifest-src:
+              - '''self'''
+            media-src:
+              - '''self'''
+              - 'blob:'
+            object-src:
+              - '''self'''
+              - 'blob:'
+            script-src:
+              - '''self'''
+              - '''unsafe-inline'''
+            style-src:
+              - '''self'''
+              - '''unsafe-inline'''
+              - 'blob:'
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 9200
+  ingress:
+    opencloud:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/description: File sync and share
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: sh-opencloud-dark.png
+        gethomepage.dev/name: OpenCloud
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "3"
+      hosts:
+        - host: &opencloud opencloud.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: opencloud-tls-cert
+          hosts:
+            - *opencloud
+  persistence:
+    csp:
+      enabled: true
+      type: configMap
+      identifier: csp
+      advancedMounts:
+        main:
+          main:
+            - path: /etc/opencloud-csp
+              readOnly: true
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      advancedMounts:
+        main:
+          init:
+            - path: /etc/opencloud
+          main:
+            - path: /etc/opencloud
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 20Gi
+      advancedMounts:
+        main:
+          init:
+            - path: /var/lib/opencloud
+          main:
+            - path: /var/lib/opencloud
