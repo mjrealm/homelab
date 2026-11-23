@@ -114,7 +114,7 @@ app-template:
         mcp:
           image:
             repository: ghcr.io/mjrealm/wardrowbe-mcp
-            tag: 0.1.0
+            tag: 0.1.1
           env:
             PUBLIC_URL: https://wardrowbe-mcp.mdeleon.dev
             WARDROWBE_URL: http://wardrowbe-backend:8000
