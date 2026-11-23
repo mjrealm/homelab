@@ -24,6 +24,29 @@ app-template:
         http:
           port: 6246
 
+  ingress:
+    maintainerr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Maintainerr
+        gethomepage.dev/description: Library maintenance for Plex
+        gethomepage.dev/group: Media Tools
+        gethomepage.dev/icon: sh-maintainerr.png
+      hosts:
+        - host: &maintainerr maintainerr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: maintainerr
+                port: http
+      tls:
+        - secretName: maintainerr-tls-cert
+          hosts:
+            - *maintainerr
+
   persistence:
     data:
       enabled: true

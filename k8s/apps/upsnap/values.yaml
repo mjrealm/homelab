@@ -24,6 +24,30 @@ app-template:
         http:
           port: 8090
 
+  ingress:
+    upsnap:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: UpSnap
+        gethomepage.dev/description: Wake on LAN
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Network Tools
+        gethomepage.dev/icon: sh-upsnap.png
+        gethomepage.dev/weight: "10"
+      hosts:
+        - host: &upsnap upsnap.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: upsnap
+                port: http
+      tls:
+        - secretName: upsnap-tls-cert
+          hosts:
+            - *upsnap
+
   persistence:
     data:
       enabled: true

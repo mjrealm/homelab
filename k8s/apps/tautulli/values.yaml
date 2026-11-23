@@ -20,6 +20,29 @@ app-template:
         http:
           port: 8181
 
+  ingress:
+    tautulli:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Tautulli
+        gethomepage.dev/description: Plex monitoring and tracking
+        gethomepage.dev/group: Media Tools
+        gethomepage.dev/icon: sh-tautulli.png
+      hosts:
+        - host: &tautulli tautulli.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: tautulli
+                port: http
+      tls:
+        - secretName: tautulli-tls-cert
+          hosts:
+            - *tautulli
+
   persistence:
     config:
       enabled: true
