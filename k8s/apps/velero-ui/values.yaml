@@ -25,6 +25,9 @@ velero-ui:
 
   configuration:
     general:
+      secretPassPhrase:
+        existingSecret: velero-ui-secrets
+        key: AUTH_SECRET_PASSPHRASE
       veleroNamespace: velero
       grafanaUrl: "https://grafana.mdeleon.dev"
 
@@ -32,3 +35,35 @@ velero-ui:
       enabled: true
       value: |
         u,*,manage,all
+
+  env:
+    - name: DEFAULT_TIMEZONE
+      value: America/Los_Angeles
+    - name: OAUTH_AUTH_ENABLED
+      value: "true"
+    - name: OAUTH_NAME
+      value: PocketID
+    - name: OAUTH_AUTHORIZATION_URL
+      value: https://pocket.mdeleon.dev/authorize
+    - name: OAUTH_USER_INFO_URL
+      value: https://pocket.mdeleon.dev/api/oidc/userinfo
+    - name: OAUTH_TOKEN_URL
+      value: https://pocket.mdeleon.dev/api/oidc/token
+    - name: OAUTH_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: velero-ui-secrets
+          key: OAUTH_CLIENT_ID
+    - name: OAUTH_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: velero-ui-secrets
+          key: OAUTH_CLIENT_SECRET
+    - name: OAUTH_OAUTH_SCOPE
+      value: openid profile email groups
+    - name: OAUTH_REDIRECT_URI
+      value: https://velero.mdeleon.dev/login
+    - name: OAUTH_GROUP_CLAIM
+      value: groups
+    - name: BASIC_AUTH_ENABLED
+      value: "false"
