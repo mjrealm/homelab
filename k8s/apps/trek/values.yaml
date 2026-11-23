@@ -13,6 +13,8 @@ trek:
     OIDC_DISPLAY_NAME: Pocket-ID
     OIDC_USERNAME_CLAIM: preferred_username
     ALLOW_INTERNAL_NETWORK: "true"
+    OIDC_CLIENT_ID: "207cc769-0339-4261-99b7-95f07a4ba5fc"
+  existingSecret: trek-secrets
   persistence:
     data:
       size: 4Gi
