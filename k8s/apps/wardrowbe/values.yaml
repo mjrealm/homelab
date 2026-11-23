@@ -97,8 +97,9 @@ app-template:
             BG_REMOVAL_MODEL: u2net
           envFrom: *backend-env-from
 
-    # MCP server for Wardrowbe. Signs users in through Pocket ID (OAuth) and calls the
-    # Wardrowbe API as them. Pending uploads are held in memory, so keep one replica.
+    # MCP server for Wardrowbe, in-cluster only (no ingress, no PUBLIC_URL, so no OAuth).
+    # Clients send MCP_API_KEY as a Bearer token and calls run as the user behind
+    # OIDC_REFRESH_TOKEN. Pending uploads are held in memory, so keep one replica.
     mcp:
       strategy: Recreate
       annotations:
@@ -114,9 +115,8 @@ app-template:
         mcp:
           image:
             repository: ghcr.io/mjrealm/wardrowbe-mcp
-            tag: sha-c4f7abd
+            tag: 0.1.0
           env:
-            PUBLIC_URL: https://wardrowbe-mcp.mdeleon.dev
             WARDROWBE_URL: http://wardrowbe-backend:8000
             OIDC_ISSUER_URL: https://pocket.mdeleon.dev
             OIDC_CLIENT_ID:
@@ -124,6 +124,11 @@ app-template:
                 secretKeyRef:
                   name: wardrowbe-secrets
                   key: OIDC_CLIENT_ID
+            OIDC_REFRESH_TOKEN:
+              valueFrom:
+                secretKeyRef:
+                  name: wardrowbe-secrets
+                  key: OIDC_REFRESH_TOKEN
             MCP_API_KEY:
               valueFrom:
                 secretKeyRef:
@@ -192,22 +197,6 @@ app-template:
         - secretName: wardrowbe-tls-cert
           hosts:
             - *wardrowbe
-    mcp:
-      className: traefik
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-      hosts:
-        - host: &wardrowbe-mcp wardrowbe-mcp.mdeleon.dev
-          paths:
-            - path: /
-              pathType: Prefix
-              service:
-                identifier: mcp
-                port: http
-      tls:
-        - secretName: wardrowbe-mcp-tls-cert
-          hosts:
-            - *wardrowbe-mcp
 
   persistence:
     data:
