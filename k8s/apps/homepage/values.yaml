@@ -78,9 +78,25 @@ homepage:
         secretKeyRef:
           name: homepage-secrets
           key: HOMEPAGE_VAR_HOME_ASSISTANT_MONITOR_URL
+    - name: HOMEPAGE_VAR_LATITUDE
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_LATITUDE
+    - name: HOMEPAGE_VAR_LONGITUDE
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_LONGITUDE
 
   config:
+    kubernetes:
+      mode: cluster
     settings:
+      statusStyle: dot
+      quicklaunch:
+        searchDescriptions: true
+        hideInternetSearch: true
       layout:
         - AI:
             tab: Apps
@@ -222,3 +238,31 @@ homepage:
               href: http://homeassistant.local:8123/
               description: Smart Home Hub
               siteMonitor: "{{HOMEPAGE_VAR_HOME_ASSISTANT_MONITOR_URL}}"
+    widgets:
+      - greeting:
+          text_size: 4xl
+          text: Mabuhay!
+      - kubernetes:
+          cluster:
+            show: true
+            cpu: true
+            memory: true
+            showLabel: true
+            label: cluster
+          nodes:
+            show: true
+            cpu: true
+            memory: true
+            showLabel: true
+      - datetime:
+          text_size: xl
+          format:
+            timeStyle: short
+            hour12: true
+      - openmeteo:
+          label: CA
+          units: imperial
+          cache: 10
+          latitude: "{{HOMEPAGE_VAR_LATITUDE}}"
+          longitude: "{{HOMEPAGE_VAR_LONGITUDE}}"
+          timezone: America/Los_Angeles
