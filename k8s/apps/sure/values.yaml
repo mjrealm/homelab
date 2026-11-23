@@ -96,7 +96,7 @@ app-template:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: Sure
         gethomepage.dev/description: Personal Finance
-        gethomepage.dev/group: Miscellaneous
+        gethomepage.dev/group: Knowledge
         gethomepage.dev/icon: sh-sure-finance.png
       hosts:
         - host: &sure sure.mdeleon.dev
