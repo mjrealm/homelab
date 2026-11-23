@@ -134,3 +134,59 @@ app-template:
         secondary:
           main:
             - path: /opt/adguardhome/conf
+
+  ingress:
+    primary:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Adguard Home (Primary)
+        gethomepage.dev/description: Ad blocker and DNS server
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/group: DNS Servers
+        gethomepage.dev/icon: adguard-home.png
+        gethomepage.dev/pod-selector: ''
+        gethomepage.dev/weight: '1'
+        gethomepage.dev/widget.type: adguard
+        gethomepage.dev/widget.url: http://adguard-home-main.adguard-home.svc
+        gethomepage.dev/widget.username: '{{ "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}" }}'
+        gethomepage.dev/widget.password: '{{ "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}" }}'
+      hosts:
+        - host: guard1.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: adguard-primary-tls-cert
+          hosts:
+            - guard1.mdeleon.dev
+    secondary:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Adguard Home (Secondary)
+        gethomepage.dev/description: Ad blocker and DNS server
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/group: DNS Servers
+        gethomepage.dev/icon: adguard-home.png
+        gethomepage.dev/pod-selector: ''
+        gethomepage.dev/weight: '2'
+        gethomepage.dev/widget.type: adguard
+        gethomepage.dev/widget.url: http://adguard-home-secondary.adguard-home.svc
+        gethomepage.dev/widget.username: '{{ "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}" }}'
+        gethomepage.dev/widget.password: '{{ "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}" }}'
+      hosts:
+        - host: guard2.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: secondary
+                port: http
+      tls:
+        - secretName: adguard-secondary-tls-cert
+          hosts:
+            - guard2.mdeleon.dev

@@ -3,6 +3,7 @@ homepage:
   controller:
     annotations:
       reloader.stakater.com/auto: "true"
+      secrets.infisical.com/auto-reload: "true"
 
   image:
     repository: ghcr.io/gethomepage/homepage
@@ -88,6 +89,46 @@ homepage:
         secretKeyRef:
           name: homepage-secrets
           key: HOMEPAGE_VAR_LONGITUDE
+    - name: HOMEPAGE_VAR_ADGUARD_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_ADGUARD_USERNAME
+    - name: HOMEPAGE_VAR_ADGUARD_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_ADGUARD_PASSWORD
+    - name: HOMEPAGE_VAR_KARAKEEP_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_KARAKEEP_KEY
+    - name: HOMEPAGE_VAR_SONARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_SONARR_KEY
+    - name: HOMEPAGE_VAR_RADARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_RADARR_KEY
+    - name: HOMEPAGE_VAR_LIDARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_LIDARR_KEY
+    - name: HOMEPAGE_VAR_SABNZBD_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_SABNZBD_KEY
+    - name: HOMEPAGE_VAR_PROWLARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_PROWLARR_KEY
 
   config:
     kubernetes:
