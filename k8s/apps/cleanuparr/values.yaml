@@ -21,6 +21,29 @@ app-template:
         http:
           port: 11011
 
+  ingress:
+    cleanuparr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: Cleanuparr
+        gethomepage.dev/description: Download Manager for Servarr
+        gethomepage.dev/group: Media Tools
+        gethomepage.dev/icon: sh-cleanuparr.png
+      hosts:
+        - host: &cleanuparr cleanuparr.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: cleanuparr
+                port: http
+      tls:
+        - secretName: cleanuparr-tls-cert
+          hosts:
+            - *cleanuparr
+
   persistence:
     config:
       enabled: true

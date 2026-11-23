@@ -6,6 +6,26 @@ emqx:
 
   replicaCount: 1
 
+  ingress:
+    dashboard:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: EMQX
+        gethomepage.dev/description: MQTT broker
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Smart Home
+        gethomepage.dev/icon: emqx.png
+        gethomepage.dev/pod-selector: ""
+      path: /
+      pathType: Prefix
+      hosts:
+        - &emqx emqx.mdeleon.dev
+      tls:
+        - secretName: emqx-tls-cert
+          hosts:
+            - *emqx
+
   persistence:
     enabled: true
     size: 200Mi
