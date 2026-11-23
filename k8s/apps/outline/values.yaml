@@ -77,6 +77,7 @@ app-template:
         gethomepage.dev/description: Modern Wiki
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Knowledge
+        gethomepage.dev/weight: "2"
         gethomepage.dev/icon: outline.png
         gethomepage.dev/name: Outline
         gethomepage.dev/pod-selector: ""

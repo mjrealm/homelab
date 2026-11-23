@@ -58,6 +58,7 @@ app-template:
         gethomepage.dev/description: Recipe Management
         gethomepage.dev/enabled: "true"
         gethomepage.dev/group: Knowledge
+        gethomepage.dev/weight: "1"
         gethomepage.dev/icon: mealie.png
         gethomepage.dev/pod-selector: ""
       hosts:
