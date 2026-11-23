@@ -25,7 +25,6 @@ seerr-chart:
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=seerr-chart"
       gethomepage.dev/widget.type: seerr
       gethomepage.dev/widget.url: http://seerr-seerr-chart.seerr.svc:5055
-      # Resolved by Homepage from the HOMEPAGE_VAR_SEERR_KEY env var (homepage-secrets)
       gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_SEERR_KEY}}"
     hosts:
       - host: &host "seerr.mdeleon.dev"
