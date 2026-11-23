@@ -163,6 +163,9 @@ homepage:
           - Homelab:
               - icon: sh-github-light.png
                 href: https://github.com/mjrealm/homelab
+          - Docs:
+              - icon: sh-docusaurus.png
+                href: https://mjrealm.github.io/homelab/
           - Cloudflare Zero Trust:
               - icon: cloudflare-zero-trust.png
                 href: https://one.dash.cloudflare.com/
