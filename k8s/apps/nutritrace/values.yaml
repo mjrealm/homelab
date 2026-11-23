@@ -3,6 +3,8 @@ app-template:
   controllers:
     main:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: nutritrace
@@ -20,6 +22,12 @@ app-template:
             TZ: America/Los_Angeles
             OIDC_DISPLAY_NAME: Pocket ID
             OIDC_SCOPE: openid profile email
+            PUBLIC_URL: https://nutritrace.mdeleon.dev
+            OIDC_ISSUER: https://pocket.mdeleon.dev
+            OIDC_REDIRECT_URIS: https://nutritrace.mdeleon.dev/api/auth/oidc/callback/1
+          envFrom:
+            - secretRef:
+                name: nutritrace-secrets
 
   service:
     main:

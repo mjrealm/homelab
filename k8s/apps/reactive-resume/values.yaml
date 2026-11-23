@@ -3,6 +3,8 @@ app-template:
   controllers:
     main:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       pod:
         securityContext:
           runAsUser: 1000
@@ -26,8 +28,35 @@ app-template:
             OAUTH_PROVIDER_NAME: "Pocket ID"
             OAUTH_DISCOVERY_URL: "https://pocket.mdeleon.dev/.well-known/openid-configuration"
             OAUTH_SCOPES: "openid profile email"
+            AUTH_SECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-secrets
+                  key: AUTH_SECRET
+            ENCRYPTION_SECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-secrets
+                  key: ENCRYPTION_SECRET
+            DATABASE_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-secrets
+                  key: DATABASE_URL
+            OAUTH_CLIENT_ID:
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-secrets
+                  key: OAUTH_CLIENT_ID
+            OAUTH_CLIENT_SECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-secrets
+                  key: OAUTH_CLIENT_SECRET
     postgres:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         postgres:
           nameOverride: postgres
@@ -38,6 +67,11 @@ app-template:
             POSTGRES_DB: "postgres"
             POSTGRES_USER: "postgres"
             PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-secrets
+                  key: POSTGRES_PASSWORD
 
   service:
     main:
