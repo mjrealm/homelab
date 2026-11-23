@@ -57,6 +57,16 @@ app-template:
       strategy: Recreate
       annotations:
         secrets.infisical.com/auto-reload: "true"
+      pod:
+        # The storage PVC is ReadWriteOnce, so the worker must share a node with main.
+        affinity:
+          podAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: sure
+                    app.kubernetes.io/controller: main
       containers:
         main:
           nameOverride: sure-worker
