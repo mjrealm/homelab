@@ -1,16 +1,21 @@
 ---
 hindsight:
+  # API keys and model names come from the Infisical `hindsight` folder (envFrom).
+  existingSecret: hindsight-secrets
+  # Kubernetes expands $(POSTGRES_PASSWORD) from existingSecret.
+  databaseUrl: postgresql://hindsight:$(POSTGRES_PASSWORD)@hindsight-postgresql:5432/hindsight
   api:
     image:
       # Slim image: no local models, embeddings and reranking come from LiteLLM
       tag: "1.0.0-slim"
     env:
       HINDSIGHT_API_LLM_PROVIDER: openai
-      HINDSIGHT_API_LLM_MODEL: qwen3.8:fast
+      # Unset the chart default so the model name comes from hindsight-secrets (envFrom).
+      HINDSIGHT_API_LLM_MODEL: null
       HINDSIGHT_API_EMBEDDINGS_PROVIDER: openai
-      HINDSIGHT_API_EMBEDDINGS_OPENAI_MODEL: bge-m3-mlx-fp16
       HINDSIGHT_API_RERANKER_PROVIDER: cohere
-      HINDSIGHT_API_RERANKER_COHERE_MODEL: Qwen3-Reranker-0.6B-4bit
+      HINDSIGHT_API_EMBEDDINGS_OPENAI_BASE_URL: http://litellm.litellm.svc:4000/v1
+      HINDSIGHT_API_LLM_BASE_URL: http://litellm.litellm.svc:4000/v1
   controlPlane:
     image:
       tag: "1.0.0"
