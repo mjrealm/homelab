@@ -3,3 +3,16 @@ kured:
   image:
     repository: ghcr.io/kubereboot/kured
     tag: "1.23.0"
+  configuration:
+    timeZone: America/Los_Angeles
+    startTime: 03:00
+    endTime: 05:00
+    concurrency: 1
+    drainTimeout: 10m
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule

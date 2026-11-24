@@ -3,21 +3,28 @@ app-template:
   controllers:
     main:
       strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: cloudflared
+          command:
+            - cloudflared
+            - tunnel
+            - --metrics
+            - 0.0.0.0:2000
+            - --no-autoupdate
+            - run
           image:
             repository: cloudflare/cloudflared
             tag: 2026.11.1
-            # command:
-            #   - tunnel
-            #   - --no-autoupdate
-            #   - run
-            # args:
-            #   - --token
-            #   - ""
           env:
             TUNNEL_MANAGEMENT_DIAGNOSTICS: "false"
+            TUNNEL_TOKEN:
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflared-secrets
+                  key: TUNNEL_TOKEN
   service:
     main:
       controller: main

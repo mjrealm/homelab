@@ -1,3 +1,56 @@
 ---
 headlamp:
+  deploymentAnnotations:
+    secrets.infisical.com/auto-reload: "true"
   replicaCount: 1
+  serviceAccount:
+    create: true
+    name: headlamp-admin
+  clusterRoleBinding:
+    create: true
+    clusterRoleName: cluster-admin
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/name: Headlamp
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/description: K8s Management
+      gethomepage.dev/group: System
+      gethomepage.dev/icon: sh-headlamp.png
+      gethomepage.dev/pod-selector: ""
+    hosts:
+      - host: headlamp.mdeleon.dev
+        paths:
+          - path: /
+            type: Prefix
+    tls:
+      - secretName: headlamp-tls-cert
+        hosts:
+          - headlamp.mdeleon.dev
+  env:
+    - name: HEADLAMP_CONFIG_OIDC_SKIP_TLS_VERIFY
+      value: "true"
+    - name: HEADLAMP_CONFIG_OIDC_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: headlamp-secrets
+          key: HEADLAMP_CONFIG_OIDC_CLIENT_ID
+    - name: HEADLAMP_CONFIG_OIDC_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: headlamp-secrets
+          key: HEADLAMP_CONFIG_OIDC_CLIENT_SECRET
+    - name: HEADLAMP_CONFIG_OIDC_IDP_ISSUER_URL
+      value: https://pocket.mdeleon.dev
+    - name: HEADLAMP_CONFIG_OIDC_SCOPES
+      value: openid,profile,email,groups
+  config:
+    watchPlugins: true
+  pluginsManager:
+    enabled: true
+    configContent: |
+      plugins:
+        - name: cert-manager
+          source: https://artifacthub.io/packages/headlamp/headlamp-plugins/headlamp_cert-manager
+          version: 0.1.0

@@ -7,7 +7,32 @@ velero:
       volumeMounts:
         - mountPath: /target
           name: plugins
+  annotations:
+    secrets.infisical.com/auto-reload: "true"
+  credentials:
+    useSecret: true
+    existingSecret: velero-secrets
   configuration:
+    backupStorageLocation:
+      - name: r2
+        default: true
+        provider: aws
+        bucket: homelab-backups
+        config:
+          region: auto
+          s3ForcePathStyle: true
+          s3Url: https://683d43af18913fe58dc1c66b52e4a027.r2.cloudflarestorage.com
+        credential:
+          name: velero
+          key: r2
+      - name: aws
+        provider: aws
+        bucket: mdeleon-416964654612-us-east-2-an
+        config:
+          region: us-east-2
+        credential:
+          name: velero
+          key: aws
     features: EnableCSI
     extraEnvVars:
       - name: TZ
