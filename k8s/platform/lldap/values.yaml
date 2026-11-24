@@ -3,6 +3,8 @@ app-template:
   controllers:
     main:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: lldap
@@ -12,11 +14,25 @@ app-template:
           env:
             LLDAP_LDAP_BASE_DN: "dc=mdeleon,dc=dev"
             TZ: "America/Los_Angeles"
-            # LLDAP_JWT_SECRET: ""
-            # LLDAP_KEY_SEED: ""
-            # LLDAP_DATABASE_URL: postgres://
+            LLDAP_JWT_SECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secrets
+                  key: LLDAP_JWT_SECRET
+            LLDAP_KEY_SEED:
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secrets
+                  key: LLDAP_KEY_SEED
+            LLDAP_DATABASE_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secrets
+                  key: LLDAP_DATABASE_URL
     postgres:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: postgres
@@ -26,8 +42,12 @@ app-template:
           env:
             PGDATA: "/var/lib/postgresql/data/pg_data"
             POSTGRES_DB: "lldap"
-            # POSTGRES_PASSWORD: ""
-            # POSTGRES_USER: ""
+            POSTGRES_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secrets
+                  key: POSTGRES_PASSWORD
+            POSTGRES_USER: admin
 
   service:
     main:
@@ -62,3 +82,27 @@ app-template:
         postgres:
           main:
             - path: /var/lib/postgresql/data
+  ingress:
+    lldap:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: LLDAP
+        gethomepage.dev/description: Light LDAP server
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Security
+        gethomepage.dev/icon: authelia.png
+        gethomepage.dev/pod-selector: ""
+        gethomepage.dev/weight: "10"
+      hosts:
+        - host: lldap.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - secretName: lldap-tls-cert
+          hosts:
+            - lldap.mdeleon.dev
