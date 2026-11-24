@@ -46,7 +46,7 @@ app-template:
         meilisearch:
           image:
             repository: getmeili/meilisearch
-            tag: v1.50.0
+            tag: v1.58.0
           env:
             MEILI_NO_ANALYTICS: "true"
             MEILI_MASTER_KEY:
