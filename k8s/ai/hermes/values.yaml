@@ -1,6 +1,10 @@
 ---
 app-template:
   defaultPodOptions:
+    # oscorp (7.5Gi) runs near 83% memory and Hermes reads node pressure, so keep it
+    # on wayne (32Gi).
+    nodeSelector:
+      kubernetes.io/hostname: wayne
     securityContext:
       fsGroup: 10000
       fsGroupChangePolicy: OnRootMismatch
