@@ -4,12 +4,13 @@ app-template:
     main:
       strategy: RollingUpdate
       pod:
-        # wardrowbe-mcp.mdeleon.dev only exists in local DNS, which cluster DNS can't
-        # resolve. Point it at Traefik so MCPHub can reach the OAuth-protected endpoint.
+        # These hostnames only exist in local DNS, which cluster DNS can't resolve.
+        # Point them at Traefik so MCPHub can reach the OAuth-protected endpoints.
         hostAliases:
           - ip: 192.168.10.200
             hostnames:
               - wardrowbe-mcp.mdeleon.dev
+              - trek.mdeleon.dev
       containers:
         main:
           nameOverride: mcphub
