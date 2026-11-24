@@ -3,6 +3,8 @@ app-template:
   controllers:
     main:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: mealie
@@ -12,19 +14,31 @@ app-template:
           env:
             ALLOW_SIGNUP: "true"
             BASE_URL: "https://mealie.mdeleon.dev"
-            DB_ENGINE: "true"
+            DB_ENGINE: "postgres"
             MAX_WORKERS: "1"
             PUID: "1000"
             PGID: "1000"
             POSTGRES_DB: "mealie"
-            # POSTGRES_USER: ""
-            # POSTGRES_PASSWORD: ""
             POSTGRES_PORT: "5432"
-            POSTGRES_SERVER: "postgres"
+            POSTGRES_SERVER: "mealie-postgres"
             TZ: "America/Los_Angeles"
             WEB_CONCURRENCY: "1"
+            POSTGRES_USER: "mealie"
+            OIDC_AUTH_ENABLED: "True"
+            OIDC_SIGNUP_ENABLED: "False"
+            OIDC_CONFIGURATION_URL: "https://pocket.mdeleon.dev/.well-known/openid-configuration"
+            OIDC_PROVIDER_NAME: "Pocket ID"
+            OIDC_AUTO_REDIRECT: "True"
+            OIDC_REMEMBER_ME: "False"
+            OPENAI_BASE_URL: "http://litellm.litellm.svc:4000/v1"
+            OPENAI_MODEL: "qwen3.8:fast"
+          envFrom:
+            - secretRef:
+                name: mealie-secrets
     postgres:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: postgres
@@ -32,10 +46,14 @@ app-template:
             repository: postgres
             tag: "16.15"
           env:
-            # POSTGRES_PASSWORD: ""
-            # POSTGRES_USER: ""
             PGDATA: "/var/lib/postgresql/data/pg_data"
             POSTGRES_DB: "mealie"
+            POSTGRES_USER: "mealie"
+            POSTGRES_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: POSTGRES_PASSWORD
 
   service:
     main:
@@ -61,6 +79,10 @@ app-template:
         gethomepage.dev/weight: "1"
         gethomepage.dev/icon: mealie.png
         gethomepage.dev/pod-selector: ""
+        gethomepage.dev/widget.type: mealie
+        gethomepage.dev/widget.url: http://mealie-main.mealie.svc:9000
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_MEALIE_KEY}}" }}'
+        gethomepage.dev/widget.version: "2"
       hosts:
         - host: &mealie mealie.mdeleon.dev
           paths:

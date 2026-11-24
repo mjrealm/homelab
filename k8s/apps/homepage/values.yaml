@@ -129,6 +129,26 @@ homepage:
         secretKeyRef:
           name: homepage-secrets
           key: HOMEPAGE_VAR_PROWLARR_KEY
+    - name: HOMEPAGE_VAR_PLEX_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_PLEX_KEY
+    - name: HOMEPAGE_VAR_MEALIE_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_MEALIE_KEY
+    - name: HOMEPAGE_VAR_PAPERLESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_PAPERLESS_KEY
+    - name: HOMEPAGE_VAR_IMMICH_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_IMMICH_KEY
 
   config:
     kubernetes:

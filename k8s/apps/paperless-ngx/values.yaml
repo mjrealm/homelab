@@ -3,14 +3,111 @@ app-template:
   defaultPodOptions:
     enableServiceLinks: true
 
+  configMaps:
+    config:
+      enabled: true
+      data:
+        pre-consume.sh: |
+          #!/usr/bin/env bash
+          PASSWORDS_FILE=/scripts/pwds.txt
+          SOURCE_FILE=${DOCUMENT_WORKING_PATH}
+          TEMP_FILE="${SOURCE_FILE}.dec"
+
+          #
+          # Attempt decrypting without password
+          # Will succeed only when PDF is not encrypted
+          # We can leave original file untouched
+          #
+          if qpdf --decrypt "$SOURCE_FILE" "$TEMP_FILE" >/dev/null 2>&1; then
+            echo "File does not require decrypting: $SOURCE_FILE"
+            rm "$TEMP_FILE"
+            exit
+          fi
+
+          #
+          # Try to decrypt the PDF using our dictionary of passwords
+          #
+          while read PASSWORD; do
+            if qpdf --decrypt --password="$PASSWORD" "$SOURCE_FILE" "$TEMP_FILE" >/dev/null 2>&1; then
+              echo "File decrypted: $SOURCE_FILE"
+              touch "$TEMP_FILE" --reference="$SOURCE_FILE"
+              mv --verbose "$TEMP_FILE" "$SOURCE_FILE"
+              exit
+            fi
+          done < $PASSWORDS_FILE
+
+          #
+          # Still here?  Then we failed at decrypting
+          #
+          echo "File could not be decrypted: $SOURCE_FILE"
+
   controllers:
     paperless:
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         paperless:
           nameOverride: paperless-ngx
           image:
             repository: ghcr.io/paperless-ngx/paperless-ngx
             tag: 3.4.2
+          env:
+            PAPERLESS_URL: https://paperless.mdeleon.dev
+            PAPERLESS_CONSUMER_POLLING_INTERVAL: 10
+            PAPERLESS_REDIS: redis://paperless-ngx-redis:6379
+            PAPERLESS_DBENGINE: postgresql
+            PAPERLESS_DBHOST: paperless-ngx-postgres
+            PAPERLESS_DBUSER: admin
+            PAPERLESS_TIKA_ENABLED: 1
+            PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-ngx-gotenberg:3000
+            PAPERLESS_TIKA_ENDPOINT: http://paperless-ngx-tika:9998
+            PAPERLESS_TIME_ZONE: America/Los_Angeles
+            PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+            PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: true
+            PAPERLESS_SOCIAL_AUTO_SIGNUP: true
+            PAPERLESS_DISABLE_REGULAR_LOGIN: false
+            PAPERLESS_REDIRECT_LOGIN_TO_SSO: false
+            PAPERLESS_CONSUMER_ENABLE_BARCODES: true
+            PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE: true
+            PAPERLESS_CONSUMER_ENABLE_COLLATE_DOUBLE_SIDED: true
+            PAPERLESS_CONSUMER_COLLATE_DOUBLE_SIDED_SUBDIR_NAME: double-sided
+            PAPERLESS_CONSUMER_RECURSIVE: true
+            PAPERLESS_PRE_CONSUME_SCRIPT: "/scripts/pre-consume.sh"
+            PAPERLESS_ENABLE_FLOWER: true
+            PAPERLESS_OCR_MODE: auto
+            PAPERLESS_OCR_CLEAN: clean-final
+            PAPERLESS_CONSUMER_DELETE_DUPLICATES: true
+            PAPERLESS_AI_ENABLED: false
+            PAPERLESS_SECRET_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: PAPERLESS_SECRET_KEY
+            PAPERLESS_DBPASS:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: POSTGRES_PASSWORD
+            PAPERLESS_ADMIN_USER:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: PAPERLESS_ADMIN_USER
+            PAPERLESS_ADMIN_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: PAPERLESS_ADMIN_PASSWORD
+            PAPERLESS_ADMIN_MAIL:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: PAPERLESS_ADMIN_MAIL
+            PAPERLESS_SOCIALACCOUNT_PROVIDERS:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: PAPERLESS_SOCIALACCOUNT_PROVIDERS
     redis:
       containers:
         redis:
@@ -19,12 +116,23 @@ app-template:
             repository: redis
             tag: 7.4.12
     postgres:
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         postgres:
           nameOverride: postgres
           image:
             repository: postgres
             tag: "16.15"
+          env:
+            POSTGRES_USER: admin
+            PGDATA: "/var/lib/postgresql/data/pg_data"
+            POSTGRES_DB: paperless
+            POSTGRES_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: POSTGRES_PASSWORD
     tika:
       containers:
         tika:
@@ -44,12 +152,21 @@ app-template:
             - "--chromium-disable-javascript=true"
             # - "--chromium-allow-list=file:///tmp/.*"
     paperless-mcp:
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         paperless-mcp:
           nameOverride: paperless-mcp
           image:
             repository: ghcr.io/barryw/paperlessmcp
             tag: v0.7.0
+          env:
+            PAPERLESS_BASE_URL: http://paperless-ngx-paperless:8000
+            PAPERLESS_API_TOKEN:
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secrets
+                  key: PAPERLESS_API_TOKEN
 
   service:
     paperless:
@@ -135,8 +252,8 @@ app-template:
               readOnly: false
     txts:
       enabled: true
-      type: configMap
-      name: paperless-ngx
+      type: secret
+      name: paperless-ngx-secrets
       advancedMounts:
         paperless:
           paperless:
@@ -152,3 +269,31 @@ app-template:
         paperless-mcp:
           paperless-mcp:
             - path: /home/mcp/outbox
+
+  ingress:
+    paperless:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Paperless-ngx
+        gethomepage.dev/description: Documents Manager
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/group: Documents
+        gethomepage.dev/icon: sh-paperless-ngx.png
+        gethomepage.dev/pod-selector: app.kubernetes.io/controller=paperless
+        gethomepage.dev/weight: '2'
+        gethomepage.dev/widget.type: paperlessngx
+        gethomepage.dev/widget.url: http://paperless-ngx-paperless.paperless-ngx.svc:8000
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_PAPERLESS_KEY}}" }}'
+      hosts:
+        - host: paperless.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: paperless
+                port: http
+      tls:
+        - secretName: paperless-tls-cert
+          hosts:
+            - paperless.mdeleon.dev
