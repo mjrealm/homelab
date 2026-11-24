@@ -1,5 +1,12 @@
 ---
 litellm-helm:
+  # Secrets come from the Infisical `litellm` folder.
+  masterkeySecretName: litellm-secrets
+  masterkeySecretKey: PROXY_MASTER_KEY
+  environmentSecrets:
+    - litellm-secrets
+  deploymentAnnotations:
+    secrets.infisical.com/auto-reload: "true"
   image:
     tag: "1.108.3"
     pullPolicy: IfNotPresent
@@ -38,7 +45,7 @@ litellm-helm:
     # Send visitors of / to the admin UI instead of the Swagger docs.
     DOCS_URL: "/docs"
     ROOT_REDIRECT_URL: "/ui"
-    # Pocket ID SSO. GENERIC_CLIENT_ID and GENERIC_CLIENT_SECRET live in secrets.yaml.
+    # Pocket ID SSO. GENERIC_CLIENT_ID and GENERIC_CLIENT_SECRET come from litellm-secrets.
     GENERIC_AUTHORIZATION_ENDPOINT: https://pocket.mdeleon.dev/authorize
     GENERIC_TOKEN_ENDPOINT: https://pocket.mdeleon.dev/api/oidc/token
     GENERIC_USERINFO_ENDPOINT: https://pocket.mdeleon.dev/api/oidc/userinfo

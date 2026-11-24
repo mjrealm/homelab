@@ -39,13 +39,13 @@ Each app directory has:
 
 These apps call an LLM, embedding, reranker, or vision model. When changing model config, check every app here. Keep this list up to date when an app is added, removed, or switched.
 
-Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/v1` (in-cluster). Models and keys are managed in LiteLLM. Keys go in `secrets.dec.yaml`, never in `values.yaml`.
+Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/v1` (in-cluster). Models and keys are managed in LiteLLM. Keys go in Infisical (an `InfisicalSecret` per app), never in `values.yaml`.
 
 | App | Stack | Where the AI config lives | What it uses |
 |---|---|---|---|
-| hermes | `k8s/ai/` | `secrets.dec.yaml` (`postStart` script: `providers.litellm.*`) | LiteLLM provider (chat) |
-| hindsight | `k8s/ai/` | `values.yaml` (model names), `secrets.dec.yaml` (base URLs, keys) | LLM, embeddings, reranker (Cohere-compatible) |
-| litellm | `k8s/ai/` | `values.yaml` (`proxy_config`, `envVars`) | The gateway itself. Models are stored in Postgres. |
+| hermes | `k8s/ai/` | `values.yaml` (`postStart` script: `providers.litellm.*`), Infisical `ai`/`prod` `/hermes` (`LITELLM_API_KEY`, `LITELLM_DEFAULT_MODEL`) | LiteLLM provider (chat) |
+| hindsight | `k8s/ai/` | `values.yaml` (providers, LiteLLM base URLs), Infisical `ai`/`prod` `/hindsight` (`HINDSIGHT_API_*_MODEL`, keys, reranker URL) | LLM, embeddings, reranker (Cohere-compatible) |
+| litellm | `k8s/ai/` | `values.yaml` (`proxy_config`, `envVars`), Infisical `ai`/`prod` `/litellm` (master and salt keys, SSO client) | The gateway itself. Models are stored in Postgres. |
 | wardrowbe | `k8s/apps/` | `values.yaml` (`AI_BASE_URL`, `AI_TEXT_MODEL`, `AI_VISION_MODEL`), Infisical `apps`/`prod`/`wardrowbe` (`AI_API_KEY`) | Text and vision chat |
 | karakeep | `k8s/apps/` | `values.yaml` (`OPENAI_BASE_URL`, `INFERENCE_*_MODEL`), Infisical `/karakeep` (`OPENAI_API_KEY`) | Text and image inference |
 | mealie | `k8s/apps/` | `values.yaml` (`OPENAI_BASE_URL`, `OPENAI_MODEL`), Infisical `/mealie` (`OPENAI_API_KEY`) | Chat |
@@ -54,7 +54,7 @@ Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/
 | paperless-starfruit | `k8s/apps/` | Configured in the app's web UI, not env vars. Nothing in the repo. Set the OpenAI-compatible base URL and model in the UI. | Metadata and OCR |
 | trek | `k8s/apps/` | Configured in the app's admin UI (Admin > Addons > AI Parsing), not env vars. Nothing in the repo. Set the OpenAI provider, base URL, and key in the UI. | AI Parsing (fallback for booking imports) |
 
-When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `qwen3.8:fast` and `Qwen3.8:fast` are different.
+Model names for hermes and hindsight are Infisical keys, so you can change them without a commit; the pod restarts for hermes and needs a manual restart for hindsight. When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `qwen3.8:fast` and `Qwen3.8:fast` are different.
 
 ## Setup commands
 
