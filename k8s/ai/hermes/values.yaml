@@ -6,12 +6,11 @@ app-template:
       fsGroupChangePolicy: OnRootMismatch
   controllers:
     mj:
-      strategy: RollingUpdate
+      # One replica on a ReadWriteOnce volume: a rolling update can hang on Multi-Attach
+      # or run two writers on /opt/data, so stop the old pod first.
+      strategy: Recreate
       annotations:
         secrets.infisical.com/auto-reload: "true"
-      rollingUpdate:
-        unavailable: 1
-        surge: 1
       containers:
         mj:
           nameOverride: mj
