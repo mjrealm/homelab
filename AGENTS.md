@@ -47,9 +47,9 @@ Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/
 | hindsight | `k8s/ai/` | `values.yaml` (model names), `secrets.dec.yaml` (base URLs, keys) | LLM, embeddings, reranker (Cohere-compatible) |
 | litellm | `k8s/ai/` | `values.yaml` (`proxy_config`, `envVars`) | The gateway itself. Models are stored in Postgres. |
 | wardrowbe | `k8s/apps/` | `values.yaml` (`AI_BASE_URL`, `AI_TEXT_MODEL`, `AI_VISION_MODEL`), Infisical `apps`/`prod`/`wardrowbe` (`AI_API_KEY`) | Text and vision chat |
-| karakeep | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `INFERENCE_*_MODEL`) | Text and image inference |
+| karakeep | `k8s/apps/` | `values.yaml` (`OPENAI_BASE_URL`, `INFERENCE_*_MODEL`), Infisical `/karakeep` (`OPENAI_API_KEY`) | Text and image inference |
 | mealie | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`) | Chat |
-| paperless-gpt | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `LLM_MODEL`, `VISION_LLM_MODEL`) | Chat and vision OCR |
+| paperless-gpt | `k8s/apps/` | `values.yaml` (`OPENAI_BASE_URL`, `LLM_MODEL`, `VISION_LLM_MODEL`), Infisical `/paperless-gpt` (`OPENAI_API_KEY`) | Chat and vision OCR |
 | paperless-ngx | `k8s/apps/` | Commented-out `PAPERLESS_AI_*` in `secrets.dec.yaml` | Inactive. Enable only if AI is re-enabled. |
 | paperless-starfruit | `k8s/apps/` | Configured in the app's web UI, not env vars. Nothing in the repo. Set the OpenAI-compatible base URL and model in the UI. | Metadata and OCR |
 | trek | `k8s/apps/` | Configured in the app's admin UI (Admin > Addons > AI Parsing), not env vars. Nothing in the repo. Set the OpenAI provider, base URL, and key in the UI. | AI Parsing (fallback for booking imports) |

@@ -14,24 +14,46 @@ app-template:
   controllers:
     karakeep:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         karakeep:
           nameOverride: karakeep
           image:
             repository: ghcr.io/karakeep-app/karakeep
             tag: 0.34.1
-          # env:
-          #   MEILI_ADDR:
-          #   MEILI_MASTER_KEY:
-          #   NEXTAUTH_SECRET:
-          #   NEXTAUTH_URL:
+          env:
+            KARAKEEP_VERSION: release
+            OPENAI_BASE_URL: "http://litellm.litellm.svc:4000/v1"
+            INFERENCE_TEXT_MODEL: "qwen3.8:fast"
+            INFERENCE_IMAGE_MODEL: "qwen3.8:fast"
+            MEILI_ADDR: "http://karakeep-meilisearch:7700"
+            NEXTAUTH_URL: https://karakeep.mdeleon.dev
+            DATA_DIR: /data
+            BROWSER_WEB_URL: "http://karakeep-chrome:9222"
+            DISABLE_PASSWORD_AUTH: false
+            DISABLE_SIGNUPS: true
+            OAUTH_WELLKNOWN_URL: https://pocket.mdeleon.dev/.well-known/openid-configuration
+            OAUTH_PROVIDER_NAME: Pocket-ID
+          envFrom:
+            - secretRef:
+                name: karakeep-secrets
     meilisearch:
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         meilisearch:
           image:
             repository: getmeili/meilisearch
             tag: v1.50.0
+          env:
+            MEILI_NO_ANALYTICS: "true"
+            MEILI_MASTER_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: karakeep-secrets
+                  key: MEILI_MASTER_KEY
     chrome:
       strategy: Recreate
       containers:
@@ -79,3 +101,30 @@ app-template:
       size: 4Gi
       globalMounts:
         - path: /meili_data
+
+  ingress:
+    karakeep:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Karakeep
+        gethomepage.dev/description: Bookmark Everything
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/group: Knowledge
+        gethomepage.dev/icon: sh-karakeep-light.png
+        gethomepage.dev/weight: '3'
+        gethomepage.dev/widget.type: karakeep
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_KARAKEEP_KEY}}" }}'
+        gethomepage.dev/widget.url: http://karakeep.karakeep.svc:3000
+      hosts:
+        - host: karakeep.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: karakeep
+                port: http
+      tls:
+        - secretName: karakeep-tls-cert
+          hosts:
+            - karakeep.mdeleon.dev
