@@ -61,18 +61,19 @@ app-template:
                     EOF
                     chown -R 10000:10000 /opt/data/hindsight
 
-                    # API server key for the angela profile. With gateway.multiplex_profiles the
-                    # default key is rejected on /p/angela/, so the profile needs its own key in its .env.
-                    ANGELA_ENV="${HERMES_HOME:-/opt/data}/profiles/angela/.env"
-                    if [ -d "$(dirname "$ANGELA_ENV")" ] && [ -n "$ANGELA_API_SERVER_KEY" ]; then
-                      touch "$ANGELA_ENV"
-                      grep -v '^API_SERVER_KEY=' "$ANGELA_ENV" > "$ANGELA_ENV.tmp" || true
-                      echo "API_SERVER_KEY=$ANGELA_API_SERVER_KEY" >> "$ANGELA_ENV.tmp"
-                      mv "$ANGELA_ENV.tmp" "$ANGELA_ENV"
-                      chown 10000:10000 "$ANGELA_ENV"
-                      chmod 600 "$ANGELA_ENV"
+                    # API server key for the profile named in FINANCE_API_PROFILE (an Infisical key). With
+                    # gateway.multiplex_profiles the default key is rejected on /p/<profile>/, so the
+                    # profile needs its own key in its .env.
+                    PROFILE_ENV="${HERMES_HOME:-/opt/data}/profiles/$FINANCE_API_PROFILE/.env"
+                    if [ -n "$FINANCE_API_PROFILE" ] && [ -n "$FINANCE_PROFILE_API_SERVER_KEY" ] && [ -d "$(dirname "$PROFILE_ENV")" ]; then
+                      touch "$PROFILE_ENV"
+                      grep -v '^API_SERVER_KEY=' "$PROFILE_ENV" > "$PROFILE_ENV.tmp" || true
+                      echo "API_SERVER_KEY=$FINANCE_PROFILE_API_SERVER_KEY" >> "$PROFILE_ENV.tmp"
+                      mv "$PROFILE_ENV.tmp" "$PROFILE_ENV"
+                      chown 10000:10000 "$PROFILE_ENV"
+                      chmod 600 "$PROFILE_ENV"
                     else
-                      echo "Skipping angela API_SERVER_KEY: profile directory or ANGELA_API_SERVER_KEY missing"
+                      echo "Skipping profile API_SERVER_KEY: FINANCE_API_PROFILE, FINANCE_PROFILE_API_SERVER_KEY or the profile directory is missing"
                     fi
 
                     # Bighelp plugin
@@ -102,11 +103,16 @@ app-template:
                 secretKeyRef:
                   name: hermes-secrets
                   key: HERMES_DASHBOARD_OIDC_CLIENT_ID
-            ANGELA_API_SERVER_KEY:
+            FINANCE_API_PROFILE:
               valueFrom:
                 secretKeyRef:
                   name: hermes-secrets
-                  key: ANGELA_API_SERVER_KEY
+                  key: FINANCE_API_PROFILE
+            FINANCE_PROFILE_API_SERVER_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: FINANCE_PROFILE_API_SERVER_KEY
             LITELLM_API_KEY:
               valueFrom:
                 secretKeyRef:
