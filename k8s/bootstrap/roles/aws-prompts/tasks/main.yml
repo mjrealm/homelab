@@ -7,21 +7,21 @@
     prompt: "AWS access key ID (Bitwarden, folder homelab-infisical-bootstrap, item IAM access key)"
     echo: true
   register: aws_key_id
-  when: lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') | length == 0
+  when: infisical_aws_access_key_id | length == 0
 
 - name: Ask for the AWS secret access key
   ansible.builtin.pause:
     prompt: "AWS secret access key (same Bitwarden item)"
     echo: false
   register: aws_secret
-  when: lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') | length == 0
+  when: infisical_aws_secret_access_key | length == 0
 
 - name: Ask for the AWS region
   ansible.builtin.pause:
     prompt: "AWS region, press Enter for us-east-2"
     echo: true
   register: aws_region
-  when: lookup('env', 'INFISICAL_AWS_REGION') | length == 0
+  when: aws_region_input is not defined and lookup('env', 'INFISICAL_AWS_REGION') | length == 0
 
 - name: Keep the answers for the roles that follow
   no_log: true

@@ -17,6 +17,19 @@ infisicalsecret:
 	ansible-playbook scripts/infisicalsecret/playbook.yml $(ARGS)
 apply-root:
 	make -C k8s apply-root
+# Disposable test cluster (needs Docker via OrbStack). Never touches the real cluster:
+# the playbooks are pointed at .test/kubeconfig, and the test profile refuses any
+# kubectl context that does not start with "k3d-".
+test-up:
+	test/cluster.sh up
+test-down:
+	test/cluster.sh down
+test-status:
+	test/cluster.sh status
+test-bootstrap:
+	@test -f .test/kubeconfig || { echo "No test cluster. Run: make test-up"; exit 1; }
+	KUBECONFIG=$(CURDIR)/.test/kubeconfig K8S_AUTH_KUBECONFIG=$(CURDIR)/.test/kubeconfig \
+		ansible-playbook k8s/bootstrap/bootstrap.yml -e @test/vars.yml -e @.test/keys.yml
 deps: venv
 	brew install kubectl helm gitleaks node k3d argocd velero
 	brew install --cask orbstack

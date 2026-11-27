@@ -35,6 +35,7 @@ const sidebars = {
         'operate/upgrade',
         'operate/add-app-secrets',
         'operate/infisical-auth-errors',
+        'operate/test-cluster',
       ],
     },
   ],

@@ -6,6 +6,11 @@ aws:
 
 siteUrl: https://infisical.mdeleon.dev
 
+# Local test cluster only: serve the Infisical keys from here instead of AWS SSM.
+fakeSecretStore:
+  enabled: false
+  data: {} # ENCRYPTION_KEY, AUTH_SECRET, REDIS_PASSWORD
+
 database:
   image: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
   size: 5Gi
@@ -18,6 +23,9 @@ backup:
   # fresh value so the old archive is not overwritten.
   serverName: infisical-database
   retention: 14d
+  # S3-compatible endpoint instead of AWS S3. Empty for production; the local test
+  # cluster points it at an S3 stand-in.
+  endpointURL: ""
   schedule: "0 0 3 * * *" # six fields: sec min hour day month weekday
 
 # Restore from the S3 backup instead of creating an empty database.

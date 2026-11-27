@@ -16,17 +16,20 @@
       - cert-manager
       - longhorn-system
     guard_hint: Use `make upgrade` to change a live cluster, or `make recover` after a rebuild.
+    # make test-bootstrap sets bootstrap_profile=test: a disposable k3d cluster with
+    # MinIO instead of S3, no Longhorn, no Argo CD, and no Let's Encrypt issuer.
+    guard_require_context_prefix: "{{ 'k3d-' if (bootstrap_profile | default('production')) == 'test' else '' }}"
   roles:
     - guard
     - aws-prompts
     - prometheus-crds
     - cert-manager
-    - longhorn
+    - { role: longhorn, when: "(bootstrap_profile | default('production')) == 'production'" }
     - aws-secrets
     - external-secrets
     - cnpg
     - barman-cloud
     - infisical
     - infisical-operator
-    - argocd
-    - root
+    - { role: argocd, when: "(bootstrap_profile | default('production')) == 'production'" }
+    - { role: root, when: "(bootstrap_profile | default('production')) == 'production'" }

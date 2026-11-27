@@ -16,6 +16,18 @@
     msg: "{{ ['=== ' + guard_title + ' ==='] + guard_lines + [''] + guard_target.stdout_lines }}"
   tags: always
 
+- name: Refuse a context that does not match the profile
+  vars:
+    guard_context: "{{ guard_target.stdout_lines[0] | regex_replace('^context: ', '') }}"
+  ansible.builtin.fail:
+    msg: >-
+      This run needs a kubectl context that starts with "{{ guard_require_context_prefix }}",
+      but it is "{{ guard_context }}". Nothing was changed.
+  when:
+    - guard_require_context_prefix | default('') | length > 0
+    - not guard_context.startswith(guard_require_context_prefix)
+  tags: always
+
 - name: Look for namespaces that only exist on a cluster that is already in use
   kubernetes.core.k8s_info:
     kind: Namespace

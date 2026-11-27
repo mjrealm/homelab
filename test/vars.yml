@@ -1,0 +1,21 @@
+---
+# Extra variables for `make test-bootstrap`: a disposable k3d cluster instead of
+# the real one. Not for production. Test keys come from .test/keys.yml.
+bootstrap_profile: test
+confirm: "yes"
+
+# SeaweedFS (test/cluster.sh) stands in for the AWS S3 bucket. These are its throwaway credentials.
+infisical_aws_access_key_id: testaccesskey
+infisical_aws_secret_access_key: testsecretkey
+aws_region_input: us-east-1
+
+infisical_extra_values:
+  database:
+    size: 1Gi
+  backup:
+    bucket: infisical-backups
+    endpointURL: http://homelab-test-s3:8333
+  # Serve the Infisical keys from values instead of AWS SSM.
+  fakeSecretStore:
+    enabled: true
+    data: "{{ test_infisical_keys }}"

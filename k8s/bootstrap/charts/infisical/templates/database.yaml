@@ -43,6 +43,9 @@ spec:
   retentionPolicy: {{ .Values.backup.retention | quote }}
   configuration:
     destinationPath: s3://{{ .Values.backup.bucket }}/{{ .Values.backup.path }}
+    {{- if .Values.backup.endpointURL }}
+    endpointURL: {{ .Values.backup.endpointURL | quote }}
+    {{- end }}
     s3Credentials:
       accessKeyId:
         name: infisical-backup-aws # created by the infisical Ansible role
