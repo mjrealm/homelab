@@ -50,8 +50,8 @@ If the play stops at one node, fix that node (power, network, SSH) and run
    kubectl get nodes
    ```
 
-2. Expect the context `k3s-ansible`, and four nodes all `Ready`, one with the
-   roles `control-plane,etcd`. If the context is something else, run
+2. Expect the context `k3s-ansible`, and every node in `metal/inventory/main.yml`
+   `Ready`, with one node having the roles `control-plane,etcd`. If the context is something else, run
    `kubectl config use-context k3s-ansible` before going on. If you see
    `NotReady`, wait two minutes and run `kubectl get nodes` again.
 

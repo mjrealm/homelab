@@ -10,7 +10,7 @@
 <rect x="30" y="105" width="225" height="92" rx="10" fill="#ffffff" stroke="#16a34a" stroke-width="1.6"/>
 <rect x="30" y="105" width="6" height="92" rx="3" fill="#16a34a"/>
 <text x="48" y="131" font-size="15" font-weight="600" fill="#0f172a">App volumes</text>
-<text x="48" y="150" font-size="12.5" font-weight="400" fill="#475569">76 Longhorn volumes</text>
+<text x="48" y="150" font-size="12.5" font-weight="400" fill="#475569">every Longhorn volume</text>
 <rect x="290" y="105" width="235" height="92" rx="10" fill="#ffffff" stroke="#16a34a" stroke-width="1.6"/>
 <rect x="290" y="105" width="6" height="92" rx="3" fill="#16a34a"/>
 <text x="308" y="131" font-size="15" font-weight="600" fill="#0f172a">Longhorn backup</text>
@@ -27,7 +27,7 @@
 <rect x="290" y="235" width="235" height="92" rx="10" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
 <rect x="290" y="235" width="6" height="92" rx="3" fill="#ea580c"/>
 <text x="308" y="261" font-size="15" font-weight="600" fill="#0f172a">Velero</text>
-<text x="308" y="280" font-size="12.5" font-weight="400" fill="#475569">4 schedules</text>
+<text x="308" y="280" font-size="12.5" font-weight="400" fill="#475569">scheduled backups</text>
 <rect x="560" y="235" width="270" height="92" rx="10" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
 <rect x="560" y="235" width="6" height="92" rx="3" fill="#ea580c"/>
 <text x="578" y="261" font-size="15" font-weight="600" fill="#0f172a">Cloudflare R2</text>
@@ -85,8 +85,8 @@
 <text x="890" y="288" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">Synology USB Copy / Hyper Backup.</text>
 <rect x="890" y="330" width="280" height="215" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
 <text x="906" y="358" font-size="14" font-weight="700" fill="#0f172a" text-anchor="start">Not separately backed up</text>
-<text x="906" y="384" font-size="12" font-weight="400" fill="#475569" text-anchor="start">The other 6 databases: only the</text>
-<text x="906" y="402" font-size="12" font-weight="400" fill="#475569" text-anchor="start">volumes are snapshotted. No point-in-time restore.</text>
+<text x="906" y="384" font-size="12" font-weight="400" fill="#475569" text-anchor="start">Every database except Infisical's:</text>
+<text x="906" y="402" font-size="12" font-weight="400" fill="#475569" text-anchor="start">only the volume is snapshotted, with no</text>
 <text x="906" y="420" font-size="12" font-weight="400" fill="#475569" text-anchor="start"></text>
 <text x="906" y="438" font-size="12" font-weight="400" fill="#475569" text-anchor="start">Argo CD state: rebuilt from Git.</text>
 <text x="906" y="456" font-size="12" font-weight="400" fill="#475569" text-anchor="start"></text>

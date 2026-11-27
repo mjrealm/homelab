@@ -2,7 +2,7 @@
 
 Do this once, on a new cluster, after [Install the cluster](01-cluster-install.md).
 Infisical starts with an empty database, and this page covers what the repo
-cannot create: the admin user, the four projects, one machine identity per stack,
+cannot create: the admin user, one project and one machine identity per stack,
 the identity IDs in the repo, and an admin identity for disaster recovery. It
 takes about 45 minutes in the browser, plus one pull request.
 
@@ -20,7 +20,8 @@ Before you start, check in the Terminal:
 
    Expect every pod `Running`.
 
-2. The four service accounts exist (the `infisical-operator` chart creates them):
+2. One service account per stack exists (the `infisical-operator` chart creates
+   them):
 
    ```bash
    kubectl get sa -n infisical-operator | grep infisical-
@@ -41,7 +42,7 @@ Before you start, check in the Terminal:
    `homelab-infisical-bootstrap`, with the email and password.
 4. Skip any "invite your team" or onboarding screens.
 
-## 2. Create the four projects
+## 2. Create a project for each stack
 
 Do the steps below once for each of `apps`, `platform`, `system` and `ai`:
 
@@ -68,7 +69,7 @@ never put two stacks in one project.
    ```
 
 2. Select and copy the whole output, from `-----BEGIN CERTIFICATE-----` to
-   `-----END CERTIFICATE-----`. You paste it four times in step 4.
+   `-----END CERTIFICATE-----`. You paste it once for each identity in step 4.
 
 ## 4. Create one machine identity per stack
 

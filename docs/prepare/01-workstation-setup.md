@@ -84,7 +84,7 @@ Run Ansible only through `make`. The Makefile puts `.venv` on `PATH`, so a bare
    docker info --format '{{.ServerVersion}}'
    ```
 
-4. Expect a version number such as `29.8.2`. An error means OrbStack is not
+4. Expect a version number. An error means OrbStack is not
    running yet.
 
 OrbStack is only needed for the local test cluster. Skip this step if you only

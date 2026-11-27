@@ -18,6 +18,8 @@ const config = {
     },
   },
   themes: ['docusaurus-theme-quiet'],
+  // Click a diagram or screenshot in a page to enlarge it.
+  plugins: ['docusaurus-plugin-image-zoom'],
   presets: [
     [
       'classic',
@@ -39,6 +41,13 @@ const config = {
     ],
   ],
   themeConfig: {
+    zoom: {
+      selector: '.markdown img',
+      background: {
+        light: 'rgba(255, 255, 255, 0.95)',
+        dark: 'rgba(20, 20, 20, 0.95)',
+      },
+    },
     navbar: {
       title: 'Homelab',
       logo: {
