@@ -65,15 +65,15 @@ app-template:
                     # gateway.multiplex_profiles the default key is rejected on /p/<profile>/, so the
                     # profile needs its own key in its .env.
                     PROFILE_ENV="${HERMES_HOME:-/opt/data}/profiles/$API_PROFILE/.env"
-                    if [ -n "$API_PROFILE" ] && [ -n "$PROFILE_API_SERVER_KEY" ] && [ -d "$(dirname "$PROFILE_ENV")" ]; then
+                    if [ -n "$API_PROFILE" ] && [ -n "$FINANCE_PROFILE_API_SERVER_KEY" ] && [ -d "$(dirname "$PROFILE_ENV")" ]; then
                       touch "$PROFILE_ENV"
                       grep -v '^API_SERVER_KEY=' "$PROFILE_ENV" > "$PROFILE_ENV.tmp" || true
-                      echo "API_SERVER_KEY=$PROFILE_API_SERVER_KEY" >> "$PROFILE_ENV.tmp"
+                      echo "API_SERVER_KEY=$FINANCE_PROFILE_API_SERVER_KEY" >> "$PROFILE_ENV.tmp"
                       mv "$PROFILE_ENV.tmp" "$PROFILE_ENV"
                       chown 10000:10000 "$PROFILE_ENV"
                       chmod 600 "$PROFILE_ENV"
                     else
-                      echo "Skipping profile API_SERVER_KEY: API_PROFILE, PROFILE_API_SERVER_KEY or the profile directory is missing"
+                      echo "Skipping profile API_SERVER_KEY: API_PROFILE, FINANCE_PROFILE_API_SERVER_KEY or the profile directory is missing"
                     fi
 
                     # Bighelp plugin
@@ -108,11 +108,11 @@ app-template:
                 secretKeyRef:
                   name: hermes-secrets
                   key: API_PROFILE
-            PROFILE_API_SERVER_KEY:
+            FINANCE_PROFILE_API_SERVER_KEY:
               valueFrom:
                 secretKeyRef:
                   name: hermes-secrets
-                  key: PROFILE_API_SERVER_KEY
+                  key: FINANCE_PROFILE_API_SERVER_KEY
             LITELLM_API_KEY:
               valueFrom:
                 secretKeyRef:
