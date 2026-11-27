@@ -77,7 +77,7 @@ kubectl config current-context
 
 Secrets live in **Infisical**, not in Git. The Infisical operator syncs them into Kubernetes Secrets. There is no sops, age or helm-secrets any more, and no `secrets.yaml` or `secrets.dec.yaml` files.
 
-- One Infisical project and machine identity per stack (`apps`, `platform`, `system`, `ai`); see `docs/new-cluster/04-infisical-setup.md` for the project slugs and identity IDs. Keys go in environment `prod`, in a folder named after the app (`/<app>`).
+- One Infisical project and machine identity per stack (`apps`, `platform`, `system`, `ai`); see `docs/build/02-infisical-setup.md` for the project slugs and identity IDs. Keys go in environment `prod`, in a folder named after the app (`/<app>`).
 - Each app has `templates/infisicalsecret.yaml` (an `InfisicalSecret`) that creates a Secret named `<app>-secrets`. Copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`, and change the project, identity, service account (`infisical-<stack>`) and path.
 - Reference the Secret from `values.yaml` with `envFrom`, `secretKeyRef` or `existingSecret`. Add `secrets.infisical.com/auto-reload: "true"` to the controller's annotations so pods restart when a key changes.
 - To build a value from several keys (a database URL, for example), use `template.data` in the `InfisicalSecret`, with Go templates escaped for Helm.

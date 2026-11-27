@@ -6,20 +6,26 @@ const sidebars = {
     'index',
     {
       type: 'category',
-      label: 'New cluster',
+      label: '1. Prepare',
       items: [
-        'new-cluster/workstation-setup',
-        'new-cluster/cloud-prerequisites',
-        'new-cluster/cluster-install',
-        'new-cluster/infisical-setup',
+        'prepare/workstation-setup',
+        'prepare/cloud-prerequisites',
       ],
     },
     {
       type: 'category',
-      label: 'Playbooks',
+      label: '2. Build',
       items: [
-        'playbooks/overview',
-        'playbooks/upgrade',
+        'build/cluster-install',
+        'build/infisical-setup',
+      ],
+    },
+    {
+      type: 'category',
+      label: '3. Operate',
+      items: [
+        'operate/overview',
+        'operate/upgrade',
       ],
     },
   ],
