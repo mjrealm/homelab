@@ -4,6 +4,7 @@
 const config = {
   title: 'Homelab',
   tagline: 'GitOps k3s homelab runbooks',
+  favicon: 'img/favicon.svg',
   url: 'https://mjrealm.github.io',
   baseUrl: '/homelab/',
   organizationName: 'mjrealm',
@@ -40,6 +41,10 @@ const config = {
   themeConfig: {
     navbar: {
       title: 'Homelab',
+      logo: {
+        alt: 'Homelab',
+        src: 'img/logo.svg',
+      },
       items: [
         {
           href: 'https://github.com/mjrealm/homelab',
