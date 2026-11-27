@@ -3,29 +3,21 @@ slug: /
 sidebar_position: 0
 ---
 
-# Homelab runbooks
+# Homelab
 
-Guides for the GitOps k3s homelab in
-[mjrealm/homelab](https://github.com/mjrealm/homelab).
+Runbooks for the GitOps k3s homelab in
+[mjrealm/homelab](https://github.com/mjrealm/homelab). Pick what you are doing.
 
-## New cluster
+| I want to | Start here |
+|---|---|
+| Build the cluster from nothing | [Workstation setup](new-cluster/01-workstation-setup.md), then follow the pages in order under **1. Prepare** and **2. Build** |
+| Change a cluster that is running | [Which playbook do I run?](playbooks/01-overview.md), then [Upgrade or extend a live cluster](playbooks/02-upgrade.md) |
+| Rebuild after a disaster | [Which playbook do I run?](playbooks/01-overview.md) (the recovery guide is coming) |
 
-Follow these in order to build the cluster from scratch:
+## How the pages are organised
 
-1. [Workstation setup](new-cluster/01-workstation-setup.md): clone the repo and
-   install the tools.
-2. [Cloud prerequisites](new-cluster/02-cloud-prerequisites.md): AWS, R2 and
-   Bitwarden.
-3. [Install the cluster](new-cluster/03-cluster-install.md): k3s, the bootstrap
-   stack and Argo CD.
-4. [Infisical setup](new-cluster/04-infisical-setup.md): projects, identities and
-   the operator.
+1. **Prepare**: the machine and the cloud accounts you need before touching a node.
+2. **Build**: install k3s, bootstrap the platform, set up Infisical.
+3. **Operate**: day-to-day changes and recovery on a cluster that already exists.
 
-## Playbooks
-
-How to change the cluster after it exists:
-
-1. [Which playbook do I run?](playbooks/01-overview.md): bootstrap, upgrade or
-   recover.
-2. [Upgrade or extend a live cluster](playbooks/02-upgrade.md): re-apply the root
-   chart, add a bootstrap app, rotate the AWS key, repair Argo CD.
+Run every command from the repo root.
