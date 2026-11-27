@@ -1,0 +1,16 @@
+---
+# One Infisical project and one machine identity per stack. The project slug is
+# the stack name. Keep in sync with docs/operate/03-add-app-secrets.md.
+infisicalsecret_stacks:
+  apps:
+    identity_id: fefa3b53-6b57-4b79-a20a-e7a9db8c00bf
+    service_account: infisical-apps
+  platform:
+    identity_id: e2ccd552-d832-493d-8ca4-205f4e8c3f08
+    service_account: infisical-platform
+  system:
+    identity_id: b80ad456-f091-4fdc-9477-518d2b3852e8
+    service_account: infisical-system
+  ai:
+    identity_id: e884d4d2-4998-4abe-b7fa-813b2b410f69
+    service_account: infisical-ai

@@ -134,7 +134,7 @@ stack's ID. Replace the old IDs with the new ones.
    ```bash
    OLD=fefa3b53-6b57-4b79-a20a-e7a9db8c00bf
    NEW=<paste the new identity ID>
-   grep -rl "$OLD" k8s docs | xargs sed -i '' "s/$OLD/$NEW/g"
+   grep -rl "$OLD" k8s docs scripts | xargs sed -i '' "s/$OLD/$NEW/g"
    ```
 
    Repeat with the next stack's `OLD` and `NEW`.
@@ -143,7 +143,7 @@ stack's ID. Replace the old IDs with the new ones.
    ID again and run:
 
    ```bash
-   grep -rn "$OLD" k8s docs
+   grep -rn "$OLD" k8s docs scripts
    ```
 
    Expect no output. Then commit, push and open a pull request:
@@ -156,7 +156,8 @@ stack's ID. Replace the old IDs with the new ones.
    ```
 
    Merge the pull request on GitHub. The replacement also updates the ID tables
-   in these docs, so they stay correct for the next person.
+   in these docs and the list in `scripts/infisicalsecret/stacks.yml`, so the
+   `make infisicalsecret` command and the docs stay correct.
 
 4. After Argo CD syncs (about five minutes), the secrets show as synced. They
    stay empty or failing until you add each app's keys
