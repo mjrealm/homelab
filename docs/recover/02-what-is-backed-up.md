@@ -15,7 +15,7 @@ are healthy. It describes the setup as it is today.
 | Everything, long term | Velero schedule `velero-monthly-backup` | R2 | 1st of the month at 03:30 | 1 year | Same |
 | Everything, second provider | Velero schedule `velero-monthly-backup-aws` | An AWS S3 bucket, location `aws` | 1st of the month at 04:30 | 1 year | Same, with `--storage-location aws` |
 | Infisical's database (all secrets) | CloudNativePG with the Barman plugin | An AWS S3 bucket | Base backup daily at 03:00 UTC, plus every WAL file as it fills | 14 days | The recovery guide, step 3 |
-| Application databases that have their own backup | CloudNativePG with the Barman plugin | Cloudflare R2 bucket `homelab-db-backups`, one folder per app | Base backup daily (see [Backup schedule](03-backup-schedule.md)), plus every WAL file | 14 days | A `recovery` bootstrap from the app's `<app>-r2` store (restore not yet tested) |
+| Application databases that have their own backup | CloudNativePG with the Barman plugin | Cloudflare R2 bucket `homelab-db-backups`, one folder per app | Base backup daily, or weekly where the app sets it (see [Backup schedule](03-backup-schedule.md)), plus every WAL file | Per app: `backup.r2.retention` in its `values.yaml` | A `recovery` bootstrap from the app's `<app>-r2` store (restore not yet tested) |
 | This repository (all cluster configuration) | Git | GitHub, and your clone | Every merge | Forever | `git clone` |
 | Secret values you type during a rebuild | You | Bitwarden | When they change | Bitwarden's own history | The recovery guide, "What you need" |
 
