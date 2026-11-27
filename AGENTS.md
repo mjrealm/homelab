@@ -60,8 +60,8 @@ Model names for hermes and hindsight are Infisical keys, so you can change them 
 make deps              # brew tools, pyenv Python venv (ansible, pre-commit), pre-commit hook
 make kubeconfig        # fetch kubeconfig from the control plane and merge it into ~/.kube/config
 make metal             # provision nodes with Ansible (checks SSH access first)
-make bootstrap         # run the whole bootstrap playbook (cert-manager, longhorn, Infisical stack, Argo CD, ...)
-make bootstrap-infisical  # run only the Infisical roles (external-secrets, cnpg, barman-cloud, infisical, infisical-operator); prompts for the AWS key
+make bootstrap         # NEW clusters only: refuses on a live cluster (cert-manager, longhorn, Infisical stack, Argo CD, ...)
+make upgrade TAGS=root # re-run on a live cluster by tag: root, argocd, aws-credentials
 make docs              # preview the Docusaurus docs site at http://localhost:3000/homelab/
 ```
 

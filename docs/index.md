@@ -20,3 +20,12 @@ Follow these in order to build the cluster from scratch:
    stack and Argo CD.
 4. [Infisical setup](new-cluster/04-infisical-setup.md): projects, identities and
    the operator.
+
+## Playbooks
+
+How to change the cluster after it exists:
+
+1. [Which playbook do I run?](playbooks/01-overview.md): bootstrap, upgrade or
+   recover.
+2. [Upgrade or extend a live cluster](playbooks/02-upgrade.md): re-apply the root
+   chart, add a bootstrap app, rotate the AWS key, repair Argo CD.

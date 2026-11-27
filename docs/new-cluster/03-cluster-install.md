@@ -50,20 +50,23 @@ Have these ready:
    make bootstrap
    ```
 
-2. At the prompts, enter the AWS access key ID and secret access key. Press Enter
+2. The playbook shows which cluster it will change and stops if the cluster is
+   already in use. Check the context and API server, then type `y`.
+3. At the prompts, enter the AWS access key ID and secret access key. Press Enter
    to accept the default region `us-east-2`.
-3. Wait. The playbook installs these, in order:
+4. Wait. The playbook installs these, in order:
 
    - `prometheus-crds`, `cert-manager`, `longhorn`.
-   - `external-secrets`, which creates the Secret that holds the AWS key.
+   - The Secrets that hold the AWS key, then `external-secrets`.
    - `cnpg` and `barman-cloud`.
    - `infisical`, with its database. This takes several minutes.
    - `infisical-operator`.
    - `argocd`, then it applies the root ApplicationSets.
 
-4. The last task prints the initial Argo CD admin password. Save it.
+5. The last task prints the initial Argo CD admin password. Save it.
 
-To re-run only the Infisical part later, use `make bootstrap-infisical`.
+Do not run `make bootstrap` again on this cluster. To change it later, see
+[Upgrade or extend a live cluster](../playbooks/02-upgrade.md).
 
 ## 4. Check
 

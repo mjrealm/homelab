@@ -10,8 +10,8 @@ metal:
 	make -C metal
 bootstrap:
 	make -C k8s
-bootstrap-infisical:
-	make -C k8s bootstrap-infisical
+upgrade:
+	make -C k8s upgrade TAGS=$(TAGS)
 apply-root:
 	make -C k8s apply-root
 deps: venv

@@ -1,0 +1,48 @@
+---
+# The two Secrets that hold the AWS bootstrap key. Re-run this role (upgrade
+# --tags aws-credentials) to rotate the key.
+- name: Create the namespaces
+  when: not ansible_check_mode
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ item }}"
+  loop:
+    - external-secrets
+    - infisical
+
+- name: Create the AWS credentials Secret for External Secrets
+  when: not ansible_check_mode
+  no_log: true
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: aws-credentials
+        namespace: external-secrets
+      type: Opaque
+      stringData:
+        access-key-id: "{{ infisical_aws_access_key_id }}"
+        secret-access-key: "{{ infisical_aws_secret_access_key }}"
+
+- name: Create the backup credentials Secret for Barman
+  when: not ansible_check_mode
+  no_log: true
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: infisical-backup-aws
+        namespace: infisical
+      type: Opaque
+      stringData:
+        ACCESS_KEY_ID: "{{ infisical_aws_access_key_id }}"
+        ACCESS_SECRET_KEY: "{{ infisical_aws_secret_access_key }}"
+        AWS_REGION: "{{ infisical_aws_region }}"

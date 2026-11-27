@@ -1,0 +1,39 @@
+---
+# Asks for the AWS bootstrap key unless it was passed as an environment variable
+# (INFISICAL_AWS_ACCESS_KEY_ID, INFISICAL_AWS_SECRET_ACCESS_KEY, INFISICAL_AWS_REGION).
+# group_vars/all.yml turns the answers into the infisical_aws_* variables.
+- name: Ask for the AWS access key ID
+  ansible.builtin.pause:
+    prompt: "AWS access key ID (Bitwarden, folder homelab-infisical-bootstrap, item IAM access key)"
+    echo: true
+  register: aws_key_id
+  when: lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID') | length == 0
+
+- name: Ask for the AWS secret access key
+  ansible.builtin.pause:
+    prompt: "AWS secret access key (same Bitwarden item)"
+    echo: false
+  register: aws_secret
+  when: lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY') | length == 0
+
+- name: Ask for the AWS region
+  ansible.builtin.pause:
+    prompt: "AWS region, press Enter for us-east-2"
+    echo: true
+  register: aws_region
+  when: lookup('env', 'INFISICAL_AWS_REGION') | length == 0
+
+- name: Keep the answers for the roles that follow
+  no_log: true
+  ansible.builtin.set_fact:
+    aws_key_input: "{{ aws_key_id.user_input | default('') }}"
+    aws_secret_input: "{{ aws_secret.user_input | default('') }}"
+    aws_region_input: "{{ aws_region.user_input | default('') }}"
+
+- name: Check that the AWS settings are set
+  ansible.builtin.assert:
+    that:
+      - infisical_aws_access_key_id | length > 0
+      - infisical_aws_secret_access_key | length > 0
+      - infisical_aws_region | length > 0
+    fail_msg: The AWS access key ID, secret access key and region are required.
