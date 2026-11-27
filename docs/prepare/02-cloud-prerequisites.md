@@ -136,6 +136,28 @@ Use a different token from Velero's, so revoking one never affects the other.
 It is the hex string in the S3 endpoint URL above. It also appears on the R2
 **Overview** page in the right sidebar under **Account Details**.
 
+### 6d. Application database backups
+
+Some app databases (the ones whose chart has a `ScheduledBackup`, see
+[What is backed up](../recover/02-what-is-backed-up.md)) back up to their own R2
+bucket, separate from Velero's and Infisical's.
+
+1. In **R2 Object Storage**, **Overview**, click **Create bucket**. Set **Bucket
+   name** to `homelab-db-backups`, **Location** Automatic, **Default storage
+   class** Standard, and click **Create bucket**.
+2. On the R2 **Overview** page click **Manage** next to **API Tokens**, then
+   **Create Account API token**. Set **Token name** to `homelab-db-backups`,
+   **Permissions** to Object Read & Write, **Specify bucket(s)** to Apply to
+   specific buckets only with `homelab-db-backups`, and **TTL** Forever. Click
+   **Create API Token**.
+3. Copy the **Access Key ID** and the **Secret Access Key** (shown once) into
+   Bitwarden, item `Cloudflare R2 homelab-db-backups` (step 8).
+4. Add them to Infisical, once for each app that backs up to this bucket. Open
+   <https://infisical.mdeleon.dev>, the project of the app's stack, **Secrets**,
+   the `prod` environment, and the folder named after the app. Add two secrets:
+   `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY`. Do this before the pull request
+   that enables the backup is merged, or the database cannot archive its logs.
+
 ## 7. Cloudflare DNS token
 
 cert-manager uses this token to prove domain ownership to Let's Encrypt. It is
@@ -164,6 +186,7 @@ person who has never touched this cluster can find it. Create a folder named
 | `Infisical AUTH_SECRET` | the value | step 2 |
 | `Infisical REDIS_PASSWORD` | the value | step 2 |
 | `Cloudflare R2 homelab-infisical-backups` | access key ID, secret access key, S3 endpoint URL, account ID | step 6 |
+| `Cloudflare R2 homelab-db-backups` | access key ID, secret access key | step 6d |
 | `Cloudflare DNS API token (cert-manager)` | the token | step 7 |
 | `Node sudo password` | the sudo password of the user `mdeleon` on the nodes | you know it |
 | `Infisical admin` | email, password | [Set up Infisical](../build/02-infisical-setup.md) |
