@@ -4,6 +4,8 @@ app-template:
     tinyauth:
       replicas: 1
       strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         tinyauth:
           image:
@@ -12,7 +14,22 @@ app-template:
           env:
             TINYAUTH_APPURL: "https://tinyauth.mdeleon.dev"
             TINYAUTH_OAUTH_AUTOREDIRECT: pocketid
-          # OAUTH secrets are explicitly stored in secrets.dec.yaml
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTID:
+              valueFrom:
+                secretKeyRef:
+                  name: tinyauth-secrets
+                  key: TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTID
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: tinyauth-secrets
+                  key: TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRET
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_AUTHURL: https://pocket.mdeleon.dev/authorize
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_TOKENURL: https://pocket.mdeleon.dev/api/oidc/token
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_USERINFOURL: https://pocket.mdeleon.dev/api/oidc/userinfo
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_REDIRECTURL: https://tinyauth.mdeleon.dev/api/oauth/callback/pocketid
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_SCOPES: openid email profile groups
+            TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME: Pocket ID
           resources:
             requests:
               cpu: 10m
