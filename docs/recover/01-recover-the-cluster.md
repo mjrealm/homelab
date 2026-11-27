@@ -14,8 +14,7 @@ guide has been tested on a rebuilt cluster**. Steps 3 to 7 are written from the
 repository's configuration as an **untested manual route**. Expect problems, read
 each step's expected result, and stop when reality differs from the page.
 
-Volume data (step 6) has a known risk. Read the warning there before you rely on
-it.
+Volume data (step 6) needs the NAS to be on and reachable from the nodes.
 :::
 
 ## What you need
@@ -50,7 +49,7 @@ secret (restored with Infisical's database from the S3 backup).
 | 3 | Restore Infisical and the platform | 45 min | untested manual route |
 | 4 | Point Infisical at the new cluster | 20 min | untested |
 | 5 | Check the platform | 10 min | untested |
-| 6 | Restore the volumes | 1 to 3 hours | untested, known risk |
+| 6 | Restore the volumes | 1 to 3 hours | untested |
 | 7 | Bring the apps up | 30 min | untested manual route |
 | 8 | Regenerate the Argo CD MCP token | 10 min | web UI steps written, not yet run on a rebuilt cluster |
 | 9 | Final checks | 5 min | works |
@@ -79,8 +78,9 @@ secret (restored with Infisical's database from the S3 backup).
 2. If a node rejects your SSH key, type `y` at the `ssh-copy-id` question and
    enter that node's login password.
 3. At `BECOME password:`, enter the sudo password.
-4. Wait about 10 minutes. At the end it asks `Enter Cloudflare API Key
-   (sensitive)`. Paste the Cloudflare DNS token and press Enter.
+4. Wait about 10 minutes. The play also installs `open-iscsi` and `nfs-common` on
+   every node, which Longhorn needs. At the end it asks `Enter Cloudflare API
+   Key (sensitive)`. Paste the Cloudflare DNS token and press Enter.
 5. Expect `PLAY RECAP` with `failed=0` for every host. Then check:
 
    ```bash
@@ -222,16 +222,47 @@ five minutes and run it again; it should print only the header line.
 
 ## 6. Restore the volumes
 
-:::danger Known risk: volume data may not be in the backup
-The Velero backups use Longhorn snapshots without copying the data off the
-cluster. If every node is lost, the snapshots may be lost with them, and only
-the Kubernetes objects (not the files in the volumes) come back. Longhorn also
-keeps its own backups on the NAS, and Longhorn can restore volumes from those.
-Which of the two holds your data has not been verified. Do not rely on step 6
-until this has been tested.
-:::
+Two backups work together here, so know which holds what:
 
-1. List the available backups. Velero reads them from the Cloudflare R2 bucket
+- **Velero** (Cloudflare R2 bucket `homelab-backups`) holds the Kubernetes
+  objects and a reference to each volume's backup. It holds no volume data.
+- **Longhorn** backups on the NAS hold the volume data. The NAS is the long-term
+  copy, kept under its own 3-2-1 backup.
+
+A Velero restore creates each volume from its Longhorn backup, so the NAS must be
+reachable first.
+
+1. Check that Longhorn can see the NAS backup target:
+
+   ```bash
+   kubectl -n longhorn-system get backuptargets.longhorn.io
+   ```
+
+   Expect one row, `default`, with a URL that starts with `nfs://` and
+   `AVAILABLE` `true`. The URL comes from
+   `defaultBackupStore.backupTarget` in
+   `k8s/bootstrap/charts/longhorn-system/values.yaml`.
+
+   If `AVAILABLE` is `false` or empty, check, in this order: the NAS is powered
+   on and on the network; the nodes can reach it; each node has the packages
+   `nfs-common` and `open-iscsi` (`make metal` installs them):
+
+   ```bash
+   ssh mdeleon@<node> 'dpkg -s nfs-common open-iscsi | grep -E "Package|Status"'
+   ```
+
+   Do not continue until `AVAILABLE` is `true`.
+
+2. Wait until Longhorn has read the backups from the NAS:
+
+   ```bash
+   kubectl -n longhorn-system get backupvolumes.longhorn.io --no-headers | wc -l
+   ```
+
+   Expect a number above zero (about 190 at the time of writing). If it is `0`,
+   wait two minutes and run it again.
+
+3. List the available backups. Velero reads them from the Cloudflare R2 bucket
    `homelab-backups`:
 
    ```bash
@@ -244,7 +275,7 @@ until this has been tested.
    `mealie`, `hermes`, `hindsight`, `outline` and `infisical`. If the list is
    empty, wait two minutes for Velero to sync the bucket and run it again.
 
-2. Pick the newest `Completed` backup with the namespaces you need, and restore
+4. Pick the newest `Completed` backup with the namespaces you need, and restore
    it. Replace `<backup-name>`:
 
    ```bash
@@ -254,19 +285,27 @@ until this has been tested.
    Do not include `infisical` (it was already restored in step 3), `argocd`, or
    any `system` namespace.
 
-3. Watch the restore until the phase is `Completed`:
+5. Watch the restore until the phase is `Completed`:
 
    ```bash
    velero restore get
    ```
 
-4. Check the volumes are bound:
+6. Check the volumes are bound. Large volumes take time to restore from the NAS,
+   so this can take an hour:
 
    ```bash
    kubectl get pvc -A | grep -v Bound
    ```
 
-   Expect only the header line.
+   Expect only the header line. Also check that Longhorn reports the volumes
+   healthy:
+
+   ```bash
+   kubectl -n longhorn-system get volumes.longhorn.io
+   ```
+
+   Expect the `ROBUSTNESS` column to say `healthy` for attached volumes.
 
 ## 7. Bring the apps up
 

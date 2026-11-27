@@ -33,6 +33,15 @@
     state: present
     update_cache: yes
 
+- name: Install the packages Longhorn needs (iSCSI for volumes, NFS for the NAS backup target)
+  become: true
+  ansible.builtin.apt:
+    name:
+      - open-iscsi
+      - nfs-common
+    state: present
+    update_cache: false
+
 - name: Configure periodic unattended-upgrades
   become: true
   ansible.builtin.copy:
