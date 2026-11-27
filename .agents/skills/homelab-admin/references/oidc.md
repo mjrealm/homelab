@@ -18,11 +18,11 @@ Configuring OIDC requires credentials (Client ID and Client Secret) from Pocket 
     *   Ask the user to provide you with the resulting **Client ID** and **Client Secret**.
     *   Consult Pocket ID's documentation for examples. https://pocket-id.org/docs/client-examples
 2.  **Credential Configuration and Deployment**:
-    *   Once the user provides the credentials, you must add the **Client Secret** to the application's local `secrets.dec.yaml` file.
-    *   Update `values.yaml` with the non-sensitive fields (`Client ID` and `Discovery/Issuer URL`).
-    *   Encrypt the secrets as described in `AGENTS.md`, and leave `secrets.dec.yaml` in place for local development.
+    *   Once the user provides the credentials, tell the user to add the **Client ID** and **Client Secret** to Infisical (project of the app's stack, path `/<app>`), and reference them from the app's `InfisicalSecret` Secret.
+    *   Update `values.yaml` with the non-sensitive fields (the `Discovery/Issuer URL`).
+    *   List the Infisical keys in the PR, as described in "Secrets" in `AGENTS.md`.
 
 ## Strict Rules to Follow
-- OIDC secrets **MUST** be stored in `secrets.dec.yaml`, never in `values.yaml`. Refer to `helm-template.md` for more information.
+- OIDC client IDs and secrets **MUST** be stored in Infisical, never in `values.yaml`. Refer to `helm-template.md` for more information.
 - Make sure the PR clearly highlights the OIDC setup in the PR description.
 - Ensure OIDC is part of free tier of the application. If not, find an alternative such as LDAP (lldap) or TinyAuth.

@@ -25,13 +25,12 @@ Prepare the machine you run `make` from. This guide assumes macOS with
 
 2. Wait for it to finish. It installs:
 
-   - Homebrew packages: `kubectl`, `helm`, `sops`, `age`, `gitleaks`, `node`,
+   - Homebrew packages: `kubectl`, `helm`, `gitleaks`, `node`,
      `pyenv`.
    - The Python version in `.python-version`, through pyenv, in `.venv`.
    - From `requirements.txt` into `.venv`: `ansible`, `kubernetes`, `pre-commit`
      and `yamllint`.
    - The Ansible collections `kubernetes.core` and `community.general`.
-   - The helm-secrets plugins, verified with a GPG key saved in `.keys/`.
    - The `pre-commit` hook, which runs gitleaks on every commit.
 
 3. Run Ansible only through `make`. The Makefile puts `.venv` on `PATH`.

@@ -14,21 +14,9 @@ bootstrap-infisical:
 	make -C k8s bootstrap-infisical
 apply-root:
 	make -C k8s apply-root
-decrypt-secrets:
-	./scripts/decrypt-secrets.sh
-clean-secrets:
-	find k8s -type f -name 'secrets.dec.yaml' -delete
 deps: venv
-	brew install kubectl helm sops age gitleaks node
+	brew install kubectl helm gitleaks node
 	$(VENV)/bin/ansible-galaxy collection install kubernetes.core community.general
-	mkdir -p .keys
-	curl -fsSL https://github.com/jkroepke.gpg \
-		| awk '/^-----BEGIN/{b=1;h=1;next} /^-----END/{b=0;next} b&&h{if($$0=="")h=0;next} b&&!/^=/' \
-		| base64 -d > .keys/helm-secrets.gpg
-	for p in secrets secrets-getter secrets-post-renderer; do \
-		helm plugin list | grep -q "^$$p[[:space:]]" || \
-		helm plugin install oci://ghcr.io/jkroepke/helm-secrets/$${p}:latest --keyring .keys/helm-secrets.gpg || exit 1; \
-	done
 venv:
 	brew install pyenv openssl@3 xz
 	CPPFLAGS="-I$$(brew --prefix openssl@3)/include -I$$(brew --prefix xz)/include" \
