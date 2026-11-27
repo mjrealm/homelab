@@ -1,7 +1,10 @@
 # My Homelab
 
 [![license](https://img.shields.io/github/license/khuedoan/homelab?style=flat-square&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue?style=flat-square&logo=github)](https://mjrealm.github.io/homelab/)
 [![Lint YAML](https://github.com/mjrealm/homelab/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/mjrealm/homelab/actions/workflows/lint.yml)
+
+📖 **Runbooks:** <https://mjrealm.github.io/homelab/> (new cluster, disaster recovery, day-to-day tasks)
 
 This project was created to automate my personal homelab, following [GitOps](https://codefresh.io/learn/gitops/) principles.
 
