@@ -58,6 +58,7 @@ Model names for hermes and hindsight are Infisical keys, so you can change them 
 
 ```bash
 make deps              # brew tools, pyenv Python venv (ansible, pre-commit), pre-commit hook
+make infisicalsecret  # create k8s/<stack>/<app>/templates/infisicalsecret.yaml from prompts (ARGS="-e stack=apps -e app=x" skips them)
 make kubeconfig        # fetch kubeconfig from the control plane and merge it into ~/.kube/config
 make metal             # provision nodes with Ansible (checks SSH access first)
 make bootstrap         # NEW clusters only: refuses on a live cluster (cert-manager, longhorn, Infisical stack, Argo CD, ...)
@@ -78,7 +79,7 @@ kubectl config current-context
 Secrets live in **Infisical**, not in Git. The Infisical operator syncs them into Kubernetes Secrets. There is no sops, age or helm-secrets any more, and no `secrets.yaml` or `secrets.dec.yaml` files.
 
 - One Infisical project and machine identity per stack (`apps`, `platform`, `system`, `ai`); see `docs/operate/03-add-app-secrets.md` for the project slugs and identity IDs. Keys go in environment `prod`, in a folder named after the app (`/<app>`).
-- Each app has `templates/infisicalsecret.yaml` (an `InfisicalSecret`) that creates a Secret named `<app>-secrets`. Copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`, and change the project, identity, service account (`infisical-<stack>`) and path.
+- Each app has `templates/infisicalsecret.yaml` (an `InfisicalSecret`) that creates a Secret named `<app>-secrets`. Create it with `make infisicalsecret` (it asks for the stack, app and keys, fills in the project, identity and service account, and prints the `values.yaml` lines), or copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`. Identity IDs live in `scripts/infisicalsecret/stacks.yml`.
 - Reference the Secret from `values.yaml` with `envFrom`, `secretKeyRef` or `existingSecret`. Add `secrets.infisical.com/auto-reload: "true"` to the controller's annotations so pods restart when a key changes.
 - To build a value from several keys (a database URL, for example), use `template.data` in the `InfisicalSecret`, with Go templates escaped for Helm.
 - Hostnames, ports and other non-secret settings stay in `values.yaml`. LAN IPs, personal emails, client IDs and client secrets go in Infisical.

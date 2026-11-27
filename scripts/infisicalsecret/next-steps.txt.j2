@@ -1,0 +1,33 @@
+Created {{ dest | regex_replace('^' ~ repo_root ~ '/', '') }}
+
+1. Add these keys in Infisical: project {{ stack }}, environment {{ env_slug }}, folder {{ final_path }}
+{% if key_list | length > 0 %}
+   {{ key_list | join(', ') }}
+{% else %}
+   (the keys your app reads)
+{% endif %}
+   Add them BEFORE you merge, or the pod waits in CreateContainerConfigError.
+
+2. In k8s/{{ stack }}/{{ app }}/values.yaml, on the controller, add:
+
+       annotations:
+         secrets.infisical.com/auto-reload: "true"
+
+{% if key_list | length > 0 %}
+   and read the keys from the Secret, in the container:
+
+       env:
+{% for k in key_list %}
+         {{ k }}:
+           valueFrom:
+             secretKeyRef:
+               name: {{ final_secret_name }}
+               key: {{ k }}
+{% endfor %}
+{% else %}
+   and load the whole Secret into the container:
+
+       envFrom:
+         - secretRef:
+             name: {{ final_secret_name }}
+{% endif %}
