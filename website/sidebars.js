@@ -26,6 +26,7 @@ const sidebars = {
       items: [
         'recover/recover-the-cluster',
         'recover/what-is-backed-up',
+        'recover/backup-schedule',
       ],
     },
     {

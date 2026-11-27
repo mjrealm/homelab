@@ -61,6 +61,7 @@ Model names for hermes and hindsight are Infisical keys, so you can change them 
 make deps              # brew tools, pyenv Python venv (ansible, pre-commit), pre-commit hook
 make infisicalsecret  # create k8s/<stack>/<app>/templates/infisicalsecret.yaml from prompts (ARGS="-e stack=apps -e app=x" skips them)
 make test-up / test-bootstrap / test-down  # disposable k3d cluster to try the bootstrap (own kubeconfig in .test/; never the real cluster)
+make check-backups   # fail when a database backup could overlap Velero's Longhorn CSI snapshots (also runs in CI)
 make kubeconfig        # fetch kubeconfig from the control plane and merge it into ~/.kube/config
 make metal             # provision nodes with Ansible (checks SSH access first)
 make bootstrap         # NEW clusters only: refuses on a live cluster (cert-manager, longhorn, Infisical stack, Argo CD, ...)
