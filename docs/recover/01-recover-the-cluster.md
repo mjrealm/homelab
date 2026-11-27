@@ -88,8 +88,8 @@ secret (restored with Infisical's database from the S3 backup).
    kubectl get nodes
    ```
 
-6. Expect the context `k3s-ansible` and four nodes all `Ready`, one with the
-   roles `control-plane,etcd`. If a node is `NotReady`, wait two minutes and
+6. Expect the context `k3s-ansible` and every node in `metal/inventory/main.yml`
+   listed and `Ready`, with one node having the roles `control-plane,etcd`. If a node is `NotReady`, wait two minutes and
    check again.
 
 ## 3. Restore Infisical and the platform
@@ -162,7 +162,7 @@ merged **before** you bootstrap. Otherwise Argo CD would later undo the restore.
    Expect `Cluster in healthy state` and all pods `Running`. Then open
    <https://infisical.mdeleon.dev> (it works once Argo CD has installed MetalLB,
    about five minutes after the playbook ends) and log in with `Infisical admin`.
-   Expect to see your four projects with their secrets.
+   Expect to see one project for each stack, with its secrets.
 
    If the page asks you to create a new admin account, the restore did not
    happen and Infisical started empty. **Stop here. Do not create an account.**
@@ -187,8 +187,8 @@ holds the admin, projects, identities and secrets.
    ```
 
 2. In the browser, logged in to <https://infisical.mdeleon.dev>, do this for each
-   of the four identities `infisical-apps`, `infisical-platform`,
-   `infisical-system` and `infisical-ai`:
+   of the stack identities (`infisical-apps`, `infisical-platform`,
+   `infisical-system` and `infisical-ai`):
 
    1. Click **Organization** (the building icon at the top of the sidebar), then
       **Access Control**, then **Machine Identities**.
@@ -259,7 +259,7 @@ reachable first.
    kubectl -n longhorn-system get backupvolumes.longhorn.io --no-headers | wc -l
    ```
 
-   Expect a number above zero (about 190 at the time of writing). If it is `0`,
+   Expect a number above zero. If it is `0`,
    wait two minutes and run it again.
 
 3. List the available backups. Velero reads them from the Cloudflare R2 bucket
@@ -331,7 +331,7 @@ apps such as MCPHub read Pocket ID's configuration when they start.
    Run the `get app` command every few minutes. Continue when every app is
    `Synced` and `Healthy`. This can take 15 minutes.
 
-3. Set `stacks:` to all four, the same as in Git, by undoing your local edit:
+3. Set `stacks:` back to the full list, the same as in Git, by undoing your local edit:
 
    ```bash
    git checkout k8s/bootstrap/charts/root/values.yaml
@@ -432,7 +432,7 @@ kubectl -n argocd get app
 kubectl get infisicalsecret -A -o 'custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,READY:.status.conditions[0].status,REASON:.status.conditions[0].reason'
 ```
 
-Expect four nodes `Ready`, every app `Synced` and `Healthy`, and every
+Expect every node `Ready`, every app `Synced` and `Healthy`, and every
 `InfisicalSecret` with `READY` `True`. Then open <https://infisical.mdeleon.dev>
 and <https://argo.mdeleon.dev> and log in to confirm.
 
