@@ -1,0 +1,9 @@
+---
+- name: Apply all ApplicationSets and Projects
+  when: not ansible_check_mode
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      helm template charts/root -n argocd | kubectl apply -f -
+  register: root_apply
+  changed_when: "'configured' in root_apply.stdout or 'created' in root_apply.stdout"

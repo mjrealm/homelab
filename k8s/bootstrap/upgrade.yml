@@ -1,0 +1,14 @@
+---
+# UPGRADE: safe to re-run on a live cluster. Nothing runs unless you pick a tag:
+#   make upgrade TAGS=root
+- name: Change or extend a live cluster
+  hosts: localhost
+  gather_facts: false
+  roles:
+    # Re-apply the AppProjects and ApplicationSets (new bootstrap app, new stack).
+    - { role: root, tags: [root, never] }
+    # Re-apply the Argo CD chart without Helm, the way Argo CD does.
+    - { role: argocd-reapply, tags: [argocd, never] }
+    # Rotate the AWS bootstrap key stored in the cluster.
+    - { role: aws-prompts, tags: [aws-credentials, never] }
+    - { role: aws-secrets, tags: [aws-credentials, never] }

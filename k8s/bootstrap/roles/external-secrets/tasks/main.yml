@@ -1,14 +1,4 @@
 ---
-- name: Check that the AWS credentials are set
-  ansible.builtin.assert:
-    that:
-      - infisical_aws_access_key_id | length > 0
-      - infisical_aws_secret_access_key | length > 0
-    fail_msg: >-
-      The AWS access key ID and secret access key are required (the
-      homelab-infisical-bootstrap IAM key from Bitwarden).
-  tags: external-secrets
-
 - name: Add External Secrets chart repo
   when: not ansible_check_mode
   kubernetes.core.helm_repository:
@@ -40,21 +30,4 @@
   until: crd.resources | length > 0
   retries: 10
   delay: 20
-  tags: external-secrets
-
-- name: Create the AWS credentials Secret for External Secrets
-  when: not ansible_check_mode
-  no_log: true
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: aws-credentials
-        namespace: external-secrets
-      type: Opaque
-      stringData:
-        access-key-id: "{{ infisical_aws_access_key_id }}"
-        secret-access-key: "{{ infisical_aws_secret_access_key }}"
   tags: external-secrets

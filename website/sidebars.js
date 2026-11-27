@@ -14,6 +14,14 @@ const sidebars = {
         'new-cluster/infisical-setup',
       ],
     },
+    {
+      type: 'category',
+      label: 'Playbooks',
+      items: [
+        'playbooks/overview',
+        'playbooks/upgrade',
+      ],
+    },
   ],
 };
 

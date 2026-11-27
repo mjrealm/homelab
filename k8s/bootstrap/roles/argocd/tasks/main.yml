@@ -30,15 +30,6 @@
   retries: 10
   delay: 20
 
-- name: Apply all ApplicationSets and Projects
-  when: not ansible_check_mode
-  ansible.builtin.shell:
-    cmd: |
-      set -o pipefail
-      helm template charts/root -n argocd | kubectl apply -f -
-  register: k8s_apply_out
-  changed_when: k8s_apply_out.rc != 0
-
 - name: Get Admin initial password
   ansible.builtin.shell:
     cmd: |
