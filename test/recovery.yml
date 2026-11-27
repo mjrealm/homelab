@@ -1,0 +1,3 @@
+---
+# Added to the test bootstrap to restore from the backup (make test-dr does this).
+test_recovery: true

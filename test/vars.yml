@@ -9,7 +9,7 @@ infisical_aws_access_key_id: testaccesskey
 infisical_aws_secret_access_key: testsecretkey
 aws_region_input: us-east-1
 
-infisical_extra_values:
+test_base_values:
   database:
     size: 1Gi
   backup:
@@ -19,3 +19,13 @@ infisical_extra_values:
   fakeSecretStore:
     enabled: true
     data: "{{ test_infisical_keys }}"
+
+# Set by test/recovery.yml: restore the database from the S3 backup into a new cluster.
+test_recovery_values:
+  recovery:
+    enabled: true
+    sourceServerName: infisical-database
+  backup:
+    serverName: infisical-database-r1
+
+infisical_extra_values: "{{ test_base_values | combine(test_recovery_values if (test_recovery | default(false)) else {}, recursive=True) }}"

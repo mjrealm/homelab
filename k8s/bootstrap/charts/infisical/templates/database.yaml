@@ -12,6 +12,10 @@ spec:
   bootstrap:
     recovery:
       source: infisical-origin
+      # Same database and owner as the initdb branch below. Without them CNPG creates an
+      # empty database called app, and Infisical starts empty next to the restored data.
+      database: infisical
+      owner: app
   externalClusters:
     - name: infisical-origin
       plugin:
