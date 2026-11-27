@@ -30,8 +30,6 @@ Each app directory has:
 <app>/
 ├── Chart.yaml        # wrapper chart; real apps are listed under `dependencies`
 ├── values.yaml       # one top-level key per dependency name
-├── secrets.yaml      # sops-encrypted values (committed)
-├── secrets.dec.yaml  # decrypted copy for local editing (gitignored, never commit)
 └── templates/        # optional extra manifests
 ```
 
@@ -59,9 +57,7 @@ Model names for hermes and hindsight are Infisical keys, so you can change them 
 ## Setup commands
 
 ```bash
-make deps              # brew tools, pyenv Python venv (ansible, pre-commit), helm-secrets plugins, pre-commit hook
-make decrypt-secrets   # decrypt every k8s/**/secrets.yaml to secrets.dec.yaml (prompts for the age key)
-make clean-secrets     # delete all secrets.dec.yaml files
+make deps              # brew tools, pyenv Python venv (ansible, pre-commit), pre-commit hook
 make kubeconfig        # fetch kubeconfig from the control plane and merge it into ~/.kube/config
 make metal             # provision nodes with Ansible (checks SSH access first)
 make bootstrap         # run the whole bootstrap playbook (cert-manager, longhorn, Infisical stack, Argo CD, ...)
@@ -79,16 +75,14 @@ kubectl config current-context
 
 ## Secrets
 
-Secrets are encrypted with **sops + age** and decrypted by Argo CD through the **helm-secrets** plugin (`secrets://secrets.yaml`). The age public key is in `.sops.yaml`.
+Secrets live in **Infisical**, not in Git. The Infisical operator syncs them into Kubernetes Secrets. There is no sops, age or helm-secrets any more, and no `secrets.yaml` or `secrets.dec.yaml` files.
 
-- Put passwords, tokens, API keys and OIDC client secrets in `secrets.dec.yaml`, never in `values.yaml`. It uses the same structure as `values.yaml`.
-- Encrypt to `secrets.yaml` without risking an empty file if encryption fails:
-
-  ```bash
-  helm secrets encrypt secrets.dec.yaml > secrets.yaml.tmp && mv secrets.yaml.tmp secrets.yaml
-  ```
-
-- Never commit `secrets.dec.yaml`, and don't delete it locally; it is the working copy.
+- One Infisical project and machine identity per stack (`apps`, `platform`, `system`, `ai`); see `docs/new-cluster/04-infisical-setup.md` for the project slugs and identity IDs. Keys go in environment `prod`, in a folder named after the app (`/<app>`).
+- Each app has `templates/infisicalsecret.yaml` (an `InfisicalSecret`) that creates a Secret named `<app>-secrets`. Copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`, and change the project, identity, service account (`infisical-<stack>`) and path.
+- Reference the Secret from `values.yaml` with `envFrom`, `secretKeyRef` or `existingSecret`. Add `secrets.infisical.com/auto-reload: "true"` to the controller's annotations so pods restart when a key changes.
+- To build a value from several keys (a database URL, for example), use `template.data` in the `InfisicalSecret`, with Go templates escaped for Helm.
+- Hostnames, ports and other non-secret settings stay in `values.yaml`. LAN IPs, personal emails, client IDs and client secrets go in Infisical.
+- You can't add keys yourself. In the PR description, list every key the user has to add in Infisical (project, path, key name), and say the keys must exist before the merge, or the pod waits in `CreateContainerConfigError`.
 - A gitleaks pre-commit hook and CI workflow scan for secrets. Don't bypass them (`--no-verify`).
 
 ## Conventions
@@ -97,7 +91,7 @@ Secrets are encrypted with **sops + age** and decrypted by Argo CD through the *
 - Pin image tags and expose them in `values.yaml` so Renovate can update them. Never use `:latest`.
 - Use persistent volumes for app data, not temporary storage.
 - Expose apps with an Ingress (`ingressClassName: traefik`). Use a LoadBalancer only when an Ingress can't work, and call it out in the PR. Never use NodePort.
-- Define each hostname once with a YAML anchor (`&app` / `*app`) and reference it in the TLS hosts list. Keep the ingress in `values.yaml`; sops expands anchors in `secrets.dec.yaml`.
+- Define each hostname once with a YAML anchor (`&app` / `*app`) and reference it in the TLS hosts list. Keep the ingress in `values.yaml`.
 
 ## Validation
 
@@ -109,7 +103,7 @@ helm dependency build k8s/<stack>/<app> && helm template k8s/<stack>/<app>
 gitleaks git --staged .
 ```
 
-Check that every changed `secrets.yaml` has a `sops:` block.
+Check that every key the chart reads from a Secret is listed in the PR for the user to add in Infisical.
 
 ## Clean up
 
@@ -120,8 +114,7 @@ rm -rf k8s/<stack>/<app>/charts k8s/<stack>/<app>/Chart.lock   # created by `hel
 ```
 
 - Also delete rendered output, downloaded or extracted charts and archives, test files, and extra worktrees or branches you made.
-- Check with `git status --short --ignored`: only the files you meant to change, plus your local `secrets.dec.yaml` and `.venv`, should remain.
-- Don't delete `secrets.dec.yaml`; it is the working copy.
+- Check with `git status --short --ignored`: only the files you meant to change, plus `.venv`, should remain.
 
 ## Git and pull requests
 

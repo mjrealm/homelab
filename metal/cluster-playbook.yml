@@ -8,5 +8,4 @@
   hosts: localhost
   gather_facts: false
   roles:
-    - helm_secrets
     - cloudflare

@@ -175,7 +175,7 @@ Repeat this for each app. The worked example is `convertx` (stack `apps`, secret
                    name: convertx-secrets
    ```
 
-2. Delete the app's `secrets.yaml`. Leave your local `secrets.dec.yaml` alone.
+2. Delete the app's `secrets.yaml`.
 3. Keep the ingress and other non-secret values in `values.yaml`.
 
 ### 9. Check it

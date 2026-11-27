@@ -9,7 +9,6 @@ Have these ready:
 - The nodes are powered on, reachable by SSH, and listed in
   `metal/inventory/main.yml`.
 - The sudo password for the nodes (the `ansible_user` in `metal/group_vars`).
-- The age private key. Argo CD still uses it to decrypt `secrets.yaml` files.
 - A Cloudflare API token that can edit DNS. cert-manager uses it for certificates.
 - The AWS access key and secret of `homelab-infisical-bootstrap` (from
   Bitwarden).
@@ -25,9 +24,8 @@ Have these ready:
 2. If a node rejects your SSH key, accept the offer to run `ssh-copy-id`. It asks
    for that node's password.
 3. Enter the sudo password when Ansible asks (`-K`).
-4. When the play reaches the localhost part, paste the age private key and the
-   Cloudflare API token. They are stored as Secrets in the `argocd` and
-   `cert-manager` namespaces.
+4. When the play reaches the localhost part, paste the Cloudflare API token. It is stored
+   as a Secret in the `cert-manager` namespace.
 
 ## 2. Get the kubeconfig
 
