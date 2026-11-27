@@ -9,14 +9,18 @@ are healthy. It describes the setup as it is today.
 
 | What | Made by | Where it lives | How often | Kept for | Restore from |
 |---|---|---|---|---|---|
-| App volume data (76 Longhorn volumes) | Longhorn backups, triggered by Velero's volume snapshots | The NAS, over NFS (`defaultBackupStore.backupTarget` in `k8s/bootstrap/charts/longhorn-system/values.yaml`) | With each Velero backup below | Until you prune them (see the note below) | Velero restore, which makes each volume from its NAS backup |
-| Kubernetes objects and volume references | Velero schedule `velero-daily-backup` | Cloudflare R2 bucket `homelab-backups` | Daily at 03:01 (Pacific). Namespaces `paperless-ngx`, `immich`, `mealie`, `hermes`, `hindsight`, `outline`, `infisical` | 7 days | `velero restore create --from-backup` |
+| App volume data (every Longhorn volume) | Longhorn backups, triggered by Velero's volume snapshots | The NAS, over NFS (`defaultBackupStore.backupTarget` in `k8s/bootstrap/charts/longhorn-system/values.yaml`) | With each Velero backup below | Until you prune them (see the note below) | Velero restore, which makes each volume from its NAS backup |
+| Kubernetes objects and volume references | Velero schedule `velero-daily-backup` | Cloudflare R2 bucket `homelab-backups` | Daily at 03:01 (Pacific). Only the namespaces listed under `daily-backup` in `k8s/system/velero/values.yaml`, the apps whose data changes every day | 7 days | `velero restore create --from-backup` |
 | Everything, all namespaces | Velero schedule `velero-biweekly-backup` | R2 | Sunday and Wednesday at 04:00 | 14 days | Same |
 | Everything, long term | Velero schedule `velero-monthly-backup` | R2 | 1st of the month at 03:30 | 1 year | Same |
 | Everything, second provider | Velero schedule `velero-monthly-backup-aws` | An AWS S3 bucket, location `aws` | 1st of the month at 04:30 | 1 year | Same, with `--storage-location aws` |
 | Infisical's database (all secrets) | CloudNativePG with the Barman plugin | An AWS S3 bucket | Base backup daily at 03:00 UTC, plus every WAL file as it fills | 14 days | The recovery guide, step 3 |
 | This repository (all cluster configuration) | Git | GitHub, and your clone | Every merge | Forever | `git clone` |
 | Secret values you type during a rebuild | You | Bitwarden | When they change | Bitwarden's own history | The recovery guide, "What you need" |
+
+The schedules, namespaces and retention are defined in
+`k8s/system/velero/values.yaml`, and the Infisical backup in
+`k8s/bootstrap/charts/infisical/values.yaml`. Those files are the source of truth.
 
 Velero holds the **Kubernetes objects** and a **reference** to each volume's
 backup. The **volume data** is on the NAS. Both are needed: Velero without the NAS
@@ -25,8 +29,7 @@ objects pointing at it.
 
 Longhorn does not delete a volume's backups when the Velero backup that created
 them expires, because the volume snapshot class uses `deletionPolicy: Retain`. The
-backups on the NAS therefore grow until you prune them: today Longhorn lists 191
-backup volumes. Check the NAS free space now and then, and prune old backups in the
+backups on the NAS therefore grow until you prune them. Check the NAS free space now and then, and prune old backups in the
 Longhorn web page (**Backup**) if it runs low.
 
 ## The 3-2-1 rule on the NAS
@@ -45,10 +48,9 @@ recovery.
 
 ## What is not separately backed up
 
-- **The other six databases** (`airtrail`, `immich`, `litellm`, `phoenix`, `sure`,
-  `wardrowbe`) run on CloudNativePG too, but only Infisical's has its own backup.
-  The others come back only as volume snapshots from the NAS, which are
-  crash-consistent. You cannot restore them to a chosen point in time.
+- **Every database except Infisical's.** They run on CloudNativePG too, but only
+  Infisical's has its own backup. The others come back only as volume snapshots
+  from the NAS, which are crash-consistent. You cannot restore them to a chosen point in time.
 - **Argo CD's state**: it is rebuilt from Git.
 - **Secrets**: they live in Infisical, so the Infisical database backup covers
   them. The three keys that open that database (`ENCRYPTION_KEY`, `AUTH_SECRET`,
@@ -64,8 +66,8 @@ Run these from the repo root, in the Terminal. They only read.
    velero backup-location get
    ```
 
-   Expect `r2` and `aws`, both `Available`, with `LAST VALIDATED` within the last
-   minute or two.
+   Expect every location in the table above (`r2` and `aws`) `Available`, with
+   `LAST VALIDATED` within the last few minutes.
 
 2. The schedules run:
 
@@ -74,7 +76,7 @@ Run these from the repo root, in the Terminal. They only read.
    velero backup get | head -8
    ```
 
-   Expect four schedules `Enabled` and recent backups with the status
+   Expect every schedule in the table above `Enabled`, and recent backups with the status
    `Completed` and `ERRORS` `0`. The newest `velero-daily-backup-*` should be
    less than 25 hours old.
 
