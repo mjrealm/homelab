@@ -15,7 +15,8 @@ upgrade:
 apply-root:
 	make -C k8s apply-root
 deps: venv
-	brew install kubectl helm gitleaks node
+	brew install kubectl helm gitleaks node k3d
+	brew install --cask orbstack
 	$(VENV)/bin/ansible-galaxy collection install kubernetes.core community.general
 venv:
 	brew install pyenv openssl@3 xz

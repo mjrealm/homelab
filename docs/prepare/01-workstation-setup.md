@@ -25,8 +25,11 @@ Prepare the machine you run `make` from. This guide assumes macOS with
 
 2. Wait for it to finish. It installs:
 
-   - Homebrew packages: `kubectl`, `helm`, `gitleaks`, `node`,
+   - Homebrew packages: `kubectl`, `helm`, `gitleaks`, `node`, `k3d`,
      `pyenv`.
+   - OrbStack, the Docker engine that runs the throwaway test cluster. Start it
+     once after the install. Leave its built-in Kubernetes off: only Docker is
+     used.
    - The Python version in `.python-version`, through pyenv, in `.venv`.
    - From `requirements.txt` into `.venv`: `ansible`, `kubernetes`, `pre-commit`
      and `yamllint`.
