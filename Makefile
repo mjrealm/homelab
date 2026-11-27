@@ -29,7 +29,9 @@ test-status:
 test-bootstrap:
 	@test -f .test/kubeconfig || { echo "No test cluster. Run: make test-up"; exit 1; }
 	KUBECONFIG=$(CURDIR)/.test/kubeconfig K8S_AUTH_KUBECONFIG=$(CURDIR)/.test/kubeconfig \
-		ansible-playbook k8s/bootstrap/bootstrap.yml -e @test/vars.yml -e @.test/keys.yml
+		ansible-playbook k8s/bootstrap/bootstrap.yml -e @test/vars.yml -e @.test/keys.yml $(ARGS)
+test-dr:
+	test/dr.sh run
 deps: venv
 	brew install kubectl helm gitleaks node k3d argocd velero
 	brew install --cask orbstack

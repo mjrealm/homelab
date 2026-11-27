@@ -95,6 +95,38 @@ kubectl config current-context
 
 Expect `k3s-ansible`.
 
+## Run the disaster-recovery test
+
+This proves that Infisical comes back after the cluster is deleted. It takes about
+25 minutes, and it creates and deletes its own test clusters.
+
+1. Run:
+
+   ```bash
+   make test-dr
+   ```
+
+2. It does these steps, and prints `ok:` after each one:
+
+   1. Creates a test cluster and runs the bootstrap.
+   2. Through Infisical's API, creates the admin, a project, a secret and a machine
+      identity with Kubernetes Auth, then checks that the operator syncs the secret.
+   3. Takes a database backup to the S3 server.
+   4. Deletes the cluster and creates a new one.
+   5. Runs the bootstrap again with the restore settings.
+   6. Checks that the admin login with the old client ID and secret works, that the
+      secret value came back, that the operator cannot authenticate with the old
+      CA, and that replacing the CA through the API fixes it.
+
+3. Expect the last line `DR TEST PASSED`. A line starting `FAIL:` names the step
+   that broke.
+
+4. Delete everything when it is done:
+
+   ```bash
+   make test-down
+   ```
+
 ## 4. Delete everything
 
 ```bash
