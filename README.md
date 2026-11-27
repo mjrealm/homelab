@@ -1,6 +1,6 @@
 # My Homelab
 
-[![license](https://img.shields.io/github/license/khuedoan/homelab?style=flat-square&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![license](https://img.shields.io/badge/license-GPL--3.0-blue?style=flat-square&logo=gnu&logoColor=white)](LICENSE)
 [![docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue?style=flat-square&logo=github)](https://mjrealm.github.io/homelab/)
 [![Lint YAML](https://github.com/mjrealm/homelab/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/mjrealm/homelab/actions/workflows/lint.yml)
 
