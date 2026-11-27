@@ -12,10 +12,11 @@ app-template:
         requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-                - key: app.kubernetes.io/instance
+                - key: app.kubernetes.io/controller
                   operator: In
                   values:
-                    - adguard-home
+                    - main
+                    - secondary
             topologyKey: "kubernetes.io/hostname"
 
   controllers:
@@ -102,7 +103,83 @@ app-template:
                 httpGet:
                   path: /health
                   port: 3000
+    mcp-secondary:
+      strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
+      containers:
+        main:
+          nameOverride: adguard-mcp-secondary
+          image:
+            repository: ghcr.io/samik081/mcp-adguard-home
+            tag: 0.11.0
+          env:
+            MCP_TRANSPORT: http
+            ADGUARD_ACCESS_TIER: read-only
+            MCP_PORT: "3000"
+            # The HTTP transport has no auth; accept only in-cluster hostnames.
+            MCP_ALLOWED_HOSTS: adguard-home-mcp-secondary,adguard-home-mcp-secondary.adguard-home,adguard-home-mcp-secondary.adguard-home.svc,adguard-home-mcp-secondary.adguard-home.svc.cluster.local
+            ADGUARD_URL: http://adguard-home-secondary.adguard-home.svc
+            ADGUARD_USERNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: adguard-home-secrets
+                  key: ADGUARD_USERNAME
+            ADGUARD_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: adguard-home-secrets
+                  key: ADGUARD_PASSWORD
+          probes:
+            liveness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /health
+                  port: 3000
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /health
+                  port: 3000
+    sync:
+      strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
+      containers:
+        main:
+          nameOverride: adguard-sync
+          image:
+            repository: ghcr.io/bakito/adguardhome-sync
+            tag: v0.10.1
+          args: [run]
+          env:
+            CRON: "*/10 * * * *"
+            RUN_ON_START: "true"
+            API_PORT: "8080"
+            ORIGIN_URL: http://adguard-home-main.adguard-home.svc
+            REPLICA1_URL: http://adguard-home-secondary.adguard-home.svc
+            ORIGIN_USERNAME: &user
+              valueFrom:
+                secretKeyRef:
+                  name: adguard-home-secrets
+                  key: ADGUARD_USERNAME
+            ORIGIN_PASSWORD: &pass
+              valueFrom:
+                secretKeyRef:
+                  name: adguard-home-secrets
+                  key: ADGUARD_PASSWORD
+            REPLICA1_USERNAME: *user
+            REPLICA1_PASSWORD: *pass
   service:
+    mcp-secondary:
+      controller: mcp-secondary
+      ports:
+        http:
+          port: 3000
     mcp:
       controller: mcp
       ports:
