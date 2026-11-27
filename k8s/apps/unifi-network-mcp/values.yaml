@@ -1,0 +1,51 @@
+---
+# UniFi Network MCP server (https://github.com/sirkirby/unifi-mcp). It is only
+# reachable inside the cluster: MCPHub connects to
+# http://unifi-network-mcp.unifi-network-mcp.svc:3000/mcp with the bearer token.
+app-template:
+  controllers:
+    main:
+      strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
+      containers:
+        main:
+          image:
+            repository: ghcr.io/sirkirby/unifi-network-mcp
+            tag: 0.50.3
+          env:
+            UNIFI_MCP_HTTP_ENABLED: "true"
+            UNIFI_MCP_HTTP_TRANSPORT: streamable-http
+            UNIFI_MCP_HOST: 0.0.0.0
+            UNIFI_MCP_PORT: "3000"
+            # The server rejects any other Host header with 421. List every name
+            # clients use, with and without the port.
+            UNIFI_MCP_ALLOWED_HOSTS: unifi-network-mcp.unifi-network-mcp.svc:3000,unifi-network-mcp.unifi-network-mcp.svc,unifi-network-mcp.unifi-network-mcp.svc.cluster.local:3000,unifi-network-mcp.unifi-network-mcp:3000,unifi-network-mcp:3000,localhost:3000,127.0.0.1:3000
+            # The console uses a self-signed certificate.
+            UNIFI_NETWORK_VERIFY_SSL: "false"
+            # Read-only for now: the server refuses create, update and delete
+            # calls. Remove these three lines (or set them to "true") to let
+            # agents change the network. Writes then still need preview + confirm.
+            UNIFI_POLICY_NETWORK_CREATE: "false"
+            UNIFI_POLICY_NETWORK_UPDATE: "false"
+            UNIFI_POLICY_NETWORK_DELETE: "false"
+          # UNIFI_NETWORK_HOST, UNIFI_NETWORK_USERNAME, UNIFI_NETWORK_PASSWORD and
+          # UNIFI_MCP_HTTP_AUTH_TOKEN come from Infisical.
+          envFrom:
+            - secretRef:
+                name: unifi-network-mcp-secrets
+          probes:
+            # Every HTTP path needs the bearer token, so probe the TCP port.
+            liveness: &probe
+              enabled: true
+              custom: true
+              spec:
+                tcpSocket:
+                  port: 3000
+            readiness: *probe
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 3000
