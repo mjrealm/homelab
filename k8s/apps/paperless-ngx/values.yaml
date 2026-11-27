@@ -146,7 +146,7 @@ app-template:
           nameOverride: gotenberg
           image:
             repository: docker.io/gotenberg/gotenberg
-            tag: 9.8.0
+            tag: 9.10.3
           args:
             - "gotenberg"
             - "--chromium-disable-javascript=true"
