@@ -1,17 +1,17 @@
 # My Homelab
 
-[![license](https://img.shields.io/github/license/khuedoan/homelab?style=flat-square&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue?style=flat-square&logo=github)](https://mjrealm.github.io/homelab/)
 [![Lint YAML](https://github.com/mjrealm/homelab/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/mjrealm/homelab/actions/workflows/lint.yml)
 
 📖 **Runbooks:** <https://mjrealm.github.io/homelab/> (new cluster, disaster recovery, day-to-day tasks)
 
-This project was created to automate my personal homelab, following [GitOps](https://codefresh.io/learn/gitops/) principles.
+My personal homelab on [k3s](https://k3s.io), managed with [GitOps](https://codefresh.io/learn/gitops/): every change reaches the cluster through Git, and [Argo CD](https://argo-cd.readthedocs.io) applies it.
 
-This is **not** a framework. However, you can customize and extend it in any way you want.
+- `metal/`: Ansible playbooks that prepare the nodes and install k3s.
+- `k8s/bootstrap/`: what runs before Argo CD takes over (cert-manager, Longhorn, the Infisical stack, Argo CD).
+- `k8s/<stack>/<app>/`: one Helm chart per app, grouped into the `apps`, `platform`, `system` and `ai` stacks.
 
-⚠️ Since this a personal homelab, all encrypted credentials only applies to my environment. Generate your own secrets.
+Secrets are not stored in this repository. They live in [Infisical](https://infisical.com), and an operator syncs them into the cluster.
 
-> :bulb: **What is a homelab?**
->
-> "Simply put, a home lab consists of one or more servers (or normal PCs acting as servers), that you have in your home and you use them to experiment and try out stuff." -[techie-show](https://techie-show.com/home-lab-guide-basics/)
+This is my own setup, not a framework. Hostnames, networks and accounts are specific to my environment, so use it as a reference and replace them with yours.
