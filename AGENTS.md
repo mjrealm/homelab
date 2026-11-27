@@ -30,8 +30,6 @@ Each app directory has:
 <app>/
 ├── Chart.yaml        # wrapper chart; real apps are listed under `dependencies`
 ├── values.yaml       # one top-level key per dependency name
-├── secrets.yaml      # sops-encrypted values (committed)
-├── secrets.dec.yaml  # decrypted copy for local editing (gitignored, never commit)
 └── templates/        # optional extra manifests
 ```
 
@@ -39,34 +37,34 @@ Each app directory has:
 
 These apps call an LLM, embedding, reranker, or vision model. When changing model config, check every app here. Keep this list up to date when an app is added, removed, or switched.
 
-Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/v1` (in-cluster). Models and keys are managed in LiteLLM. Keys go in `secrets.dec.yaml`, never in `values.yaml`.
+Target endpoint: LiteLLM, OpenAI-compatible at `http://litellm.litellm.svc:4000/v1` (in-cluster). Models and keys are managed in LiteLLM. Keys go in Infisical (an `InfisicalSecret` per app), never in `values.yaml`.
 
 | App | Stack | Where the AI config lives | What it uses |
 |---|---|---|---|
-| hermes | `k8s/ai/` | `secrets.dec.yaml` (`postStart` script: `providers.litellm.*`) | LiteLLM provider (chat) |
-| hindsight | `k8s/ai/` | `values.yaml` (model names), `secrets.dec.yaml` (base URLs, keys) | LLM, embeddings, reranker (Cohere-compatible) |
-| litellm | `k8s/ai/` | `values.yaml` (`proxy_config`, `envVars`) | The gateway itself. Models are stored in Postgres. |
-| wardrowbe | `k8s/apps/` | `values.yaml` (`AI_BASE_URL`, `AI_TEXT_MODEL`, `AI_VISION_MODEL`), `secrets.dec.yaml` (`AI_API_KEY`) | Text and vision chat |
-| sure | `k8s/apps/` | `values.yaml` (`ASSISTANT_TYPE`, `EXTERNAL_ASSISTANT_URL`, `OPENAI_URI_BASE`, `OPENAI_MODEL`), Infisical `/sure` (`OPENAI_ACCESS_TOKEN`, `EXTERNAL_ASSISTANT_TOKEN`, `MCP_API_TOKEN`, `MCP_USER_EMAIL`) | Chat is delegated to the Hermes `angela` profile (external agent, calls back via `/mcp`). LiteLLM handles categorization. |
-| karakeep | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `INFERENCE_*_MODEL`) | Text and image inference |
-| mealie | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`) | Chat |
-| paperless-gpt | `k8s/apps/` | `secrets.dec.yaml` (`OPENAI_BASE_URL`, `OPENAI_API_KEY`, `LLM_MODEL`, `VISION_LLM_MODEL`) | Chat and vision OCR |
-| paperless-ngx | `k8s/apps/` | Commented-out `PAPERLESS_AI_*` in `secrets.dec.yaml` | Inactive. Enable only if AI is re-enabled. |
+| hermes | `k8s/ai/` | `values.yaml` (`postStart` script: `providers.litellm.*`), Infisical `ai`/`prod` `/hermes` (`LITELLM_API_KEY`, `LITELLM_DEFAULT_MODEL`) | LiteLLM provider (chat) |
+| hindsight | `k8s/ai/` | `values.yaml` (providers, LiteLLM base URLs), Infisical `ai`/`prod` `/hindsight` (`HINDSIGHT_API_*_MODEL`, keys, reranker URL) | LLM, embeddings, reranker (Cohere-compatible) |
+| litellm | `k8s/ai/` | `values.yaml` (`proxy_config`, `envVars`), Infisical `ai`/`prod` `/litellm` (master and salt keys, SSO client) | The gateway itself. Models are stored in Postgres. |
+| wardrowbe | `k8s/apps/` | `values.yaml` (`AI_BASE_URL`, `AI_TEXT_MODEL`, `AI_VISION_MODEL`), Infisical `apps`/`prod`/`wardrowbe` (`AI_API_KEY`) | Text and vision chat |
+| sure | `k8s/apps/` | `values.yaml` (`ASSISTANT_TYPE`, `OPENAI_URI_BASE`, `OPENAI_MODEL`), Infisical `apps`/`prod` `/sure` (`OPENAI_ACCESS_TOKEN`, `EXTERNAL_ASSISTANT_URL`, `EXTERNAL_ASSISTANT_TOKEN`, `MCP_API_TOKEN`, `MCP_USER_EMAIL`) | Chat is delegated to a Hermes profile (external agent, calls back via `/mcp`). LiteLLM handles categorization. |
+| karakeep | `k8s/apps/` | `values.yaml` (`OPENAI_BASE_URL`, `INFERENCE_*_MODEL`), Infisical `/karakeep` (`OPENAI_API_KEY`) | Text and image inference |
+| mealie | `k8s/apps/` | `values.yaml` (`OPENAI_BASE_URL`, `OPENAI_MODEL`), Infisical `/mealie` (`OPENAI_API_KEY`) | Chat |
+| paperless-gpt | `k8s/apps/` | `values.yaml` (`OPENAI_BASE_URL`, `LLM_MODEL`, `VISION_LLM_MODEL`), Infisical `/paperless-gpt` (`OPENAI_API_KEY`) | Chat and vision OCR |
+| paperless-ngx | `k8s/apps/` | `PAPERLESS_AI_ENABLED` is `false` in `values.yaml`; no `PAPERLESS_AI_*` settings exist | Inactive. Enable only if AI is re-enabled. |
 | paperless-starfruit | `k8s/apps/` | Configured in the app's web UI, not env vars. Nothing in the repo. Set the OpenAI-compatible base URL and model in the UI. | Metadata and OCR |
 | trek | `k8s/apps/` | Configured in the app's admin UI (Admin > Addons > AI Parsing), not env vars. Nothing in the repo. Set the OpenAI provider, base URL, and key in the UI. | AI Parsing (fallback for booking imports) |
 
-When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `qwen3.8:fast` and `Qwen3.8:fast` are different.
+Model names for hermes and hindsight are Infisical keys, so you can change them without a commit; the pod restarts for hermes and needs a manual restart for hindsight. When changing a model name, check that the name exists in LiteLLM. Names are case-sensitive, so `qwen3.8:fast` and `Qwen3.8:fast` are different.
 
 ## Setup commands
 
 ```bash
-make deps              # brew tools, pyenv Python venv (ansible, pre-commit), helm-secrets plugins, pre-commit hook
-make decrypt-secrets   # decrypt every k8s/**/secrets.yaml to secrets.dec.yaml (prompts for the age key)
-make clean-secrets     # delete all secrets.dec.yaml files
+make deps              # brew tools, pyenv Python venv (ansible, pre-commit), pre-commit hook
+make infisicalsecret  # create k8s/<stack>/<app>/templates/infisicalsecret.yaml from prompts (ARGS="-e stack=apps -e app=x" skips them)
+make test-up / test-bootstrap / test-down  # disposable k3d cluster to try the bootstrap (own kubeconfig in .test/; never the real cluster)
 make kubeconfig        # fetch kubeconfig from the control plane and merge it into ~/.kube/config
 make metal             # provision nodes with Ansible (checks SSH access first)
-make bootstrap         # run the whole bootstrap playbook (cert-manager, longhorn, Infisical stack, Argo CD, ...)
-make bootstrap-infisical  # run only the Infisical roles (external-secrets, cnpg, barman-cloud, infisical, infisical-operator); prompts for the AWS key
+make bootstrap         # NEW clusters only: refuses on a live cluster (cert-manager, longhorn, Infisical stack, Argo CD, ...)
+make upgrade TAGS=root # re-run on a live cluster by tag: root, argocd, aws-credentials
 make docs              # preview the Docusaurus docs site at http://localhost:3000/homelab/
 ```
 
@@ -80,16 +78,14 @@ kubectl config current-context
 
 ## Secrets
 
-Secrets are encrypted with **sops + age** and decrypted by Argo CD through the **helm-secrets** plugin (`secrets://secrets.yaml`). The age public key is in `.sops.yaml`.
+Secrets live in **Infisical**, not in Git. The Infisical operator syncs them into Kubernetes Secrets. There is no sops, age or helm-secrets any more, and no `secrets.yaml` or `secrets.dec.yaml` files.
 
-- Put passwords, tokens, API keys and OIDC client secrets in `secrets.dec.yaml`, never in `values.yaml`. It uses the same structure as `values.yaml`.
-- Encrypt to `secrets.yaml` without risking an empty file if encryption fails:
-
-  ```bash
-  helm secrets encrypt secrets.dec.yaml > secrets.yaml.tmp && mv secrets.yaml.tmp secrets.yaml
-  ```
-
-- Never commit `secrets.dec.yaml`, and don't delete it locally; it is the working copy.
+- One Infisical project and machine identity per stack (`apps`, `platform`, `system`, `ai`); see `docs/operate/03-add-app-secrets.md` for the project slugs and identity IDs. Keys go in environment `prod`, in a folder named after the app (`/<app>`).
+- Each app has `templates/infisicalsecret.yaml` (an `InfisicalSecret`) that creates a Secret named `<app>-secrets`. Create it with `make infisicalsecret` (it asks for the stack, app and keys, fills in the project, identity and service account, and prints the `values.yaml` lines), or copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`. Identity IDs live in `scripts/infisicalsecret/stacks.yml`.
+- Reference the Secret from `values.yaml` with `envFrom`, `secretKeyRef` or `existingSecret`. Add `secrets.infisical.com/auto-reload: "true"` to the controller's annotations so pods restart when a key changes.
+- To build a value from several keys (a database URL, for example), use `template.data` in the `InfisicalSecret`, with Go templates escaped for Helm.
+- Hostnames, ports and other non-secret settings stay in `values.yaml`. LAN IPs, personal emails, client IDs and client secrets go in Infisical.
+- You can't add keys yourself. In the PR description, list every key the user has to add in Infisical (project, path, key name), and say the keys must exist before the merge, or the pod waits in `CreateContainerConfigError`.
 - A gitleaks pre-commit hook and CI workflow scan for secrets. Don't bypass them (`--no-verify`).
 
 ## Conventions
@@ -98,7 +94,19 @@ Secrets are encrypted with **sops + age** and decrypted by Argo CD through the *
 - Pin image tags and expose them in `values.yaml` so Renovate can update them. Never use `:latest`.
 - Use persistent volumes for app data, not temporary storage.
 - Expose apps with an Ingress (`ingressClassName: traefik`). Use a LoadBalancer only when an Ingress can't work, and call it out in the PR. Never use NodePort.
-- Define each hostname once with a YAML anchor (`&app` / `*app`) and reference it in the TLS hosts list. Keep the ingress in `values.yaml`; sops expands anchors in `secrets.dec.yaml`.
+- Define each hostname once with a YAML anchor (`&app` / `*app`) and reference it in the TLS hosts list. Keep the ingress in `values.yaml`.
+
+## Docs
+
+The runbooks in `docs/` are published with Docusaurus (`make docs` previews them). The reader is often in the middle of an outage, so:
+
+- Write for a reader who has never seen this cluster. Every step says where to do it (Terminal or which screen), gives the exact command or the exact buttons to click, says what result to expect, and says what to do if the result differs. No "configure X" or "see the docs" without the values.
+- Quote shell arguments that contain `[`, `*` or `?` (for example `-o 'custom-columns=...'`): macOS uses zsh, which rejects them unquoted.
+- Name Bitwarden items exactly as listed in `docs/prepare/02-cloud-prerequisites.md`.
+- One task or scenario per page. A page for a new cluster never also covers a restore; a restore never also covers adding an app.
+- A runbook is self-contained: every command and value needed is on the page. Link to other pages only for background, never for a step the reader must do to finish.
+- When a fact such as the identity ID table is needed on two pages, keep both copies and say so in a comment, rather than sending the reader away.
+- Put new pages in the section for what the reader is doing: `prepare/`, `build/`, `recover/` or `operate/`, and add them to `website/sidebars.js`.
 
 ## Validation
 
@@ -110,7 +118,7 @@ helm dependency build k8s/<stack>/<app> && helm template k8s/<stack>/<app>
 gitleaks git --staged .
 ```
 
-Check that every changed `secrets.yaml` has a `sops:` block.
+Check that every key the chart reads from a Secret is listed in the PR for the user to add in Infisical.
 
 ## Clean up
 
@@ -121,8 +129,7 @@ rm -rf k8s/<stack>/<app>/charts k8s/<stack>/<app>/Chart.lock   # created by `hel
 ```
 
 - Also delete rendered output, downloaded or extracted charts and archives, test files, and extra worktrees or branches you made.
-- Check with `git status --short --ignored`: only the files you meant to change, plus your local `secrets.dec.yaml` and `.venv`, should remain.
-- Don't delete `secrets.dec.yaml`; it is the working copy.
+- Check with `git status --short --ignored`: only the files you meant to change, plus `.venv`, should remain.
 
 ## Git and pull requests
 

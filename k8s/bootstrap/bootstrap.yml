@@ -1,0 +1,35 @@
+---
+# BOOTSTRAP: brand-new cluster only. Run `make bootstrap`.
+# For a live cluster use upgrade.yml. For a rebuilt cluster use recover.yml.
+- name: Bootstrap a new cluster
+  hosts: localhost
+  gather_facts: false
+  vars:
+    guard_title: BOOTSTRAP, new cluster only
+    guard_lines:
+      - Installs cert-manager, Longhorn, External Secrets, CNPG, Infisical (empty database) and Argo CD on a cluster with nothing on it.
+      - Do not run this on a live cluster. Use `make upgrade` instead.
+      - After a rebuild from backups, use `make recover` instead.
+    guard_used_namespaces:
+      - argocd
+      - infisical
+      - cert-manager
+      - longhorn-system
+    guard_hint: Use `make upgrade` to change a live cluster, or `make recover` after a rebuild.
+    # make test-bootstrap sets bootstrap_profile=test: a disposable k3d cluster with
+    # MinIO instead of S3, no Longhorn, no Argo CD, and no Let's Encrypt issuer.
+    guard_require_context_prefix: "{{ 'k3d-' if (bootstrap_profile | default('production')) == 'test' else '' }}"
+  roles:
+    - guard
+    - aws-prompts
+    - prometheus-crds
+    - cert-manager
+    - { role: longhorn, when: "(bootstrap_profile | default('production')) == 'production'" }
+    - aws-secrets
+    - external-secrets
+    - cnpg
+    - barman-cloud
+    - infisical
+    - infisical-operator
+    - { role: argocd, when: "(bootstrap_profile | default('production')) == 'production'" }
+    - { role: root, when: "(bootstrap_profile | default('production')) == 'production'" }

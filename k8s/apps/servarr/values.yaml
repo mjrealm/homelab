@@ -32,7 +32,7 @@ app-template:
         radarr:
           image:
             repository: lscr.io/linuxserver/radarr
-            tag: 6.4.4
+            tag: 7.0.3
           env:
             TZ: "America/Los_Angeles"
             PUID: "1000"
@@ -77,11 +77,13 @@ app-template:
     mcp-arr:
       replicas: 1
       strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         mcp-arr:
           image:
             repository: ghcr.io/aplaceforallmystuff/mcp-arr
-            tag: 1.7.4
+            tag: 1.9.0
           env:
             TZ: "America/Los_Angeles"
             MCP_TRANSPORT: http
@@ -91,6 +93,9 @@ app-template:
             RADARR_URL: http://servarr-radarr:7878
             LIDARR_URL: http://servarr-lidarr:8686
             PROWLARR_URL: http://servarr-prowlarr:9696
+          envFrom:
+            - secretRef:
+                name: servarr-secrets
 
   service:
     sonarr:
@@ -171,3 +176,152 @@ app-template:
       type: nfs
       server: 192.168.1.200
       path: /volume1/media/
+
+  ingress:
+    sonarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/name: Sonarr
+        gethomepage.dev/description: TV Show Library Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: sonarr.png
+        gethomepage.dev/pod-selector: app.kubernetes.io/controller=sonarr
+        gethomepage.dev/weight: '1'
+        gethomepage.dev/widget.type: sonarr
+        gethomepage.dev/widget.url: http://servarr-sonarr.servarr.svc:8989
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_SONARR_KEY}}" }}'
+        gethomepage.dev/widget.enableQueue: 'true'
+      hosts:
+        - host: sonarr.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: sonarr
+                port: http
+      tls:
+        - secretName: sonarr-tls-cert
+          hosts:
+            - sonarr.mdeleon.dev
+    radarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/name: Radarr
+        gethomepage.dev/description: Movie Library Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: radarr.png
+        gethomepage.dev/pod-selector: app.kubernetes.io/controller=radarr
+        gethomepage.dev/weight: '2'
+        gethomepage.dev/widget.type: radarr
+        gethomepage.dev/widget.url: http://servarr-radarr.servarr.svc:7878
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_RADARR_KEY}}" }}'
+        gethomepage.dev/widget.enableQueue: 'true'
+      hosts:
+        - host: radarr.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: radarr
+                port: http
+      tls:
+        - secretName: radarr-tls-cert
+          hosts:
+            - radarr.mdeleon.dev
+    lidarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/name: Lidarr
+        gethomepage.dev/description: Music Library Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: lidarr.png
+        gethomepage.dev/pod-selector: app.kubernetes.io/controller=lidarr
+        gethomepage.dev/weight: '3'
+        gethomepage.dev/widget.type: lidarr
+        gethomepage.dev/widget.url: http://servarr-lidarr.servarr.svc:8686
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_LIDARR_KEY}}" }}'
+      hosts:
+        - host: lidarr.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: lidarr
+                port: http
+      tls:
+        - secretName: lidarr-tls-cert
+          hosts:
+            - lidarr.mdeleon.dev
+    sabnzbd:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/name: SABnzbd
+        gethomepage.dev/description: DL client
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: sabnzbd.png
+        gethomepage.dev/pod-selector: app.kubernetes.io/controller=sabnzbd
+        gethomepage.dev/weight: '4'
+        gethomepage.dev/widget.type: sabnzbd
+        gethomepage.dev/widget.url: http://servarr-sabnzbd.servarr.svc:8080
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_SABNZBD_KEY}}" }}'
+      hosts:
+        - host: media-dl.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: sabnzbd
+                port: http
+      tls:
+        - secretName: sabnzbd-tls-cert
+          hosts:
+            - media-dl.mdeleon.dev
+    prowlarr:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/enabled: 'true'
+        gethomepage.dev/name: Prowlarr
+        gethomepage.dev/description: Indexer Manager
+        gethomepage.dev/group: Servarr
+        gethomepage.dev/icon: prowlarr.png
+        gethomepage.dev/pod-selector: app.kubernetes.io/controller=prowlarr
+        gethomepage.dev/weight: '5'
+      hosts:
+        - host: prowlarr.mdeleon.dev
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: prowlarr
+                port: http
+      tls:
+        - secretName: prowlarr-tls-cert
+          hosts:
+            - prowlarr.mdeleon.dev
+    prowlarr-api:
+      enabled: true
+      annotations:
+        gethomepage.dev/widget.type: prowlarr
+        gethomepage.dev/widget.url: http://servarr-prowlarr.servarr.svc:9696
+        gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_PROWLARR_KEY}}" }}'
+      hosts:
+        - host: prowlarr.mdeleon.dev
+          paths:
+            - path: "/api"
+              pathType: Prefix
+              service:
+                identifier: prowlarr
+                port: http
+      tls:
+        - secretName: prowlarr-tls-cert
+          hosts:
+            - prowlarr.mdeleon.dev

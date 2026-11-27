@@ -32,7 +32,7 @@
   delay: 20
 
 - name: Apply ClusterIssuer
-  when: not ansible_check_mode
+  when: not ansible_check_mode and (bootstrap_profile | default('production')) == 'production'
   delegate_to: localhost
   run_once: true
   kubernetes.core.k8s:

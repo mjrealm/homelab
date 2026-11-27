@@ -32,7 +32,7 @@ Read the relevant file before writing manifests:
 5. **Settle authentication.** Search the app's documentation to find out whether it supports OIDC (and whether that is in the free tier). Then ask the user; don't choose for them, and don't add TinyAuth by default:
    - **OIDC supported:** offer OIDC through Pocket ID (follow `references/oidc.md`), or no auth.
    - **OIDC not supported:** offer TinyAuth forward auth (see `references/ingress.md`), or no auth.
-6. **Handle secrets.** Put them in `secrets.dec.yaml` and encrypt as described in `AGENTS.md`.
+6. **Handle secrets.** Add an `InfisicalSecret` and reference the Secret, as described in "Secrets" in `AGENTS.md`. List the keys the user must add in Infisical in the PR.
 7. **Validate, clean up, commit and open a PR** as described in `AGENTS.md`. Remove `charts/`, `Chart.lock` and any other files you created for testing, even if gitignored.
 
 ### Uninstall an application
@@ -45,7 +45,7 @@ Read the relevant file before writing manifests:
 ### Update configuration
 
 1. Compare the change against the chart's default `values.yaml` and keep the same structure.
-2. Put any new sensitive values in `secrets.dec.yaml` and re-encrypt.
+2. Put any new sensitive values in Infisical, and list the new keys in the PR.
 3. Validate, clean up, commit and open a PR as described in `AGENTS.md`.
 
 ## Success criteria

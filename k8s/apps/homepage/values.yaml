@@ -3,6 +3,7 @@ homepage:
   controller:
     annotations:
       reloader.stakater.com/auto: "true"
+      secrets.infisical.com/auto-reload: "true"
 
   image:
     repository: ghcr.io/gethomepage/homepage
@@ -33,3 +34,296 @@ homepage:
   env:
     - name: HOMEPAGE_ALLOWED_HOSTS
       value: *host
+    - name: HOMEPAGE_VAR_SEERR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_SEERR_KEY
+    - name: HOMEPAGE_VAR_OMLX_DASHBOARD_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_OMLX_DASHBOARD_URL
+    - name: HOMEPAGE_VAR_UNIFI_NETWORK_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_UNIFI_NETWORK_URL
+    - name: HOMEPAGE_VAR_UNIFI_PROTECT_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_UNIFI_PROTECT_URL
+    - name: HOMEPAGE_VAR_DISKSTATION_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_DISKSTATION_URL
+    - name: HOMEPAGE_VAR_DISKSTATION_MONITOR_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_DISKSTATION_MONITOR_URL
+    - name: HOMEPAGE_VAR_DRIVE_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_DRIVE_URL
+    - name: HOMEPAGE_VAR_DRIVE_MONITOR_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_DRIVE_MONITOR_URL
+    - name: HOMEPAGE_VAR_HOME_ASSISTANT_MONITOR_URL
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_HOME_ASSISTANT_MONITOR_URL
+    - name: HOMEPAGE_VAR_LATITUDE
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_LATITUDE
+    - name: HOMEPAGE_VAR_LONGITUDE
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_LONGITUDE
+    - name: HOMEPAGE_VAR_ADGUARD_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_ADGUARD_USERNAME
+    - name: HOMEPAGE_VAR_ADGUARD_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_ADGUARD_PASSWORD
+    - name: HOMEPAGE_VAR_KARAKEEP_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_KARAKEEP_KEY
+    - name: HOMEPAGE_VAR_SONARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_SONARR_KEY
+    - name: HOMEPAGE_VAR_RADARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_RADARR_KEY
+    - name: HOMEPAGE_VAR_LIDARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_LIDARR_KEY
+    - name: HOMEPAGE_VAR_SABNZBD_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_SABNZBD_KEY
+    - name: HOMEPAGE_VAR_PROWLARR_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_PROWLARR_KEY
+    - name: HOMEPAGE_VAR_PLEX_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_PLEX_KEY
+    - name: HOMEPAGE_VAR_MEALIE_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_MEALIE_KEY
+    - name: HOMEPAGE_VAR_PAPERLESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_PAPERLESS_KEY
+    - name: HOMEPAGE_VAR_IMMICH_KEY
+      valueFrom:
+        secretKeyRef:
+          name: homepage-secrets
+          key: HOMEPAGE_VAR_IMMICH_KEY
+
+  config:
+    kubernetes:
+      mode: cluster
+    settings:
+      statusStyle: dot
+      quicklaunch:
+        searchDescriptions: true
+        hideInternetSearch: true
+      layout:
+        - AI:
+            tab: Apps
+            style: row
+            columns: 3
+        - Knowledge:
+            tab: Apps
+            style: row
+            columns: 2
+        - Finance:
+            tab: Apps
+            style: row
+            columns: 1
+        - Documents:
+            tab: Apps
+            style: row
+            columns: 2
+        - Fitness:
+            tab: Apps
+            style: row
+            columns: 2
+        - Sharing:
+            tab: Apps
+        - Smart Home:
+            tab: Apps
+        - Miscellaneous:
+            tab: Apps
+        - Media:
+            tab: Media
+            style: row
+            columns: 2
+        - Servarr:
+            tab: Media
+            style: row
+            columns: 3
+        - Games:
+            tab: Media
+        - Media Tools:
+            tab: Media
+        - Unifi:
+            tab: Network
+            style: row
+            columns: 2
+        - DNS Servers:
+            tab: Network
+            style: row
+            columns: 2
+        - Network Tools:
+            tab: Network
+        - UPS:
+            tab: Network
+        - System:
+            tab: HomeLab
+            style: row
+            columns: 3
+        - Observability:
+            tab: HomeLab
+        - Security:
+            tab: HomeLab
+        - Storage:
+            tab: HomeLab
+        - Synology:
+            tab: HomeLab
+            style: row
+            columns: 3
+        - Automation:
+            tab: DevX
+            style: row
+            columns: 3
+        - Git:
+            tab: DevX
+        - Artifact Registry:
+            tab: DevX
+        - Database Tools:
+            tab: DevX
+        - Messaging:
+            tab: DevX
+    bookmarks:
+      - Homelab:
+          - Homelab:
+              - icon: sh-github-light.png
+                href: https://github.com/mjrealm/homelab
+          - Docs:
+              - icon: sh-docusaurus.png
+                href: https://mjrealm.github.io/homelab/
+          - Cloudflare Zero Trust:
+              - icon: cloudflare-zero-trust.png
+                href: https://one.dash.cloudflare.com/
+          - Cloudflare:
+              - icon: sh-cloudflare.png
+                href: https://dash.cloudflare.com/
+          - Crowdsec:
+              - icon: sh-crowdsec.png
+                href: https://app.crowdsec.net/
+      - Dev Stuff:
+          - Mend Renovate:
+              - icon: https://developer.mend.io/assets/mend-logo.svg
+                href: https://developer.mend.io/github/mjrealm/homelab
+          - Helm App Template:
+              - icon: sh-kubernetes.png
+                href: https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+          - Selfh.st Icons:
+              - icon: sh-selfh-st.png
+                href: https://selfh.st/icons/
+    services:
+      - AI:
+          - oMLX Dashboard:
+              icon: sh-observer-ai-light.png
+              href: "{{HOMEPAGE_VAR_OMLX_DASHBOARD_URL}}"
+              description: oMLX Admin Dashboard
+      - Unifi:
+          - Unifi Network:
+              icon: unifi-controller.png
+              href: "{{HOMEPAGE_VAR_UNIFI_NETWORK_URL}}"
+              description: Network Manager
+          - Unifi Protect:
+              icon: unifi-protect.png
+              href: "{{HOMEPAGE_VAR_UNIFI_PROTECT_URL}}"
+              description: Protect
+      - Synology:
+          - DiskStation:
+              icon: synology-dsm.png
+              href: "{{HOMEPAGE_VAR_DISKSTATION_URL}}"
+              description: NAS
+              siteMonitor: "{{HOMEPAGE_VAR_DISKSTATION_MONITOR_URL}}"
+          - Drive:
+              icon: sh-drive-synology.png
+              href: "{{HOMEPAGE_VAR_DRIVE_URL}}"
+              description: File Drive
+              siteMonitor: "{{HOMEPAGE_VAR_DRIVE_MONITOR_URL}}"
+      - UPS:
+          - APC Smart-UPS 750VA:
+              icon: sh-apc.png
+              href: https://apc-ups.mdeleon.dev/
+              description: Network Rack UPS
+      - Smart Home:
+          - Home Assistant:
+              icon: sh-home-assistant.png
+              href: http://homeassistant.local:8123/
+              description: Smart Home Hub
+              siteMonitor: "{{HOMEPAGE_VAR_HOME_ASSISTANT_MONITOR_URL}}"
+    widgets:
+      - greeting:
+          text_size: 4xl
+          text: Mabuhay!
+      - kubernetes:
+          cluster:
+            show: true
+            cpu: true
+            memory: true
+            showLabel: true
+            label: cluster
+          nodes:
+            show: true
+            cpu: true
+            memory: true
+            showLabel: true
+      - datetime:
+          text_size: xl
+          format:
+            timeStyle: short
+            hour12: true
+      - openmeteo:
+          label: CA
+          units: imperial
+          cache: 10
+          latitude: "{{HOMEPAGE_VAR_LATITUDE}}"
+          longitude: "{{HOMEPAGE_VAR_LONGITUDE}}"
+          timezone: America/Los_Angeles

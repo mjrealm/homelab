@@ -32,6 +32,32 @@ phoenix-helm:
     useSecureCookies: true
     oauth2:
       enabled: true
+      providers:
+        pocket_id:
+          display_name: Pocket ID
+          oidc_config_url: https://pocket.mdeleon.dev/.well-known/openid-configuration
+    createSecret: false
+    secret:
+      - key: PHOENIX_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: phoenix-secrets
+            key: PHOENIX_SECRET
+      - key: PHOENIX_ADMIN_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: phoenix-secrets
+            key: PHOENIX_ADMIN_SECRET
+      - key: PHOENIX_POSTGRES_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: phoenix-database-app
+            key: password
+      - key: PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: phoenix-secrets
+            key: PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD
 
   ingress:
     enabled: true
@@ -50,3 +76,16 @@ phoenix-helm:
       certSource: secret
       secret:
         secretName: phoenix-tls-cert
+
+  # The OAuth client ID is a ConfigMap value in the chart, so both come in as env vars.
+  additionalEnv:
+    - name: PHOENIX_OAUTH2_POCKET_ID_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: phoenix-secrets
+          key: PHOENIX_OAUTH2_POCKET_ID_CLIENT_ID
+    - name: PHOENIX_OAUTH2_POCKET_ID_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: phoenix-secrets
+          key: PHOENIX_OAUTH2_POCKET_ID_CLIENT_SECRET

@@ -5,12 +5,31 @@ app-template:
       # Config and prompts live on RWO volumes, so a single replica with Recreate.
       replicas: 1
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           nameOverride: paperless-gpt
           image:
             repository: icereed/paperless-gpt
             tag: v0.31.0
+          env:
+            PAPERLESS_BASE_URL: "http://paperless-ngx-paperless.paperless-ngx.svc:8000"
+            PAPERLESS_PUBLIC_URL: https://paperless.mdeleon.dev
+            LLM_PROVIDER: openai
+            LLM_MODEL: "qwen3.8:fast"
+            OPENAI_BASE_URL: "http://litellm.litellm.svc:4000/v1"
+            OCR_PROVIDER: llm
+            VISION_LLM_PROVIDER: openai
+            VISION_LLM_MODEL: GLM-OCR-bf16
+            OCR_PROCESS_MODE: image
+            PDF_SKIP_EXISTING_OCR: "false"
+            PDF_OCR_TAGGING: "true"
+            OCR_LIMIT_PAGES: "0"
+            LOG_LEVEL: info
+          envFrom:
+            - secretRef:
+                name: paperless-gpt-secrets
 
   service:
     main:

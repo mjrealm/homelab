@@ -1,0 +1,14 @@
+---
+# Argo CD manages its own chart with server-side apply, so `helm upgrade` can no
+# longer adopt it. Re-apply the chart the same way Argo CD does.
+- name: Apply the Argo CD chart with server-side apply
+  when: not ansible_check_mode
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      helm dependency build charts/argocd >/dev/null
+      helm template argocd charts/argocd -n argocd \
+        | kubectl apply --server-side --force-conflicts -f -
+      rm -rf charts/argocd/charts charts/argocd/Chart.lock
+  register: argocd_reapply
+  changed_when: "'serverside-applied' in argocd_reapply.stdout"

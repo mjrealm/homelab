@@ -2,13 +2,30 @@
 app-template:
   controllers:
     album-creator:
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         main:
           image:
             repository: salvoxia/immich-folder-album-creator
             tag: 2.0.3
+          env:
+            API_URL: http://immich-server.immich.svc:2283/api
+            ROOT_PATH: "/external-photos/"
+            CRON_EXPRESSION: 0 * * * *
+            TZ: America/Los_Angeles
+            ALBUM_LEVELS: '2'
+            RUN_IMMEDIATELY: 'true'
+            ALBUM_SEPARATOR: " - "
+            API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secrets
+                  key: IMMICH_API_KEY
     immich-mcp:
       strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         immich-mcp:
           image:
@@ -19,6 +36,11 @@ app-template:
             MCP_PORT: "5000"
             IMMICH_TOOL_MODE: static
             IMMICH_BASE_URL: http://immich-server.immich.svc:2283
+            IMMICH_API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secrets
+                  key: IMMICH_API_KEY
 
   service:
     immich-mcp:
@@ -54,14 +76,71 @@ immich:
           image:
             repository: ghcr.io/immich-app/immich-server
             tag: v3.4.2
+          env:
+            TZ: America/Los_Angeles
+            DB_HOSTNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-database-app
+                  key: host
+            DB_USERNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-database-app
+                  key: user
+            DB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-database-app
+                  key: password
+            DB_DATABASE_NAME:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-database-app
+                  key: dbname
   immich:
     metrics:
       enabled: true
+    configurationKind: Secret
+    existingConfiguration: immich-config
+    persistence:
+      library:
+        existingClaim: library
 
   server:
     controllers:
       main:
         replicas: 1
+        annotations:
+          secrets.infisical.com/auto-reload: "true"
+
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          gethomepage.dev/name: Immich
+          gethomepage.dev/description: Photo/Video Management
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Documents
+          gethomepage.dev/icon: sh-immich.png
+          gethomepage.dev/pod-selector: ''
+          gethomepage.dev/weight: '1'
+          gethomepage.dev/widget.type: immich
+          gethomepage.dev/widget.url: http://immich-server.immich.svc:2283
+          gethomepage.dev/widget.key: '{{ "{{HOMEPAGE_VAR_IMMICH_KEY}}" }}'
+          gethomepage.dev/widget.version: '2'
+          traefik.ingress.kubernetes.io/router.middlewares: kube-system-body-limit-10gb@kubernetescrd
+        hosts:
+          - host: photos.mdeleon.dev
+            paths:
+              - path: "/"
+                service:
+                  identifier: main
+        tls:
+          - secretName: immich-tls-cert
+            hosts:
+              - photos.mdeleon.dev
 
   valkey:
     enabled: true
@@ -93,3 +172,40 @@ immich:
       type: nfs
       server: 192.168.1.200
       path: /volume1/media/photos/
+
+# Immich config file, built into the immich-config Secret by the InfisicalSecret.
+# The {{ .X.Value }} placeholders are filled by the Infisical operator.
+immichConfig:
+  server:
+    externalDomain: https://photos.mdeleon.dev
+    publicUsers: true
+  passwordLogin:
+    enabled: true
+  storageTemplate:
+    enabled: true
+    template: '{{ "{{y}}/{{MM}}-{{MMM}}/{{filename}}" }}'
+  oauth:
+    enabled: true
+    issuerUrl: https://pocket.mdeleon.dev/.well-known/openid-configuration
+    autoRegister: true
+    clientId: "{{ .OAUTH_CLIENT_ID.Value }}"
+    clientSecret: "{{ .OAUTH_CLIENT_SECRET.Value }}"
+    storageLabelClaim: preferred_username
+    buttonText: Login with Pocket ID
+  trash:
+    enabled: true
+    days: 30
+  machineLearning:
+    clip:
+      modelName: ViT-B-32__openai
+  job:
+    thumbnailGeneration:
+      concurrency: 3
+    faceDetection:
+      concurrency: 2
+    ocr:
+      concurrency: 1
+    smartSearch:
+      concurrency: 2
+    videoConversion:
+      concurrency: 1

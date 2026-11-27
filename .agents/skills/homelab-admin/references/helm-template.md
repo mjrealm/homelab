@@ -5,9 +5,8 @@
 <app-name>/
 ├── Chart.yaml
 ├── values.yaml
-├── secrets.dec.yaml
-├── secrets.yaml
 └── templates/
+    ├── infisicalsecret.yaml
     ├── *.yaml
 ```
 
@@ -24,18 +23,9 @@
 - Since it follows the App of Apps pattern, each top level key in this file corresponds to an application to be deployed.
 - The key corresponds to the name defined in `Chart.yaml` dependencies section.
 
-### secrets.dec.yaml
-- This file contains the decrypted secrets for the Helm chart.
-- It is used to specify the secrets of the chart. Example: passwords, api keys, etc.
-- It follows the same format as `values.yaml`.
-- **CRITICAL**: For `bjw-s` app-template v3, `env` blocks in secrets **must** be nested under `containers.<container_name>.env`. Do not put them directly under the `controllers` root.
-- It is *not* pushed to git; `*.dec.yaml` is in `.gitignore`.
-
-### secrets.yaml
-- This file contains the encrypted secrets for the Helm chart.
-- It is encrypted from `secrets.dec.yaml` with the `helm-secrets` plugin (SOPS + age); see "Secrets" in `AGENTS.md` for the exact command.
-- Since it is encrypted, it is safe to push to git.
-- Argo CD has the helm-secrets plugin installed and decrypts the file when rendering the chart.
+### Secrets
+- Secrets are not stored in the chart. `templates/infisicalsecret.yaml` is an `InfisicalSecret` that creates the Secret `<app>-secrets` from Infisical; see "Secrets" in `AGENTS.md`.
+- `values.yaml` references that Secret (`envFrom`, `secretKeyRef` or `existingSecret`). For `bjw-s` app-template, `env` and `envFrom` go under `controllers.<name>.containers.<container>`.
 
 ### templates/
 - This directory contains any custom manifests for the chart.
@@ -122,6 +112,3 @@ app-template:
                           subPath: config.yaml
                           readOnly: false
 ```
-
-## Notes
-- DO NOT delete `secrets.dec.yaml` file locally. It is used for local development and testing.

@@ -1,0 +1,61 @@
+---
+# Safety check for playbooks that must only run on a brand-new cluster.
+# Always runs first, even when --tags is used.
+- name: Read the kubectl context and API server
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      echo "context: $(kubectl config current-context)"
+      echo "server:  $(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')"
+  register: guard_target
+  changed_when: false
+  tags: always
+
+- name: Show what this playbook does
+  ansible.builtin.debug:
+    msg: "{{ ['=== ' + guard_title + ' ==='] + guard_lines + [''] + guard_target.stdout_lines }}"
+  tags: always
+
+- name: Refuse a context that does not match the profile
+  vars:
+    guard_context: "{{ guard_target.stdout_lines[0] | regex_replace('^context: ', '') }}"
+  ansible.builtin.fail:
+    msg: >-
+      This run needs a kubectl context that starts with "{{ guard_require_context_prefix }}",
+      but it is "{{ guard_context }}". Nothing was changed.
+  when:
+    - guard_require_context_prefix | default('') | length > 0
+    - not guard_context.startswith(guard_require_context_prefix)
+  tags: always
+
+- name: Look for namespaces that only exist on a cluster that is already in use
+  kubernetes.core.k8s_info:
+    kind: Namespace
+    name: "{{ item }}"
+  loop: "{{ guard_used_namespaces }}"
+  register: guard_namespaces
+  tags: always
+
+- name: Stop if this cluster is already in use
+  vars:
+    guard_found: "{{ guard_namespaces.results | rejectattr('resources', 'equalto', []) | map(attribute='item') | list }}"
+  ansible.builtin.fail:
+    msg: |
+      This cluster already has: {{ guard_found | join(', ') }}.
+      {{ guard_hint }}
+      To run anyway, add: -e force=true
+  when: guard_found | length > 0 and not (force | default(false) | bool)
+  tags: always
+
+- name: Ask for confirmation
+  ansible.builtin.pause:
+    prompt: "Continue on the cluster above? Type y to continue, anything else stops"
+  register: guard_answer
+  when: confirm is not defined
+  tags: always
+
+- name: Stop unless confirmed
+  ansible.builtin.fail:
+    msg: Stopped. Nothing was changed.
+  when: (guard_answer.user_input | default(confirm | default('')) | string | lower) not in ['y', 'yes']
+  tags: always

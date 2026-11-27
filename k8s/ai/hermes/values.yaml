@@ -1,21 +1,135 @@
 ---
 app-template:
   defaultPodOptions:
+    # oscorp (7.5Gi) runs near 83% memory and Hermes reads node pressure, so keep it
+    # on wayne (32Gi).
+    nodeSelector:
+      kubernetes.io/hostname: wayne
     securityContext:
       fsGroup: 10000
       fsGroupChangePolicy: OnRootMismatch
   controllers:
     mj:
-      strategy: RollingUpdate
-      rollingUpdate:
-        unavailable: 1
-        surge: 1
+      # One replica on a ReadWriteOnce volume: a rolling update can hang on Multi-Attach
+      # or run two writers on /opt/data, so stop the old pod first.
+      strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         mj:
           nameOverride: mj
           image:
             repository: nousresearch/hermes-agent
             tag: "stable"
+          args:
+            - gateway
+            - run
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - "-c"
+                  - |
+                    echo "Applying Hermes configuration settings..."
+                    hermes config set gateway.multiplex_profiles true
+
+                    # LiteLLM gateway
+                    hermes config set providers.litellm.api "http://litellm.litellm.svc:4000/v1"
+                    hermes config set providers.litellm.key_env "LITELLM_API_KEY"
+                    hermes config set LITELLM_API_KEY "$LITELLM_API_KEY"
+                    hermes config set providers.litellm.default_model "$LITELLM_DEFAULT_MODEL"
+
+                    # Disable built-in memory
+                    hermes config set memory.memory_enabled false
+                    hermes config set memory.user_profile_enabled false
+
+                    # Hindsight memory config
+                    hermes plugins install hindsight --enable --yes-deps
+                    hermes config set memory.provider hindsight
+                    hermes config set HINDSIGHT_API_URL "$HINDSIGHT_API_URL"
+
+                    # Configure Hindsight (bank ID template built from the HINDSIGHT_USERNAME env var)
+                    mkdir -p /opt/data/hindsight
+                    cat > /opt/data/hindsight/config.json <<EOF
+                    {
+                      "mode": "local_external",
+                      "api_url": "$HINDSIGHT_API_URL",
+                      "bank_id": "hermes",
+                      "bank_id_template": "hermes-$HINDSIGHT_USERNAME-{profile}"
+                    }
+                    EOF
+                    chown -R 10000:10000 /opt/data/hindsight
+
+                    # API server key for the profile named in FINANCE_API_PROFILE (an Infisical key). With
+                    # gateway.multiplex_profiles the default key is rejected on /p/<profile>/, so the
+                    # profile needs its own key in its .env.
+                    PROFILE_ENV="${HERMES_HOME:-/opt/data}/profiles/$FINANCE_API_PROFILE/.env"
+                    if [ -n "$FINANCE_API_PROFILE" ] && [ -n "$FINANCE_PROFILE_API_SERVER_KEY" ] && [ -d "$(dirname "$PROFILE_ENV")" ]; then
+                      touch "$PROFILE_ENV"
+                      grep -v '^API_SERVER_KEY=' "$PROFILE_ENV" > "$PROFILE_ENV.tmp" || true
+                      echo "API_SERVER_KEY=$FINANCE_PROFILE_API_SERVER_KEY" >> "$PROFILE_ENV.tmp"
+                      mv "$PROFILE_ENV.tmp" "$PROFILE_ENV"
+                      chown 10000:10000 "$PROFILE_ENV"
+                      chmod 600 "$PROFILE_ENV"
+                    else
+                      echo "Skipping profile API_SERVER_KEY: FINANCE_API_PROFILE, FINANCE_PROFILE_API_SERVER_KEY or the profile directory is missing"
+                    fi
+
+                    # Bighelp plugin
+                    # hermes plugins install promptclickrun/bighelp-plugin --enable
+
+                    # Restart gateway to apply changes
+                    echo "Restarting gateway..."
+                    hermes gateway restart
+          env:
+            TZ: America/Los_Angeles
+            PATH: /opt/hermes/bin:/opt/hermes/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+            HERMES_DASHBOARD: "true"
+            HINDSIGHT_API_URL: http://hindsight-api.hindsight.svc.cluster.local:8888
+            HINDSIGHT_USERNAME: mdeleon
+            API_SERVER_ENABLED: "true"
+            API_SERVER_HOST: "0.0.0.0"
+            API_SERVER_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: API_SERVER_KEY
+            API_SERVER_CORS_ORIGINS: "*"
+            HERMES_DASHBOARD_PUBLIC_URL: https://hermes-mj.mdeleon.dev
+            HERMES_DASHBOARD_OIDC_ISSUER: https://pocket.mdeleon.dev
+            HERMES_DASHBOARD_OIDC_CLIENT_ID:
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: HERMES_DASHBOARD_OIDC_CLIENT_ID
+            FINANCE_API_PROFILE:
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: FINANCE_API_PROFILE
+            FINANCE_PROFILE_API_SERVER_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: FINANCE_PROFILE_API_SERVER_KEY
+            LITELLM_API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: LITELLM_API_KEY
+            LITELLM_DEFAULT_MODEL:
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: LITELLM_DEFAULT_MODEL
+          resources:
+            requests:
+              cpu: 2
+              memory: 4Gi
+            limits:
+              memory: 8Gi
+              cpu: 4
 
   service:
     mj:
@@ -42,3 +156,26 @@ app-template:
         mj:
           mj:
             - path: /opt/data
+  ingress:
+    mj:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        gethomepage.dev/name: Hermes
+        gethomepage.dev/description: AI Agent
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: AI
+        gethomepage.dev/icon: sh-hermes-agent.png
+        gethomepage.dev/pod-selector: ""
+      hosts:
+        - host: hermes-mj.mdeleon.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: mj
+                port: dashboard
+      tls:
+        - secretName: hermes-mj-tls-cert
+          hosts:
+            - hermes-mj.mdeleon.dev

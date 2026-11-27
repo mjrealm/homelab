@@ -10,25 +10,30 @@ metal:
 	make -C metal
 bootstrap:
 	make -C k8s
-bootstrap-infisical:
-	make -C k8s bootstrap-infisical
+upgrade:
+	make -C k8s upgrade TAGS=$(TAGS)
+# make infisicalsecret   (asks questions; skip them with ARGS="-e stack=apps -e app=convertx")
+infisicalsecret:
+	ansible-playbook scripts/infisicalsecret/playbook.yml $(ARGS)
 apply-root:
 	make -C k8s apply-root
-decrypt-secrets:
-	./scripts/decrypt-secrets.sh
-clean-secrets:
-	find k8s -type f -name 'secrets.dec.yaml' -delete
+# Disposable test cluster (needs Docker via OrbStack). Never touches the real cluster:
+# the playbooks are pointed at .test/kubeconfig, and the test profile refuses any
+# kubectl context that does not start with "k3d-".
+test-up:
+	test/cluster.sh up
+test-down:
+	test/cluster.sh down
+test-status:
+	test/cluster.sh status
+test-bootstrap:
+	@test -f .test/kubeconfig || { echo "No test cluster. Run: make test-up"; exit 1; }
+	KUBECONFIG=$(CURDIR)/.test/kubeconfig K8S_AUTH_KUBECONFIG=$(CURDIR)/.test/kubeconfig \
+		ansible-playbook k8s/bootstrap/bootstrap.yml -e @test/vars.yml -e @.test/keys.yml
 deps: venv
-	brew install kubectl helm sops age gitleaks node
+	brew install kubectl helm gitleaks node k3d argocd velero
+	brew install --cask orbstack
 	$(VENV)/bin/ansible-galaxy collection install kubernetes.core community.general
-	mkdir -p .keys
-	curl -fsSL https://github.com/jkroepke.gpg \
-		| awk '/^-----BEGIN/{b=1;h=1;next} /^-----END/{b=0;next} b&&h{if($$0=="")h=0;next} b&&!/^=/' \
-		| base64 -d > .keys/helm-secrets.gpg
-	for p in secrets secrets-getter secrets-post-renderer; do \
-		helm plugin list | grep -q "^$$p[[:space:]]" || \
-		helm plugin install oci://ghcr.io/jkroepke/helm-secrets/$${p}:latest --keyring .keys/helm-secrets.gpg || exit 1; \
-	done
 venv:
 	brew install pyenv openssl@3 xz
 	CPPFLAGS="-I$$(brew --prefix openssl@3)/include -I$$(brew --prefix xz)/include" \

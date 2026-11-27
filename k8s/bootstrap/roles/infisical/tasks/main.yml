@@ -1,43 +1,4 @@
 ---
-- name: Check that the backup settings are set
-  ansible.builtin.assert:
-    that:
-      - infisical_aws_access_key_id | length > 0
-      - infisical_aws_secret_access_key | length > 0
-      - infisical_aws_region | length > 0
-    fail_msg: >-
-      The AWS access key ID, secret access key and region are required.
-  tags: infisical
-
-- name: Create the Infisical namespace
-  when: not ansible_check_mode
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: infisical
-  tags: infisical
-
-- name: Create the backup credentials Secret for Barman
-  when: not ansible_check_mode
-  no_log: true
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: infisical-backup-aws
-        namespace: infisical
-      type: Opaque
-      stringData:
-        ACCESS_KEY_ID: "{{ infisical_aws_access_key_id }}"
-        ACCESS_SECRET_KEY: "{{ infisical_aws_secret_access_key }}"
-        AWS_REGION: "{{ infisical_aws_region }}"
-  tags: infisical
-
 - name: Add Infisical chart repo
   when: not ansible_check_mode
   kubernetes.core.helm_repository:
@@ -55,6 +16,7 @@
     dependency_update: true
     values_files:
       - charts/infisical/values.yaml
+    values: "{{ infisical_extra_values | default({}) }}"
     wait: true
     wait_timeout: 15m
   tags: infisical

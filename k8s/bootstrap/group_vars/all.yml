@@ -1,2 +1,8 @@
 ---
 load_balancer_ip_pool: 192.168.10.200/29 # 192.168.10.200-192.168.10.207
+
+# AWS bootstrap key (IAM user homelab-infisical-bootstrap). Taken from the
+# INFISICAL_AWS_* environment variables, or from the prompts in roles/aws-prompts.
+infisical_aws_access_key_id: "{{ aws_key_input | default(lookup('env', 'INFISICAL_AWS_ACCESS_KEY_ID'), true) }}"
+infisical_aws_secret_access_key: "{{ aws_secret_input | default(lookup('env', 'INFISICAL_AWS_SECRET_ACCESS_KEY'), true) }}"
+infisical_aws_region: "{{ aws_region_input | default(lookup('env', 'INFISICAL_AWS_REGION'), true) | default('us-east-2', true) }}"

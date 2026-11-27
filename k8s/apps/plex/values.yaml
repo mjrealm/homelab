@@ -50,6 +50,9 @@ plex-media-server:
       gethomepage.dev/icon: plex.png
       gethomepage.dev/pod-selector: app.kubernetes.io/name=plex-media-server
       gethomepage.dev/weight: "1"
+      gethomepage.dev/widget.type: plex
+      gethomepage.dev/widget.url: http://pms.plex.svc:32400
+      gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_PLEX_KEY}}"
     tls:
       - secretName: plex-tls-cert
         hosts:
@@ -59,6 +62,8 @@ app-template:
   controllers:
     plex-mcp:
       strategy: RollingUpdate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         plex-mcp:
           image:
@@ -68,6 +73,12 @@ app-template:
             TZ: America/Los_Angeles
             MCP_TRANSPORT: streamable-http
             PLEX_URL: http://pms.plex.svc:32400
+            MCP_ALLOWED_HOSTS: plex,plex.plex.svc,plex.plex.svc:3001
+            PLEX_TOKEN:
+              valueFrom:
+                secretKeyRef:
+                  name: plex-secrets
+                  key: PLEX_TOKEN
 
   service:
     plex-mcp:

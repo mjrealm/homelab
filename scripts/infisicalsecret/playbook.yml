@@ -1,0 +1,112 @@
+---
+# Creates k8s/<stack>/<app>/templates/infisicalsecret.yaml from a few answers.
+# Run `make infisicalsecret`. Press Enter to accept a default. To skip the
+# questions, pass the answers: make infisicalsecret ARGS="-e stack=apps -e app=convertx"
+- name: Create an InfisicalSecret manifest
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - stacks.yml
+  vars_prompt:
+    - name: stack
+      prompt: "Stack (apps, platform, system or ai)"
+      default: apps
+      private: false
+    - name: app
+      prompt: "App name (the folder name under k8s/<stack>/)"
+      private: false
+    - name: secret_name
+      prompt: "Kubernetes Secret name (Enter for <app>-secrets)"
+      default: ""
+      private: false
+    - name: secrets_path
+      prompt: "Infisical folder (Enter for /<app>)"
+      default: ""
+      private: false
+    - name: env_slug
+      prompt: "Infisical environment"
+      default: prod
+      private: false
+    - name: resync
+      prompt: "Resync interval"
+      default: 60s
+      private: false
+    - name: keys
+      prompt: "Keys the app reads, comma separated (Enter to skip)"
+      default: ""
+      private: false
+  vars:
+    repo_root: "{{ playbook_dir }}/../.."
+    stack_info: "{{ infisicalsecret_stacks[stack] | default({}) }}"
+    final_secret_name: "{{ secret_name | default(app ~ '-secrets', true) }}"
+    final_path: "{{ ('/' ~ (secrets_path | regex_replace('^/', ''))) if secrets_path | length > 0 else '/' ~ app }}"
+    key_list: "{{ keys.split(',') | map('trim') | reject('equalto', '') | list if keys | length > 0 else [] }}"
+    dest: "{{ infisicalsecret_dest | default(repo_root ~ '/k8s/' ~ stack ~ '/' ~ app ~ '/templates/infisicalsecret.yaml') }}"
+  tasks:
+    - name: Check the stack
+      ansible.builtin.assert:
+        that: stack in infisicalsecret_stacks
+        fail_msg: "Stack must be one of: {{ infisicalsecret_stacks.keys() | list | join(', ') }}. You entered: {{ stack }}"
+
+    - name: Check the app name
+      ansible.builtin.assert:
+        that:
+          - app is defined
+          - app | length > 0
+          - app is match('^[a-z0-9][a-z0-9-]*$')
+        fail_msg: "The app name must be the folder name: lowercase letters, digits and dashes only. You entered: '{{ app | default('') }}'"
+
+    - name: Check the Secret name
+      ansible.builtin.assert:
+        that: final_secret_name is match('^[a-z0-9][a-z0-9.-]*$')
+        fail_msg: "The Secret name needs lowercase letters, digits, dots and dashes. You entered: {{ final_secret_name }}"
+
+    - name: Check the keys
+      ansible.builtin.assert:
+        that: key_list | select('match', '^[A-Za-z_][A-Za-z0-9_]*$') | list | length == key_list | length
+        fail_msg: "Keys need letters, digits and underscores, and cannot start with a digit. You entered: {{ key_list | join(', ') }}"
+
+    - name: Look for an existing file
+      ansible.builtin.stat:
+        path: "{{ dest }}"
+      register: existing
+
+    - name: Look for the app folder
+      ansible.builtin.stat:
+        path: "{{ repo_root }}/k8s/{{ stack }}/{{ app }}"
+      register: app_dir
+      when: infisicalsecret_dest is not defined
+
+    - name: Warn when the app folder does not exist yet
+      ansible.builtin.debug:
+        msg: "k8s/{{ stack }}/{{ app }}/ does not exist yet. It will be created with only this file."
+      when: infisicalsecret_dest is not defined and not app_dir.stat.exists
+
+    - name: Ask before overwriting
+      ansible.builtin.pause:
+        prompt: "{{ dest }} already exists. Overwrite it? Type y to overwrite, anything else stops"
+      register: overwrite_answer
+      when: existing.stat.exists and overwrite is not defined
+
+    - name: Stop unless overwriting was confirmed
+      ansible.builtin.fail:
+        msg: Stopped. Nothing was changed.
+      when: >-
+        existing.stat.exists and
+        (overwrite_answer.user_input | default(overwrite | default('')) | string | lower) not in ['y', 'yes']
+
+    - name: Create the folder
+      ansible.builtin.file:
+        path: "{{ dest | dirname }}"
+        state: directory
+        mode: "0755"
+
+    - name: Write the manifest
+      ansible.builtin.template:
+        src: infisicalsecret.yaml.j2
+        dest: "{{ dest }}"
+        mode: "0644"
+
+    - name: Show what to do next
+      ansible.builtin.debug:
+        msg: "{{ lookup('ansible.builtin.template', 'next-steps.txt.j2', trim_blocks=true).split('\n') }}"

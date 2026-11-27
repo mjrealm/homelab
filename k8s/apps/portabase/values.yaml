@@ -4,6 +4,8 @@ app-template:
     portabase:
       replicas: 1
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         portabase:
           image:
@@ -12,6 +14,25 @@ app-template:
           env:
             TZ: America/Los_Angeles
             PROJECT_URL: https://portabase.mdeleon.dev
+            POSTGRES_HOST: portabase-postgres
+            POSTGRES_PORT: "5432"
+            POSTGRES_USER: portabase
+            POSTGRES_DB: portabase
+            AUTH_OIDC_POCKET_ID: pocket
+            AUTH_OIDC_POCKET_TITLE: Pocket ID
+            AUTH_OIDC_POCKET_DESC: ""
+            AUTH_OIDC_POCKET_ICON: https://github.com/user-attachments/assets/4ceb2708-9f29-4694-b797-be833efce17d
+            AUTH_OIDC_POCKET_ISSUER_URL: https://pocket.mdeleon.dev
+            AUTH_OIDC_POCKET_HOST: pocket.mdeleon.dev
+            AUTH_OIDC_POCKET_SCOPES: openid profile email groups
+            AUTH_OIDC_POCKET_PKCE: "true"
+            AUTH_OIDC_POCKET_ROLE_MAP: admin:admin,default:user
+            AUTH_OIDC_POCKET_ALLOW_UNLINKING: "false"
+            AUTH_OIDC_POCKET_DISCOVERY_ENDPOINT: https://pocket.mdeleon.dev/.well-known/openid-configuration
+            AUTH_OIDC_POCKET_JWKS_ENDPOINT: https://pocket.mdeleon.dev/.well-known/jwks.json
+          envFrom:
+            - secretRef:
+                name: portabase-secrets
           resources:
             requests:
               cpu: 10m
@@ -21,11 +42,22 @@ app-template:
     postgres:
       type: statefulset
       replicas: 1
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         postgres:
           image:
             repository: postgres
             tag: "17"
+          env:
+            PGDATA: /var/lib/postgresql/data/pgdata
+            POSTGRES_USER: portabase
+            POSTGRES_DB: portabase
+            POSTGRES_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: portabase-secrets
+                  key: POSTGRES_PASSWORD
   service:
     portabase:
       controller: portabase

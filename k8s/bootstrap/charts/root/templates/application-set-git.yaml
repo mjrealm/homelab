@@ -24,8 +24,6 @@ spec:
         helm:
           valueFiles:
             - values.yaml
-            - secrets://secrets.yaml
-          ignoreMissingValueFiles: true
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{ default `{{path.basename}}` $stack.namespace }}'
@@ -42,59 +40,5 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
-          - ServerSideApply=true  
-          - RespectIgnoreDifferences=true        
-      ignoreDifferences:
-      - group: storage.k8s.io
-        jsonPointers:
-        - /spec/seLinuxMount
-        kind: CSIDriver
-        name: nfs.csi.k8s.io
-      - group: apps
-        jsonPointers:
-        - /spec/volumeClaimTemplates        
-        kind: StatefulSet
-      - group: apps
-        kind: DaemonSet
-        jsonPointers:
-        - /metadata/generation                
-      - group: batch
-        jsonPointers:
-        - /spec/podReplacementPolicy
-        - /status/terminating
-        kind: Job
-        namespace: mimir
-      # - group: monitoring.grafana.com
-      #   kind: MetricsInstance
-      #   jqPathExpressions:
-      #   - .spec.remoteWrite[].basicAuth
-      # - group: monitoring.grafana.com
-      #   kind: LogsInstance
-      #   jqPathExpressions:
-      #   - .spec.clients
-      - group: monitoring.grafana.com
-        kind: PodLogs
-        jqPathExpressions:
-        - .spec.relabelings[].action
-      - group: monitoring.coreos.com
-        kind: ServiceMonitor        
-        jqPathExpressions:
-          - .spec.endpoints[].relabelings[].action
-      - group: apiextensions.k8s.io
-        kind: CustomResourceDefinition
-        jqPathExpressions:
-          - .spec.conversion.webhook.clientConfig.caBundle
-          - .spec.preserveUnknownFields
-      - group: external-secrets.io
-        kind: ExternalSecret
-        jqPathExpressions:
-        - .spec.data[].remoteRef.conversionStrategy
-        - .spec.data[].remoteRef.decodingStrategy
-        - .spec.data[].remoteRef.metadataPolicy
-      - group: apps
-        kind: Deployment
-        jsonPointers:
-        - /spec/template/spec/hostUsers
-
-        
+          - ServerSideApply=true
 {{ end }}
