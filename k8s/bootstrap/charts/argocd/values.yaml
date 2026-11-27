@@ -45,7 +45,21 @@ argo-cd:
   configs:
     params:
       server.insecure: true
+    rbac:
+      policy.csv: |
+        g, mdeleon, role:admin
     cm:
+      # mdeleon is API-key only here: it owns the token the MCP server uses.
+      accounts.mdeleon: login, apiKey
+      accounts.admin: login, apiKey
+      oidc.config: |
+        name: Pocket ID
+        issuer: https://pocket.mdeleon.dev
+        clientID: $argocd-secrets:OIDC_CLIENT_ID
+        clientSecret: $argocd-secrets:OIDC_CLIENT_SECRET
+        logoutURL: https://pocket.mdeleon.dev/api/oidc/end-session
+        requestedScopes: ["openid", "profile", "email", "groups"]
+        requestedIDTokenClaims: {"groups": {"essential": true}}
       helm.valuesFileSchemes: >-
         secrets+gpg-import, secrets+gpg-import-kubernetes,
         secrets+age-import, secrets+age-import-kubernetes,
@@ -163,9 +177,24 @@ app-template:
     mcp-server:
       suffix: mcp-server
       strategy: Recreate
+      annotations:
+        secrets.infisical.com/auto-reload: "true"
       containers:
         mcp-server:
           nameOverride: argo-mcp-server
+          env:
+            ARGOCD_BASE_URL: http://argocd-server.argocd.svc:80
+            MCP_BIND_ADDRESS: 0.0.0.0
+            ARGOCD_API_TOKEN:
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-secrets
+                  key: ARGOCD_API_TOKEN
+            MCP_AUTH_TOKEN:
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-secrets
+                  key: MCP_AUTH_TOKEN
           image:
             repository: ghcr.io/argoproj-labs/mcp-for-argocd
             tag: "0.9.0"
