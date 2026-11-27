@@ -1,9 +1,14 @@
 ---
+# root_stacks (optional list of stack names) applies only those stacks. The recovery
+# stages use it: system first, then platform, then everything.
 - name: Apply all ApplicationSets and Projects
   when: not ansible_check_mode
+  vars:
+    root_set_args: >-
+      {{ ("--set-json 'stacks=[" ~ (root_stacks | map('regex_replace', '^(.*)$', '{"name":"\1"}') | join(',')) ~ "]'") if root_stacks is defined else '' }}
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      helm template charts/root -n argocd | kubectl apply -f -
+      helm template charts/root -n argocd {{ root_set_args }} | kubectl apply -f -
   register: root_apply
   changed_when: "'configured' in root_apply.stdout or 'created' in root_apply.stdout"

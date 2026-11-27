@@ -3,8 +3,9 @@
 Do this once, on a new cluster, after [Install the cluster](01-cluster-install.md).
 Infisical starts with an empty database, and this page covers what the repo
 cannot create: the admin user, one project and one machine identity per stack,
-the identity IDs in the repo, and an admin identity for disaster recovery. It
-takes about 45 minutes in the browser, plus one pull request.
+the identity IDs in the repo, and an admin identity for disaster recovery. One
+command does it in about five minutes, plus one pull request. The browser steps are
+kept at the end as a fallback.
 
 This page is only for a new cluster. After a disaster, use
 [Recover the cluster](../recover/01-recover-the-cluster.md) instead. To add an
@@ -33,7 +34,80 @@ Before you start, check in the Terminal:
 3. <https://infisical.mdeleon.dev> loads in the browser. If not, wait five
    minutes for MetalLB and DNS, then retry.
 
-## 1. Create the admin
+## The quick way: one command
+
+1. In the Terminal, in the repo folder, run:
+
+   ```bash
+   make infisical-setup
+   ```
+
+2. It prints the `kubectl context` and `API server` of the cluster whose
+   certificate it will register in Infisical. Check them, then type `y`.
+3. Answer the prompts:
+
+   - `Admin email:` your email address.
+   - `Admin password (Enter to generate one):` press Enter to have it generate a
+     strong password, or type your own. The input is hidden.
+
+   The organization is named `homelab`. To use another name, run
+   `make infisical-setup ARGS="--org <name>"`.
+4. Wait about a minute. It prints one `ok:` line for each of these, in order:
+
+   - the admin and the organization;
+   - the `dr-admin` identity with Universal Auth;
+   - for each stack, the project (with only the `prod` environment), the machine
+     identity `infisical-<stack>` with Kubernetes Auth, and its Viewer role on the
+     project.
+
+5. **Save what it shows once, straight away.** In Bitwarden, folder
+   `homelab-infisical-bootstrap`:
+
+   - item `Infisical admin`: the email and the password (if it generated one);
+   - item `Infisical dr-admin`: the `dr-admin client ID` and `dr-admin client secret`.
+
+   The client secret cannot be shown again.
+6. It also replaced the old identity IDs in the repo, because a new Infisical
+   gives every identity a new ID. See what changed, then commit it in a pull
+   request and merge it:
+
+   ```bash
+   git checkout -b chore/infisical-identity-ids
+   git diff --stat
+   git add -A
+   git commit -m "chore(infisical): new machine identity IDs"
+   git push -u origin HEAD
+   gh pr create --fill
+   ```
+
+   Expect the changed files to be the `InfisicalSecret` templates, the ID tables in
+   these docs and `scripts/infisicalsecret/stacks.yml`. The last line the command
+   printed is `SETUP DONE`.
+7. After Argo CD syncs (about five minutes), the secrets show as synced. They stay
+   empty or failing until you add each app's keys
+   ([Add an app's secrets](../operate/03-add-app-secrets.md)).
+
+If the page <https://infisical.mdeleon.dev> does not load yet, run it through a
+tunnel instead: `make infisical-setup ARGS="--port-forward"`.
+
+If it stops with a line starting `FAIL:`, fix what it names, then run it again with
+the `dr-admin` login. It then creates only what is missing and changes nothing else:
+
+```bash
+read -r "INFISICAL_CLIENT_ID?dr-admin client ID: "
+read -rs "INFISICAL_CLIENT_SECRET?dr-admin client secret: "; echo
+export INFISICAL_CLIENT_ID INFISICAL_CLIENT_SECRET
+make infisical-setup
+unset INFISICAL_CLIENT_ID INFISICAL_CLIENT_SECRET
+```
+
+Then go to [Check it](#check-it).
+
+## By hand in the browser
+
+Use this only if `make infisical-setup` cannot run. It does the same things.
+
+### 1. Create the admin
 
 1. Open <https://infisical.mdeleon.dev>.
 2. Sign up with your email address and a strong password. The first account
@@ -42,7 +116,7 @@ Before you start, check in the Terminal:
    `homelab-infisical-bootstrap`, with the email and password.
 4. Skip any "invite your team" or onboarding screens.
 
-## 2. Create a project for each stack
+### 2. Create a project for each stack
 
 Do the steps below once for each of `apps`, `platform`, `system` and `ai`:
 
@@ -60,7 +134,7 @@ Do the steps below once for each of `apps`, `platform`, `system` and `ai`:
 A project is the only access boundary. Folder-level permissions are paid, so
 never put two stacks in one project.
 
-## 3. Get the cluster CA certificate
+### 3. Get the cluster CA certificate
 
 1. In the Terminal, run:
 
@@ -71,7 +145,7 @@ never put two stacks in one project.
 2. Select and copy the whole output, from `-----BEGIN CERTIFICATE-----` to
    `-----END CERTIFICATE-----`. You paste it once for each identity in step 4.
 
-## 4. Create one machine identity per stack
+### 4. Create one machine identity per stack
 
 Do the steps below once for each stack (`apps`, `platform`, `system`, `ai`):
 
@@ -99,7 +173,7 @@ Do the steps below once for each stack (`apps`, `platform`, `system`, `ai`):
 With the reviewer JWT empty, Infisical validates the pod's own token. That works
 because each service account is bound to `system:auth-delegator`.
 
-## 5. Add each identity to its project
+### 5. Add each identity to its project
 
 Do this for each stack:
 
@@ -110,7 +184,7 @@ Do this for each stack:
 
 Viewer is enough, because the operator only reads secrets.
 
-## 6. Put the new identity IDs in the repo
+### 6. Put the new identity IDs in the repo
 
 A new identity has a new ID, and every `InfisicalSecret` in the repo contains its
 stack's ID. Replace the old IDs with the new ones.
@@ -164,7 +238,7 @@ stack's ID. Replace the old IDs with the new ones.
    stay empty or failing until you add each app's keys
    ([Add an app's secrets](../operate/03-add-app-secrets.md)).
 
-## 7. Create the disaster-recovery admin identity
+### 7. Create the disaster-recovery admin identity
 
 This identity lets a person who is rebuilding the cluster fix Infisical without
 the browser login. It lives in Infisical's database, so the backups cover it.
@@ -195,7 +269,7 @@ the browser login. It lives in Infisical's database, so the backups cover it.
 
    Paste the client ID, press Enter, paste the secret, press Enter. Expect `ok`.
 
-## 8. Check it
+## Check it
 
 1. Every `InfisicalSecret` is ready:
 

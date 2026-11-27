@@ -7,14 +7,14 @@ Run every command from the repo root, after [Workstation setup](../prepare/01-wo
 |---|---|---|
 | Brand-new cluster, nothing installed yet | `make bootstrap` | `k8s/bootstrap/bootstrap.yml` |
 | Live cluster: rotate the AWS key, re-apply the root chart, repair Argo CD | `make upgrade TAGS=<tag>` | `k8s/bootstrap/upgrade.yml` |
-| Cluster rebuilt after a disaster, restoring from backups | `make recover` (coming soon) | See [Recover the cluster](../recover/01-recover-the-cluster.md) |
+| Cluster rebuilt after a disaster, restoring from backups | `make recover` | `k8s/bootstrap/recover.yml`, step by step in [Recover the cluster](../recover/01-recover-the-cluster.md) |
 
 Operating system and k3s changes (version, flags such as OIDC) are separate. They
 live in `metal/` and run with `make metal`. That playbook is safe to re-run.
 
 ## Safety checks
 
-`make bootstrap` refuses to run on a cluster that is already in use. Before it
+`make bootstrap` and `make recover` refuse to run on a cluster that is already in use. Before it
 changes anything it:
 
 1. Prints which cluster it will touch (kubectl context and API server address).
@@ -36,3 +36,12 @@ with `-e force=true`. You will rarely want that.
 To skip the AWS prompts, export `INFISICAL_AWS_ACCESS_KEY_ID`,
 `INFISICAL_AWS_SECRET_ACCESS_KEY` and `INFISICAL_AWS_REGION` first. The playbooks
 never read a password manager themselves.
+
+## Other commands
+
+| Command | What it does |
+|---|---|
+| `make infisical-setup` | New Infisical: creates the admin, the `dr-admin` identity, the projects and the stack identities through the API. See [Set up Infisical](../build/02-infisical-setup.md). |
+| `make recover-ca` | After a rebuild: points Infisical's stack identities at the new cluster's certificate authority. |
+| `make recover-stage STAGE=platform` or `STAGE=all` | After a rebuild: adds the `platform` stack, then every stack, once the data is restored. |
+| `make test-dr` | Rehearses a full recovery on throwaway clusters. See [Try a change on a throwaway cluster](05-test-cluster.md). |

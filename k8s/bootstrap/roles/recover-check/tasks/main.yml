@@ -1,0 +1,44 @@
+---
+# Production only. Argo CD manages the infisical chart from Git, so the restore
+# settings must be merged to main before recovery. Otherwise Argo CD would apply the
+# old settings over the restore.
+- name: Read the Infisical chart values
+  ansible.builtin.slurp:
+    src: "{{ playbook_dir }}/charts/infisical/values.yaml"
+  register: recover_values
+
+- name: Check the restore settings in this working copy
+  vars:
+    recover_v: "{{ recover_values.content | b64decode | from_yaml }}"
+  ansible.builtin.assert:
+    that:
+      - recover_v.recovery.enabled | bool
+      - recover_v.backup.serverName != recover_v.recovery.sourceServerName
+    fail_msg: |
+      k8s/bootstrap/charts/infisical/values.yaml is not set up to restore.
+      Make exactly these two edits, merge them to main, then run `git pull`:
+        - backup.serverName: a new name, for example infisical-database-r1
+          (never the name of the old archive, or it is overwritten)
+        - recovery.enabled: true   (leave recovery.sourceServerName as it is)
+      See "Recover the cluster", step 3.
+
+- name: Fetch main from GitHub
+  ansible.builtin.command:
+    cmd: git fetch --quiet origin main
+    chdir: "{{ playbook_dir }}/../.."
+  changed_when: false
+
+- name: Compare the values with main
+  ansible.builtin.command:
+    cmd: git diff --quiet origin/main -- k8s/bootstrap/charts/infisical/values.yaml
+    chdir: "{{ playbook_dir }}/../.."
+  register: recover_diff
+  changed_when: false
+  failed_when: false
+
+- name: Stop unless main has the same restore settings
+  ansible.builtin.fail:
+    msg: |
+      The restore settings in this working copy are not the same as on main.
+      Argo CD reads main. Merge the change to main first, then run `git checkout main && git pull`.
+  when: recover_diff.rc != 0

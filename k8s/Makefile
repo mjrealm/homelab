@@ -1,8 +1,11 @@
 default: bootstrap
 
-.PHONY: bootstrap upgrade apply-root
+.PHONY: bootstrap recover upgrade apply-root
 bootstrap:
 	ansible-playbook bootstrap/bootstrap.yml
+
+recover:
+	ansible-playbook bootstrap/recover.yml
 
 # make upgrade TAGS=root   (tags: root, argocd, aws-credentials)
 upgrade:
