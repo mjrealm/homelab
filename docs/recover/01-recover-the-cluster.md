@@ -38,8 +38,8 @@ You also need:
 
 - A Mac set up as in [Set up your workstation](../prepare/01-workstation-setup.md),
   with the repo cloned.
-- The nodes powered on, reachable by SSH, running Ubuntu or Debian, with the user
-  `mdeleon` and sudo. They are listed in `metal/inventory/main.yml`.
+- The nodes powered on, reachable by SSH, running Ubuntu or Debian, with
+  the admin user set as `ansible_user` in `metal/group_vars/all.yml`, with sudo. The nodes are listed in `metal/inventory/main.yml`.
 
 You do **not** need to type or find: Infisical's `ENCRYPTION_KEY`, `AUTH_SECRET`
 and `REDIS_PASSWORD` (read from AWS Systems Manager automatically), and every app
@@ -312,7 +312,7 @@ reachable first.
    `nfs-common` and `open-iscsi` (`make metal` installs them):
 
    ```bash
-   ssh mdeleon@<node> 'dpkg -s nfs-common open-iscsi | grep -E "Package|Status"'
+   ssh <ansible_user>@<node> 'dpkg -s nfs-common open-iscsi | grep -E "Package|Status"'
    ```
 
    Do not continue until `AVAILABLE` is `true`.
@@ -433,7 +433,7 @@ keep failing to authenticate until you do.
 2. Open <https://argo.mdeleon.dev> and log in with the username `admin` and that
    password.
 3. In the left sidebar click the gear icon, **Settings**, then **Accounts**.
-4. Click the account `mdeleon`.
+4. Click the non-`admin` account that has the **apiKey** capability (the account named under `accounts.` in `k8s/bootstrap/charts/argocd/values.yaml`, which also has the `role:admin` role).
 5. Under **Tokens**, click **Generate New**. Leave **Expires in** empty so the
    token never expires, then confirm.
 6. Copy the token that appears. It is shown once.
@@ -473,10 +473,10 @@ The same, without the browser for steps 2 to 6.
    If you see `connection reset by peer` or `connection refused`, stop the tunnel
    and use the web UI instructions instead.
 
-3. Create the token and copy it:
+3. Create the token and copy it. Replace `<account>` with the account named under `accounts.` in `k8s/bootstrap/charts/argocd/values.yaml` (not `admin`):
 
    ```bash
-   argocd account generate-token --account mdeleon --id mcp --grpc-web
+   argocd account generate-token --account <account> --id mcp --grpc-web
    ```
 
 4. Do steps 7 to 10 of the web UI instructions above to store it in Infisical.
