@@ -16,6 +16,7 @@ const config = {
       onBrokenMarkdownLinks: 'throw',
     },
   },
+  themes: ['docusaurus-theme-quiet'],
   presets: [
     [
       'classic',
