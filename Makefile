@@ -20,6 +20,9 @@ apply-root:
 # Disposable test cluster (needs Docker via OrbStack). Never touches the real cluster:
 # the playbooks are pointed at .test/kubeconfig, and the test profile refuses any
 # kubectl context that does not start with "k3d-".
+# Fail when a database backup could overlap Velero's Longhorn CSI snapshots.
+check-backups:
+	python3 scripts/check-backup-windows.py
 test-up:
 	test/cluster.sh up
 test-down:

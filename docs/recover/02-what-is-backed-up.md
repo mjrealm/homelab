@@ -15,12 +15,16 @@ are healthy. It describes the setup as it is today.
 | Everything, long term | Velero schedule `velero-monthly-backup` | R2 | 1st of the month at 03:30 | 1 year | Same |
 | Everything, second provider | Velero schedule `velero-monthly-backup-aws` | An AWS S3 bucket, location `aws` | 1st of the month at 04:30 | 1 year | Same, with `--storage-location aws` |
 | Infisical's database (all secrets) | CloudNativePG with the Barman plugin | An AWS S3 bucket | Base backup daily at 03:00 UTC, plus every WAL file as it fills | 14 days | The recovery guide, step 3 |
+| Application databases that have their own backup | CloudNativePG with the Barman plugin | Cloudflare R2 bucket `homelab-db-backups`, one folder per app | Base backup daily (times below), plus every WAL file | 14 days | A `recovery` bootstrap from the app's `<app>-r2` store (restore not yet tested) |
 | This repository (all cluster configuration) | Git | GitHub, and your clone | Every merge | Forever | `git clone` |
 | Secret values you type during a rebuild | You | Bitwarden | When they change | Bitwarden's own history | The recovery guide, "What you need" |
 
 The schedules, namespaces and retention are defined in
-`k8s/system/velero/values.yaml`, and the Infisical backup in
-`k8s/bootstrap/charts/infisical/values.yaml`. Those files are the source of truth.
+`k8s/system/velero/values.yaml`, the Infisical backup in
+`k8s/bootstrap/charts/infisical/values.yaml`, and each application database's backup
+under `backup.r2` in the app's `values.yaml`. Those files are the source of truth.
+A database has its own backup only if its chart has a Barman `ObjectStore`; list them
+with `kubectl get objectstores.barmancloud.cnpg.io -A`.
 
 Velero holds the **Kubernetes objects** and a **reference** to each volume's
 backup. The **volume data** is on the NAS. Both are needed: Velero without the NAS
@@ -31,6 +35,28 @@ Longhorn does not delete a volume's backups when the Velero backup that created
 them expires, because the volume snapshot class uses `deletionPolicy: Retain`. The
 backups on the NAS therefore grow until you prune them. Check the NAS free space now and then, and prune old backups in the
 Longhorn web page (**Backup**) if it runs low.
+
+## Backups never overlap the Longhorn snapshots
+
+Velero takes the Longhorn CSI snapshots, so a database base backup must not run at
+the same time. The rule:
+
+- **Velero** runs in Pacific time, between 03:00 and 05:00. In UTC that is about
+  10:00 to 13:00, and it moves an hour with daylight saving.
+- **Database base backups** run in UTC between 01:00 and 04:00, no two in the same
+  hour.
+- A database backup stays at least 60 minutes away from every Velero run, in winter
+  and in summer, and at least 30 minutes away from another database backup.
+- Continuous WAL archiving cannot be scheduled. It is a small upload whenever a log
+  file fills, and does not count.
+
+`make check-backups` checks this against the schedules in Git, and CI runs it on
+every push. When you add a database backup, choose a free hour between 01:00 and
+04:00 UTC and run the command.
+
+Longhorn's own recurring jobs (volume trim and snapshot cleanup) are set in the
+Longhorn web page, not in Git, so the check cannot see them. Keep them outside both
+windows too.
 
 ## The 3-2-1 rule on the NAS
 
@@ -48,9 +74,9 @@ recovery.
 
 ## What is not separately backed up
 
-- **Every database except Infisical's.** They run on CloudNativePG too, but only
-  Infisical's has its own backup. The others come back only as volume snapshots
-  from the NAS, which are crash-consistent. You cannot restore them to a chosen point in time.
+- **Databases without a Barman `ObjectStore`.** They run on CloudNativePG too, but
+  only some have their own backup (see the table above). The others come back only
+  as volume snapshots from the NAS, which are crash-consistent. You cannot restore them to a chosen point in time.
 - **Argo CD's state**: it is rebuilt from Git.
 - **Secrets**: they live in Infisical, so the Infisical database backup covers
   them. The three keys that open that database (`ENCRYPTION_KEY`, `AUTH_SECRET`,
@@ -88,15 +114,15 @@ Run these from the repo root, in the Terminal. They only read.
 
    Expect `AVAILABLE` `true` and a recent `LASTSYNCEDAT`.
 
-4. Infisical's database backs up:
+4. The database backups run:
 
    ```bash
-   kubectl -n infisical get scheduledbackup
-   kubectl -n infisical get backups.postgresql.cnpg.io | tail -3
+   kubectl get scheduledbackup -A
+   kubectl get backups.postgresql.cnpg.io -A | tail -8
    ```
 
-   Expect `LAST BACKUP` within the last 25 hours and the newest backups
-   `completed`.
+   Expect every schedule to show `LAST BACKUP` within the last 25 hours and the
+   newest backups `completed`.
 
 5. The NAS copies ran. In the Synology DSM web page, open the USB Copy or Hyper
    Backup task and the offsite task, and check that the last run was

@@ -11,3 +11,8 @@ jobs:
         uses: bewuethr/yamllint-action@v1
         with:
           config-file: "./.yamllint.yaml"
+
+      - name: Check the backup schedules do not overlap
+        run: |
+          pip install pyyaml
+          python3 scripts/check-backup-windows.py
