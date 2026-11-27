@@ -1,7 +1,7 @@
 # Which playbook do I run?
 
 Three Ansible playbooks cover the cluster's life. Pick by situation, not by habit.
-Run every command from the repo root, after [Workstation setup](../new-cluster/01-workstation-setup.md).
+Run every command from the repo root, after [Workstation setup](../prepare/01-workstation-setup.md).
 
 | Situation | Command | Playbook |
 |---|---|---|

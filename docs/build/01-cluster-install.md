@@ -1,8 +1,8 @@
 # Install the cluster
 
 Build the nodes, install k3s, and bootstrap everything up to Argo CD. Run all
-commands from the repo root, after [Workstation setup](01-workstation-setup.md)
-and [Cloud prerequisites](02-cloud-prerequisites.md).
+commands from the repo root, after [Workstation setup](../prepare/01-workstation-setup.md)
+and [Cloud prerequisites](../prepare/02-cloud-prerequisites.md).
 
 Have these ready:
 
@@ -66,7 +66,7 @@ Have these ready:
 5. The last task prints the initial Argo CD admin password. Save it.
 
 Do not run `make bootstrap` again on this cluster. To change it later, see
-[Upgrade or extend a live cluster](../playbooks/02-upgrade.md).
+[Upgrade or extend a live cluster](../operate/02-upgrade.md).
 
 ## 4. Check
 
@@ -82,4 +82,4 @@ Do not run `make bootstrap` again on this cluster. To change it later, see
    `Cluster in healthy state`, and the pods Running.
 3. Open Argo CD and wait for the apps to appear and sync.
 
-Next: [Infisical setup](04-infisical-setup.md).
+Next: [Infisical setup](02-infisical-setup.md).

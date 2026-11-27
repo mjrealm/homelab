@@ -9,7 +9,7 @@ After a rebuild that restored Infisical from a backup, skip to
 
 Before you start:
 
-- The cluster is installed ([Install the cluster](03-cluster-install.md)), so
+- The cluster is installed ([Install the cluster](01-cluster-install.md)), so
   Infisical is running.
 - `https://infisical.mdeleon.dev` loads.
 - The four service accounts exist (created by the `infisical-operator` chart):

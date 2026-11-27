@@ -8,24 +8,24 @@ const sidebars = {
       type: 'category',
       label: '1. Prepare',
       items: [
-        'new-cluster/workstation-setup',
-        'new-cluster/cloud-prerequisites',
+        'prepare/workstation-setup',
+        'prepare/cloud-prerequisites',
       ],
     },
     {
       type: 'category',
       label: '2. Build',
       items: [
-        'new-cluster/cluster-install',
-        'new-cluster/infisical-setup',
+        'build/cluster-install',
+        'build/infisical-setup',
       ],
     },
     {
       type: 'category',
       label: '3. Operate',
       items: [
-        'playbooks/overview',
-        'playbooks/upgrade',
+        'operate/overview',
+        'operate/upgrade',
       ],
     },
   ],
