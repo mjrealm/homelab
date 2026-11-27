@@ -7,8 +7,7 @@
   vars:
     guard_title: BOOTSTRAP, new cluster only
     guard_lines:
-      - Installs the platform on a cluster that has nothing on it yet:
-      - cert-manager, Longhorn, External Secrets, CNPG, Infisical (empty database), Argo CD.
+      - Installs cert-manager, Longhorn, External Secrets, CNPG, Infisical (empty database) and Argo CD on a cluster with nothing on it.
       - Do not run this on a live cluster. Use `make upgrade` instead.
       - After a rebuild from backups, use `make recover` instead.
     guard_used_namespaces:
