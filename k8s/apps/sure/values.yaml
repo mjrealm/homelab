@@ -139,3 +139,12 @@ app-template:
         worker:
           main:
             - path: /rails/storage
+
+# Database backups to Cloudflare R2 (CloudNativePG Barman plugin). The access key and
+# secret are in Infisical, in this app's folder: R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY.
+backup:
+  r2:
+    bucket: homelab-db-backups
+    endpointURL: https://683d43af18913fe58dc1c66b52e4a027.r2.cloudflarestorage.com
+    retention: 14d
+    schedule: "0 0 5 * * *"  # UTC, outside the Velero window. Run: make check-backups

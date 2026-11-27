@@ -12,3 +12,52 @@ spec:
       database: sure
       owner: app
   imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: sure-r2
+        serverName: sure-database
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: sure-r2
+spec:
+  retentionPolicy: {{ .Values.backup.r2.retention | quote }}
+  configuration:
+    destinationPath: s3://{{ .Values.backup.r2.bucket }}/sure
+    endpointURL: {{ .Values.backup.r2.endpointURL | quote }}
+    s3Credentials:
+      accessKeyId:
+        name: sure-secrets
+        key: R2_ACCESS_KEY_ID
+      secretAccessKey:
+        name: sure-secrets
+        key: R2_SECRET_ACCESS_KEY
+    wal:
+      compression: gzip
+    data:
+      compression: gzip
+  # R2 has no regions, and rejects the newer default S3 checksums.
+  instanceSidecarConfiguration:
+    env:
+      - name: AWS_DEFAULT_REGION
+        value: auto
+      - name: AWS_REQUEST_CHECKSUM_CALCULATION
+        value: when_required
+      - name: AWS_RESPONSE_CHECKSUM_VALIDATION
+        value: when_required
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: sure-daily
+spec:
+  schedule: {{ .Values.backup.r2.schedule | quote }}
+  backupOwnerReference: self
+  cluster:
+    name: sure-database
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io

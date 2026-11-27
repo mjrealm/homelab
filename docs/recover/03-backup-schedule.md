@@ -13,7 +13,7 @@ Velero does.
 - A database base backup stays at least 60 minutes away from every Velero run, in
   winter and in summer.
 - Two database base backups stay at least 30 minutes apart.
-- Database base backups start between 01:00 and 04:00 UTC, one per hour.
+- Database base backups start between 01:00 and 05:00 UTC, one per hour.
 - Continuous WAL archiving cannot be scheduled. It is a small upload whenever a log
   file fills, and it does not count.
 
@@ -35,6 +35,7 @@ database backups run in UTC and never move.
 | LiteLLM database | `backup.r2.schedule` in `k8s/ai/litellm/values.yaml` | | 02:00 | 02:00 |
 | Infisical database | `backup.schedule` in `k8s/bootstrap/charts/infisical/values.yaml` | | 03:00 | 03:00 |
 | Wardrowbe database | `backup.r2.schedule` in `k8s/apps/wardrowbe/values.yaml` | | 04:00 | 04:00 |
+| Sure database | `backup.r2.schedule` in `k8s/apps/sure/values.yaml` | | 05:00 | 05:00 |
 
 The files are the source of truth. To print the current times and check the rule,
 run this in the Terminal, from the repo root:
@@ -49,7 +50,7 @@ starting `FAIL:` names the two backups that are too close.
 
 ## Add a database backup
 
-1. Choose a free hour between 01:00 and 04:00 UTC that no other database backup uses.
+1. Choose a free hour between 01:00 and 05:00 UTC that no other database backup uses.
 2. Put it in the app's `values.yaml` as the six-field cron `0 0 <hour> * * *` under
    `backup.r2.schedule` (seconds, minutes, hours, day, month, weekday, in UTC).
 3. Run `make check-backups`. It must end with `ok:`. CI runs the same check on every
