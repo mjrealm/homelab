@@ -14,6 +14,9 @@ make upgrade TAGS=<tag>
 | `argocd` | Re-applies the Argo CD chart with server-side apply. | An Argo CD change did not reach the cluster, or the repo-server is missing. |
 | `aws-credentials` | Prompts for the AWS key and replaces the two Secrets that hold it. | You rotated the `homelab-infisical-bootstrap` IAM key. |
 
+Every run ends with `PLAY RECAP`. Expect `failed=0`. `changed=0` means nothing
+needed changing, which is fine.
+
 `make apply-root` is the same as `make upgrade TAGS=root`.
 
 ## Add a new bootstrap app
@@ -42,13 +45,17 @@ is different: it needs a role in `k8s/bootstrap/roles/` and a line in
    make upgrade TAGS=aws-credentials
    ```
 
-3. Enter the new access key ID and secret. Press Enter for `us-east-2`.
+3. Enter the new access key ID and secret from Bitwarden (`AWS IAM
+   homelab-infisical-bootstrap`). Press Enter for `us-east-2`.
 4. Check that both Secrets synced:
 
    ```bash
    kubectl get clustersecretstore,externalsecret -A
    kubectl -n infisical get cluster
    ```
+
+   Expect the ClusterSecretStore `Valid`, the ExternalSecret `SecretSynced`, and
+   the Cluster `Cluster in healthy state`.
 
 5. Delete the old access key in AWS IAM.
 

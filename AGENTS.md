@@ -97,6 +97,9 @@ Secrets live in **Infisical**, not in Git. The Infisical operator syncs them int
 
 The runbooks in `docs/` are published with Docusaurus (`make docs` previews them). The reader is often in the middle of an outage, so:
 
+- Write for a reader who has never seen this cluster. Every step says where to do it (Terminal or which screen), gives the exact command or the exact buttons to click, says what result to expect, and says what to do if the result differs. No "configure X" or "see the docs" without the values.
+- Quote shell arguments that contain `[`, `*` or `?` (for example `-o 'custom-columns=...'`): macOS uses zsh, which rejects them unquoted.
+- Name Bitwarden items exactly as listed in `docs/prepare/02-cloud-prerequisites.md`.
 - One task or scenario per page. A page for a new cluster never also covers a restore; a restore never also covers adding an app.
 - A runbook is self-contained: every command and value needed is on the page. Link to other pages only for background, never for a step the reader must do to finish.
 - When a fact such as the identity ID table is needed on two pages, keep both copies and say so in a comment, rather than sending the reader away.

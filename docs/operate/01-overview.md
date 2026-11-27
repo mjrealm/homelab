@@ -29,8 +29,8 @@ with `-e force=true`. You will rarely want that.
 
 | Value | Where it comes from |
 |---|---|
-| AWS access key and secret | Bitwarden, folder `homelab-infisical-bootstrap`. The playbook prompts. |
-| Cloudflare API token | Bitwarden. `make metal` prompts. |
+| AWS access key and secret | Bitwarden item `AWS IAM homelab-infisical-bootstrap`. The playbook prompts. |
+| Cloudflare API token | Bitwarden item `Cloudflare DNS API token (cert-manager)`. `make metal` prompts. |
 | Infisical `ENCRYPTION_KEY`, `AUTH_SECRET`, `REDIS_PASSWORD` | AWS Systems Manager. Never typed. |
 
 To skip the AWS prompts, export `INFISICAL_AWS_ACCESS_KEY_ID`,
