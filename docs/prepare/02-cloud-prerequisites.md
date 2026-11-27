@@ -188,7 +188,7 @@ person who has never touched this cluster can find it. Create a folder named
 | `Cloudflare R2 homelab-infisical-backups` | access key ID, secret access key, S3 endpoint URL, account ID | step 6 |
 | `Cloudflare R2 homelab-db-backups` | access key ID, secret access key | step 6d |
 | `Cloudflare DNS API token (cert-manager)` | the token | step 7 |
-| `Node sudo password` | the sudo password of the user `mdeleon` on the nodes | you know it |
+| `Node sudo password` | the sudo password of the node admin user (`ansible_user` in `metal/group_vars/all.yml`) on the nodes | you know it |
 | `Infisical admin` | email, password | [Set up Infisical](../build/02-infisical-setup.md) |
 | `Infisical dr-admin` | client ID, client secret | [Set up Infisical](../build/02-infisical-setup.md) |
 
