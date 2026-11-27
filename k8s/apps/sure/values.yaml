@@ -35,6 +35,12 @@ app-template:
             REDIS_URL: redis://sure-redis:6379/1
             OIDC_ISSUER: https://pocket.mdeleon.dev
             OIDC_REDIRECT_URI: https://sure.mdeleon.dev/auth/openid_connect/callback
+            # Chat is delegated to a Hermes profile; Hermes calls back via /mcp.
+            # EXTERNAL_ASSISTANT_URL (it contains the profile name) comes from Infisical.
+            ASSISTANT_TYPE: external
+            # Categorization and merchant detection still use an LLM provider (LiteLLM).
+            OPENAI_URI_BASE: http://litellm.litellm.svc:4000/v1
+            OPENAI_MODEL: qwen3.8:fast
           envFrom: &env-from
             - secretRef:
                 name: sure-secrets
