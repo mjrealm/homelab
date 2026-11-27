@@ -7,20 +7,21 @@ app-template:
     #     effect: NoSchedule
     #     operator: Equal
     #     value: "true"
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/controller
-                  operator: In
-                  values:
-                    - main
-                    - secondary
-            topologyKey: "kubernetes.io/hostname"
 
   controllers:
     main:
+      pod:
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/controller
+                      operator: In
+                      values:
+                        - main
+                        - secondary
+                topologyKey: "kubernetes.io/hostname"
       # strategy: RollingUpdate
       # rollingUpdate:
       #   unavailable: 0
@@ -42,6 +43,18 @@ app-template:
             startup:
               enabled: false
     secondary:
+      pod:
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/controller
+                      operator: In
+                      values:
+                        - main
+                        - secondary
+                topologyKey: "kubernetes.io/hostname"
       # strategy: RollingUpdate
       # rollingUpdate:
       #   unavailable: 0
