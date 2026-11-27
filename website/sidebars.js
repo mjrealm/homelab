@@ -22,10 +22,19 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: '3. Operate',
+      label: '3. Recover',
+      items: [
+        'recover/recover-the-cluster',
+      ],
+    },
+    {
+      type: 'category',
+      label: '4. Operate',
       items: [
         'operate/overview',
         'operate/upgrade',
+        'operate/add-app-secrets',
+        'operate/infisical-auth-errors',
       ],
     },
   ],

@@ -7,7 +7,7 @@ Run every command from the repo root, after [Workstation setup](../prepare/01-wo
 |---|---|---|
 | Brand-new cluster, nothing installed yet | `make bootstrap` | `k8s/bootstrap/bootstrap.yml` |
 | Live cluster: rotate the AWS key, re-apply the root chart, repair Argo CD | `make upgrade TAGS=<tag>` | `k8s/bootstrap/upgrade.yml` |
-| Cluster rebuilt after a disaster, restoring from backups | `make recover` | `k8s/bootstrap/recover.yml` (coming soon) |
+| Cluster rebuilt after a disaster, restoring from backups | `make recover` (coming soon) | See [Recover the cluster](../recover/01-recover-the-cluster.md) |
 
 Operating system and k3s changes (version, flags such as OIDC) are separate. They
 live in `metal/` and run with `make metal`. That playbook is safe to re-run.
