@@ -17,7 +17,7 @@ openssl rand -base64 32    # AUTH_SECRET
 openssl rand -hex 24       # REDIS_PASSWORD
 ```
 
-Paste each into Bitwarden right away (step 6). `ENCRYPTION_KEY` must never
+Paste each into Bitwarden right away (step 8). `ENCRYPTION_KEY` must never
 change once Infisical has data. Losing it loses every secret.
 
 ## 3. SSM parameters
@@ -136,19 +136,46 @@ Use a different token from Velero's, so revoking one never affects the other.
 It is the hex string in the S3 endpoint URL above. It also appears on the R2
 **Overview** page in the right sidebar under **Account Details**.
 
-## 7. Bitwarden
+## 7. Cloudflare DNS token
 
-Folder `homelab-infisical-bootstrap` with these items:
+cert-manager uses this token to prove domain ownership to Let's Encrypt. It is
+separate from the R2 tokens above.
 
-- AWS root login
-- IAM access key and secret
-- `ENCRYPTION_KEY`, `AUTH_SECRET`, `REDIS_PASSWORD`
-- R2 token and account ID
+1. In <https://dash.cloudflare.com>, click your profile icon (top right), then
+   **My Profile**, then **API Tokens**.
+2. Click **Create Token**. Next to the **Edit zone DNS** template, click **Use
+   template**.
+3. Under **Zone Resources**, set **Include**, **Specific zone**, and choose
+   `mdeleon.dev`.
+4. Click **Continue to summary**, then **Create Token**.
+5. Copy the token shown. It appears once. Save it in Bitwarden now (step 8).
+
+## 8. Bitwarden
+
+Everything a rebuild needs must be in Bitwarden before you start, so that a
+person who has never touched this cluster can find it. Create a folder named
+`homelab-infisical-bootstrap` and add these items. Use these exact names.
+
+| Item name | Fields to store | Created in |
+|---|---|---|
+| `AWS root login` | email, password | step 1 |
+| `AWS IAM homelab-infisical-bootstrap` | access key ID, secret access key | step 5 |
+| `Infisical ENCRYPTION_KEY` | the 32-character value | step 2 |
+| `Infisical AUTH_SECRET` | the value | step 2 |
+| `Infisical REDIS_PASSWORD` | the value | step 2 |
+| `Cloudflare R2 homelab-infisical-backups` | access key ID, secret access key, S3 endpoint URL, account ID | step 6 |
+| `Cloudflare DNS API token (cert-manager)` | the token | step 7 |
+| `Node sudo password` | the sudo password of the user `mdeleon` on the nodes | you know it |
+| `Infisical admin` | email, password | [Set up Infisical](../build/02-infisical-setup.md) |
+| `Infisical dr-admin` | client ID, client secret | [Set up Infisical](../build/02-infisical-setup.md) |
+
+If your vault uses other names, rename the items to match this table. The
+recovery guide refers to them by these names.
 
 Then check and clean up:
 
-1. Lock and unlock Bitwarden, open the `ENCRYPTION_KEY` item and reveal it. It
-   must be 32 hex characters.
+1. Lock and unlock Bitwarden, open the `Infisical ENCRYPTION_KEY` item and reveal
+   it. It must be 32 hex characters.
 2. In **Systems Manager**, **Parameter Store**, open
    `/homelab/infisical/ENCRYPTION_KEY` and click **Show** on the decrypted
    value. It must match Bitwarden exactly.
@@ -161,7 +188,11 @@ Then check and clean up:
 - [ ] S3 bucket with versioning and lifecycle rule
 - [ ] IAM user with only the one policy and an access key
 - [ ] R2 bucket and scoped token
-- [ ] Everything in Bitwarden
+- [ ] Cloudflare DNS token
+- [ ] Every item in the table above is in Bitwarden (the last two are added
+      later, in Infisical setup)
 
 Keep these non-secret names for the bootstrap: region, S3 bucket, R2 bucket,
 R2 account ID.
+
+Next: [Install the cluster](../build/01-cluster-install.md).

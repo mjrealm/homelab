@@ -58,6 +58,7 @@ Model names for hermes and hindsight are Infisical keys, so you can change them 
 
 ```bash
 make deps              # brew tools, pyenv Python venv (ansible, pre-commit), pre-commit hook
+make infisicalsecret  # create k8s/<stack>/<app>/templates/infisicalsecret.yaml from prompts (ARGS="-e stack=apps -e app=x" skips them)
 make kubeconfig        # fetch kubeconfig from the control plane and merge it into ~/.kube/config
 make metal             # provision nodes with Ansible (checks SSH access first)
 make bootstrap         # NEW clusters only: refuses on a live cluster (cert-manager, longhorn, Infisical stack, Argo CD, ...)
@@ -77,8 +78,8 @@ kubectl config current-context
 
 Secrets live in **Infisical**, not in Git. The Infisical operator syncs them into Kubernetes Secrets. There is no sops, age or helm-secrets any more, and no `secrets.yaml` or `secrets.dec.yaml` files.
 
-- One Infisical project and machine identity per stack (`apps`, `platform`, `system`, `ai`); see `docs/build/02-infisical-setup.md` for the project slugs and identity IDs. Keys go in environment `prod`, in a folder named after the app (`/<app>`).
-- Each app has `templates/infisicalsecret.yaml` (an `InfisicalSecret`) that creates a Secret named `<app>-secrets`. Copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`, and change the project, identity, service account (`infisical-<stack>`) and path.
+- One Infisical project and machine identity per stack (`apps`, `platform`, `system`, `ai`); see `docs/operate/03-add-app-secrets.md` for the project slugs and identity IDs. Keys go in environment `prod`, in a folder named after the app (`/<app>`).
+- Each app has `templates/infisicalsecret.yaml` (an `InfisicalSecret`) that creates a Secret named `<app>-secrets`. Create it with `make infisicalsecret` (it asks for the stack, app and keys, fills in the project, identity and service account, and prints the `values.yaml` lines), or copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`. Identity IDs live in `scripts/infisicalsecret/stacks.yml`.
 - Reference the Secret from `values.yaml` with `envFrom`, `secretKeyRef` or `existingSecret`. Add `secrets.infisical.com/auto-reload: "true"` to the controller's annotations so pods restart when a key changes.
 - To build a value from several keys (a database URL, for example), use `template.data` in the `InfisicalSecret`, with Go templates escaped for Helm.
 - Hostnames, ports and other non-secret settings stay in `values.yaml`. LAN IPs, personal emails, client IDs and client secrets go in Infisical.
@@ -92,6 +93,18 @@ Secrets live in **Infisical**, not in Git. The Infisical operator syncs them int
 - Use persistent volumes for app data, not temporary storage.
 - Expose apps with an Ingress (`ingressClassName: traefik`). Use a LoadBalancer only when an Ingress can't work, and call it out in the PR. Never use NodePort.
 - Define each hostname once with a YAML anchor (`&app` / `*app`) and reference it in the TLS hosts list. Keep the ingress in `values.yaml`.
+
+## Docs
+
+The runbooks in `docs/` are published with Docusaurus (`make docs` previews them). The reader is often in the middle of an outage, so:
+
+- Write for a reader who has never seen this cluster. Every step says where to do it (Terminal or which screen), gives the exact command or the exact buttons to click, says what result to expect, and says what to do if the result differs. No "configure X" or "see the docs" without the values.
+- Quote shell arguments that contain `[`, `*` or `?` (for example `-o 'custom-columns=...'`): macOS uses zsh, which rejects them unquoted.
+- Name Bitwarden items exactly as listed in `docs/prepare/02-cloud-prerequisites.md`.
+- One task or scenario per page. A page for a new cluster never also covers a restore; a restore never also covers adding an app.
+- A runbook is self-contained: every command and value needed is on the page. Link to other pages only for background, never for a step the reader must do to finish.
+- When a fact such as the identity ID table is needed on two pages, keep both copies and say so in a comment, rather than sending the reader away.
+- Put new pages in the section for what the reader is doing: `prepare/`, `build/`, `recover/` or `operate/`, and add them to `website/sidebars.js`.
 
 ## Validation
 

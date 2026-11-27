@@ -12,10 +12,13 @@ bootstrap:
 	make -C k8s
 upgrade:
 	make -C k8s upgrade TAGS=$(TAGS)
+# make infisicalsecret   (asks questions; skip them with ARGS="-e stack=apps -e app=convertx")
+infisicalsecret:
+	ansible-playbook scripts/infisicalsecret/playbook.yml $(ARGS)
 apply-root:
 	make -C k8s apply-root
 deps: venv
-	brew install kubectl helm gitleaks node k3d
+	brew install kubectl helm gitleaks node k3d argocd velero
 	brew install --cask orbstack
 	$(VENV)/bin/ansible-galaxy collection install kubernetes.core community.general
 venv:
