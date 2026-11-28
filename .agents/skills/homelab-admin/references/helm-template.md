@@ -24,8 +24,16 @@
 - The key corresponds to the name defined in `Chart.yaml` dependencies section.
 
 ### Secrets
-- Secrets are not stored in the chart. `templates/infisicalsecret.yaml` is an `InfisicalSecret` that creates the Secret `<app>-secrets` from Infisical; see "Secrets" in `AGENTS.md`.
-- `values.yaml` references that Secret (`envFrom`, `secretKeyRef` or `existingSecret`). For `bjw-s` app-template, `env` and `envFrom` go under `controllers.<name>.containers.<container>`.
+Secrets live in Infisical, never in Git, the chart or `values.yaml`. There is no sops, age, helm-secrets, `secrets.yaml` or `secrets.dec.yaml`. The full rules are in "Secrets" in `AGENTS.md`; the procedure is:
+
+1. **Create the `InfisicalSecret`.** Run `make infisicalsecret` (add `ARGS="-e stack=apps -e app=<app>"` to skip the questions). It writes `templates/infisicalsecret.yaml`, fills in the project, machine identity and service account for the stack, and prints the `values.yaml` lines. Or copy a recent one, for example `k8s/platform/lldap/templates/infisicalsecret.yaml`. Identity IDs are in `scripts/infisicalsecret/stacks.yml`.
+2. **Know where the keys go.** One Infisical project per stack (`apps`, `platform`, `system`, `ai`), environment `prod`, folder `/<app>`. The operator creates the Secret `<app>-secrets` in the app's namespace.
+3. **Reference the Secret** from `values.yaml` with `envFrom`, `secretKeyRef` or `existingSecret`. For `bjw-s` app-template, `env` and `envFrom` go under `controllers.<name>.containers.<container>`.
+4. **Reload on change.** Add `secrets.infisical.com/auto-reload: "true"` to the controller's `annotations`, so the pod restarts when a key changes.
+5. **Compose values from several keys** (a database URL, for example) with `template.data` in the `InfisicalSecret`. Escape the Go template for Helm: ``{{ `{{ .KEY.Value }}` }}``. See `k8s/apps/docuseal/templates/infisicalsecret.yaml`.
+6. **Only secrets go in Infisical.** Hostnames, ports and other non-secret settings stay in `values.yaml`. LAN IPs, personal emails, client IDs, client secrets and R2 keys go in Infisical.
+7. **You can't add keys yourself, and you never ask the user to paste a secret into the chat.** List every key in the PR as project, path and key name, and say they must exist before the merge, or the pod waits in `CreateContainerConfigError`.
+8. **Never bypass the secret scan.** gitleaks runs as a pre-commit hook and in CI. Don't use `--no-verify`.
 
 ### templates/
 - This directory contains any custom manifests for the chart.

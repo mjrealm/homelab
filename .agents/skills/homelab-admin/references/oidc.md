@@ -15,10 +15,10 @@ Configuring OIDC requires credentials (Client ID and Client Secret) from Pocket 
 1.  **Prompt User for Pocket ID Registration**:
     *   You cannot generate the credentials yourself. You MUST stop and notify the user to log in to their Pocket ID instance and create a new **Client**.
     *   Provide the user with the exact **Redirect URI** they need to use. (Consult the specific app's documentation, usually `https://<app-url>/login/oidc/callback` or `https://<app-url>/oauth2/callback`).
-    *   Ask the user to provide you with the resulting **Client ID** and **Client Secret**.
+    *   Tell the user to copy the resulting **Client ID** and **Client Secret** straight into Infisical (next step). Don't ask them to paste either into the chat.
     *   Consult Pocket ID's documentation for examples. https://pocket-id.org/docs/client-examples
 2.  **Credential Configuration and Deployment**:
-    *   Once the user provides the credentials, tell the user to add the **Client ID** and **Client Secret** to Infisical (project of the app's stack, path `/<app>`), and reference them from the app's `InfisicalSecret` Secret.
+    *   Tell the user to add the **Client ID** and **Client Secret** to Infisical (project of the app's stack, environment `prod`, path `/<app>`) under key names you choose and list in the PR, and reference them from the app's `<app>-secrets` Secret (see "Secrets" in `helm-template.md`). They must exist before the merge.
     *   Update `values.yaml` with the non-sensitive fields (the `Discovery/Issuer URL`).
     *   List the Infisical keys in the PR, as described in "Secrets" in `AGENTS.md`.
 
