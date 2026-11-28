@@ -33,7 +33,7 @@ Read the relevant file before writing manifests:
 5. **Settle authentication.** Search the app's documentation to find out whether it supports OIDC (and whether that is in the free tier). Then ask the user; don't choose for them, and don't add TinyAuth by default:
    - **OIDC supported:** offer OIDC through Pocket ID (follow `references/oidc.md`), or no auth.
    - **OIDC not supported:** offer TinyAuth forward auth (see `references/ingress.md`), or no auth.
-6. **Handle secrets.** Add an `InfisicalSecret` and reference the Secret, as described in "Secrets" in `AGENTS.md`. List the keys the user must add in Infisical in the PR, including `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` when the app has a CNPG backup.
+6. **Handle secrets.** Follow "Secrets" in `AGENTS.md` and the Secrets section of `references/helm-template.md`: create the `InfisicalSecret` with `make infisicalsecret`, reference the Secret, and add the `auto-reload` annotation. Never ask the user to paste a secret into the chat. List the keys the user must add in Infisical in the PR, including `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` when the app has a CNPG backup.
 7. **Back up the database.** If the app has a database, add the CNPG backup with the default weekly schedule and 3 day retention, run `make check-backups`, do the R2 budget check, and update the backup docs and diagrams, all as in `references/database-backup.md`.
 8. **Validate, clean up, commit and open a PR** as described in `AGENTS.md`. Remove `charts/`, `Chart.lock` and any other files you created for testing, even if gitignored.
 
@@ -47,16 +47,23 @@ Read the relevant file before writing manifests:
 ### Update configuration
 
 1. Compare the change against the chart's default `values.yaml` and keep the same structure.
-2. Put any new sensitive values in Infisical, and list the new keys in the PR.
+2. Put any new sensitive values in Infisical (see `references/helm-template.md`), and list the new keys in the PR. They must exist before the merge.
 3. If you change a database backup (schedule, retention, a new database), follow `references/database-backup.md`: `make check-backups`, the R2 budget numbers in the PR, and the docs and diagrams.
 4. Validate, clean up, commit and open a PR as described in `AGENTS.md`.
+
+### Debug an application
+
+1. Confirm the context first: `kubectl config current-context` must print `k3s-ansible`.
+2. Use read-only commands only: `kubectl get`, `describe` and `logs`, and `kubectl get application -n argocd` for the Argo CD sync state. For a CNPG database, add `kubectl get cluster.postgresql.cnpg.io -n <app>`.
+3. Common causes: `CreateContainerConfigError` means a key is missing from the app's Infisical folder; an `OutOfSync` or `Degraded` Application means a chart or values error you can reproduce with `helm template`.
+4. Fix the cause in Git and open a PR. Don't run `kubectl apply`, `kubectl delete` or `helm uninstall` against Argo CD-managed resources; self-heal reverts them.
 
 ## Success criteria
 
 - The app is deployed by Argo CD from Git with no manual cluster changes.
 - Every exposed app appears on the Homepage dashboard with a working icon.
-- No unencrypted secret is ever committed.
-- Every database has a backup that fits the 10 GB R2 budget, and the backup docs and diagrams match the config.
+- No secret value is ever committed. Secrets live in Infisical, and the PR lists every key the user must add.
+- Every database you add or change follows the backup defaults, the total R2 usage stays under the 10 GB budget, and the backup docs and diagrams match the config.
 
 ## Reporting
 
