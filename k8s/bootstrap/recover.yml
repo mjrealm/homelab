@@ -1,0 +1,45 @@
+---
+# RECOVER: rebuild a cluster after a disaster. Run `make recover`.
+# Stage 1 of the recovery guide: the platform, Infisical restored from its backup, and
+# only the `system` stack. The next stages are `make recover-ca` and
+# `make recover-stage STAGE=platform|all`.
+- name: Recover a rebuilt cluster
+  hosts: localhost
+  gather_facts: false
+  vars:
+    guard_title: RECOVER, rebuilt cluster only
+    guard_lines:
+      - Rebuilds the platform on a new cluster and restores Infisical from its backup in S3.
+      - Installs cert-manager, Longhorn, External Secrets, CNPG, Infisical (from the backup) and Argo CD.
+      - Starts only the system stack, so apps do not start before their data is restored.
+      - Do not run this on a live cluster. Use `make upgrade` instead.
+    guard_used_namespaces:
+      - argocd
+      - infisical
+      - cert-manager
+      - longhorn-system
+    guard_hint: Use `make upgrade` to change a live cluster.
+    guard_require_context_prefix: "{{ 'k3d-' if (bootstrap_profile | default('production')) == 'test' else '' }}"
+  roles:
+    - guard
+    - { role: recover-check, when: "(bootstrap_profile | default('production')) == 'production'" }
+    - aws-prompts
+    - prometheus-crds
+    - cert-manager
+    - { role: longhorn, when: "(bootstrap_profile | default('production')) == 'production'" }
+    - aws-secrets
+    - external-secrets
+    - cnpg
+    - barman-cloud
+    - infisical
+    - infisical-operator
+    - { role: argocd, when: "(bootstrap_profile | default('production')) == 'production'" }
+    - { role: root, root_stacks: [system], when: "(bootstrap_profile | default('production')) == 'production'" }
+  post_tasks:
+    - name: Show the next steps
+      ansible.builtin.debug:
+        msg:
+          - "Stage 1 is done. Next:"
+          - "1. Wait until Infisical answers, then run: make recover-ca"
+          - "2. Check the platform (recovery guide, step 5), then restore the volumes (step 6)."
+          - "3. Add the stacks: make recover-stage STAGE=platform, then make recover-stage STAGE=all"

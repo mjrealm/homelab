@@ -15,6 +15,20 @@ upgrade:
 # make infisicalsecret   (asks questions; skip them with ARGS="-e stack=apps -e app=convertx")
 infisicalsecret:
 	ansible-playbook scripts/infisicalsecret/playbook.yml $(ARGS)
+# New Infisical: create the admin, projects and identities through its API.
+infisical-setup:
+	python3 scripts/infisical-admin.py setup $(ARGS)
+# After a rebuild: restore (stage 1), fix the CA, then add the stacks.
+recover:
+	make -C k8s recover
+recover-ca:
+	python3 scripts/infisical-admin.py fix-ca $(ARGS)
+# make recover-stage STAGE=platform   or   STAGE=all
+STAGE_ARGS_platform = -e '{"root_stacks":["system","platform"]}'
+STAGE_ARGS_all =
+recover-stage:
+	@test "$(STAGE)" = platform -o "$(STAGE)" = all || { echo "Use: make recover-stage STAGE=platform  or  STAGE=all"; exit 1; }
+	cd k8s && ansible-playbook bootstrap/upgrade.yml --tags root $(STAGE_ARGS_$(STAGE))
 apply-root:
 	make -C k8s apply-root
 # Disposable test cluster (needs Docker via OrbStack). Never touches the real cluster:
@@ -33,6 +47,10 @@ test-bootstrap:
 	@test -f .test/kubeconfig || { echo "No test cluster. Run: make test-up"; exit 1; }
 	KUBECONFIG=$(CURDIR)/.test/kubeconfig K8S_AUTH_KUBECONFIG=$(CURDIR)/.test/kubeconfig \
 		ansible-playbook k8s/bootstrap/bootstrap.yml -e @test/vars.yml -e @.test/keys.yml $(ARGS)
+test-recover:
+	@test -f .test/kubeconfig || { echo "No test cluster. Run: make test-up"; exit 1; }
+	KUBECONFIG=$(CURDIR)/.test/kubeconfig K8S_AUTH_KUBECONFIG=$(CURDIR)/.test/kubeconfig \
+		ansible-playbook k8s/bootstrap/recover.yml -e @test/vars.yml -e @.test/keys.yml -e @test/recovery.yml $(ARGS)
 test-dr:
 	test/dr.sh run
 deps: venv

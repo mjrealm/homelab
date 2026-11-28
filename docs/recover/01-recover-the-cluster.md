@@ -9,12 +9,10 @@ Do not use it on a cluster that still works. To change a running cluster, use
 [Which playbook do I run?](../operate/01-overview.md).
 
 :::danger Read this first: what is tested
-The automated `make recover` playbook does not exist yet.
-
-- **Tested:** steps 3 and 4 (restore Infisical from its backup, then point it at the
-  new cluster) ran end to end on a throwaway cluster with `make test-dr`. That
-  test found and fixed a restore bug. It does not cover real nodes, Longhorn, the
-  NAS, Velero or Argo CD.
+- **Tested:** steps 3 and 4 (`make recover` restores Infisical from its backup, then
+  `make recover-ca` points it at the new cluster) run end to end on a throwaway
+  cluster with `make test-dr`. That test does not cover real nodes, Longhorn, the NAS,
+  Velero or Argo CD.
 - **Untested:** steps 5, 6 and 7 are written from the repository's configuration.
   Read each step's expected result, and stop when reality differs from the page.
 
@@ -32,7 +30,7 @@ Collect these before you start. All are in Bitwarden, folder
 | Cloudflare DNS token | `Cloudflare DNS API token (cert-manager)` |
 | AWS access key ID and secret | `AWS IAM homelab-infisical-bootstrap` |
 | Infisical admin login | `Infisical admin` |
-| Infisical `dr-admin` client ID and secret (command-line fix in step 4) | `Infisical dr-admin` |
+| Infisical `dr-admin` client ID and secret (`make recover-ca`, step 4) | `Infisical dr-admin` |
 
 You also need:
 
@@ -51,11 +49,11 @@ secret (restored with Infisical's database from the S3 backup).
 |---|---|---|---|
 | 1 | Get the repo ready | 2 min | works |
 | 2 | Rebuild the nodes and k3s | 15 min | works |
-| 3 | Restore Infisical and the platform | 45 min | restore tested on a throwaway cluster; Git and Argo CD part untested |
+| 3 | Restore Infisical and the platform | 45 min | tested on a throwaway cluster; not with Argo CD |
 | 4 | Point Infisical at the new cluster | 20 min | tested on a throwaway cluster |
 | 5 | Check the platform | 10 min | untested |
 | 6 | Restore the volumes | 1 to 3 hours | untested |
-| 7 | Bring the apps up | 30 min | untested manual route |
+| 7 | Bring the apps up | 30 min | untested |
 | 8 | Regenerate the Argo CD MCP token | 10 min | web UI steps written, not yet run on a rebuilt cluster |
 | 9 | Final checks | 5 min | works |
 
@@ -99,16 +97,10 @@ secret (restored with Infisical's database from the S3 backup).
 
 ## 3. Restore Infisical and the platform
 
-:::caution Partly tested
-`make recover` will do this step in one command. Until it exists, use this route.
-The restore itself (the chart settings below and the new cluster reading the
-backup) is tested on a throwaway cluster. Committing the settings to Git and
-letting Argo CD manage the chart afterwards is not.
-:::
-
-Infisical's database is restored from the daily backup in S3. Two files in Git
-tell the cluster to restore instead of starting empty, so they must be changed and
-merged **before** you bootstrap. Otherwise Argo CD would later undo the restore.
+Infisical's database is restored from the daily backup in S3. Argo CD manages the
+Infisical chart from Git, so the restore settings must be merged to `main` **before**
+you run `make recover`. Otherwise Argo CD would later undo the restore. `make
+recover` checks this and stops if `main` does not have them.
 
 1. Create a branch:
 
@@ -140,26 +132,19 @@ merged **before** you bootstrap. Otherwise Argo CD would later undo the restore.
    git pull
    ```
 
-4. Start with only the `system` stack, so apps do not start before their data is
-   restored. Open `k8s/bootstrap/charts/root/values.yaml` and, under `stacks:`,
-   keep only this one entry (delete the other three lines):
-
-   ```yaml
-   stacks:
-     - name: system
-   ```
-
-   **Do not commit this edit.** It is only for your machine.
-
-5. Run:
+4. Run:
 
    ```bash
-   make bootstrap
+   make recover
    ```
 
-6. Check the `context:` and `server:` it prints, then type `y`. Enter the AWS values
-   from Bitwarden when asked: the key ID, the secret, and press Enter for
-   `us-east-2`. Wait about 30 minutes.
+5. It prints a box starting `=== RECOVER, rebuilt cluster only ===` and the
+   `context:` and `server:` of the cluster. Check them, then type `y`. It stops
+   before any prompt if the cluster already has Argo CD, Infisical or cert-manager.
+6. Enter the AWS values from Bitwarden when asked: the key ID, the secret, and press
+   Enter for `us-east-2`. Wait about 30 minutes. It installs the platform, restores
+   Infisical, installs Argo CD, and starts **only the `system` stack**, so apps do not
+   start before their data is restored. It ends with `PLAY RECAP` and `failed=0`.
 7. Check that Infisical restored from the backup, not from scratch:
 
    ```bash
@@ -180,10 +165,9 @@ merged **before** you bootstrap. Otherwise Argo CD would later undo the restore.
    `k8s/bootstrap/charts/infisical/templates/database.yaml` must name
    `database: infisical`.
 
-   Then open
-   <https://infisical.mdeleon.dev> (it works once Argo CD has installed MetalLB,
-   about five minutes after the playbook ends) and log in with `Infisical admin`.
-   Expect to see one project for each stack, with its secrets.
+   Then open <https://infisical.mdeleon.dev> (it works once Argo CD has installed
+   MetalLB, about five minutes after the playbook ends) and log in with
+   `Infisical admin`. Expect to see one project for each stack, with its secrets.
 
    If the page asks you to create a new admin account, the restore did not
    happen and Infisical started empty. **Stop here. Do not create an account.**
@@ -200,18 +184,54 @@ A rebuilt cluster has a new certificate authority. Infisical must learn it, or
 every `InfisicalSecret` fails with an authentication error. The database already
 holds the admin, projects, identities and secrets.
 
-### In the web UI
+1. In the Terminal, run:
+
+   ```bash
+   make recover-ca
+   ```
+
+2. It prints the `kubectl context` and `API server`. Check them, then type `y`. When
+   asked, enter the `dr-admin client ID`, then the `dr-admin client secret` (hidden),
+   from Bitwarden item `Infisical dr-admin`.
+3. It waits for <https://infisical.mdeleon.dev> to answer, up to 15 minutes (it needs
+   MetalLB and Traefik from the `system` stack). Then it prints one line for each
+   stack and ends with `CA FIXED`:
+
+   ```text
+   updated apps (<identity id>)
+   updated platform (<identity id>)
+   updated system (<identity id>)
+   updated ai (<identity id>)
+   ```
+
+   A `FAILED` line names the stack and the reason. A `login failed` line means the
+   client ID or secret is wrong.
+4. Check that secrets sync. Wait two minutes, then run:
+
+   ```bash
+   kubectl get infisicalsecret -A -o 'custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,READY:.status.conditions[0].status,REASON:.status.conditions[0].reason'
+   ```
+
+   Expect `READY` `True` and `REASON` `OK` for every row of the `system` stack
+   (for example `velero`). Rows of other stacks do not exist yet.
+
+If a row shows an authentication error after five minutes, use
+[Fix Infisical authentication errors](../operate/04-infisical-auth-errors.md).
+
+### By hand in the browser (fallback)
+
+Use this if `make recover-ca` cannot run. Log in to <https://infisical.mdeleon.dev>
+with `Infisical admin`, then:
 
 1. In the Terminal, print the new CA and copy the whole output, from
    `-----BEGIN CERTIFICATE-----` to `-----END CERTIFICATE-----`:
 
    ```bash
-   kubectl get cm kube-root-ca.crt -n default -o jsonpath='{.data.ca\.crt}'
+   kubectl get cm kube-root-ca.crt -n default -o 'jsonpath={.data.ca\.crt}'
    ```
 
-2. In the browser, logged in to <https://infisical.mdeleon.dev>, do this for each
-   of the stack identities (`infisical-apps`, `infisical-platform`,
-   `infisical-system` and `infisical-ai`):
+2. For each stack identity (`infisical-apps`, `infisical-platform`,
+   `infisical-system`, `infisical-ai`):
 
    1. Click **Organization** (the building icon at the top of the sidebar), then
       **Access Control**, then **Machine Identities**.
@@ -219,59 +239,6 @@ holds the admin, projects, identities and secrets.
    3. Click **Authentication**, then the pencil icon next to **Kubernetes Auth**.
    4. Delete the text in **CA Certificate** and paste the new CA.
    5. Click **Save**. Leave every other field as it is.
-
-### With the command line (tested)
-
-This does the same as the web UI steps, for every stack at once. It uses the
-`dr-admin` login, so it needs <https://infisical.mdeleon.dev> to load (MetalLB and
-Traefik from the `system` stack).
-
-1. Log in. Enter the client ID, press Enter, enter the secret, press Enter:
-
-   ```bash
-   read -r "CID?dr-admin client ID: "
-   read -rs "CSEC?dr-admin client secret: "; echo
-   TOKEN=$(curl -s -X POST https://infisical.mdeleon.dev/api/v1/auth/universal-auth/login \
-     -H 'Content-Type: application/json' \
-     -d "{\"clientId\":\"$CID\",\"clientSecret\":\"$CSEC\"}" | jq -r '.accessToken // empty')
-   test -n "$TOKEN" && echo "logged in" || echo "login failed"
-   ```
-
-   Expect `logged in`. `login failed` means the page did not load, or the client
-   ID or secret is wrong (Bitwarden item `Infisical dr-admin`).
-
-2. Replace the CA on each stack identity (apps, platform, system, ai). The IDs
-   stay the same after a restore:
-
-   ```bash
-   CA=$(kubectl get cm kube-root-ca.crt -n default -o 'jsonpath={.data.ca\.crt}')
-   for ID in fefa3b53-6b57-4b79-a20a-e7a9db8c00bf e2ccd552-d832-493d-8ca4-205f4e8c3f08 b80ad456-f091-4fdc-9477-518d2b3852e8 e884d4d2-4998-4abe-b7fa-813b2b410f69; do
-     curl -s -X PATCH "https://infisical.mdeleon.dev/api/v1/auth/kubernetes-auth/identities/$ID" \
-       -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
-       -d "$(jq -n --arg ca "$CA" '{caCert:$ca}')" \
-       | jq -r --arg id "$ID" 'if .identityKubernetesAuth then "updated " + $id else "FAILED " + $id + ": " + (.message // "unknown") end'
-   done
-   unset CID CSEC TOKEN
-   ```
-
-   Expect `updated` and an ID for each of the four lines. A `FAILED` line names the
-   identity and the reason.
-
-   <!-- Keep the IDs in sync with docs/operate/03-add-app-secrets.md -->
-
-### Check that secrets sync
-
-Wait two minutes, then run:
-
-```bash
-kubectl get infisicalsecret -A -o 'custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,READY:.status.conditions[0].status,REASON:.status.conditions[0].reason'
-```
-
-Expect `READY` `True` and `REASON` `OK` for every row of the `system` stack
-(for example `velero`). Rows of other stacks do not exist yet.
-
-If a row shows an authentication error after five minutes, use
-[Fix Infisical authentication errors](../operate/04-infisical-auth-errors.md).
 
 ## 5. Check the platform
 
@@ -373,37 +340,28 @@ reachable first.
 
 ## 7. Bring the apps up
 
-Apps start when Argo CD sees their stack. Add the stacks one at a time, and wait
-for each to become healthy before adding the next. Platform comes first because
-apps such as MCPHub read Pocket ID's configuration when they start.
+Apps start when Argo CD sees their stack. Add the stacks one at a time, and wait for
+each to become healthy before adding the next. Platform comes first because apps
+such as MCPHub read Pocket ID's configuration when they start.
 
-1. Open `k8s/bootstrap/charts/root/values.yaml` and set `stacks:` to:
-
-   ```yaml
-   stacks:
-     - name: system
-     - name: platform
-   ```
-
-2. Apply it and wait:
+1. Add the `platform` stack:
 
    ```bash
-   make upgrade TAGS=root
+   make recover-stage STAGE=platform
    kubectl -n argocd get app
    ```
 
    Run the `get app` command every few minutes. Continue when every app is
    `Synced` and `Healthy`. This can take 15 minutes.
 
-3. Set `stacks:` back to the full list, the same as in Git, by undoing your local edit:
+2. Add every other stack:
 
    ```bash
-   git checkout k8s/bootstrap/charts/root/values.yaml
-   make upgrade TAGS=root
+   make recover-stage STAGE=all
    kubectl -n argocd get app
    ```
 
-4. Wait until every app is `Synced` and `Healthy`. Some apps stay `Progressing`
+3. Wait until every app is `Synced` and `Healthy`. Some apps stay `Progressing`
    until their keys exist in Infisical. Check with:
 
    ```bash

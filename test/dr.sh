@@ -22,7 +22,12 @@ port=18081
 base="http://127.0.0.1:$port"
 ns_app=harness
 
+export KUBECONFIG="$kc"
 k() { kubectl --kubeconfig "$kc" "$@"; }
+case "$(k config current-context 2>/dev/null || true)" in
+k3d-*) ;;
+*) [ "${1:-}" = run ] || { echo "FAIL: .test/kubeconfig is not a k3d test cluster" >&2; exit 1; } ;;
+esac
 say() { printf '\n== %s\n' "$*"; }
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 ok() { printf 'ok: %s\n' "$*"; }
@@ -111,51 +116,34 @@ wait_value() { # wait_value <expected> <seconds>
 }
 
 cmd_seed() {
-	say "Seed Infisical through its API"
-	pf_start
-	rm -f "$db"
-	local pw r org admin
+	say "Set up Infisical with scripts/infisical-admin.py"
+	rm -f "$db" "$state/dr-admin.json"
+	local pw proj ident
 	pw=$(openssl rand -hex 12)
-	r=$(curl -s -X POST "$base/api/v1/admin/bootstrap" -H 'Content-Type: application/json' \
-		-d "{\"email\":\"admin@example.test\",\"password\":\"$pw\",\"organization\":\"homelab-test\"}")
-	org=$(echo "$r" | jq -r '.organization.id // empty')
-	admin=$(echo "$r" | jq -r '.identity.id // empty')
-	TOKEN=$(echo "$r" | jq -r '.identity.credentials.token // empty')
-	[ -n "$org" ] && [ -n "$TOKEN" ] || fail "bootstrap failed: $(echo "$r" | jq -c .)"
-	put adminEmail admin@example.test; put adminPassword "$pw"; put orgId "$org"; put adminIdentityId "$admin"
-	ok "instance bootstrapped (admin and organization)"
+	if ! python3 "$root/scripts/infisical-admin.py" setup --port-forward --yes \
+		--email admin@example.test --password "$pw" --org homelab-test \
+		--no-repo-update --credentials-file "$state/dr-admin.json" >"$state/setup.log" 2>&1; then
+		cat "$state/setup.log" >&2
+		fail "scripts/infisical-admin.py setup failed"
+	fi
+	grep -E "^ok:|SETUP DONE" "$state/setup.log"
+	put adminEmail admin@example.test; put adminPassword "$pw"
+	put uaClientId "$(jq -r .clientId "$state/dr-admin.json")"
+	put uaClientSecret "$(jq -r .clientSecret "$state/dr-admin.json")"
+	pf_start
+	login || fail "dr-admin login failed after setup"
+	ok "dr-admin Universal Auth login works"
 
-	# A Universal Auth login for the admin identity, like the dr-admin identity in the docs.
-	api POST "/api/v1/auth/universal-auth/identities/$admin" \
-		'{"accessTokenTTL":3600,"accessTokenMaxTTL":3600,"accessTokenNumUsesLimit":0,"clientSecretTrustedIps":[{"ipAddress":"0.0.0.0/0"}],"accessTokenTrustedIps":[{"ipAddress":"0.0.0.0/0"}]}' >"$state/ua.json"
-	local cid csec
-	cid=$(jq -r '.identityUniversalAuth.clientId // empty' "$state/ua.json")
-	[ -n "$cid" ] || fail "universal auth failed: $(jq -c . "$state/ua.json")"
-	csec=$(api POST "/api/v1/auth/universal-auth/identities/$admin/client-secrets" '{"description":"dr-test","ttl":0,"numUsesLimit":0}' | jq -r '.clientSecret // empty')
-	[ -n "$csec" ] || fail "client secret failed"
-	put uaClientId "$cid"; put uaClientSecret "$csec"
-	login || fail "universal auth login failed"
-	ok "universal auth login works"
-
-	local proj
-	proj=$(api POST /api/v2/workspace '{"projectName":"platform","slug":"platform","shouldCreateDefaultEnvs":true}' | jq -r '.project.id // empty')
-	[ -n "$proj" ] || fail "project create failed"
+	proj=$(api GET /api/v1/projects | jq -r '.projects[] | select(.slug=="platform") | .id')
+	[ -n "$proj" ] || fail "project platform was not created"
 	put projectId "$proj"
+	ident=$(api POST /api/v1/identities/search '{"search":{"name":{"$eq":"infisical-platform"}},"limit":5,"offset":0}' | jq -r '.identities[0].identityId // empty')
+	[ -n "$ident" ] || fail "identity infisical-platform was not created"
+	put k8sIdentityId "$ident"
 	api POST /api/v2/folders "{\"projectId\":\"$proj\",\"environment\":\"prod\",\"name\":\"demo\",\"path\":\"/\"}" >/dev/null
 	api POST /api/v3/secrets/raw/DEMO_KEY "{\"workspaceId\":\"$proj\",\"environment\":\"prod\",\"secretPath\":\"/demo\",\"secretValue\":\"before-disaster-1234\"}" >/dev/null
 	put expected before-disaster-1234
-	ok "project platform with secret /demo/DEMO_KEY"
-
-	local id
-	id=$(api POST /api/v1/identities "{\"name\":\"infisical-platform\",\"organizationId\":\"$org\",\"role\":\"member\"}" | jq -r '.identity.id // empty')
-	[ -n "$id" ] || fail "identity create failed"
-	put k8sIdentityId "$id"
-	local ca body
-	ca=$(cluster_ca)
-	body=$(jq -n --arg ca "$ca" '{kubernetesHost:"https://kubernetes.default.svc",allowedNames:"infisical-platform",allowedNamespaces:"infisical-operator",caCert:$ca,tokenReviewMode:"api"}')
-	api POST "/api/v1/auth/kubernetes-auth/identities/$id" "$body" | jq -e '.identityKubernetesAuth' >/dev/null || fail "kubernetes auth failed"
-	api POST "/api/v2/workspace/$proj/identity-memberships/$id" '{"role":"viewer"}' >/dev/null
-	ok "machine identity infisical-platform with Kubernetes Auth, Viewer on the project"
+	ok "secret /demo/DEMO_KEY in project platform"
 
 	say "Prove the operator syncs the secret on this cluster"
 	k create namespace "$ns_app" --dry-run=client -o yaml | k apply -f - >/dev/null
@@ -215,11 +203,14 @@ cmd_verify() {
 		k -n "$ns_app" get infisicalsecret harness -o 'jsonpath={.status.conditions[0].message}' | cut -c1-200; echo
 	fi
 
-	# 3. The documented fix: point the identity at the new CA.
-	local body
-	body=$(jq -n --arg ca "$(cluster_ca)" '{caCert:$ca}')
-	api PATCH "/api/v1/auth/kubernetes-auth/identities/$(get k8sIdentityId)" "$body" | jq -e '.identityKubernetesAuth' >/dev/null || fail "CA update failed"
-	ok "CA certificate replaced through the API"
+	# 3. The documented fix: scripts/infisical-admin.py fix-ca.
+	if INFISICAL_CLIENT_ID="$(get uaClientId)" INFISICAL_CLIENT_SECRET="$(get uaClientSecret)" \
+		python3 "$root/scripts/infisical-admin.py" fix-ca --port-forward --yes >"$state/fixca.log" 2>&1; then
+		ok "fix-ca: $(grep -c '^updated' "$state/fixca.log") identities pointed at the new CA"
+	else
+		cat "$state/fixca.log" >&2
+		fail "scripts/infisical-admin.py fix-ca failed"
+	fi
 	wait_value "$wanted" 180 || { k -n "$ns_app" describe infisicalsecret harness | tail -15; fail "secret did not sync after the CA fix"; }
 	ok "operator synced DEMO_KEY after the CA fix"
 	say "DR TEST PASSED"
@@ -233,7 +224,7 @@ cmd_run() {
 	pf_stop
 	"$root/test/cluster.sh" cluster-down
 	"$root/test/cluster.sh" cluster-up
-	( cd "$root" && make test-bootstrap ARGS="-e @test/recovery.yml" )
+	( cd "$root" && make test-recover )
 	cmd_verify
 }
 

@@ -109,14 +109,17 @@ This proves that Infisical comes back after the cluster is deleted. It takes abo
 2. It does these steps, and prints `ok:` after each one:
 
    1. Creates a test cluster and runs the bootstrap.
-   2. Through Infisical's API, creates the admin, a project, a secret and a machine
-      identity with Kubernetes Auth, then checks that the operator syncs the secret.
+   2. Runs `scripts/infisical-admin.py setup` (the code behind `make infisical-setup`)
+      to create the admin, the `dr-admin` identity, the projects and the stack
+      identities, adds a secret, then checks that the operator syncs it.
    3. Takes a database backup to the S3 server.
    4. Deletes the cluster and creates a new one.
-   5. Runs the bootstrap again with the restore settings.
+   5. Builds the new cluster with `recover.yml` (the playbook behind `make recover`),
+      using the restore settings.
    6. Checks that the admin login with the old client ID and secret works, that the
       secret value came back, that the operator cannot authenticate with the old
-      CA, and that replacing the CA through the API fixes it.
+      CA, and that `scripts/infisical-admin.py fix-ca` (the code behind
+      `make recover-ca`) fixes it.
 
 3. Expect the last line `DR TEST PASSED`. A line starting `FAIL:` names the step
    that broke.
