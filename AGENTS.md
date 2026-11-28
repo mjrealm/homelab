@@ -97,6 +97,16 @@ Secrets live in **Infisical**, not in Git. The Infisical operator syncs them int
 - Expose apps with an Ingress (`ingressClassName: traefik`). Use a LoadBalancer only when an Ingress can't work, and call it out in the PR. Never use NodePort.
 - Define each hostname once with a YAML anchor (`&app` / `*app`) and reference it in the TLS hosts list. Keep the ingress in `values.yaml`.
 
+## R2 storage budget
+
+All Cloudflare R2 usage together must stay under **10 GB**, the free tier. That covers every bucket: Velero's `homelab-backups` and the CloudNativePG database backups in `homelab-db-backups` (one folder per app). The AWS S3 buckets are not counted.
+
+- Barman base backups are full copies, not increments. Barman keeps the newest base backup older than the retention window, because a restore starts from it. So a database holds about `base size × (retention ÷ base backup interval + 2)` copies at worst, plus its compressed WAL. Daily base backups with 14 days of retention keep about 16 copies; weekly with 3 days keeps 2 at most.
+- Any change that adds R2 usage needs a size estimate in the PR description and the new total against the 10 GB budget. This covers a new database backup, a longer retention, a shorter interval, a new Velero schedule or namespace that writes to R2, and a migration to CloudNativePG.
+- Take the current sizes from the R2 dashboard (bucket and folder sizes), not from memory. If the total after the change is above 8 GB, or the sizes are unknown, don't add the usage. Lower the base backup frequency or retention first, and ask the user.
+- Default for a database backup: a weekly base backup (a Sunday, `backup.r2.schedule`) with `retention: 3d`. Use daily base backups or a longer retention only for small databases whose data matters (for example sure), and say so in the PR with the size estimate.
+- Keep `retention` and `schedule` for each database in `backup.r2` of its `values.yaml`, and run `make check-backups` after changing a schedule.
+
 ## Docs
 
 The runbooks in `docs/` are published with Docusaurus (`make docs` previews them). The reader is often in the middle of an outage, so:
