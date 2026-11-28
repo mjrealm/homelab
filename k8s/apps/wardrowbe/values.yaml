@@ -259,5 +259,5 @@ backup:
   r2:
     bucket: homelab-db-backups
     endpointURL: https://683d43af18913fe58dc1c66b52e4a027.r2.cloudflarestorage.com
-    retention: 14d
-    schedule: "0 0 4 * * *"  # UTC, outside the Velero window. Run: make check-backups
+    retention: 3d
+    schedule: "0 0 4 * * 0"  # UTC, Sundays, outside the Velero window. Run: make check-backups
