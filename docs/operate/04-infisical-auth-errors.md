@@ -18,13 +18,25 @@ so the old error stays visible until the next attempt.
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Authentication or `403` error | The CA certificate is stale, or the allowed service account name or namespace does not match `infisical-<stack>` and `infisical-operator`. | In Infisical, open **Organization**, **Access Control**, **Machine Identities**, the identity, **Authentication**, **Kubernetes Auth**. Fix the **CA Certificate** (get it below) and the **Allowed Service Account Names** and **Allowed Namespaces**. |
+| Authentication or `403` error | The CA certificate is stale, or the allowed service account name or namespace does not match `infisical-<stack>` and `infisical-operator`. | If the cluster was rebuilt, run `make recover-ca`: it fixes the CA of every stack identity at once. Otherwise, in Infisical, open **Organization**, **Access Control**, **Machine Identities**, the identity, **Authentication**, **Kubernetes Auth**. Fix the **CA Certificate** (get it below) and the **Allowed Service Account Names** and **Allowed Namespaces**. |
 | A token review error | The service account is missing its `system:auth-delegator` binding. | Reinstall or sync the `infisical-operator` chart, which creates the binding. |
 | `Project with slug '<stack>' not found` | The project still has its generated slug, or the identity is not added to the project. | Open the project, **Project Settings**, **General**, set **Project Slug** to the stack name. Then **Access Control**, **Machine Identities**, **Add Machine Identity to Project**, **Assign Existing**, pick `infisical-<stack>` with the **Viewer** role. |
 | Another project or secret not found | Wrong `envSlug` or `secretsPath`, or the key is missing in Infisical. | Check that the environment is `prod`, the folder is named after the app, and the key exists. |
 | The Secret is empty | The folder name does not match `secretsPath`. | Rename the folder or fix `secretsPath` in the app's `InfisicalSecret`. |
 
-## Get the cluster CA certificate
+## Fix the CA after a rebuild
+
+A rebuilt cluster has a new certificate authority, so every identity fails until
+Infisical learns it. In the Terminal, in the repo folder, run:
+
+```bash
+make recover-ca
+```
+
+Enter the `dr-admin` client ID and secret (Bitwarden item `Infisical dr-admin`). Expect
+one `updated` line for each stack and `CA FIXED`.
+
+## Get the cluster CA certificate by hand
 
 ```bash
 kubectl get cm kube-root-ca.crt -n default -o jsonpath='{.data.ca\.crt}'
