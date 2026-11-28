@@ -32,9 +32,9 @@ database backups run in UTC and never move.
 | Velero `monthly-backup` | same | 03:30 on the 1st | 11:30 | 10:30 |
 | Velero `monthly-backup-aws` | same | 04:30 on the 1st | 12:30 | 11:30 |
 | Immich database | `backup.r2.schedule` in `k8s/apps/immich/values.yaml` | | 01:00 | 01:00 |
-| LiteLLM database | `backup.r2.schedule` in `k8s/ai/litellm/values.yaml` | | 02:00 | 02:00 |
+| LiteLLM database (Sundays only) | `backup.r2.schedule` in `k8s/ai/litellm/values.yaml` | | 02:00 | 02:00 |
 | Infisical database | `backup.schedule` in `k8s/bootstrap/charts/infisical/values.yaml` | | 03:00 | 03:00 |
-| Wardrowbe database | `backup.r2.schedule` in `k8s/apps/wardrowbe/values.yaml` | | 04:00 | 04:00 |
+| Wardrowbe database (Sundays only) | `backup.r2.schedule` in `k8s/apps/wardrowbe/values.yaml` | | 04:00 | 04:00 |
 | Sure database | `backup.r2.schedule` in `k8s/apps/sure/values.yaml` | | 05:00 | 05:00 |
 
 The files are the source of truth. To print the current times and check the rule,
