@@ -32,7 +32,7 @@
 <rect x="560" y="235" width="6" height="92" rx="3" fill="#ea580c"/>
 <text x="578" y="261" font-size="15" font-weight="600" fill="#0f172a">Cloudflare R2</text>
 <text x="578" y="280" font-size="12.5" font-weight="400" fill="#475569">bucket homelab-backups</text>
-<text x="578" y="297" font-size="12.5" font-weight="400" fill="#475569">Velero 7d, 14d, 1y. App DBs 14d</text>
+<text x="578" y="297" font-size="12.5" font-weight="400" fill="#475569">Velero 7d, 14d, 1y. App DBs 3d or 14d</text>
 <rect x="30" y="365" width="225" height="92" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
 <rect x="30" y="365" width="6" height="92" rx="3" fill="#2563eb"/>
 <text x="48" y="391" font-size="15" font-weight="600" fill="#0f172a">Databases with a backup</text>
@@ -40,7 +40,7 @@
 <rect x="290" y="365" width="235" height="92" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
 <rect x="290" y="365" width="6" height="92" rx="3" fill="#2563eb"/>
 <text x="308" y="391" font-size="15" font-weight="600" fill="#0f172a">Barman (CNPG)</text>
-<text x="308" y="410" font-size="12.5" font-weight="400" fill="#475569">base backup daily + WAL</text>
+<text x="308" y="410" font-size="12.5" font-weight="400" fill="#475569">weekly/daily base + WAL</text>
 <rect x="560" y="365" width="270" height="92" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
 <rect x="560" y="365" width="6" height="92" rx="3" fill="#2563eb"/>
 <text x="578" y="391" font-size="15" font-weight="600" fill="#0f172a">AWS S3</text>
