@@ -3,8 +3,8 @@
 [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue?style=flat-square&logo=github)](https://mjrealm.github.io/homelab/)
 [![Lint YAML](https://github.com/mjrealm/homelab/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/mjrealm/homelab/actions/workflows/lint.yml)
-
-📖 **Runbooks:** <https://mjrealm.github.io/homelab/> (new cluster, disaster recovery, day-to-day tasks)
+[![Gitleaks](https://github.com/mjrealm/homelab/actions/workflows/gitleaks.yml/badge.svg?branch=main)](https://github.com/mjrealm/homelab/actions/workflows/gitleaks.yml)
+[![Docs](https://github.com/mjrealm/homelab/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/mjrealm/homelab/actions/workflows/docs.yml)
 
 My personal homelab on [k3s](https://k3s.io), managed with [GitOps](https://codefresh.io/learn/gitops/): every change reaches the cluster through Git, and [Argo CD](https://argo-cd.readthedocs.io) applies it.
 
